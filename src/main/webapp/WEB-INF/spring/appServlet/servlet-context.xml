@@ -22,7 +22,7 @@
 	</beans:bean>
 	
 	
-	<!-- db
+	
 	
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
 
@@ -36,7 +36,7 @@
 	
 	
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<beans:property name="mapperLocations" value="classpath:org/sp/mybatis/*.xml" />
+		<beans:property name="mapperLocations" value="classpath:com/use/first/**/sql_mapper.xml" />
 		<beans:property name="dataSource" ref="dataSource" />
 	
 	</beans:bean>
@@ -45,7 +45,7 @@
 		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>
 	
 	</beans:bean>
-	 -->
+	 
 	
 	<context:component-scan base-package="com.use.first" />
 	
