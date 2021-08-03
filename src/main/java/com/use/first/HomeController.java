@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+// 신영ㅎ2
 /**
  * Handles requests for the application home page.
  */
@@ -35,7 +35,7 @@ public class HomeController {
 		
 		return "home";
 	}
-	//수정 테스트!
-	//수정
+	//�닔�젙 �뀒�뒪�듃!
+	//�닔�젙
 	
 }
