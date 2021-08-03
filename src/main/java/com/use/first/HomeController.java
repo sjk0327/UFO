@@ -35,7 +35,7 @@ public class HomeController {
 		
 		return "home";
 	}
-	//수정 테스트!
+	//정노 테스트!
 	//수정
 	
 }
