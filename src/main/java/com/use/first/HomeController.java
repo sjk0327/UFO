@@ -65,6 +65,21 @@ public class HomeController {
 
 		return "admintest";
 	}
+	
+	//수정
+	@RequestMapping(value = "/adminrentDetail", method = RequestMethod.GET)
+	public String adminrentDetail(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "/admin/rent/admin_rentDetail";
+	}
 
 	// 승빈 start
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
