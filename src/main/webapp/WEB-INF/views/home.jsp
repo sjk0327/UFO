@@ -145,7 +145,7 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="resources/common/images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="resources/common/images/mac.jpg" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="#">Tank Top</a></h3>
