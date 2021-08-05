@@ -67,7 +67,7 @@ public class RentController {
 		
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		UserVO userVO= userDAO.memInfo(rentVO.getR_mid());
-		ProductVO productVO=productDAO.info(rentVO.getR_pid());
+		ProductVO productVO=productDAO.productInfo(rentVO.getR_pid());
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
 		
 
