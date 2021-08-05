@@ -15,9 +15,8 @@ public class ProductVO {
 	private String p_mainImg;
 	private String p_subImg;
 	private Date p_regdate;
-	private int p_view;
+	private int p_readCount;
 	private String p_content;
-	
 	public String getP_id() {
 		return p_id;
 	}
@@ -78,17 +77,18 @@ public class ProductVO {
 	public void setP_subImg(String p_subImg) {
 		this.p_subImg = p_subImg;
 	}
+	
 	public Date getP_regdate() {
 		return p_regdate;
 	}
 	public void setP_regdate(Date p_regdate) {
 		this.p_regdate = p_regdate;
 	}
-	public int getP_view() {
-		return p_view;
+	public int getP_readCount() {
+		return p_readCount;
 	}
-	public void setP_view(int p_view) {
-		this.p_view = p_view;
+	public void setP_readCount(int p_readCount) {
+		this.p_readCount = p_readCount;
 	}
 	public String getP_content() {
 		return p_content;
@@ -101,9 +101,7 @@ public class ProductVO {
 		return "ProductVO [p_id=" + p_id + ", p_name=" + p_name + ", p_price=" + p_price + ", p_canBuy=" + p_canBuy
 				+ ", p_canRent=" + p_canRent + ", p_soldCount=" + p_soldCount + ", p_recommand=" + p_recommand
 				+ ", p_category=" + p_category + ", p_mainImg=" + p_mainImg + ", p_subImg=" + p_subImg + ", p_regdate="
-				+ p_regdate + ", p_view=" + p_view + ", p_content=" + p_content + "]";
+				+ p_regdate + ", p_readCount=" + p_readCount + ", p_content=" + p_content + "]";
 	}
-	
-	
 	
 }

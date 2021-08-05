@@ -4,9 +4,10 @@ import java.util.List;
 
 public interface ProductDAO {
 	
-	public List<ProductVO> list();
-	public ProductVO info(String p_id);
-	public int insert(ProductVO productVO);
-	public int update(ProductVO productVO);
-	public int delete(String p_id);
+	public List<ProductVO> productList();
+	public ProductVO productInfo(String p_id);
+	public int productInsert(ProductVO productVO);
+	public int productUpdate(ProductVO productVO);
+	public int productDelete(String p_id);
+	
 }
