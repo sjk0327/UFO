@@ -1,6 +1,6 @@
 package com.use.first.member;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class UserVO {
 	
