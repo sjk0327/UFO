@@ -1,59 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+ .col-md-3 { font-size : 13px; }
+</style>
 <footer class="site-footer border-top">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6 mb-5 mb-lg-0">
-            <div class="row">
-              <div class="col-md-12">
-                <h3 class="footer-heading mb-4">Navigations</h3>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Sell online</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Shopping cart</a></li>
-                  <li><a href="#">Store builder</a></li>
-                </ul>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Mobile commerce</a></li>
-                  <li><a href="#">Dropshipping</a></li>
-                  <li><a href="#">Website development</a></li>
-                </ul>
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">Point of sale</a></li>
-                  <li><a href="#">Hardware</a></li>
-                  <li><a href="#">Software</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <h3 class="footer-heading mb-4">UFO</h3>
-            <a href="#" class="block-6">
-              <img src="resources/common/images/hero_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
-              <h3 class="font-weight-light  mb-0">Team UFO</h3>
-              <p>UFO since July 30 2021</p>
-            </a>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="block-5 mb-5">
-              <h3 class="footer-heading mb-4">Contact Info</h3>
-              <ul class="list-unstyled">
+          <div class="col-md-12 col-lg-12">
+            <h3 class="footer-heading mb-4">Company</h3>
+           	<div class="row">
+          		<div class="col-md-2">
+              		<img src="resources/common/images/ufologo.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
+              	</div>
+              	<div class="col-md-4">
+              		<p>Use First Own 이라는 모토로 부담스러운 결정을<br> 덜어드리고 전자기기를 대여부터 구매까지<br> 빠르고 편리한 서비스를 제공합니다.</p>
+              	</div>
+         		 <div class="col-md-6 col-lg-6">
+            		<div class="block-5 mb-5">
+             	 <h3 class="footer-heading mb-4">Contact Us</h3>
+              	<ul class="list-unstyled">
                 <li class="address">서울시 금천구 가산동 월드메르디앙 2차 413호 KOSMO</li>
                 <li class="phone"><a href="tel://23923929210">+2 123 4567</a></li>
-                <li class="email">Kosmo@kosmo.com</li>
+                <li class="email"><a href="https://github.com/sjk0327/UFO.git">https://github.com/sjk0327/UFO.git</a></li>
               </ul>
-            </div>
-
-           
-          </div>
+         			</div>
+    	     	</div>
         </div>
-        <div class="row pt-5 mt-5 text-center">
+      <!--   <div class="row pt-5 mt-5 text-center"> -->
+        <div class="row mt-5 text-center">
           <div class="col-md-12">
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -63,5 +37,7 @@
           </div>
           
         </div>
+      </div>
+      </div>
       </div>
     </footer>

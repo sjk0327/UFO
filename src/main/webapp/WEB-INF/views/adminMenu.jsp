@@ -19,7 +19,7 @@
             </a>
         </li>
         <li class="pcoded-hasmenu">
-            <a href="" class="waves-effect waves-dark">
+            <a href="/admin/pro/productList" class="waves-effect waves-dark">
                 <span class="pcoded-micon"><i class="ti-tablet"></i></span>
                 <span class="pcoded-mtext" data-i18n="nav.basic-components.main">상품관리</span>
             </a>
