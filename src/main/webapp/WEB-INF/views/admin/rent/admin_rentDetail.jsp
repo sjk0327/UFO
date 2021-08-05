@@ -1,14 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ page session="false" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <title>admin rent Detail </title>
   
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
+<style type="text/css">
+#returnbtn, #returnbtn:focus, #returnbtn:visited, #returnbtn:active {
+	background-color: white !important;
+	border: 1px solid #7971ea;
+	color: #4d4d4d !important;
+}
+
+#returnbtn:hover {
+	background-color: white;
+	border: 1px solid #1f7b70;
+	color: #4d4d4d;
+}
+
+#returnbtn {
+	border-radius: 0.25rem;
+}
+</style>
   </head>
 
   <body>
@@ -103,7 +122,7 @@
                                             <div class="col-xl-10 col-md-12">
                                                 <div class="card table-card">
                                                     <div class="card-header">
-                                                        <h5>@@@ 님의 $$$ 대여/구매 현황</h5>
+                                                        <h5>${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여/구매 현황</h5>
                                                         <div class="card-header-right">
                                                             <ul class="list-unstyled card-option">
                                                                 <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -136,10 +155,10 @@
                      <div class="col-3">
                          <div class="p-4 mb-8 col-lg-12" style="background-color: #4e5a72; color: white;">
                           <p>
-                              <h3 >고객 아이디</h3>
-                              <h4>고객 이름</h4>
+                              <h3 >${rentInfo.r_mid }</h3>
+                              <h4>${memInfo.m_name }</h4>
                               <br>
-                              <div>@@@ 님의 다른 대여/구매</div>
+                              <div>${memInfo.m_name } 님의 다른 대여/구매</div>
                              </p>
                            
                         </div>
@@ -152,10 +171,10 @@
 						<div style="font-size: 13pt; font-weight: bold;">
 						<div class="row" style="height: 50px; padding: 10px;">
 						<div class="col-md-5">
-						대여일자 &nbsp;&nbsp;: &nbsp;&nbsp;2021-08-04</div>
+						대여일자 &nbsp;&nbsp;: &nbsp;&nbsp;${rentInfo.r_sdate }</div>
 						<div class="col-md-1">
 						|</div>
-						<div class="col-md-6">대여 번호&nbsp;&nbsp; :&nbsp;&nbsp;  35</div>
+						<div class="col-md-6">대여 번호&nbsp;&nbsp; :&nbsp;&nbsp;  ${rentInfo.r_id }</div>
 						</div>
 						</div>
 </div>
@@ -182,11 +201,44 @@
                    <div class="row bg-light" style="height: 200px; padding: 50px 0px 50px 0px;">
 					<div class="col">
 						<div class="row">
-						<span class="col-md-2"><%= "p_h004" %></span>
-						<span class="col-md-3"><%= "아이폰12" %></span>
-						<span class="col-md-2" style="font-weight: bold;"><%= "대여" %></span>
-						<span class="col-md-3"><%= "100000(2개)" %></span>
-						<span class="col-md-2">   <label class="label label-danger" style="font-size: 12pt;">연체중</label></span>
+						<span class="col-md-2">${proInfo.p_id }</span>
+						<span class="col-md-3">${proInfo.p_name }</span>
+						<span class="col-md-2" style="font-weight: bold;">
+						<c:if test="${rentInfo.r_state eq '대여' || rentInfo.r_state eq '반납 예정'|| rentInfo.r_state eq '반납 완료'}">
+						<%= "대여" %>
+						</c:if>
+						<c:if test="${rentInfo.r_state eq '대여 후 구매' || rentInfo.r_state eq '즉시 구매'}">
+						<%= "구매" %>
+						</c:if>
+						</span>
+						<span class="col-md-3">
+						
+						<c:if test="${rentInfo.r_state eq '대여' || rentInfo.r_state eq '반납 예정'|| rentInfo.r_state eq '반납 완료'}">
+						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
+						</c:if>
+						<c:if test="${rentInfo.r_state eq '대여 후 구매' || rentInfo.r_state eq '즉시 구매'}">
+						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * rentInfo.r_rent}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
+						</c:if>
+
+						
+						
+						
+						</span>
+						<span class="col-md-2"> 
+						<c:if test="${rentInfo.r_state eq '대여'}">
+						<fmt:parseDate var="tempToday" value="${rentInfo.r_sdate}" pattern="yyyy-MM-dd"/>
+  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
+   						<c:set var="now" value="<%=new java.util.Date()%>" />
+    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+						<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대여 중</label></c:if>
+						<c:if test="${sdate+3<today}"><label class="btn btn-danger">연 체  중</label></c:if>
+						</c:if>
+						<c:if test="${rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '대여 후 구매'}"><label class="btn btn-info">구매완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 예정'}"><label class="btn btn-warning">반납예정</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납완료</label></c:if>
+						</span>
 						
 						</div>
 					</div>
@@ -197,31 +249,51 @@
 				<hr>
       
                 
-
+<c:forEach var="buyInfo" items="${buyList}">
                 
                    <div class="row">
 					<div class="col">
 						<div class="row">
-						<span class="col-md-6" style="height: 150px; padding: 50px;"><%= "신용 카드" %></span>
+						<span class="col-md-6" style="height: 150px; padding: 50px;">${buyInfo.b_how }</span>
 						<span class="col-md-6" style="font-size: 13pt; color: white; height: 150px; padding: 5px; background-color: #7971ea">
-						<div style="text-align: left;"><%= "상품 가격 : 1000000원" %></div>
-						<div style="text-align: left;"><%= "대여 구매 정보 : 대여(가격의 5%)" %></div>
-						<div style="text-align: left;"><%= "수량 : 2개" %></div>
+						<div style="text-align: left;"><%= "상품 가격 : " %>${proInfo.p_price }<%="원" %></div>
+						<div style="text-align: left;"><%= "대여 구매 정보 : " %>${buyInfo.b_state }</div>
+						<div style="text-align: left;"><%= "수량 : " %>${buyInfo.b_amount }</div>
 						<hr>
-						<div style="font-size: 15pt; font-weight: bold; text-align: left;"><%= "결제 가격 : 100000원" %></div>
+						<div style="font-size: 15pt; font-weight: bold; text-align: left;"><%= "결제 가격 : " %>
+						
+						<c:if test="${buyInfo.b_state eq '대여'}">
+						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * buyInfo.b_amount}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+						</c:if>
+						<c:if test="${buyInfo.b_state eq '구매'}">
+						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+						</c:if>
+
+						</div>
 						</span>
 						
 						
 						</div>
 					</div>
 				</div>
+				<hr>
+				</c:forEach>
                   
                    <br><br>
                  
                  
                   <div class="row">
 					<div class="col-md-9"></div>
-                  <div class="col-md-3"> <button>반납 확인</button></div>
+                  <div class="col-md-3">
+                
+                <c:if test="${rentInfo.r_state eq '반납 예정'}">
+							<button type="button" id="returnbtn"
+							class="btn btn-info float-right btn-toggle switch">반납확인</button>
+						</c:if>
+	
+</div>
                    </div>
                 
 
@@ -261,6 +333,19 @@
     </div>
    
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
+    
+    <script>
+    $('#returnbtn').click(function() {
+      				
+      					if (confirm("해당 회원의 대여 제품을 반납 처리하시겠습니까?") == true){   
+      						window.location='';
+      			  	  }else{   
+      						 event.preventDefault();
+      			           event.stopPropagation();
+
+      			  	  };	
+      				});
+    </script>
 </body>
 
 </html>
