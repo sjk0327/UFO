@@ -6,45 +6,100 @@
 <mapper namespace="com.use.first.member.UserDAO">
 
 	<select id="memList" resultType="com.use.first.member.UserVO">
-		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate from member
-		<if test="searchCondition == 'ID'">
-			AND m_id LIKE CONCAT('%', #{searchKeyword},'%')
-		</if>
-		<if test="searchCondition == 'NAME'">
-			AND m_name LIKE CONCAT('%', #{searchKeyword},'%')
-		</if>
-		ORDER BY m_id 
+		select m_id, m_name, m_pw,
+		m_gender, m_addr, m_tel, m_email, m_point,
+		m_img, m_regdate from member
+		ORDER BY m_id
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+
+	<select id="listPage" resultType="com.use.first.member.UserVO">
+		select m_id, m_name, m_pw,
+		m_gender, m_addr, m_tel, m_email, m_point,
+		m_img, m_regdate from member
+		where m_id>0
+		<include refid="searchCondition"></include>
+		order by m_id desc,regdate desc
+		limit
+		#{pageStart},#{perPageNum
+	</select>
+
+	<select id="countPaging" resultType="int">
+		select
+		count(m_id)
+		from
+		member
+		where
+		m_id > 0
+		<include refid="searchCondition"></include>
+	</select>
+
+	<select id="countMemListTotal" resultType="int">
+		select
+		count(*)
+		from
+		member
 	</select>
 	
-	
+		<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == 'all'.toString()">
+				and (m_id like concat('%', #{keyword}, '%')
+				or m_name like concat('%', #{keyword}, '%')
+				or m_point like concat('%', #{keyword}, '%'))
+			</if>
+			<if test="searchType == 'i'.toString()">
+				and m_id like concat('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'n'.toString()">
+				and m_name like concat('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'p'.toString()">
+				and m_point like concat('%', #{keyword}, '%')
+			</if>
+		</if>
+	</sql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<select id="memInfo" resultType="com.use.first.member.UserVO">
-		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate  from member where m_id=#{m_id}
+		select m_id, m_name, m_pw,
+		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate from
+		member where m_id=#{m_id}
 	</select>
-	
-	<update id="memUpdate" parameterType="com.use.first.member.UserVO">
-		UPDATE member SET m_name=#{m_name}, m_pw=#{m_pw}, m_gender=#{m_gender}, m_addr=#{m_addr},
-		 m_tel=#{m_tel}, m_email=#{m_email}, m_point=#{m_point}, m_img=#{m_img}
-		WHERE m_id = #{m_id}
+
+	<update id="memUpdate"
+		parameterType="com.use.first.member.UserVO">
+		UPDATE member SET m_name=#{m_name}, 
+		m_gender=#{m_gender}, m_addr=#{m_addr},
+		m_tel=#{m_tel},
+		m_email=#{m_email}, m_point=#{m_point}, m_img=#{m_img}
+		WHERE m_id =
+		#{m_id}
 	</update>
-	
-	            
-    
-	
-	<!--  
-	<insert id="insert" parameterType="org.sp.mybatis.Emp">
-		insert into emp2 (empno, ename, deptno, job, sal)
-		values ( #{empno}, #{ename}, #{deptno}, #{job}, #{sal})
-	</insert>
-	
-	
-	
-	<update id="update" parameterType="org.sp.mybatis.Emp">
-		update emp2 set deptno=#{deptno}, sal=#{sal}
-		where empno=#{empno}
-	</update>
-	
-	<delete id="delete">
-		delete from emp2 where empno=#{empno}
-	</delete>
-	-->
+
+
+
+
+	<!-- <insert id="insert" parameterType="org.sp.mybatis.Emp"> insert into 
+		emp2 (empno, ename, deptno, job, sal) values ( #{empno}, #{ename}, #{deptno}, 
+		#{job}, #{sal}) </insert> <update id="update" parameterType="org.sp.mybatis.Emp"> 
+		update emp2 set deptno=#{deptno}, sal=#{sal} where empno=#{empno} </update> 
+		<delete id="delete"> delete from emp2 where empno=#{empno} </delete> -->
 </mapper>

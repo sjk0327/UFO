@@ -15393,6 +15393,8 @@ pre.line-numbers > code {
     .email-read .mail-img [class*="col-"]:last-child {
       margin-bottom: 0; } }
 @media only screen and (max-width: 991px) {
+	.pcoded[theme-layout="vertical"] .pcoded-navbar[pcoded-navbar-position="fixed"] {
+    top: 0px; }
   .main-body .page-wrapper .align-items-end .page-header-title {
     text-align: center;
     display: block; }
