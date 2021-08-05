@@ -4,32 +4,34 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.use.first.product.ProductDAO">
-	<select id="list" resultType="com.use.first.product.ProductVO">
+	<select id="productList" resultType="com.use.first.product.ProductVO">
 		<![CDATA[
 		select (p_id, p_name, p_price, p_canBuy, p_canRent, p_soldCount, p_recommand, p_category, p_mainImg, p_subImg, p_regdate, p_view, p_content) from product
 		]]>
 	</select>
 	
-	<insert id="insert" parameterType="com.use.first.product.ProductVO">
+	<insert id="productInsert" parameterType="com.use.first.product.ProductVO">
 		<![CDATA[
 		insert into product(p_id, p_name, p_price, p_canBuy, p_canRent, p_category, p_mainImg, p_subImg, p_view, p_content)
 		values(#{p_id},#{p_name},#{p_price}, #{p_canBuy}, #{p_canRent}, #{p_category}, #{p_mainImg}, #{p_subImg}, #{p_view}, #{p_content})
 		]]>
 	</insert>
 	
-	<select id="info" resultType="com.use.first.product.ProductVO">
+	<select id="productInfo" resultType="com.use.first.product.ProductVO">
 		<![CDATA[
-		select * from product where p_id=#{p_id}
+		select p_id, p_name, p_price, p_canBuy, p_canRent, p_soldCount, p_recommand, p_category, p_mainImg, p_subImg, 
+		p_regdate, p_readCount, p_content from product where p_id=#{p_id}
 		]]>
 	</select>
 	
-	<update id="update" parameterType="com.use.first.product.ProductVO">
+	<update id="productUpdate" parameterType="com.use.first.product.ProductVO">
 		<![CDATA[
-		update product set p_id = #{p_id}, sal = #{sal} where p_name = #{p_name}
+		update product set p_id = #{p_id}, p_name = #{p_name}, p_price = #{p_price}, p_canBuy = #{p_canBuy}, p_canRent = #{p_canRent}
+		, p_category = #{p_category}, p_mainImg = #{p_mainImg}, p_subImg = #{p_subImg}, p_content = #{p_content} where p_id = #{p_id}
 		]]>
 	</update>
 	
-	<delete id="delete">
+	<delete id="productDelete">
 		<![CDATA[
 		delete from product where p_id = #{p_id}
 		]]>
