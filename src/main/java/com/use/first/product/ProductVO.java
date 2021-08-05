@@ -5,6 +5,7 @@ import java.util.Date;
 public class ProductVO {
 	
 	private String p_id;
+
 	private String p_name;
 	private int p_price;
 	private int p_canBuy;
@@ -17,6 +18,8 @@ public class ProductVO {
 	private Date p_regdate;
 	private int p_readCount;
 	private String p_content;
+	   
+
 	public String getP_id() {
 		return p_id;
 	}
@@ -77,6 +80,7 @@ public class ProductVO {
 	public void setP_subImg(String p_subImg) {
 		this.p_subImg = p_subImg;
 	}
+
 	
 	public Date getP_regdate() {
 		return p_regdate;
@@ -96,6 +100,7 @@ public class ProductVO {
 	public void setP_content(String p_content) {
 		this.p_content = p_content;
 	}
+
 	@Override
 	public String toString() {
 		return "ProductVO [p_id=" + p_id + ", p_name=" + p_name + ", p_price=" + p_price + ", p_canBuy=" + p_canBuy
@@ -103,5 +108,6 @@ public class ProductVO {
 				+ ", p_category=" + p_category + ", p_mainImg=" + p_mainImg + ", p_subImg=" + p_subImg + ", p_regdate="
 				+ p_regdate + ", p_readCount=" + p_readCount + ", p_content=" + p_content + "]";
 	}
+
 	
 }
