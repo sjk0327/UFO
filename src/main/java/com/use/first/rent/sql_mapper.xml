@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.rent.RentDAO">
+	<select id="rentList" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental
+		]]>
+	</select>
+	
+	<insert id="rentInsert" parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		insert into rental(r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate)
+		values(#{r_id},#{r_mid},#{r_pid}, #{r_sdate}, #{r_rent}, #{r_state}, #{r_pdate})
+		]]>
+	</insert>
+	
+	<select id="rentInfo" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_id=#{r_id}
+		]]>
+	</select>
+	
+	<update id="rentUpdate" parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		update rental set r_state = #{r_state} where r_id = #{r_id}
+		]]>
+	</update>
+	
+
+	
+
+	
+</mapper>
+
+
+

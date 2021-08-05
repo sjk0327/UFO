@@ -25,7 +25,7 @@
             </a>
         </li>
         <li class="pcoded-hasmenu">
-            <a href="adminsite" class="waves-effect waves-dark">
+            <a href="/admin/rent/rentList" class="waves-effect waves-dark">
                 <span class="pcoded-micon"><i class="ti-shopping-cart-full"></i></span>
                 <span class="pcoded-mtext" data-i18n="nav.basic-components.main">대여&구매관리</span>
             </a>
