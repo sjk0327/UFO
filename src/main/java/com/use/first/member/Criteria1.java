@@ -2,7 +2,7 @@ package com.use.first.member;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class Criteria {
+public class Criteria1 {
 
 	private int page;
 	private int perPageNum;
@@ -11,7 +11,7 @@ public class Criteria {
 
 	
 
-	public Criteria() {
+	public Criteria1() {
 		this.page = 1;
 		this.perPageNum = 10;
 		this.searchType = null;

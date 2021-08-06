@@ -2,9 +2,9 @@ package com.use.first.member;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class PageMaker {
+public class PageMaker1 {
 
-	private Criteria cri;
+	private Criteria1 cri;
 	private int totalCount;
 	private int startPage;
 	private int endPage;
@@ -12,11 +12,11 @@ public class PageMaker {
 	private boolean next;
 	private int displayPageNum = 5;
 
-	public Criteria getCri() {
+	public Criteria1 getCri() {
 		return cri;
 	}
 
-	public void setCri(Criteria cri) {
+	public void setCri(Criteria1 cri) {
 		this.cri = cri;
 	}
 

@@ -14,6 +14,8 @@ import com.use.first.buy.BuyDAO;
 import com.use.first.buy.BuyVO;
 import com.use.first.member.UserDAO;
 import com.use.first.member.UserVO;
+import com.use.first.paging.Criteria;
+import com.use.first.paging.PageMaker;
 import com.use.first.product.ProductDAO;
 import com.use.first.product.ProductVO;
 
@@ -21,7 +23,7 @@ import com.use.first.product.ProductVO;
 public class RentController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-		
+
 //	@RequestMapping(value ="/adminsite/adminRentDetail/{r_id}", method = RequestMethod.GET)
 //	public String getRental(Model model, @PathVariable String r_id) {
 //		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -31,23 +33,45 @@ public class RentController {
 //		model.addAttribute("rentInfo", rentVO);
 //		return "admin/rent/admin_rentDetail";
 //	}
-	
+
 	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
-	public String adminRentList(RentVO vo, Model model) {
+	public String adminRentList(Criteria cri, Model model) {
 		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> list = rentdao.rentList(vo);
+
+		// 현재 페이지에 해당하는 게시물을 조회해 옴
+		List<RentVO> list = rentdao.rentList(cri);
+		// 모델에 추가
 		model.addAttribute("rentList", list);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentdao.getRentTotalCount(cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
 		return "/admin/rent/admin_rentList";
 	}
 
 	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.POST)
-	public String adminRentListSearch(RentVO vo, Model model) {
+	public String adminRentListSearch(Criteria cri, Model model) {
 		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> list = rentdao.rentList(vo);
+
+		// 현재 페이지에 해당하는 게시물을 조회해 옴
+		List<RentVO> list = rentdao.rentList(cri);
+		// 모델에 추가
 		model.addAttribute("rentList", list);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentdao.getRentTotalCount(cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
 		return "/admin/rent/admin_rentList";
 	}
-	
+
 	@RequestMapping(value = "/admin/rent/rentDetail/{r_id}", method = RequestMethod.GET)
 	public String adminRentDetail(Model model, @PathVariable String r_id) {
 		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -55,21 +79,18 @@ public class RentController {
 		model.addAttribute("rentDetail", rentVO);
 		return "/admin/rent/admin_rentDetail";
 	}
-	
-	
+
 	@RequestMapping("/adminsite/adminRentDetail/{r_id}")
 	public String getRental(Model model, @PathVariable String r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
-		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class); 
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
-		
-		
+
 		RentVO rentVO = rentDAO.rentInfo(r_id);
-		UserVO userVO= userDAO.memInfo(rentVO.getR_mid());
-		ProductVO productVO=productDAO.productInfo(rentVO.getR_pid());
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
-		
+		UserVO userVO = userDAO.memInfo(rentVO.getR_mid());
+		ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
+		List<BuyVO> buyList = buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
 
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("memInfo", userVO);
@@ -77,5 +98,5 @@ public class RentController {
 		model.addAttribute("buyList", buyList);
 		return "admin/rent/admin_rentDetail";
 	}
-	
+
 }

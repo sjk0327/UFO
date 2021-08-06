@@ -21,7 +21,7 @@
 		<include refid="searchCondition"></include>
 		order by m_id desc,regdate desc
 		limit
-		#{pageStart},#{perPageNum
+		#{pageStart},#{perPageNum}
 	</select>
 
 	<select id="countPaging" resultType="int">

@@ -62,11 +62,11 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/admin/mem/memList", method = RequestMethod.GET)
-	public String adminMemList(Model model, Criteria cri) {
+	public String adminMemList(Model model, Criteria1 cri) {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		List<UserVO> list = dao.memList(cri);
 
-		PageMaker pageMaker = new PageMaker();
+		PageMaker1 pageMaker = new PageMaker1();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(dao.countMemListTotal());
 

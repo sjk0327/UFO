@@ -4,32 +4,76 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.use.first.rent.RentDAO">
+
 	<select id="rentList" resultType="com.use.first.rent.RentVO">
-		<![CDATA[
-		select r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental
-		]]>
+		select rental.r_id, rental.r_mid, rental.r_pid, product.p_name,
+		rental.r_sdate, rental.r_rent, rental.r_state, rental.r_pdate from
+		rental, product
+		where rental.r_pid = product.p_id
+		<if test="searchType == 't'.toString()">
+				AND r_mid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND r_pid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND product.p_name LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				AND r_state LIKE CONCAT('%', #{keyword},'%')
+			</if>
+		ORDER BY r_id desc
+		limit #{pageStart}, #{perPageNum}
 	</select>
-	
-	<insert id="rentInsert" parameterType="com.use.first.rent.RentVO">
+
+	<select id="getRentTotalCount" resultType="int">
+		select count(*) from
+		rental, product
+		where rental.r_pid = product.p_id
+		<include refid="searchCondition"></include>
+	</select>
+
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				AND r_mid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND r_pid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND product.p_name LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				AND r_state LIKE CONCAT('%', #{keyword},'%')
+			</if>
+		</if>
+	</sql>
+
+
+
+	<insert id="rentInsert"
+		parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
 		insert into rental(r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate)
 		values(#{r_id},#{r_mid},#{r_pid}, #{r_sdate}, #{r_rent}, #{r_state}, #{r_pdate})
 		]]>
 	</insert>
-	
+
 	<select id="rentInfo" resultType="com.use.first.rent.RentVO">
 		<![CDATA[
 		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_id=#{r_id}
 		]]>
 	</select>
-	
-	<update id="rentUpdate" parameterType="com.use.first.rent.RentVO">
+
+	<update id="rentUpdate"
+		parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
 		update rental set r_state = #{r_state} where r_id = #{r_id}
 		]]>
 	</update>
-	
-	
+
+
 </mapper>
 
 

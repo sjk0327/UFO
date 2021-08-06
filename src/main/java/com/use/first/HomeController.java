@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.use.first.member.Criteria;
-import com.use.first.member.PageMaker;
+import com.use.first.member.Criteria1;
+import com.use.first.member.PageMaker1;
 import com.use.first.member.UserDAO;
 import com.use.first.member.UserVO;
 
