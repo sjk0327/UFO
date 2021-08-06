@@ -2,7 +2,7 @@ package com.use.first.rent;
 
 import java.util.List;
 
-import com.use.first.buy.BuyVO;
+import org.apache.ibatis.annotations.Param;
 
 
 public interface RentDAO {
@@ -11,4 +11,17 @@ public interface RentDAO {
 	public int rentInsert(RentVO rentVO);
 	public int rentUpdate(RentVO rentVO);
 
+	
+	
+	
+	
+	
+	// 성훈 시작
+	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
+	   public List<RentVO> purchaseListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
+	   // 성훈 끝
+	
+	
+	
+	
 }
