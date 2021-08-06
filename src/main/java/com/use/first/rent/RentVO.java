@@ -80,6 +80,21 @@ public class RentVO {
 		
 		
 		
+		// 성훈 시작 ( rental 과 product 조인해서 product p_name 가져오려는데 
+	      // 다른방법있으면 삭제 가능한데 다른 방법이 생각나지 않습니다 ㅠㅠ)
+	      private String p_name;
+
+
+	      public String getP_name() {
+	         return p_name;
+	      }
+	      public void setP_name(String p_name) {
+	         this.p_name = p_name;
+	      }
+	      // 성훈 끝
+		
+		
+		
 		
 	}
 

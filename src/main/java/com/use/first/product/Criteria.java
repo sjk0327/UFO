@@ -1,4 +1,4 @@
-package com.use.first.member;
+package com.use.first.product;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -10,7 +10,6 @@ public class Criteria {
 	private String keyword;
 
 	
-
 	public Criteria() {
 		this.page = 1;
 		this.perPageNum = 10;
