@@ -1,5 +1,7 @@
 package com.use.first.member;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.use.first.paging.Criteria;
+import com.use.first.paging.PageMaker;
+import com.use.first.rent.RentDAO;
+import com.use.first.rent.RentVO;
 
 /**
  * Handles requests for the application home page.
@@ -63,74 +71,115 @@ public class MemberController {
 
 	@RequestMapping(value = "/admin/mem/memList", method = RequestMethod.GET)
 	public String adminMemList(Model model, Criteria cri) {
-		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		List<UserVO> list = dao.memList(cri);
+		 UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(dao.countMemListTotal());
-
-		model.addAttribute("memList", list);
-		model.addAttribute("pageMaker", pageMaker);
-
-		return "/admin/mem/memList";
+	      // 현재 페이지에 해당하는 게시물을 조회해 옴
+		 List<UserVO> list = dao.memList(cri);
+	      // 모델에 추가
+		 model.addAttribute("memList", list);
+	      // PageMaker 객체 생성
+		 PageMaker pageMaker = new PageMaker(cri);
+	      // 전체 게시물 수를 구함
+	
+	      int totalCount = dao.countMemListTotal(cri);
+	      // pageMaker로 전달
+	      pageMaker.setTotalCount(totalCount);
+	      // 모델에 추가
+	      model.addAttribute("pageMaker", pageMaker);
+	      return "/admin/mem/memList";
 	}
+	
+	
+	
+	
+	 @RequestMapping(value = "/admin/mem/memList", method = RequestMethod.POST)
+	   public String adminRentListSearch(Criteria cri, Model model) {
+		 UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+
+	      // 현재 페이지에 해당하는 게시물을 조회해 옴
+		 List<UserVO> list = dao.memList(cri);
+		 System.out.println(list.toString());
+	      // 모델에 추가
+		 model.addAttribute("memList", list);
+	      // PageMaker 객체 생성
+		 PageMaker pageMaker = new PageMaker(cri);
+	      // 전체 게시물 수를 구함
+	
+	      int totalCount = dao.countMemListTotal(cri);
+	      // pageMaker로 전달
+	      pageMaker.setTotalCount(totalCount);
+	      // 모델에 추가
+	      model.addAttribute("pageMaker", pageMaker);
+	      return "/admin/mem/memList";
+	   }
+	
 
 	// 승빈 end
 
-	// 성훈 start
-	@RequestMapping(value = "/admin/mem/memDetail", method = RequestMethod.GET)
-	public String adminMenDetail(Model model, @RequestParam String m_id) {
-		System.out.println("admin/mem/memDetail // 들어가서 처음");
-		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		UserVO userInfo = dao.memInfo(m_id);
+	 
+	 
+	 
+	 
+	 
+	  // 성훈 start
+	   @RequestMapping(value = "/admin/mem/memDetail", method = RequestMethod.GET)
+	   public String adminMenDetail(Model model, @RequestParam String m_id) {
+	      System.out.println("admin/mem/memDetail // 들어가서 처음");
+	      UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+	      UserVO userInfo = dao.memInfo(m_id);
 
-		model.addAttribute("userInfo", userInfo);
+	      model.addAttribute("userInfo", userInfo);
 
-		return "/admin/mem/memDetail";
-	}
+	      return "/admin/mem/memDetail";
+	   }
 
-	@RequestMapping(value = "/admin/mem/memDetail/{m_id}", method = RequestMethod.GET)
-	public String adminMenDetailByPath(Model model, @PathVariable String m_id) {
-		// User 정보 가져오기
-		System.out.println("adminMenDetailByPath() // 들어가서 유저정보");
-		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
-		UserVO userVO = userDAO.memInfo(m_id);
+	   @RequestMapping(value = "/admin/mem/memDetail/{m_id}", method = RequestMethod.GET)
+	   public String adminMenDetailByPath(Model model, @PathVariable String m_id) {
+	      UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
+	      RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+	      
+	      //User 정보 가져오기
+	      System.out.println("adminMenDetailByPath() // 들어가서 유저정보");
+	      UserVO userVO = userDAO.memInfo(m_id);
 
-//		// 대여 정보 가져오기
-//		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-//		RentVO rentVO = new RentVO();
-//		rentVO.setR_mid(m_id);
-//		String r_state = "구매";
-//		rentVO.setR_state(r_state);
-//		System.out.println("adminMenDetailByPath() // 들어가서 대여정보");
-//		List<RentVO> rentList = rentDAO.simpleRentList(rentVO);
-//
-//		System.out.println("rentList size : " + rentList.size());
-//		// 구매 정보 가져오기
-//		System.out.println("adminMenDetailByPath() // 들어가서 구매정보");
-//
-//		List<RentVO> buyList = rentDAO.simpleBuyList(rentVO);
-//		System.out.println("buyList size : " + buyList.size());
-//
-		model.addAttribute("userVO", userVO);
-//		model.addAttribute("rentList", rentList);
-//		model.addAttribute("buyList", buyList);  
-		return "/admin/mem/memDetail";
-	}
+	      // 대여 정보 가져오기
 
-	@RequestMapping(value = "/admin/mem/memDetail/{userID}", method = RequestMethod.POST)
-	public String adminMenUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) {
-		System.out.println(userVO.toString());
-		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		int n = dao.memUpdate(userVO);
-		if (n != 1) {
-			// 업데이트 실패 시
-			System.out.println("adminMenUpdateByPath // member 수정 실패 // " + userVO.toString());
-		}
+	      System.out.println("adminMenDetailByPath() // 들어가서 대여정보");
 
-		return "redirect:/admin/mem/memDetail/" + userID;
-	}
-	// 성훈 end
+	      List<RentVO> rentList = rentDAO.rentListByMid(m_id, "구매");
+	      System.out.println("rentList size : " + rentList.size());
+	      // 구매 정보 가져오기
+	      System.out.println("adminMenDetailByPath() // 들어가서 구매정보");
+
+	      List<RentVO> purchaseList = rentDAO.purchaseListByMid(m_id, "구매");
+	      System.out.println("purchaseList size : " + purchaseList.size());
+	      model.addAttribute("userVO", userVO);
+	      model.addAttribute("rentList", rentList);
+	      model.addAttribute("purchaseList", purchaseList);
+	      
+	      return "/admin/mem/memDetail";
+	   }
+
+	   @RequestMapping(value = "/admin/mem/memDetail/{userID}", method = RequestMethod.POST)
+	   public String adminMenUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException{
+	      System.out.println("시작 전"+userVO.toString());
+	      UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+	      //파일 업로드
+	      MultipartFile uploadFile =userVO.getUploadFile();
+	      if(!uploadFile.isEmpty()) {
+	         userVO.setM_img(uploadFile.getOriginalFilename());
+	         uploadFile.transferTo(new File("C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"+userVO.getM_img()));
+	      }
+
+	      int n = dao.memUpdate(userVO);
+	      System.out.println("시작 후"+userVO.toString());
+	      if (n != 1) {
+	         // 업데이트 실패 시
+	         System.out.println("adminMenUpdateByPath // member 수정 실패 // " + userVO.toString());
+	      }
+
+	      return "redirect:/admin/mem/memDetail/" + userID;
+	   }
+	   // 성훈 end
 
 }

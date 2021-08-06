@@ -9,6 +9,9 @@
 <head>
     <title>Mega Able bootstrap admin template by codedthemes </title>
    <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
+   
+   
+
   </head>
 
   <body themebg-pattern="theme1">
@@ -31,7 +34,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <form:input path="m_id" class="form-control" required="required"/>
+                                        <form:input path="m_id" class="form-control" required="required" />
                                         <span class="form-bar"></span>
                                         <label class="float-label">ID</label>
                                     </div>

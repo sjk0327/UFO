@@ -4,13 +4,52 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title> 관리자 회원 상세 정보 페이지 - UF&#38;O </title>
     <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .filebox input[type="file"] { 
+            position: absolute; 
+            width: 1px; 
+            height: 1px; 
+            padding: 0;
+            margin: -1px; 
+            overflow: hidden; 
+            clip:rect(0,0,0,0); 
+            border: 0; 
+        } 
+        .filebox label { 
+            display: inline-block; 
+            padding: .5em .75em; 
+            color: #999; 
+            font-size: inherit;
+            line-height: normal; 
+            vertical-align: middle; 
+            background-color: #fdfdfd; 
+            cursor: pointer; 
+            border: 1px solid #ebebeb; 
+            border-bottom-color: #e2e2e2; 
+            border-radius: .25em; 
+        } /* named upload */ 
+        .filebox .upload-name { 
+            display: inline-block; 
+            padding: .5em .75em; /* label의 패딩값과 일치 */ 
+            font-size: inherit;
+            font-family: inherit; 
+            line-height: normal; 
+            vertical-align: middle; 
+            background-color: #f5f5f5;
+            border: 1px solid #ebebeb; 
+            border-bottom-color: #e2e2e2;
+            border-radius: .25em; 
+        }
+
+
+    </style>
 </head>
 
   <body>
@@ -39,13 +78,53 @@
                                                       <h5>개인 정보</h5>
                                                    </div>
                                                    <div class="card-block">
-                                                      <form:form class="form-material" action="/admin/mem/memDetail/${userVO.m_id }" method="post" modelAttribute="userVO">
+                                                      <form:form class="form-material" action="/admin/mem/memDetail/${userVO.m_id }" method="post" enctype="multipart/form-data" modelAttribute="userVO">
                                                       <div class="row">
                                                          <div class="col-sm-4">
                                                             <!-- 사진 나오게 하고 찾아보기 버튼 -->
-                                                            <img src="/resources/Images/tempProfileImage.jpg" class="img-fluid img-circle">
-                                                            <input type="file" name="m_img" value="${userVO.m_img}"/>
-                                                            
+                                                            <div class="filebox"> 
+														        <div class="m_imgPreview">
+																	<img src="/resources/Images/member/${userVO.m_img }" class="img-fluid img-circle">
+														        </div>
+														        <input class="upload-name" value="파일선택" disabled="disabled" /> 
+														        <label for="input-file">업로드</label> 
+														        <input type="file" name="uploadFile" id="input-file" class="upload-hidden" /> 
+														    </div>
+														
+														    <script>
+														        $(document).ready(function(){ 
+														            var fileTarget = $('.upload-hidden'); 
+														            fileTarget.on('change', function(){ // 값이 변경되면 
+														                if(window.FileReader){ // modern browser 
+														                    var filename = $(this)[0].files[0].name; 
+														                } else { // old IE 
+														                    var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+														                } // 추출한 파일명 삽입 
+														                $(this).siblings('.upload-name').val(filename); 
+														            }); 
+														        });
+														    </script>
+														    <script>
+														        var imgTarget = $('.upload-hidden');
+														
+														        imgTarget.on('change', function(){
+														            var parent = $(this).parent();
+														            parent.children('.m_imgPreview').remove();
+														
+														            if(window.FileReader){
+														                if(!$(this)[0].files[0].type.match(/image\//)) return;
+														
+														                var reader = new FileReader(); 
+														                reader.onload = function(e){ 
+														                    var src = e.target.result; 
+														                    parent.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>'); 
+														                
+														                } 
+														                reader.readAsDataURL($(this)[0].files[0]);
+														            }
+														        });
+														       
+														    </script>
                                                          </div>
                                                          <div class="col-sm-8">
                                                             <div class="form-group row">
@@ -131,7 +210,7 @@
                                                       </div>
                                                       <div class="row">
                                                          <div>
-                                                            <input type="submit" value="수정" class="btn btn-primary btn-round waves-effect waves-light">
+                                                            <input type="submit" value="수정" class="btn btn-ifloat-right swh">
                                                          </div>
                                                       </div>
                                                       </form:form>
@@ -148,7 +227,7 @@
                                                    <div class="card-block">
                                                       <div class="table-responsive">
                                                             <table class="table table-hover">
-                                                            <!-- 
+                                                             
                                                             <c:forEach var="list" items="${rentList }">
                                                             <tbody>
                                                                <tr onClick="location.href='/adminrentDetail'">
@@ -156,7 +235,7 @@
                                                                   <div class="d-inline-block align-middle">
                                                                      <img src="/resources/Images/tempProductImage.jpg" class="img-radius img-40 align-top m-r-15">
                                                                      <div class="d-inline-block">
-                                                                     <h6>${list.r_pid }</h6>
+                                                                     <h6>${list.p_name }</h6>
                                                                      <p class="text-muted m-b-0">상품 카테고리?</p>
                                                                   </div>
                                                                </div>
@@ -168,9 +247,8 @@
                                                             </td>
                                                             <td>
                                                                <div>
-                                                               <c:set var="today" value="<%=new java.util.Date() %>" />
-                                                               <c:set var="date"><fmt:formatDate value="${today }" pattern="yyyy-MM-dd"/></c:set>
-                                                               D - <c:out value="${list.r_sdate}-${date}" />
+                                                               
+                                                               D - ${list.r_sdate}
                                                                   
                                                                </div>
                                                             </td>
@@ -180,7 +258,7 @@
                                                                </tr>
                                                             </tbody>
                                                          </c:forEach>
-                                                            -->
+                                                            
                                                          </table>
                                                       </div>
                                                    </div>
@@ -193,8 +271,8 @@
                                                    <div class="card-block">
                                                       <div class="table-responsive">
                                                             <table class="table table-hover">
-                                                            <!-- 
-                                                            <c:forEach var="list" items="${buyList }">
+                                                             
+                                                            <c:forEach var="list" items="${purchaseList }">
                                                             <tbody>
                                                                <tr onClick="location.href='/adminrentDetail'">
                                                                <tr>
@@ -202,14 +280,14 @@
                                                                   <div class="d-inline-block align-middle">
                                                                      <img src="/resources/Images/tempProductImage.jpg" class="img-radius img-40 align-top m-r-15">
                                                                      <div class="d-inline-block">
-                                                                     <h6>${list.r_pid }</h6>
+                                                                     <h6>${list.p_name }</h6>
                                                                      <p class="text-muted m-b-0">상품 카테고리?</p>
                                                                   </div>
                                                                </div>
                                                             </td>
                                                             <td>
                                                                <div>
-                                                                  ${list.r_sdate }
+                                                                  ${list.r_pdate }
                                                                </div>
                                                             </td>
                                                             <td class="text-right">
@@ -218,7 +296,7 @@
                                                                </tr>
                                                             </tbody>
                                                             </c:forEach>
-                                                            -->
+                                                            
                                                             
                                                          </table>
                                                       </div>
