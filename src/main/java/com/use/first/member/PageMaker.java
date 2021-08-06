@@ -90,7 +90,7 @@ public class PageMaker {
 	
 	
 	
-	public String makeQuery(int page, boolean needSearch) {
+	public String makeQuery(int page) {
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
 			.queryParam("page", page)
 			.queryParam("perPageNum", this.cri.getPerPageNum());

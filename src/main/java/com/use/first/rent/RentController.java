@@ -2,6 +2,8 @@ package com.use.first.rent;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,11 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.use.first.buy.BuyDAO;
 import com.use.first.buy.BuyVO;
 import com.use.first.member.UserDAO;
 import com.use.first.member.UserVO;
+import com.use.first.paging.Criteria;
+import com.use.first.paging.PageMaker;
 import com.use.first.product.ProductDAO;
 import com.use.first.product.ProductVO;
 
@@ -32,28 +37,60 @@ public class RentController {
 //		return "admin/rent/admin_rentDetail";
 //	}
 	
-	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
-	public String adminRentList(RentVO vo, Model model) {
-		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> list = rentdao.rentList(vo);
-		model.addAttribute("rentList", list);
-		return "/admin/rent/admin_rentList";
-	}
-
-	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.POST)
-	public String adminRentListSearch(RentVO vo, Model model) {
-		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> list = rentdao.rentList(vo);
-		model.addAttribute("rentList", list);
-		return "/admin/rent/admin_rentList";
-	}
+//	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
+//	public String adminRentList(RentVO vo, Model model) {
+//		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
+//		List<RentVO> list = rentdao.rentList(vo);
+//		System.out.println(list.toString());
+//		model.addAttribute("rentList", list);
+//		return "/admin/rent/admin_rentList";
+//	}
 	
-	@RequestMapping(value = "/admin/rent/rentDetail/{r_id}", method = RequestMethod.GET)
-	public String adminRentDetail(Model model, @PathVariable String r_id) {
+	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
+	public String adminRentList(Criteria cri, Model model) {
 		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
-		RentVO rentVO = rentdao.rentInfo(r_id);
-		model.addAttribute("rentDetail", rentVO);
-		return "/admin/rent/admin_rentDetail";
+
+		// 현재 페이지에 해당하는 게시물을 조회해 옴
+		List<RentVO> list = rentdao.rentList(cri);
+		// 모델에 추가
+		model.addAttribute("rentList", list);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentdao.getRentTotalCount(cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/admin/rent/admin_rentList";
+	}
+//
+//	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.POST)
+//	public String adminRentListSearch(RentVO vo, Model model) {
+//		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
+//		List<RentVO> list = rentdao.rentList(vo);
+//		model.addAttribute("rentList", list);
+//		System.out.println(list.toString());
+//		return "/admin/rent/admin_rentList";
+//	}
+//	
+	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.POST)
+	public String adminRentListSearch(Criteria cri, Model model) {
+		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
+
+		// 현재 페이지에 해당하는 게시물을 조회해 옴
+		List<RentVO> list = rentdao.rentList(cri);
+		// 모델에 추가
+		model.addAttribute("rentList", list);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentdao.getRentTotalCount(cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/admin/rent/admin_rentList";
 	}
 	
 	
@@ -64,18 +101,41 @@ public class RentController {
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class); 
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
 		
-		
 		RentVO rentVO = rentDAO.rentInfo(r_id);
+		List<RentVO> returnList = rentDAO.returnList();
 		UserVO userVO= userDAO.memInfo(rentVO.getR_mid());
 		ProductVO productVO=productDAO.productInfo(rentVO.getR_pid());
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
 		
-
 		model.addAttribute("rentInfo", rentVO);
+		//model.addAttribute("returnList", returnList);
 		model.addAttribute("memInfo", userVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
 		return "admin/rent/admin_rentDetail";
 	}
 	
+	//반납 요청 처리
+	@RequestMapping(value = "/admin/rent/returnConfirm")
+	public String adminRentReturnConfirm(@RequestParam String r_id, Model model,HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);	
+		rentDAO.rentReturn(r_id);
+		List<RentVO> returnList = rentDAO.returnList();
+		model.addAttribute("r_id",r_id);
+		session.setAttribute("returnList", returnList);
+		return "redirect:/adminsite/adminRentDetail/"+r_id;
+	}
+	
+	//세션값 재설정
+	@RequestMapping(value = "/admin/Findreturnlate")
+	public String adminFindreturnlate(HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);	
+		List<RentVO> returnList = rentDAO.returnList();
+		session.setAttribute("returnList", returnList);
+		return "redirect:/adminIndex";
+
+	}
+	
+
+		
 }
