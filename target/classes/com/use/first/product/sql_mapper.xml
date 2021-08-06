@@ -4,18 +4,28 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.use.first.product.ProductDAO">
-	<select id="productList" resultType="com.use.first.product.ProductVO">
-		select p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_recommand,
-		p_category,p_mainImg,p_subImg,p_regdate from product 
+	<select id="productList"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_recommand,
+		p_category,p_mainImg,p_subImg,p_regdate from product
 		order by p_id
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+
+	<select id="countProductListTotal" resultType="int">
+		select
+		count(*)
+		from
+		member
 	</select>
 	
 	<insert id="productInsert" parameterType="com.use.first.product.ProductVO">
 
-		<![CDATA[
-		insert into product(p_id, p_name, p_price, p_canBuy, p_canRent, p_category, p_mainImg, p_subImg, p_view, p_content)
-		values(#{p_id},#{p_name},#{p_price}, #{p_canBuy}, #{p_canRent}, #{p_category}, #{p_mainImg}, #{p_subImg}, #{p_view}, #{p_content})
-		]]>
+		<!-- insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_category,p_mainImg,p_subImg,p_regdate,p_content)
+		values(#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_soldCount},#{p_category},#{p_mainImg},#{p_subImg},#{p_regdate},#{p_content}) -->
+		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg)
+		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg})
 	</insert>
 	
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">
@@ -27,7 +37,7 @@
 	
 	<update id="productUpdate" parameterType="com.use.first.product.ProductVO">
 		<![CDATA[
-		update product set p_id = #{p_id}, p_name = #{p_name}, p_price = #{p_price}, p_canBuy = #{p_canBuy}, p_canRent = #{p_canRent}
+		update product set p_name = #{p_name}, p_price = #{p_price}, p_canBuy = #{p_canBuy}, p_canRent = #{p_canRent}
 		, p_category = #{p_category}, p_mainImg = #{p_mainImg}, p_subImg = #{p_subImg}, p_content = #{p_content} where p_id = #{p_id}
 		]]>
 	</update>
