@@ -92,7 +92,7 @@
                       <!-- Page-header start -->
          
                       <!-- Page-header end -->
-       <form:form method="post" action="productUpdate"  modelAttribute="productInfo">
+       <form:form method="post" action="/admin/pro/productUpdate/${ productVO.p_id }" name="updateForm" modelAttribute="productVO" enctype="multipart/form-data">
                         <div class="pcoded-inner-content">
                             <!-- Main-body start -->
                             <div class="main-body">
@@ -135,29 +135,35 @@
                      <div class="col-12 row">
                      <div class="col-8">
                          <div class="p-4 mb-8 col-lg-12">
-                              <img src=/resources/img/${ productInfo.p_mainImg } width="50%" height="50%"
-							alt="${ productInfo.p_mainImg }" title="${ productInfo.p_mainImg }" class="img-fluid">                       
+                              <img src=/resources/img/${productVO.p_mainImg} width="50%" height="50%"
+							alt="${ productVO.p_mainImg }" title="${ productVO.p_mainImg }" class="img-fluid thumbnailMain"> 							   
                         </div>
+                     <div>
+				  	 <form:input path="mainFile" type="file" accpet="image/*" id="fileUploadMain" />	
+				  	
+				   	</div>   
                         </div>
                     <div class="col-4">
                    <br><br>
                    <div style="text-align: left; font-weight: bold; font-size: 15pt;">
-                    <label for="상품ID">상품 I D <input type="text" name="p_id" id="상품ID" value="${ productInfo.p_id }" size="10"/></label>    
-                    <div><label for="p_name">상품이름<form:input path="p_name" type="text" id="p_name" value="${ productInfo.p_name }" size="10"/></label></div>
-					<div><label for="p_price">상품가격<form:input path="p_price" type="text"  id="p_price" value="${ productInfo.p_price }" size="10"/></label></div>
-					<div><label for="p_canBuy">구매가능<form:input path="p_canBuy" type="number"  id="p_canBuy" value="${ productInfo.p_canBuy }"/></label></div> 
-					<div><label for="p_canRent">대여가능<form:input path="p_canRent" type="number"  id="p_canRent" value="${ productInfo.p_canRent }"/></label></div> 
+                    <label for="p_id">상품 I D <form:input path="p_id" type="text" id="p_id" value="${ productVO.p_id }" size="10" required="required"/></label>    
+                    <div><label for="p_name">상품이름<form:input path="p_name" type="text" id="p_name" value="${ productVO.p_name }" size="10" required="required"/></label></div>
+					<div><label for="p_price">상품가격<form:input path="p_price" type="text"  id="p_price" value="${ productVO.p_price }" size="10" required="required"/></label></div>
+					<div><label for="p_canBuy">구매가능<form:input path="p_canBuy" type="number"  id="p_canBuy" value="${ productVO.p_canBuy }"/></label></div> 
+					<div><label for="p_canRent">대여가능<form:input path="p_canRent" type="number"  id="p_canRent" value="${ productVO.p_canRent }"/></label></div> 
            		    <div><label for="p_category">카테고리
            		    <form:select path="p_category" id="p_category">
-           		     <form:option value="smartPhone">스마트폰</form:option>
-           		     <form:option value="lapTop">노트북</form:option>
-           		     <form:option value="tab">태블릿</form:option>
-           		     <form:option value="smartWatch">스마트워치</form:option>
-           		     <form:option value="Camera">카메라</form:option>
+           		     <form:option value="스마트폰">스마트폰</form:option>
+           		     <form:option value="노트북">노트북</form:option>
+           		     <form:option value="태블릿">태블릿</form:option>
+           		     <form:option value="스마트워치">스마트워치</form:option>
+           		     <form:option value="카메라">카메라</form:option>
            		    </form:select>
            		    </label></div>  
-					<input type="submit" value="수정">&nbsp;&nbsp;&nbsp;  
+					<input type="button" value="수정" onclick="productUpdate()">&nbsp;&nbsp;&nbsp;  
+					<button type="button" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
 					<button type="button" onclick='productDelete()'>삭제</button>
+					
                     </div>                 
        
 				
@@ -167,12 +173,15 @@
                   </div>
                  
                    <div class="rows col-12">	 <hr>				
-				  	<img src=/resources/img/${ productInfo.p_subImg } "
-							alt="${ productInfo.p_subImg }" title="${ productInfo.p_subImg }" class="img-fluid">				
+				  	<img src=/resources/img/${ productVO.p_subImg } width="50%" height="50%"
+							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub">	
+								
 				   </div>
-				   
+				   <div class="rows col-12">
+				   <form:input path="p_subImg" type="file" accpet="image/*" id="fileUploadSub" />		
+				   </div>
 				   <div class="rows col-12"><br><br>
-				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productInfo.p_content }</textarea></pre>
+				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productVO.p_content }</textarea></pre>
 				   </div>
                
       </div>
@@ -201,17 +210,45 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script>
 	jQuery(function($) {
-	    var targetText = "${productInfo.p_category}";    
+	    var targetText = "${productVO.p_category}";    
 	    var targetVal = $('#p_category option:contains(' + targetText + ')').val();   
-	    $('#p_category').val(targetVal);   //도우너가 기본 선택된다.
+	    $('#p_category').val(targetVal);   
 	});
 
-
+	//상품삭제
 	function productDelete(p_id) {
 	if (confirm(' 상품을 삭제하시겠습니까?')) {
-		location.href = 'admin/pro/productDelete/${productInfo.p_id }';
-	}
-}
+		location.href = '/admin/pro/productDelete/${productVO.p_id }';
+	 }
+   }
+	//상품수정
+	function productUpdate() {
+		if (confirm(' 상품을 수정하시겠습니까')) {
+			 var updateForm = document.updateForm ;            
+			 updateForm.submit();
+		 }
+	   }
+	
+	//상품목록으로가기
+	function productList() {
+			location.href = '/admin/pro/productList';		 
+	   }
+	
+	
+	//mainImg 파일업로드시 바로보이게
+	const mainImageFile = document.querySelector('#fileUploadMain');
+	mainImageFile.addEventListener('change', e => {
+	  const file = e.target.files[0];
+	  const mainImage = document.querySelector(".thumbnailMain");
+	  mainImage.src = window.URL.createObjectURL(file);
+	});
+	//subImg 파일업로드시 바로보이게
+	const subImageFile = document.querySelector('#fileUploadSub');
+	subImageFile.addEventListener('change', e => {
+	  const file = e.target.files[0];
+	  const subImage = document.querySelector(".thumbnailSub");
+	  subImage.src = window.URL.createObjectURL(file);
+	});
 </script>
   
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>

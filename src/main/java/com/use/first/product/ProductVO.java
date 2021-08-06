@@ -2,10 +2,11 @@ package com.use.first.product;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductVO {
 	
 	private String p_id;
-
 	private String p_name;
 	private int p_price;
 	private int p_canBuy;
@@ -18,8 +19,10 @@ public class ProductVO {
 	private Date p_regdate;
 	private int p_readCount;
 	private String p_content;
-	   
-
+	private MultipartFile mainFile;
+	private String searchCondition;
+	private String searchKeyword;
+	
 	public String getP_id() {
 		return p_id;
 	}
@@ -80,8 +83,6 @@ public class ProductVO {
 	public void setP_subImg(String p_subImg) {
 		this.p_subImg = p_subImg;
 	}
-
-	
 	public Date getP_regdate() {
 		return p_regdate;
 	}
@@ -100,14 +101,34 @@ public class ProductVO {
 	public void setP_content(String p_content) {
 		this.p_content = p_content;
 	}
-
+	public MultipartFile getMainFile() {
+		return mainFile;
+	}
+	public void setMainFile(MultipartFile mainFile) {
+		this.mainFile = mainFile;
+	}
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
 	@Override
 	public String toString() {
 		return "ProductVO [p_id=" + p_id + ", p_name=" + p_name + ", p_price=" + p_price + ", p_canBuy=" + p_canBuy
 				+ ", p_canRent=" + p_canRent + ", p_soldCount=" + p_soldCount + ", p_recommand=" + p_recommand
 				+ ", p_category=" + p_category + ", p_mainImg=" + p_mainImg + ", p_subImg=" + p_subImg + ", p_regdate="
-				+ p_regdate + ", p_readCount=" + p_readCount + ", p_content=" + p_content + "]";
+				+ p_regdate + ", p_readCount=" + p_readCount + ", p_content=" + p_content + ", mainFile=" + mainFile
+				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
 	}
+	   
 
+	
 	
 }
