@@ -2,6 +2,8 @@ package com.use.first.product;
 
 import java.util.List;
 
+import com.use.first.paging.Criteria;
+
 public interface ProductDAO {
 	
 	public List<ProductVO> productList(Criteria cri);

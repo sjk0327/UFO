@@ -1,6 +1,8 @@
 package com.use.first.paging;
 
+
 import org.springframework.web.util.UriComponents;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMaker {
@@ -106,6 +108,7 @@ public class PageMaker {
 
 	public String makeQuery(int page) {
 
+
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
 			.queryParam("page", page)
 			.queryParam("perPageNum", this.cri.getPerPageNum());
@@ -114,6 +117,7 @@ public class PageMaker {
 			uriComponentsBuilder
 				.queryParam("searchType", this.cri.getSearchType())
 				.queryParam("keyword", this.cri.getKeyword());
+
 
 		}
 		return uriComponentsBuilder.build().encode().toString();

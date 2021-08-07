@@ -11,7 +11,7 @@ public class Criteria {
 
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 10;
+		this.perPageNum = 3;
 		this.searchType = null;
 		this.keyword = null;
 	}
@@ -64,6 +64,7 @@ public class Criteria {
 	// searchType, keyword 추가
 	public String makeQuery() {
 
+
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
 				.queryParam("perPageNum", this.perPageNum);
@@ -71,6 +72,7 @@ public class Criteria {
 			uriComponentsBuilder
 					.queryParam("searchType", this.searchType)
 					.queryParam("keyword", this.keyword);
+
 
 		}
 		return uriComponentsBuilder.build().encode().toString();

@@ -13,7 +13,7 @@ public class RentVO {
 		private String r_state;
 		private Date r_pdate;
 		
-		
+
 		public String getR_id() {
 			return r_id;
 		}
@@ -70,6 +70,7 @@ public class RentVO {
 					+ ", r_sdate=" + r_sdate + ", r_rent=" + r_rent + ", r_state=" + r_state + ", r_pdate=" + r_pdate
 					 + "]";
 		}
+
 
 	}
 

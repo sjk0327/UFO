@@ -34,7 +34,7 @@
                     
                 <c:forEach var="ret" items="${returnList}">
                 <c:if test="${ret.r_state eq '반납 요청'}">
-                <li class="waves-effect waves-light" onclick="location.href='/adminsite/adminRentDetail/${ret.r_id }'">
+                <li class="waves-effect waves-light" onclick="location.href='/admin/rent/rentDetail/${ret.r_id }'">
                     <div class="media">
                         <div class="media-body">
                             <h5 class="notification-user">${ret.r_mid}</h5>
@@ -48,7 +48,7 @@
                 </c:forEach>
                 <c:forEach var="ret" items="${returnList}">
                 <c:if test="${ret.r_state eq '대여중'}">
-                <li class="waves-effect waves-light" onclick="location.href='/adminsite/adminRentDetail/${ret.r_id }'">
+                <li class="waves-effect waves-light" onclick="location.href='/admin/rent/rentDetail/${ret.r_id }'">
                     <div class="media">
                         <div class="media-body">
                             <h5 class="notification-user">${ret.r_mid}</h5>
@@ -62,7 +62,7 @@
                 </ul>
             </li>
             <li>
-             <a class="waves-effect waves-light" onclick="location.href='/admin/Findreturnlate'">
+             <a class="waves-effect waves-light" onclick="location.href='/admin/rent/Findreturnlate'">
 			<i class="fa fa-refresh reload-card"></i>
                 </a>
             </li>

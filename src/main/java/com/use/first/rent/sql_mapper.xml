@@ -5,7 +5,8 @@
 
 <mapper namespace="com.use.first.rent.RentDAO">
 
-<select id="rentList" resultType="com.use.first.rent.RentVO">
+	<select id="rentList" resultType="com.use.first.rent.RentVO">
+
 		select rental.r_id, rental.r_mid, rental.r_pid, product.p_name,
 		rental.r_sdate, rental.r_rent, rental.r_state, rental.r_pdate from
 		rental, product
@@ -27,13 +28,13 @@
 	</select>
 
 	<select id="getRentTotalCount" resultType="int">
-	<![CDATA[
 		select count(*) from
 		rental, product
 		where rental.r_pid = product.p_id
-		]]>
 		<include refid="searchCondition"></include>
 	</select>
+
+
 	<sql id="searchCondition">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()">
@@ -51,6 +52,7 @@
 		</if>
 	</sql>
 
+
 	
 	<insert id="rentInsert" parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
@@ -58,18 +60,20 @@
 		values(#{r_id},#{r_mid},#{r_pid}, #{r_sdate}, #{r_rent}, #{r_state}, #{r_pdate})
 		]]>
 	</insert>
-	
+
 	<select id="rentInfo" resultType="com.use.first.rent.RentVO">
 		<![CDATA[
 		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_id=#{r_id}
 		]]>
 	</select>
-	
-	<update id="rentUpdate" parameterType="com.use.first.rent.RentVO">
+
+	<update id="rentUpdate"
+		parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
 		update rental set r_state = #{r_state} where r_id = #{r_id}
 		]]>
 	</update>
+
 	
 	<update id="rentReturn">
 		<![CDATA[
@@ -106,7 +110,7 @@
 	
 	
 	
-	
+
 </mapper>
 
 

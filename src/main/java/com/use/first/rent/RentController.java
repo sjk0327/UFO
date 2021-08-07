@@ -26,7 +26,7 @@ import com.use.first.product.ProductVO;
 public class RentController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-		
+
 //	@RequestMapping(value ="/adminsite/adminRentDetail/{r_id}", method = RequestMethod.GET)
 //	public String getRental(Model model, @PathVariable String r_id) {
 //		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -36,6 +36,7 @@ public class RentController {
 //		model.addAttribute("rentInfo", rentVO);
 //		return "admin/rent/admin_rentDetail";
 //	}
+
 	
 //	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
 //	public String adminRentList(RentVO vo, Model model) {
@@ -46,6 +47,9 @@ public class RentController {
 //		return "/admin/rent/admin_rentList";
 //	}
 	
+
+
+
 	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
 	public String adminRentList(Criteria cri, Model model) {
 		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -62,7 +66,7 @@ public class RentController {
 		pageMaker.setTotalCount(totalCount);
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
-		return "/admin/rent/admin_rentList";
+		return "/admin/rent/adminRentList";
 	}
 //
 //	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.POST)
@@ -90,16 +94,20 @@ public class RentController {
 		pageMaker.setTotalCount(totalCount);
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
-		return "/admin/rent/admin_rentList";
+		return "/admin/rent/adminRentList";
 	}
-	
-	
-	@RequestMapping("/adminsite/adminRentDetail/{r_id}")
+
+
+
+
+
+	@RequestMapping("/admin/rent/rentDetail/{r_id}")
 	public String getRental(Model model, @PathVariable String r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
-		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class); 
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+
 		
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		List<RentVO> returnList = rentDAO.returnList();
@@ -112,8 +120,9 @@ public class RentController {
 		model.addAttribute("memInfo", userVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "admin/rent/admin_rentDetail";
+		return "admin/rent/adminRentDetail";
 	}
+
 	
 	//반납 요청 처리
 	@RequestMapping(value = "/admin/rent/returnConfirm")
@@ -123,11 +132,11 @@ public class RentController {
 		List<RentVO> returnList = rentDAO.returnList();
 		model.addAttribute("r_id",r_id);
 		session.setAttribute("returnList", returnList);
-		return "redirect:/adminsite/adminRentDetail/"+r_id;
+		return "redirect:/admin/rent/rentDetail/"+r_id;
 	}
 	
 	//세션값 재설정
-	@RequestMapping(value = "/admin/Findreturnlate")
+	@RequestMapping(value = "/admin/rent/Findreturnlate")
 	public String adminFindreturnlate(HttpSession session) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);	
 		List<RentVO> returnList = rentDAO.returnList();
@@ -137,5 +146,4 @@ public class RentController {
 	}
 	
 
-		
 }

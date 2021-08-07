@@ -26,10 +26,6 @@
 
 	</select>
 
-
-
-
-
 	<select id="countMemListTotal" resultType="int">
 		select count(*)
 		from member

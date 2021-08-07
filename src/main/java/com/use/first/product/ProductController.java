@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.use.first.paging.PageMaker;
+import com.use.first.paging.Criteria;
 
 @Controller
 public class ProductController {
@@ -24,7 +24,7 @@ public class ProductController {
 
 	// 신영-상품리스트
 		@RequestMapping(value = "/admin/pro/productList",method = RequestMethod.GET)
-		public String getProductList(Model model, Criteria cri) {
+		public String getProductList(Model model,Criteria cri) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 			List<ProductVO> list = productDAO.productList(cri);
 
