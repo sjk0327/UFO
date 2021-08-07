@@ -2,29 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+   <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ page session="false" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <title>admin rent Detail </title>
-  
+
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
 <style type="text/css">
-#returnbtn, #returnbtn:focus, #returnbtn:visited, #returnbtn:active {
+#returnbtn,#latebtn, #returnbtn:focus,#latebtn:focus, #returnbtn:visited,#latebtn:visited, #returnbtn:active,#latebtn:active {
 	background-color: white !important;
 	border: 1px solid #7971ea;
 	color: #4d4d4d !important;
 }
 
-#returnbtn:hover {
+#returnbtn:hover,#latebtn:hover {
 	background-color: white;
 	border: 1px solid #1f7b70;
 	color: #4d4d4d;
 }
 
-#returnbtn {
+#returnbtn,#latebtn {
 	border-radius: 0.25rem;
 }
 </style>
@@ -90,39 +91,32 @@
       <div class="pcoded-overlay-box"></div>
       <div class="pcoded-container navbar-wrapper">
           <%@ include file="/WEB-INF/views/adminNav.jsp" %>
-
+  
           <div class="pcoded-main-container">
               <div class="pcoded-wrapper">
     	<%@ include file="/WEB-INF/views/adminMenu.jsp" %>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+
                   <div class="pcoded-content">
-                      <!-- Page-header start -->
-                     
-                      <!-- Page-header end -->
+
                         <div class="pcoded-inner-content">
-                            <!-- Main-body start -->
+      
                             <div class="main-body">
                                 <div class="page-wrapper">
-                                    <!-- Page-body start -->
+                       
                                     <div class="page-body">
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
                                         <div class="row">
 
-    
-                              
-                    
-    
                                             <!--  project and team member start -->
                                             <div class="col-xl-10 col-md-12">
                                                 <div class="card table-card">
                                                     <div class="card-header">
-                                                        <h5>${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여/구매 현황</h5>
+                                                        <h5>${userName } ${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여/구매 현황</h5>
                                                         <div class="card-header-right">
                                                             <ul class="list-unstyled card-option">
                                                                 <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -204,20 +198,20 @@
 						<span class="col-md-2">${proInfo.p_id }</span>
 						<span class="col-md-3">${proInfo.p_name }</span>
 						<span class="col-md-2" style="font-weight: bold;">
-						<c:if test="${rentInfo.r_state eq '대여' || rentInfo.r_state eq '반납 예정'|| rentInfo.r_state eq '반납 완료'}">
+						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료'}">
 						<%= "대여" %>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '대여 후 구매' || rentInfo.r_state eq '즉시 구매'}">
+						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
 						<%= "구매" %>
 						</c:if>
 						</span>
 						<span class="col-md-3">
 						
-						<c:if test="${rentInfo.r_state eq '대여' || rentInfo.r_state eq '반납 예정'|| rentInfo.r_state eq '반납 완료'}">
+						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료'}">
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '대여 후 구매' || rentInfo.r_state eq '즉시 구매'}">
+						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * rentInfo.r_rent}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
 						</c:if>
@@ -226,19 +220,22 @@
 						
 						
 						</span>
+						
+						<!-- 상태 색깔 변경 로직 부분  추가-->
 						<span class="col-md-2"> 
-						<c:if test="${rentInfo.r_state eq '대여'}">
+						<c:if test="${rentInfo.r_state eq '대여중'}">
 						<fmt:parseDate var="tempToday" value="${rentInfo.r_sdate}" pattern="yyyy-MM-dd"/>
   						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
    						<c:set var="now" value="<%=new java.util.Date()%>" />
     					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
-						<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대여 중</label></c:if>
+						<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대 여  중</label></c:if>
 						<c:if test="${sdate+3<today}"><label class="btn btn-danger">연 체  중</label></c:if>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '대여 후 구매'}"><label class="btn btn-info">구매완료</label></c:if>
-						<c:if test="${rentInfo.r_state eq '반납 예정'}"><label class="btn btn-warning">반납예정</label></c:if>
-						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info">구매 완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
 						</span>
+						<!-- 상태 색깔 변경 로직 부분  끝 -->
 						
 						</div>
 					</div>
@@ -270,6 +267,10 @@
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 						</c:if>
+						<c:if test="${buyInfo.b_state eq '즉시 구매'}">
+						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+						</c:if>
 
 						</div>
 						</span>
@@ -287,10 +288,20 @@
                   <div class="row">
 					<div class="col-md-9"></div>
                   <div class="col-md-3">
-                
-                <c:if test="${rentInfo.r_state eq '반납 예정'}">
-							<button type="button" id="returnbtn"
+                  
+                  <form:form method="post" action="/admin/rent/returnConfirm" modelAttribute="rentInfo">
+					<form:hidden path="r_id"/>
+                		<c:if test="${rentInfo.r_state eq '반납 요청'}">
+							<button type="submit" id="returnbtn"
 							class="btn btn-info float-right btn-toggle switch">반납확인</button>
+						</c:if>
+
+				</form:form>
+                
+						
+						<c:if test="${sdate+3<today}">
+							<button type="button" id="latebtn"
+							class="btn btn-info float-right btn-toggle switch">연체 알림 메세지 보내기</button>
 						</c:if>
 	
 </div>
@@ -338,13 +349,24 @@
     $('#returnbtn').click(function() {
       				
       					if (confirm("해당 회원의 대여 제품을 반납 처리하시겠습니까?") == true){   
-      						window.location='';
+      						window.location='/admin/rent/returnConfirm';
       			  	  }else{   
       						 event.preventDefault();
       			           event.stopPropagation();
 
       			  	  };	
       				});
+    
+    $('#latebtn').click(function() {
+			
+			if (confirm("해당 회원에게 연체료 결제 주의 안내 메세지를 보내시겠습니까?") == true){   
+				window.location='';
+	  	  }else{   
+				 event.preventDefault();
+	           event.stopPropagation();
+
+	  	  };	
+		});
     </script>
 </body>
 

@@ -21,6 +21,9 @@ import com.use.first.paging.PageMaker;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
+import com.use.first.rent.RentDAO;
+import com.use.first.rent.RentVO;
+
 /**
  * Handles requests for the application home page.
  */
@@ -39,6 +42,9 @@ public class MemberController {
 	@RequestMapping(value = "/admin", method = RequestMethod.POST)
 	public String adminLogin(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		List<RentVO> returnList = rentDAO.returnList();
+		
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
 			return "/enterance/adminLogin";
 		} else if (vo.getM_pw() == null || vo.getM_pw().equals("")) {
@@ -50,7 +56,9 @@ public class MemberController {
 
 		if (user != null && vo.getM_id().equals("admin")) {
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
+				
 				session.setAttribute("userName", user.getM_name());
+				session.setAttribute("returnList", returnList);
 				// return "/enterance/adminIndex";
 				return "redirect:/adminIndex";
 			} else {

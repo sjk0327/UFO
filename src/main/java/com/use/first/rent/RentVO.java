@@ -1,5 +1,5 @@
 	
-	package com.use.first.rent;
+package com.use.first.rent;
 
 import java.sql.Date;
 
@@ -7,12 +7,11 @@ public class RentVO {
 		private String r_id;
 		private String r_mid;
 		private String r_pid;
+		private String p_name;
 		private Date r_sdate;
 		private int r_rent;
 		private String r_state;
 		private Date r_pdate;
-		private String searchCondition;
-		private String searchKeyword;
 		
 		
 		public String getR_id() {
@@ -32,6 +31,12 @@ public class RentVO {
 		}
 		public void setR_pid(String r_pid) {
 			this.r_pid = r_pid;
+		}
+		public String getP_name() {
+			return p_name;
+		}
+		public void setP_name(String p_name) {
+			this.p_name = p_name;
 		}
 		public Date getR_sdate() {
 			return r_sdate;
@@ -58,44 +63,14 @@ public class RentVO {
 			this.r_pdate = r_pdate;
 		}
 		
-		public String getSearchCondition() {
-			return searchCondition;
-		}
-		public void setSearchCondition(String searchCondition) {
-			this.searchCondition = searchCondition;
-		}
-		public String getSearchKeyword() {
-			return searchKeyword;
-		}
-		public void setSearchKeyword(String searchKeyword) {
-			this.searchKeyword = searchKeyword;
-		}
+
 		@Override
 		public String toString() {
-			return "RentVO [r_id=" + r_id + ", r_mid=" + r_mid + ", r_pid=" + r_pid + ", r_sdate=" + r_sdate
-					+ ", r_rent=" + r_rent + ", r_state=" + r_state + ", r_pdate=" + r_pdate + ", searchCondition="
-					+ searchCondition + ", searchKeyword=" + searchKeyword + "]";
+			return "RentVO [r_id=" + r_id + ", r_mid=" + r_mid + ", r_pid=" + r_pid + ", p_name=" + p_name
+					+ ", r_sdate=" + r_sdate + ", r_rent=" + r_rent + ", r_state=" + r_state + ", r_pdate=" + r_pdate
+					 + "]";
 		}
-		
-		
-		
-		
-		// 성훈 시작 ( rental 과 product 조인해서 product p_name 가져오려는데 
-	      // 다른방법있으면 삭제 가능한데 다른 방법이 생각나지 않습니다 ㅠㅠ)
-	      private String p_name;
 
-
-	      public String getP_name() {
-	         return p_name;
-	      }
-	      public void setP_name(String p_name) {
-	         this.p_name = p_name;
-	      }
-	      // 성훈 끝
-		
-		
-		
-		
 	}
 
 	

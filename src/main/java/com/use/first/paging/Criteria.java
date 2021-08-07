@@ -63,10 +63,15 @@ public class Criteria {
 
 	// searchType, keyword 추가
 	public String makeQuery() {
-		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance().queryParam("page", page)
+
+		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
 				.queryParam("perPageNum", this.perPageNum);
-		if (searchType != null) {
-			uriComponentsBuilder.queryParam("searchType", this.searchType).queryParam("keyword", this.keyword);
+		if (searchType!=null) {
+			uriComponentsBuilder
+					.queryParam("searchType", this.searchType)
+					.queryParam("keyword", this.keyword);
+
 		}
 		return uriComponentsBuilder.build().encode().toString();
 	}

@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.use.first.paging.PageMaker;
+
 @Controller
 public class ProductController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
+
 
 	// 신영-상품리스트
 		@RequestMapping(value = "/admin/pro/productList",method = RequestMethod.GET)
@@ -25,12 +28,13 @@ public class ProductController {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 			List<ProductVO> list = productDAO.productList(cri);
 
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(productDAO.countProductListTotal());
+//김수정 병합중 페이지메이커 공통부분으로 옮기면서 오류나서 일단 주석처리함 0807오전9시
+//			PageMaker pageMaker = new PageMaker();
+//			pageMaker.setCri(cri);
+//			pageMaker.setTotalCount(productDAO.countProductListTotal());
 
 			model.addAttribute("productList", list);
-			model.addAttribute("pageMaker", pageMaker);
+			//model.addAttribute("pageMaker", pageMaker);
 			
 			return "admin/pro/adminProductList";
 		}
