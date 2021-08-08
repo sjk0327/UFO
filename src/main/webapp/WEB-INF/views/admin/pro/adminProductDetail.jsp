@@ -10,7 +10,30 @@
 
 <head>
     <title>관리자 상품관리</title>
+ <style>
+       
 
+	input{
+	border:none;
+	text-align: right;
+	}
+	
+	select {
+	align: right;
+	}
+	
+	.productInfo {
+	text-align: left; 
+	font-weight: bold; 
+	font-size: 15pt;
+	}
+	
+	.mainContainer, subContainer {
+	 margin:auto;
+	
+	}
+	
+    </style>
 
   
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
@@ -93,14 +116,7 @@
          
                       <!-- Page-header end -->
        <form:form method="post" action="/admin/pro/productUpdate/${ productVO.p_id }" name="updateForm" modelAttribute="productVO" enctype="multipart/form-data">
-                        <div class="pcoded-inner-content">
-                            <!-- Main-body start -->
-                            <div class="main-body">
-                                <div class="page-wrapper">
-                                    <!-- Page-body start -->
-                                    <div class="page-body">
-                                        <div class="row">
-
+                     
     
                               
                     
@@ -116,7 +132,7 @@
                                                     </div>
                                                     <div class="card-block">
                                                         <div class="table-responsive col-xl-12">
-                                                             <script src="https://kit.fontawesome.com/848d8f1fa9.js" crossorigin="anonymous"></script>
+                                                            
    <div class="container-fluid col-xl-12" style="text-align: center;">
    
 
@@ -128,30 +144,22 @@
          <main class="col-12  ms-sm-auto col-lg-12">
          <div class="row g-5" id="topmarin">
 
-            <div class="col-md-12">
-               <div class="container" >
-                  <div class="row">
+            
                 
                      <div class="col-12 row">
-                     <div class="col-8">
-                         <div class="p-4 mb-8 col-lg-12">
-                              <img src=/resources/img/${productVO.p_mainImg} width="50%" height="50%"
-							alt="${ productVO.p_mainImg }" title="${ productVO.p_mainImg }" class="img-fluid thumbnailMain"> 							   
-                        </div>
-                     <div>
-				  	 <form:input path="mainFile" type="file" accpet="image/*" id="fileUploadMain" />	
-				  	
-				   	</div>   
-                        </div>
-                    <div class="col-4">
-                   <br><br>
-                   <div style="text-align: left; font-weight: bold; font-size: 15pt;">
-                    <label for="p_id">상품 I D <form:input path="p_id" type="text" id="p_id" value="${ productVO.p_id }" size="10" required="required"/></label>    
-                    <div><label for="p_name">상품이름<form:input path="p_name" type="text" id="p_name" value="${ productVO.p_name }" size="10" required="required"/></label></div>
-					<div><label for="p_price">상품가격<form:input path="p_price" type="text"  id="p_price" value="${ productVO.p_price }" size="10" required="required"/></label></div>
-					<div><label for="p_canBuy">구매가능<form:input path="p_canBuy" type="number"  id="p_canBuy" value="${ productVO.p_canBuy }"/></label></div> 
-					<div><label for="p_canRent">대여가능<form:input path="p_canRent" type="number"  id="p_canRent" value="${ productVO.p_canRent }"/></label></div> 
-           		    <div><label for="p_category">카테고리
+                    	 <div class="col-7 mainContainer">
+                        
+                           <img src=/resources/Images/product/${productVO.p_mainImg} width="80%" height="80%"
+							alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" class="img-fluid thumbnailMain"> 							   
+                    	 </div>
+                   	 <div class="col-5 productInfo"> <br><br>
+                  
+                   	<div class="row"> <div class="col-3"><label for="p_id">상품 I D</label></div><div class="col-9" ><form:input path="p_id" type="text" id="p_id" value="${productVO.p_id}"  required="required"/></div></div> 
+                   	<div class="row"> <div class="col-3"><label for="p_name">상품이름</label></div><div class="col-9"><form:input path="p_name" type="text" id="p_name" value="${productVO.p_name}"  required="required"/></div></div> 
+					<div class="row"> <div class="col-3"><label for="p_price">상품가격</label></div><div class="col-9"><form:input path="p_price" type="text"  id="p_price" value="${productVO.p_price}" required="required"/>원</div></div> 
+					<div class="row"> <div class="col-3"><label for="p_canBuy">구매가능</label></div><div class="col-9"><form:input path="p_canBuy" type="number"  id="p_canBuy" value="${productVO.p_canBuy }"/>개</div></div> 
+					<div class="row"> <div class="col-3"><label for="p_canRent">대여가능</label></div><div class="col-9"><form:input path="p_canRent" type="number"  id="p_canRent" value="${productVO.p_canRent}"/>개</div></div> 
+           		    <div class="row"> <div class="col-6"><label for="p_category">카테고리 </label></div><div class="col-6">
            		    <form:select path="p_category" id="p_category">
            		     <form:option value="스마트폰">스마트폰</form:option>
            		     <form:option value="노트북">노트북</form:option>
@@ -159,35 +167,32 @@
            		     <form:option value="스마트워치">스마트워치</form:option>
            		     <form:option value="카메라">카메라</form:option>
            		    </form:select>
-           		    </label></div>  
-					<input type="button" value="수정" onclick="productUpdate()">&nbsp;&nbsp;&nbsp;  
-					<button type="button" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
-					<button type="button" onclick='productDelete()'>삭제</button>
+           		 </div></div> 
+           		 <div class="row"><div class="col-3"><label for="fileUploadMain">메인사진</label></div><div class="col-9"><input name="mainFile" type="file" accept="image/*" id="fileUploadMain"/></div></div> <br>
+           		 <div class="row"><div class="col-3"><label for="fileUploadSub">서브사진</label></div><div class="col-9"><input name="subFile" type="file" accept="image/*" id="fileUploadSub" /></div></div>
+           		 	 <hr>
+					<input type="button" value="수정" class="btn btn-primary" onclick="productUpdate()">&nbsp;&nbsp;&nbsp;  
+					<button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-primary" onclick='productDelete()'>삭제</button>
 					
-                    </div>                 
-       
-				
-             
-                  
+                   	  </div>                       
                    </div>
-                  </div>
-                 
-                   <div class="rows col-12">	 <hr>				
-				  	<img src=/resources/img/${ productVO.p_subImg } width="50%" height="50%"
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub">	
-								
+                   
+                 	 <div class="rows col-12"><hr>
+				  
+				     </div>
+                   <div class="rows col-12 subContainer" >	 				
+				  	<img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
+				  			
+							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub">						
 				   </div>
-				   <div class="rows col-12">
-				   <form:input path="p_subImg" type="file" accpet="image/*" id="fileUploadSub" />		
-				   </div>
+				  
 				   <div class="rows col-12"><br><br>
 				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productVO.p_content }</textarea></pre>
 				   </div>
                
       </div>
-      </div>
-              </div>        
-                </div>    
+      
          </main>
          <main class="col-12 col-lg-1 ms-sm-auto  px-md-4 bg-light"></main>
          </div>

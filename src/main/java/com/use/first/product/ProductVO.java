@@ -20,9 +20,9 @@ public class ProductVO {
 	private int p_readCount;
 	private String p_content;
 	private MultipartFile mainFile;
+	private MultipartFile subFile;
 	private String searchCondition;
 	private String searchKeyword;
-	
 	public String getP_id() {
 		return p_id;
 	}
@@ -107,6 +107,12 @@ public class ProductVO {
 	public void setMainFile(MultipartFile mainFile) {
 		this.mainFile = mainFile;
 	}
+	public MultipartFile getSubFile() {
+		return subFile;
+	}
+	public void setSubFile(MultipartFile subFile) {
+		this.subFile = subFile;
+	}
 	public String getSearchCondition() {
 		return searchCondition;
 	}
@@ -125,10 +131,10 @@ public class ProductVO {
 				+ ", p_canRent=" + p_canRent + ", p_soldCount=" + p_soldCount + ", p_recommand=" + p_recommand
 				+ ", p_category=" + p_category + ", p_mainImg=" + p_mainImg + ", p_subImg=" + p_subImg + ", p_regdate="
 				+ p_regdate + ", p_readCount=" + p_readCount + ", p_content=" + p_content + ", mainFile=" + mainFile
-				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
+				+ ", subFile=" + subFile + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+				+ "]";
 	}
-	   
-
+	
 	
 	
 }

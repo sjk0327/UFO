@@ -9,8 +9,30 @@
 <html>
 
 <head>
-    <title>관리자 상품추가</title>
+    <title>상품추가</title>
+ <style>
+       
 
+	input{
+	border:none;
+	text-align: right;
+	}
+	select {
+	align: right;
+	}
+	
+	.productInfo {
+	text-align: left; 
+	font-weight: bold; 
+	font-size: 15pt;
+	}
+	
+	.mainContainer, subContainer {
+	 margin:auto;
+	 
+	}
+	
+    </style>
 
   
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
@@ -92,15 +114,8 @@
                       <!-- Page-header start -->
          
                       <!-- Page-header end -->
-       <form:form method="post" action="productInsert"  modelAttribute="productVO">
-                        <div class="pcoded-inner-content">
-                            <!-- Main-body start -->
-                            <div class="main-body">
-                                <div class="page-wrapper">
-                                    <!-- Page-body start -->
-                                    <div class="page-body">
-                                        <div class="row">
-
+       <form:form method="post" action="/admin/pro/productInsert/${ productVO.p_id }" name="insertForm" modelAttribute="productVO" enctype="multipart/form-data">
+                     
     
                               
                     
@@ -111,13 +126,13 @@
                                             <div class="col-xl-10 col-md-12">
                                                 <div class="card table-card">
                                                     <div class="card-header">
-                                                        <h5>상품등록</h5>
+                                                        <h5>상품추가</h5>
                                                         
                                                     </div>
                                                     <div class="card-block">
                                                         <div class="table-responsive col-xl-12">
-                                                             <script src="https://kit.fontawesome.com/848d8f1fa9.js" crossorigin="anonymous"></script>
-   	 <div class="container-fluid col-xl-12" style="text-align: center;">
+                                                            
+   <div class="container-fluid col-xl-12" style="text-align: center;">
    
 
       <div class="col-lg-12">
@@ -128,30 +143,20 @@
          <main class="col-12  ms-sm-auto col-lg-12">
          <div class="row g-5" id="topmarin">
 
-            <div class="col-md-12">
-               <div class="container" >
-                  <div class="row">
+            
                 
                      <div class="col-12 row">
-                     <div class="col-8">
-                         <div class="p-4 mb-8 col-lg-12">
-                              <img src="/resources/img/${productVO.p_mainImg}" width="50%" height="50%"
-							alt="${ productVO.p_mainImg }" title="${ productVO.p_mainImg }" class="img-fluid"> 
-							          
-                        </div>
-                     <div>
-				  	 <form:input path="p_mainImg" type="file" accpet=".gif, .jpg, .png"/>		
-				   	</div>   
-                        </div>
-                    <div class="col-4">
-                   <br><br>
-                   <div style="text-align: left; font-weight: bold; font-size: 15pt;">
-                    <label for="p_id">상품 I  D <form:input path="p_id" type="text" id="p_id" size="10"/></label>    
-                    <div><label for="p_name">상품이름<form:input path="p_name" type="text" id="p_name" size="10"/></label></div>
-					<div><label for="p_price">상품가격<form:input path="p_price" type="text"  id="p_price" size="10"/></label></div>
-					<div><label for="p_canBuy">구매가능<form:input path="p_canBuy" type="number"  id="p_canBuy" size="10"/></label></div> 
-					<div><label for="p_canRent">대여가능<form:input path="p_canRent" type="number"  id="p_canRent" size="10"/></label></div> 
-           		    <div><label for="p_category">카테고리
+                    	 <div class="col-7 mainContainer">                     	
+                           <img  width="80%" height="80%" class="img-fluid thumbnailMain"> 							   
+                    	 </div>
+                   	 <div class="col-5 productInfo"> <br><br>
+                  
+                   	<div class="row"> <div class="col-3"><label for="p_id">상품 I D</label></div><div class="col-9" ><form:input path="p_id" type="text" id="p_id" placeholder="id를 입력하세요"  required="required"/></div></div> 
+                   	<div class="row"> <div class="col-3"><label for="p_name">상품이름</label></div><div class="col-9"><form:input path="p_name" type="text" id="p_name" placeholder="이름을 입력하세요"  required="required"/></div></div> 
+					<div class="row"> <div class="col-3"><label for="p_price">상품가격</label></div><div class="col-9"><form:input path="p_price" type="text"  id="p_price" value="" placeholder="입력" required="required"/>원</div></div> 
+					<div class="row"> <div class="col-3"><label for="p_canBuy">구매가능</label></div><div class="col-9"><form:input path="p_canBuy" type="number"  id="p_canBuy" value="" placeholder="입력"/>개</div></div> 
+					<div class="row"> <div class="col-3"><label for="p_canRent">대여가능</label></div><div class="col-9"><form:input path="p_canRent" type="number"  id="p_canRent" value="" placeholder="입력"/>개</div></div> 
+           		    <div class="row"> <div class="col-6"><label for="p_category">카테고리 </label></div><div class="col-6">
            		    <form:select path="p_category" id="p_category">
            		     <form:option value="스마트폰">스마트폰</form:option>
            		     <form:option value="노트북">노트북</form:option>
@@ -159,37 +164,32 @@
            		     <form:option value="스마트워치">스마트워치</form:option>
            		     <form:option value="카메라">카메라</form:option>
            		    </form:select>
-           		    </label></div>  
-					<input type="submit" value="등록">&nbsp;&nbsp;&nbsp;  
-					<button type="reset">취소</button>
-                    </div>                 
-       
-				
-             
-                  
+           		 </div></div> 
+           		 <div class="row"><div class="col-3"><label for="fileUploadMain">메인사진</label></div><div class="col-9"><input name="mainFile" type="file" accept="image/*" id="fileUploadMain"/></div></div> <br>
+           		 <div class="row"><div class="col-3"><label for="fileUploadSub">서브사진</label></div><div class="col-9"><input name="subFile" type="file" accept="image/*" id="fileUploadSub" /></div></div>
+           		 	 <hr>
+					<input type="button" value="등록" class="btn btn-primary" onclick="productInsert()">&nbsp;&nbsp;&nbsp;  
+					<button type="button" class="btn btn-primary" onclick='productList()'>목록</button>				
+                   	  </div>                       
                    </div>
-                  </div>
-                 
-                   <div class="rows col-12">	 <hr>				
-				  	<img src="/resources/img/${ productVO.p_subImg }"
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid">	
-								
+                   
+                 	 <div class="rows col-12"><hr>
+				  
+				     </div>
+                   <div class="rows col-12 subContainer" >	 				
+				  	<img width="50%" height="50%" class="img-fluid thumbnailSub">						
 				   </div>
-				   <div class="rows col-12">
-				   <form:input path="p_subImg" type="file" accpet=".gif, .jpg, .png"/>		
-				   </div>
+				  
 				   <div class="rows col-12"><br><br>
 				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productVO.p_content }</textarea></pre>
 				   </div>
                
       </div>
-      </div>
-              </div>        
-                </div>    
+      
          </main>
          <main class="col-12 col-lg-1 ms-sm-auto  px-md-4 bg-light"></main>
          </div>
-   </div></div></div></div></div></div>
+   </div>
    
                                                           
                                                         </div>
@@ -205,39 +205,36 @@
                      
                             </div>
                         </div>
-                        
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script>
-	jQuery(function($) {
-	    var targetText = "${productVO.p_category}";    
-	    var targetVal = $('#p_category option:contains(' + targetText + ')').val();   
-	    $('#p_category').val(targetVal);   
+	//상품등록
+	function productInsert() {
+		if (confirm(' 상품을 추가하시겠습니까')) {
+			 var insertForm = document.insertForm ;            
+			 insertForm.submit();
+		 }
+	   }
+	
+	//상품목록으로가기
+	function productList() {
+			location.href = '/admin/pro/productList';		 
+	   }
+	
+	
+	//mainImg 파일업로드시 바로보이게
+	const mainImageFile = document.querySelector('#fileUploadMain');
+	mainImageFile.addEventListener('change', e => {
+	  const file = e.target.files[0];
+	  const mainImage = document.querySelector(".thumbnailMain");
+	  mainImage.src = window.URL.createObjectURL(file);
 	});
-
-
-	function productDelete(p_id) {
-	if (confirm(' 상품을 삭제하시겠습니까?')) {
-		location.href = 'admin/pro/productDelete/${productVO.p_id }';
-	}
-}
-	function fn_delRow(chkObjNm) { 
-		﻿  if ($("input[name="+chkObjNm+"]").is(":checked")){ 
-		﻿  if (confirm("삭제 하시겠습니까?")) { 
-		﻿        for(var i=$("[name='"+chkObjNm+"']:checked").length-1; i>-1; i--){ 
-
-		﻿                    $("[name='"+chkObjNm+"']:checked").eq(i).closest("tr").remove(); 
-
-		                }﻿ 
-
-		            }﻿ 
-
-		         } else { 
-
-		﻿            alert("선택된 데이터가 없습니다.");  
-
-		         }﻿ 
-
-		    }﻿ 
+	//subImg 파일업로드시 바로보이게
+	const subImageFile = document.querySelector('#fileUploadSub');
+	subImageFile.addEventListener('change', e => {
+	  const file = e.target.files[0];
+	  const subImage = document.querySelector(".thumbnailSub");
+	  subImage.src = window.URL.createObjectURL(file);
+	});
 </script>
   
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
