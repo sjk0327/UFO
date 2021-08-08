@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!-- Required Jquery -->
 <script type="text/javascript" src="/resources/assets/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/assets/js/jquery-ui/jquery-ui.min.js "></script>
@@ -28,3 +30,14 @@
 <!-- custom js -->
 <script type="text/javascript" src="/resources/assets/pages/dashboard/custom-dashboard.js"></script>
 <script type="text/javascript" src="/resources/assets/js/script.js "></script>
+<!-- admin logout confirm -->
+<script>
+$(function(){
+	$('#logout').click(function(){
+		if(!confirm('정말로 로그아웃하시겠습니까?')){
+			return false;
+		}
+	}
+	)
+})
+</script>
