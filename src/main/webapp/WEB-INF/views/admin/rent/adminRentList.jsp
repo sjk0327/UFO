@@ -107,13 +107,13 @@
 											action="/admin/rent/rentList">
 
 											
-											<select id="searchType" name="searchType" >
-												<option value="">검색조건</option>
-												<option value="t">회원ID</option>
-												<option value="c">제품ID</option>
-												<option value="w">제품명</option>
-												<option value="tc">상태</option>
-											</select> 
+										<select id="searchType" name="searchType" >
+                                    <option value="">검색조건</option>
+                                    <option value="t" <c:if test="${pageMaker.cri.searchType eq 't'}">selected </c:if>>회원ID</option>
+                                    <option value="c" <c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>제품ID</option>
+                                    <option value="w" <c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
+                                    <option value="tc" <c:if test="${pageMaker.cri.searchType eq 'tc'}"> selected </c:if>>상태</option>
+                                 </select> 
 											<input type="text" id="keyword" name="keyword"  
 												value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요" />
 											<button id="searchBtn" class="myButton">검색</button>
