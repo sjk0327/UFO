@@ -69,6 +69,21 @@ public class MemberController {
 			return "/enterance/adminLogin";
 		}
 	}
+	
+	
+	
+	@RequestMapping(value = "/adminLogout", method = RequestMethod.GET)
+	public String adminLoginout(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	
+	
+
+	
+	
 
 	@RequestMapping(value = "/adminIndex", method = RequestMethod.GET)
 	public String adminIndex(UserVO vo, Model model) {
@@ -89,7 +104,7 @@ public class MemberController {
 		 PageMaker pageMaker = new PageMaker(cri);
 	      // 전체 게시물 수를 구함
 	
-	      int totalCount = dao.countMemListTotal(cri);
+	      int totalCount = dao.countMemListTotal(cri) - 1;
 	      // pageMaker로 전달
 	      pageMaker.setTotalCount(totalCount);
 	      // 모델에 추가
@@ -102,7 +117,7 @@ public class MemberController {
 	
 	
 	 @RequestMapping(value = "/admin/mem/memList", method = RequestMethod.POST)
-	   public String adminRentListSearch(Criteria cri, Model model) {
+	   public String adminMemListSearch(Criteria cri, Model model) {
 		 UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
 	      // 현재 페이지에 해당하는 게시물을 조회해 옴
@@ -114,7 +129,7 @@ public class MemberController {
 		 PageMaker pageMaker = new PageMaker(cri);
 	      // 전체 게시물 수를 구함
 	
-	      int totalCount = dao.countMemListTotal(cri);
+	      int totalCount = dao.countMemListTotal(cri) - 1;
 	      // pageMaker로 전달
 	      pageMaker.setTotalCount(totalCount);
 	      // 모델에 추가

@@ -25,8 +25,9 @@ public class UserVO {
    private String m_img;
    
    private Date m_regdate;
+   
 
-   private MultipartFile uploadFile;
+private MultipartFile uploadFile;
    
    public String getM_id() {
       return m_id;
@@ -116,12 +117,17 @@ public class UserVO {
       this.uploadFile = uploadFile;
    }
 
-   @Override
-   public String toString() {
-      return "UserVO [m_id=" + m_id + ", m_name=" + m_name + ", m_pw=" + m_pw + ", m_gender=" + m_gender + ", m_addr="
-            + m_addr + ", m_tel=" + m_tel + ", m_email=" + m_email + ", m_point=" + m_point + ", m_img=" + m_img
-            + ", m_regdate=" + m_regdate + "]";
-   }
+@Override
+public String toString() {
+	return "UserVO [m_id=" + m_id + ", m_name=" + m_name + ", m_pw=" + m_pw + ", m_gender=" + m_gender + ", m_addr="
+			+ m_addr + ", m_tel=" + m_tel + ", m_email=" + m_email + ", m_point=" + m_point + ", m_img=" + m_img
+			+ ", m_regdate=" + m_regdate + ", uploadFile=" + uploadFile + "]";
+}
+
+
+
+
+   
    
    
 
