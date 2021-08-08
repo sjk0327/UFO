@@ -28,5 +28,4 @@
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <!-- Style.css -->
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/style.css">
-
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
