@@ -9,23 +9,46 @@
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_recommand,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		order by p_id
+		
+			 <if test="searchType == 't'.toString()">
+				where p_id LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				where p_category LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				where p_name LIKE CONCAT('%', #{keyword},'%')
+			</if> 
+		ORDER BY p_id desc
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 
 	<select id="countProductListTotal" resultType="int">
-		select
-		count(*)
-		from
-		member
+		select count(*)	from product
+		<include refid="searchCondition"></include>
 	</select>
+	
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			 
+			 <if test="searchType == 't'.toString()">
+				where p_id LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				where p_category LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				where p_name LIKE CONCAT('%', #{keyword},'%')
+			</if> 
+		</if>
+	</sql>
 	
 	<insert id="productInsert" parameterType="com.use.first.product.ProductVO">
 
 		<!-- insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_category,p_mainImg,p_subImg,p_regdate,p_content)
 		values(#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_soldCount},#{p_category},#{p_mainImg},#{p_subImg},#{p_regdate},#{p_content}) -->
-		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg)
-		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg})
+		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg,p_regdate)
+		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now())
 	</insert>
 	
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">
@@ -41,8 +64,12 @@
 		, p_category = #{p_category}, p_mainImg = #{p_mainImg}, p_subImg = #{p_subImg}, p_content = #{p_content} where p_id = #{p_id}
 		]]>
 	</update>
-	
 	<delete id="productDelete">
+		<![CDATA[
+		delete from product where p_id = #{p_id}
+		]]>
+	</delete>
+	<delete id="deleteById" parameterType="com.use.first.product.ProductVO">
 		<![CDATA[
 		delete from product where p_id = #{p_id}
 		]]>

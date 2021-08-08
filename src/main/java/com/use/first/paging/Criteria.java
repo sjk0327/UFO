@@ -11,7 +11,8 @@ public class Criteria {
 
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 3;
+		this.perPageNum = 10;
+		//this.perPageNum = 3; 신영페이지넘버바꿈
 		this.searchType = null;
 		this.keyword = null;
 	}
