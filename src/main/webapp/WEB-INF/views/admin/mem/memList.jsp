@@ -39,31 +39,7 @@
 	border-radius: 5px;
 }
 
-.myButton {
-	background-color:#7fabff	;
-	border-radius: 6px;
-	display: inline-block;
-	cursor: pointer;
-	color: #7fabff	
-	font-family: Arial;
-	font-size: 15px;
 
-	padding: 2px 6px;
-	text-decoration: none;
-	height: 35px
-
-}
-
-
-
-
-
-.myButton:active {
-	backgrund-color: #7fabff;
-	color: #ffffff;
-	position: relative;
-	top: 1px;
-}
 
 
 #keyword {
@@ -72,9 +48,17 @@
 	border: solid 1px grey;
 }
 
-#searchBtn:hover{ background-color:#C8C8FF; }
 
-#button:hover{ background-color:#C8C8FF; }
+
+#button{
+color: #455a64;
+}
+
+#button:hover{ 
+background-color:#7971ea;
+color: white;
+font-weight: bold;
+ }
 
 
 
@@ -114,14 +98,15 @@
 												<option value="w" <c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>포인트</option>
 												<option value="tc" <c:if test="${pageMaker.cri.searchType eq 'tc'}"> selected </c:if>>가입일</option>
 
-											</select> <input type="text" id="keyword" name="keyword"
+											</select>&nbsp; 
+											<input type="text" id="keyword" name="keyword"
 												style="width: 200px; height: 38px;;"
-												value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요" />
-											<button id="searchBtn"
-												class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>
+												value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요" />&nbsp; 
+											<button id="button"
+												class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp; 
 											<input id="button" type="button" value="전체보기"
 												class="btn waves-effect waves-light btn-primary btn-outline-primary"
-												onClick="location.href='/admin/mem/memList';">
+												onClick="location.href='/admin/mem/memList';">&nbsp; 
 										</form>
 										<div>
 											<br>

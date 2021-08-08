@@ -1,7 +1,9 @@
 package com.use.first.rent;
 
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -17,6 +19,7 @@ import com.use.first.buy.BuyDAO;
 import com.use.first.buy.BuyVO;
 import com.use.first.member.UserDAO;
 import com.use.first.member.UserVO;
+import com.use.first.message.MessageDAO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
 import com.use.first.product.ProductDAO;
@@ -102,31 +105,32 @@ public class RentController {
 
 
 	@RequestMapping("/admin/rent/rentDetail/{r_id}")
-	public String getRental(Model model, @PathVariable String r_id) {
+	public String getRental(Model model, @PathVariable int r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
-
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 		
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		List<RentVO> returnList = rentDAO.returnList();
 		UserVO userVO= userDAO.memInfo(rentVO.getR_mid());
 		ProductVO productVO=productDAO.productInfo(rentVO.getR_pid());
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		Integer messageCount=messageDAO.findMessage(r_id);
 		
 		model.addAttribute("rentInfo", rentVO);
-		//model.addAttribute("returnList", returnList);
 		model.addAttribute("memInfo", userVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
+		model.addAttribute("messageCount", messageCount);
 		return "admin/rent/adminRentDetail";
 	}
 
 	
 	//반납 요청 처리
 	@RequestMapping(value = "/admin/rent/returnConfirm")
-	public String adminRentReturnConfirm(@RequestParam String r_id, Model model,HttpSession session) {
+	public String adminRentReturnConfirm(@RequestParam int r_id, Model model,HttpSession session) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);	
 		rentDAO.rentReturn(r_id);
 		List<RentVO> returnList = rentDAO.returnList();
@@ -140,9 +144,31 @@ public class RentController {
 	public String adminFindreturnlate(HttpSession session) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);	
 		List<RentVO> returnList = rentDAO.returnList();
-		session.setAttribute("returnList", returnList);
+		List<RentVO> lateList = rentDAO.lateList();
+		session.setAttribute("lateList", lateList);
 		return "redirect:/adminIndex";
 
+	}
+	
+	//연체 시 메세지 처리
+	@RequestMapping(value = "/admin/rent/sendLateMessage")
+	public void adminSendLateMessage(@RequestParam int r_id,Model model, HttpServletResponse response) throws Exception{
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+		System.out.println(r_id);
+		RentVO rentVO = rentDAO.rentInfo(r_id);
+		String r_mid=rentVO.getR_mid();
+		messageDAO.sendMessage(r_id, r_mid);
+		response.setContentType("text/html; charset=UTF-8");
+		 
+		PrintWriter out = response.getWriter();
+		 
+		out.println("<script language='javascript'>");
+		out.println("alert('메세지 전송이 완료되었습니다!')");
+		out.println("window.location='/admin/rent/rentDetail/"+r_id+"'");
+		out.println("</script>");
+		out.flush();
+		
 	}
 	
 

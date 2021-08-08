@@ -4,7 +4,7 @@ package com.use.first.rent;
 import java.sql.Date;
 
 public class RentVO {
-		private String r_id;
+		private int r_id;
 		private String r_mid;
 		private String r_pid;
 		private String p_name;
@@ -14,10 +14,10 @@ public class RentVO {
 		private Date r_pdate;
 		
 
-		public String getR_id() {
+		public int getR_id() {
 			return r_id;
 		}
-		public void setR_id(String r_id) {
+		public void setR_id(int r_id) {
 			this.r_id = r_id;
 		}
 		public String getR_mid() {

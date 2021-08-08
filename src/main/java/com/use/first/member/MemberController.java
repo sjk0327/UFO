@@ -44,6 +44,7 @@ public class MemberController {
 		model.addAttribute("user", vo);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		List<RentVO> returnList = rentDAO.returnList();
+		List<RentVO> lateList = rentDAO.lateList();
 		
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
 			return "/enterance/adminLogin";
@@ -59,6 +60,7 @@ public class MemberController {
 				
 				session.setAttribute("userName", user.getM_name());
 				session.setAttribute("returnList", returnList);
+				session.setAttribute("lateList", lateList);
 				// return "/enterance/adminIndex";
 				return "redirect:/adminIndex";
 			} else {
