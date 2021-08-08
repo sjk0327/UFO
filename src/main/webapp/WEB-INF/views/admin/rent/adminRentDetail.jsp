@@ -116,7 +116,7 @@
                                             <div class="col-xl-10 col-md-12">
                                                 <div class="card table-card">
                                                     <div class="card-header">
-                                                        <h5>${userName } ${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여/구매 현황</h5>
+                                                        <h5>${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여/구매 현황</h5>
                                                         <div class="card-header-right">
                                                             <ul class="list-unstyled card-option">
                                                                 <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -242,12 +242,9 @@
 				</div>
                  <br>
                  <div style="text-align: left; font-weight: bold; font-size: 15pt;">결제 정보 확인</div>
-        
 				<hr>
-      
-                
-<c:forEach var="buyInfo" items="${buyList}">
-                
+               
+				<c:forEach var="buyInfo" items="${buyList}">
                    <div class="row">
 					<div class="col">
 						<div class="row">
@@ -271,17 +268,13 @@
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 						</c:if>
-
 						</div>
 						</span>
-						
-						
 						</div>
 					</div>
 				</div>
-				<hr>
+					<hr>
 				</c:forEach>
-                  
                    <br><br>
                  
                  
@@ -298,11 +291,28 @@
 
 				</form:form>
                 
-						
+						  <form:form method="post" action="/admin/rent/sendLateMessage" modelAttribute="rentInfo">
+					<form:hidden path="r_id"/>
+					
+				
 						<c:if test="${sdate+3<today}">
-							<button type="button" id="latebtn"
-							class="btn btn-info float-right btn-toggle switch">연체 알림 메세지 보내기</button>
+						<c:choose>
+							<c:when test="${messageCount eq 0}">
+								<button type="submit" id="latebtn"
+								class="btn btn-info float-right btn-toggle switch">연체 알림 메세지 보내기</button>
+							</c:when>
+							<c:otherwise>
+							<button type="submit" id="latebtn"
+								class="btn btn-info float-right btn-toggle switch" disabled="disabled">연체 알림 메세지 보내기</button>
+							</c:otherwise>
+							</c:choose>
 						</c:if>
+
+						
+	
+
+
+						</form:form>
 	
 </div>
                    </div>
@@ -360,7 +370,7 @@
     $('#latebtn').click(function() {
 			
 			if (confirm("해당 회원에게 연체료 결제 주의 안내 메세지를 보내시겠습니까?") == true){   
-				window.location='';
+	
 	  	  }else{   
 				 event.preventDefault();
 	           event.stopPropagation();

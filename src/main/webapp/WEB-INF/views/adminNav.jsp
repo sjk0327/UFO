@@ -17,7 +17,7 @@
             </ul>
             
             <ul class="nav-right">
-            <li class="header-notification">
+            <li class="header-notification" >
          
                 <a href="#!" class="waves-effect waves-light">
 
@@ -26,39 +26,66 @@
                     <span class="badge bg-c-red"></span>
                     </c:if>
                 </a>
-                <ul class="show-notification">
+                <ul class="show-notification" style="overflow:auto; overflow-y: scroll; max-height: 500px;">
                 <li>
-                    <h6>반납 요청 및 연체 알림</h6>
-                    
+                    <h6 style="font-weight: bold;">반납 요청</h6>
+                    <hr>
                 </li>
                     
-                <c:forEach var="ret" items="${returnList}">
-                <c:if test="${ret.r_state eq '반납 요청'}">
-                <li class="waves-effect waves-light" onclick="location.href='/admin/rent/rentDetail/${ret.r_id }'">
+                <c:choose>
+
+					<c:when test="${empty returnList}"> 
+						<li>반납 요청 건이 존재하지 않습니다.<br></li>
+						
+					</c:when>
+				
+					<c:when test="${!empty returnList}">
+					<c:forEach var="ret" items="${returnList}">
+                		<li class="waves-effect waves-light" onclick="location.href='/admin/rent/rentDetail/${ret.r_id }'">
+                    	<div class="media">
+                        <div class="media-body">
+                        <h5 class="notification-user">${ret.r_mid}</h5>
+                        <p class="notification-msg">${ret.r_pid}&nbsp;${ret.p_name}<label class="label label-warning">반납 요청</label></p>
+                        </div>
+                    	</div>
+                		</li>
+                	</c:forEach>
+					</c:when>
+	
+				</c:choose>
+
+
+                 <li>
+                    <h6 style="font-weight: bold;">연체 알림</h6>
+                    <hr>
+                </li>
+                <c:choose>
+                <c:when test="${empty lateList}"> 
+						<li>연체 건이 존재하지 않습니다.<br></li>
+						<br>
+						
+					</c:when>
+					
+					<c:when test="${!empty lateList}">
+					<c:forEach var="late" items="${lateList}">
+                <li class="waves-effect waves-light" onclick="location.href='/admin/rent/rentDetail/${late.r_id }'">
                     <div class="media">
                         <div class="media-body">
-                            <h5 class="notification-user">${ret.r_mid}</h5>
-                            <p class="notification-msg">${ret.r_pid}&nbsp;${ret.p_name}<label class="label label-warning">반납 요청</label></p>
-                            <span class="notification-time">30 minutes ago</span>
+                            <h5 class="notification-user">${late.r_mid}</h5>
+                            <p class="notification-msg">${late.r_pid}&nbsp;${late.p_name}<label class="label label-danger">연 체  중</label></p>
+                            <fmt:parseDate var="tempToday" value="${late.r_sdate}" pattern="yyyy-MM-dd"/>
+  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
+   						<c:set var="now" value="<%=new java.util.Date()%>" />
+    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+                            <span class="notification-time">${(sdate+3)-today}일 째 연체 중</span>
                         </div>
                     </div>
                 </li>
+                </c:forEach>
+					</c:when>
+	
+				</c:choose>
                 
-                </c:if>
-                </c:forEach>
-                <c:forEach var="ret" items="${returnList}">
-                <c:if test="${ret.r_state eq '대여중'}">
-                <li class="waves-effect waves-light" onclick="location.href='/admin/rent/rentDetail/${ret.r_id }'">
-                    <div class="media">
-                        <div class="media-body">
-                            <h5 class="notification-user">${ret.r_mid}</h5>
-                            <p class="notification-msg">${ret.r_pid}&nbsp;${ret.p_name}<label class="label label-danger">연 체  중</label></p>
-                            <span class="notification-time">30 minutes ago</span>
-                        </div>
-                    </div>
-                </li>
-                </c:if>
-                </c:forEach>
                 </ul>
             </li>
             <li>
