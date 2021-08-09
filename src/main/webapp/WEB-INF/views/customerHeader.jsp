@@ -1,6 +1,37 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <!--신영 추가  상품리스트용-->
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"> 
+    <link rel="stylesheet" href="/resources/common/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/resources/common/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/common/css/magnific-popup.css">
+    <link rel="stylesheet" href="/resources/common/css/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/common/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/resources/common/css/owl.theme.default.min.css">
+
+
+    <link rel="stylesheet" href="/resources/common/css/aos.css">
+
+    <link rel="stylesheet" href="/resources/common/css/style.css">
+    
+    <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
+  	<script src="/resources/common/js/jquery-ui.js"></script>
+  	<script src="/resources/common/js/popper.min.js"></script>
+  	<script src="/resources/common/js/bootstrap.min.js"></script>
+  	<script src="/resources/common/js/owl.carousel.min.js"></script>
+	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+ 	<script src="/resources/common/js/aos.js"></script>
+ 	<script src="/resources/common/js/main.js"></script>
+  	<script src="http://code.jquery.com/jquery-latest.js"></script>
+  
+  
+  
+  
  <header class="site-navbar" role="banner" >
       <div class="site-navbar-top">
         <div class="container">
@@ -24,7 +55,7 @@
             
               <div class="site-top-icons">
                 <ul>
-                  <li><a href="/longin">[ 로그인 ]</a></li>
+                  <li><a href="/login">[ 로그인 ]</a></li>
                   <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
                    <li><a href="member/noticeList">[ 공지사항 ]</a></li>
                     <li><a href="member/qnaList">[ Q&A ]</a></li>

@@ -10,7 +10,7 @@
             <h3 class="footer-heading mb-4">Company</h3>
            	<div class="row">
           		<div class="col-md-2">
-              		<img src="resources/common/images/ufologo.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
+              		<img src="/resources/common/images/ufologo.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
               	</div>
               	<div class="col-md-4">
               		<p>Use First Own 이라는 모토로 부담스러운 결정을<br> 덜어드리고 전자기기를 대여부터 구매까지<br> 빠르고 편리한 서비스를 제공합니다.</p>

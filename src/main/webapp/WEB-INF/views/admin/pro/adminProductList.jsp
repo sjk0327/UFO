@@ -51,32 +51,32 @@
 
 
 
-                      <!-- Basic table card start -->
-                      <div class="card">
-                         <div class="card-header">                                 	
-                            	<h5>상품목록</h5>                           	
-                         </div>
-                         <div class="card-block table-border-style">
-                            <div class="table-responsive">
-                            <form name="delList" id="form" action="/admin/pro/productDelete2">
-                           <input type="button"  value="선택삭제" onclick="checkboxArr();"/>  
-                           <input type="hidden" id="arrayParam" name="arrayParam"/>
-                               <table class="table table-hover">
-						<thead>
-							 <tr>
-								<th width="100"><input id="allCheck" type="checkbox" onclick="allChk(this);"/></th>
-								<th width="100">No.</th>
-								<th width="100">상품명</th>
-								<th width="100">상품가격</th>
-								<th width="100">카테고리</th>
-								<th width="100">구매가능수량</th>
-								<th width="100">대여가능수량</th>
-								<th width="100">등록일</th>
-								<th width="100">수정</th>
-								<th width="100">삭제</th>
-							</tr>
-							
-                          </thead>
+                 <!-- Basic table card start -->
+             <div class="card">
+                <div class="card-header">                                 	
+                   	<h5>상품목록</h5>                           	
+                </div>
+                <div class="card-block table-border-style">
+                   <div class="table-responsive">
+                   <form name="delList" id="form" action="/admin/pro/productDelete2">
+                  <input type="button"  value="선택삭제" onclick="checkboxArr();"/>  
+                  <input type="hidden" id="arrayParam" name="arrayParam"/>
+                      <table class="table table-hover">
+			<thead>
+			 <tr>
+				<th width="100"><input id="allCheck" type="checkbox" onclick="allChk(this);"/></th>
+				<th width="100">No.</th>
+				<th width="100">상품명</th>
+				<th width="100">상품가격</th>
+				<th width="100">카테고리</th>
+				<th width="100">구매가능수량</th>
+				<th width="100">대여가능수량</th>
+				<th width="100">등록일</th>
+				<th width="100">수정</th>
+				<th width="100">삭제</th>
+			</tr>
+			
+                      </thead>
 
             <c:forEach var="list" items="${productList}" begin="0"
                end="10" step="1" varStatus="status">
