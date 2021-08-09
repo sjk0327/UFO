@@ -57,7 +57,7 @@
                    	<h5>상품목록</h5>                           	
                 </div>
                 <div class="card-block table-border-style">
-                   <div class="table-responsive">
+                   <div class="table-responsive">                 
                    <form name="delList" id="form" action="/admin/pro/productDelete2">
                   <input type="button"  value="선택삭제" onclick="checkboxArr();"/>  
                   <input type="hidden" id="arrayParam" name="arrayParam"/>
@@ -82,6 +82,8 @@
                end="10" step="1" varStatus="status">
 
                <tbody>
+             <form id="sort" name="btnUpdate" method="post" action="/admin/pro/productUpdate/${p_id }"> 
+					 <input type="hidden" id="p_id" name="p_id" />
                 <tr onclick="location.href='/admin/pro/productDetail/${list.p_id }'" style="cursor:hand" >
                      <td onclick="event.cancelBubble=true">
                      <input type="checkbox" name="RowCheck" value="${list.p_id }"></td>
@@ -93,18 +95,17 @@
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td>${list.p_category}</td>
-					<td><fmt:formatNumber value="${list.p_canBuy}" pattern="###,###,###" />개</td>
-					<td><fmt:formatNumber value="${list.p_canRent}" pattern="###,###,###" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" size="10" fmt:formatNumber value="${list.p_canBuy}" pattern="###,###,###"  />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" size="10" fmt:formatNumber value="${list.p_canRent}" pattern="###,###,###" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
-					<td onclick="event.cancelBubble=true"><button type="button" id="btnUpdate"
-											onClick="productUpdate('${list.p_id}');"
-											value="상품수정" class="btn btn-primary">수정</button>
+					<td onclick="event.cancelBubble=true"><button type="submit" id="btnUpdate"
+															value="상품수정" class="btn btn-primary">수정</button>
 					<td onclick="event.cancelBubble=true"><button type="button" id="btnDelete"
 											onClick="productDelete('${list.p_id}')"
 											value="상품삭제" class="btn btn-primary">삭제</button> 
 				</tr> 
-                                        
+                         <!--  </form>      -->         
                                      </tbody>
                                   </c:forEach>
 
