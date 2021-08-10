@@ -55,8 +55,27 @@
             
               <div class="site-top-icons">
                 <ul>
+
+               <c:choose>
+                <c:when  test ="${empty userName}">
                   <li><a href="/login">[ 로그인 ]</a></li>
                   <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
+                  </c:when >
+                  <c:otherwise>
+                   <li>${userName } 님, 환영합니다.
+                   <c:if test="${sessionScope.loginPl == 'ufo'}">
+                   <li><a href="/logout">[ 로그아웃 ]</a></li>
+                   </c:if>
+                   <c:if test="${sessionScope.loginPl == 'kakao'}">
+                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://localhost:8090/logout">[ 로그아웃 ]</a></li>
+                   </c:if>
+                   <c:if test="${sessionScope.loginPl == 'naver'}">
+                   <li><a href="/logout">[ 로그아웃 ]</a></li>
+                   </c:if>
+                   
+                  <li><a href="/member/mem/memJoin">[ 내정보 ]</a></li>
+                  </c:otherwise>
+                 </c:choose>
                    <li><a href="member/noticeList">[ 공지사항 ]</a></li>
                     <li><a href="member/qnaList">[ Q&A ]</a></li>
                  
