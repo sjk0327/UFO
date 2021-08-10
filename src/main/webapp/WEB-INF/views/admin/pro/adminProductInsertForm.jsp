@@ -9,10 +9,9 @@
 <html>
 
 <head>
-    <title>상품추가</title>
+    <title> 관리자 상품 추가 페이지 - UF&#38;O </title>
  <style>
        
-
 	input{
 	border:none;
 	text-align: right;
@@ -29,7 +28,6 @@
 	
 	.mainContainer, subContainer {
 	 margin:auto;
-	 
 	}
 	
     </style>
@@ -112,14 +110,20 @@
                   
                   <div class="pcoded-content">
                       <!-- Page-header start -->
+         <div class="pcoded-inner-content">
+      
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                       
+                                    <div class="page-body">
+                                        
+
          
                       <!-- Page-header end -->
        <form:form method="post" action="/admin/pro/productInsert/${ productVO.p_id }" name="insertForm" modelAttribute="productVO" enctype="multipart/form-data">
                      
     
                               
-                    
-    
                                             <!--  project and team member start -->
                                             
               
@@ -168,8 +172,8 @@
            		 <div class="row"><div class="col-3"><label for="fileUploadMain">메인사진</label></div><div class="col-9"><input name="mainFile" type="file" accept="image/*" id="fileUploadMain"/></div></div> <br>
            		 <div class="row"><div class="col-3"><label for="fileUploadSub">서브사진</label></div><div class="col-9"><input name="subFile" type="file" accept="image/*" id="fileUploadSub" /></div></div>
            		 	 <hr>
-					<input type="button" value="등록" class="btn btn-primary" onclick="productInsert()">&nbsp;&nbsp;&nbsp;  
-					<button type="button" class="btn btn-primary" onclick='productList()'>목록</button>				
+					<input id="button" type="button" value="등록" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick="productInsert()">&nbsp;&nbsp;&nbsp;  
+					<button id="button" type="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick='productList()'>목록</button>				
                    	  </div>                       
                    </div>
                    
@@ -182,21 +186,23 @@
 				  
 				   <div class="rows col-12"><br><br>
 				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productVO.p_content }</textarea></pre>
-				   </div>
-               
+				   </div>             
       </div>
       
          </main>
          <main class="col-12 col-lg-1 ms-sm-auto  px-md-4 bg-light"></main>
          </div>
-   </div>
-   
-                                                          
+   </div>                                                       
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
    				</form:form>
+   				</div>
+   				</div>
+   				</div>
+   				</div>
+   				
                                             <!--  project and team member end -->
                                         </div>
                                     </div>
@@ -205,37 +211,9 @@
                      
                             </div>
                         </div>
+  <!--이 script 없으면 css 깨짐-->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- <script>
-	//상품등록
-	function productInsert() {
-		if (confirm(' 상품을 추가하시겠습니까')) {
-			 var insertForm = document.insertForm ;            
-			 insertForm.submit();
-		 }
-	   }
-	
-	//상품목록으로가기
-	function productList() {
-			location.href = '/admin/pro/productList';		 
-	   }
-	
-	
-	//mainImg 파일업로드시 바로보이게
-	const mainImageFile = document.querySelector('#fileUploadMain');
-	mainImageFile.addEventListener('change', e => {
-	  const file = e.target.files[0];
-	  const mainImage = document.querySelector(".thumbnailMain");
-	  mainImage.src = window.URL.createObjectURL(file);
-	});
-	//subImg 파일업로드시 바로보이게
-	const subImageFile = document.querySelector('#fileUploadSub');
-	subImageFile.addEventListener('change', e => {
-	  const file = e.target.files[0];
-	  const subImage = document.querySelector(".thumbnailSub");
-	  subImage.src = window.URL.createObjectURL(file);
-	});
-</script>
+ 
   
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     

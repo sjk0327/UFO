@@ -9,25 +9,34 @@
 <html lang="ko">
 
 <head>
-    <title>admin rent Detail </title>
+    <title> 관리자 대여/구매 상세 정보 페이지 - UF&#38;O </title>
 
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
 <style type="text/css">
-#returnbtn,#latebtn, #returnbtn:focus,#latebtn:focus, #returnbtn:visited,#latebtn:visited, #returnbtn:active,#latebtn:active {
-	background-color: white !important;
-	border: 1px solid #7971ea;
-	color: #4d4d4d !important;
+#username{
+color: white;
+text-decoration: underline;
+}
+#username:hover {
+	font-weight: bold;
 }
 
-#returnbtn:hover,#latebtn:hover {
-	background-color: white;
-	border: 1px solid #1f7b70;
-	color: #4d4d4d;
+.btn-link {
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: inherit;
+}
+.btn-link:hover {
+	font-weight: bold;
+	color: white;
 }
 
-#returnbtn,#latebtn {
-	border-radius: 0.25rem;
-}
 </style>
   </head>
 
@@ -152,7 +161,15 @@
                               <h3 >${rentInfo.r_mid }</h3>
                               <h4>${memInfo.m_name }</h4>
                               <br>
-                              <div>${memInfo.m_name } 님의 다른 대여/구매</div>
+                              <form id="sort" name="rentSearch" method="post"
+											action="/admin/rent/rentList">
+											<input type="hidden" id="keyword" name="keyword"  
+												value="${rentInfo.r_mid}" />
+                            			  <input type="hidden" id="searchType" name="searchType" value="t"/>
+											 <div style="text-align: center;"><button type="submit" name="your_name" value="your_value" class="btn-link">${memInfo.m_name } 님</button>의 다른 대여/구매</div>
+											
+</form>
+ 
                              </p>
                            
                         </div>
@@ -231,7 +248,9 @@
 						<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대 여  중</label></c:if>
 						<c:if test="${sdate+3<today}"><label class="btn btn-danger">연 체  중</label></c:if>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info">구매 완료</label></c:if>
+			
+						<c:if test="${rentInfo.r_state eq '즉시 구매'}"><label class="btn btn-info">즉시 구매</label></c:if>
+						<c:if test="${rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
 						<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
 						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
 						</span>
@@ -285,8 +304,8 @@
                   <form:form method="post" action="/admin/rent/returnConfirm" modelAttribute="rentInfo">
 					<form:hidden path="r_id"/>
                 		<c:if test="${rentInfo.r_state eq '반납 요청'}">
-							<button type="submit" id="returnbtn"
-							class="btn btn-info float-right btn-toggle switch">반납확인</button>
+							<button type="submit" id="button"
+							class="btn waves-effect waves-light btn-primary btn-outline-primary">반납확인</button>
 						</c:if>
 
 				</form:form>
@@ -298,12 +317,12 @@
 						<c:if test="${sdate+3<today}">
 						<c:choose>
 							<c:when test="${messageCount eq 0}">
-								<button type="submit" id="latebtn"
-								class="btn btn-info float-right btn-toggle switch">연체 알림 메세지 보내기</button>
+								<button type="submit" id="button"
+								class="btn waves-effect waves-light btn-primary btn-outline-primary">연체 알림 메세지 보내기</button>
 							</c:when>
 							<c:otherwise>
-							<button type="submit" id="latebtn"
-								class="btn btn-info float-right btn-toggle switch" disabled="disabled">연체 알림 메세지 보내기</button>
+							<button type="submit" id="button"
+								class="btn waves-effect waves-light btn-primary btn-outline-primary" disabled="disabled">연체 알림 메세지 보내기</button>
 							</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -356,29 +375,8 @@
    
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     
-    <script>
-    $('#returnbtn').click(function() {
-      				
-      					if (confirm("해당 회원의 대여 제품을 반납 처리하시겠습니까?") == true){   
-      						window.location='/admin/rent/returnConfirm';
-      			  	  }else{   
-      						 event.preventDefault();
-      			           event.stopPropagation();
 
-      			  	  };	
-      				});
     
-    $('#latebtn').click(function() {
-			
-			if (confirm("해당 회원에게 연체료 결제 주의 안내 메세지를 보내시겠습니까?") == true){   
-	
-	  	  }else{   
-				 event.preventDefault();
-	           event.stopPropagation();
-
-	  	  };	
-		});
-    </script>
 </body>
 
 </html>

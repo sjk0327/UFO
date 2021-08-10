@@ -111,7 +111,7 @@
 	<!-- 성훈 시작 -->
    <select id="rentListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">
       <![CDATA[
-      select product.p_name, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
+      select rental.r_id, product.p_name, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
       where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state not like concat('%',#{r_state},'%') 
       order by r_id desc
       ]]>
@@ -119,7 +119,7 @@
    
    <select id="purchaseListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">
       <![CDATA[
-      select product.p_name, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
+      select rental.r_id, product.p_name, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
       where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state like concat('%',#{r_state},'%') 
       order by r_id desc
       ]]>

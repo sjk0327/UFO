@@ -117,11 +117,12 @@ public class PageMaker {
 			uriComponentsBuilder
 				.queryParam("searchType", this.cri.getSearchType())
 				.queryParam("keyword", this.cri.getKeyword());
-
+				
 
 		}
 		return uriComponentsBuilder.build().encode().toString();
 	}
+
 
 	@Override
 	public String toString() {
