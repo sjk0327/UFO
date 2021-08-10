@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,10 +33,11 @@
  	<script src="/resources/common/js/main.js"></script>
  	<style>
 .small1 { width: 100px; height: 100px; }
-
+.small2 { width: 80px; height: 80px; align:center;}
 </style>
   </head>
   <body>
+
 
   <div class="site-wrap">
     <header class="site-navbar" role="banner">
@@ -52,19 +53,25 @@
                     <h2></h2>
                   </div>
                 </div>
-                <div class="row">
+                
+
+
+                <div class="row" >
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="">
-                    <a class="block-2-item" href="/">
-                      <figure class="image">
-                     <img class="small1" src="/resources/common/images/laptop.jpg" alt="" class="img-fluid">
+                    <a class="block-2-item" href='/member/pro/productList/${list.p_category}'>
+                      <figure class="image" >
+                     <img class="small2" src="/resources/common/images/total.jpg" alt="" class="img-fluid">
+                    <%--  <img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
+				  			
+							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub"> --%>
                       </figure>
                      
                     </a>
                   </div>
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="100">
-                    <a class="block-2-item" href="/">
+                  <div id="aa" class="col-md-2 " data-aos="fade" data-aos-delay="100">
+                    <a class="block-2-item" href="/member/pro/productList/{productVO.p_category}" >
                       <figure class="image">
-                        <img class="small1" src="/resources/common/images/phone.jpg" alt="" class="img-fluid">
+                        <img id="caravan" class="small1" src="/resources/common/images/phone.jpg" alt="" class="img-fluid">
                       </figure>
                       
                     </a>
@@ -72,7 +79,7 @@
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="/">
                       <figure class="image">
-                        <img class="small1" src="/resources/common/images/laptop.jpg" alt="" class="img-fluid">
+                        <img id="caravan" class="small1" src="/resources/common/images/laptop.jpg" alt="" class="img-fluid">
                       </figure>
                      
                     </a>
@@ -80,7 +87,7 @@
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="/">
                       <figure class="image">
-                        <img class="small1" src="/resources/common/images/camera.jpg" alt="" class="img-fluid">
+                        <img id="caravan" class="small1" src="/resources/common/images/camera.jpg" alt="" class="img-fluid">
                       </figure>
                       
                     </a>
@@ -88,7 +95,7 @@
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="/">
                       <figure class="image">
-                        <img class="small1" src="/resources/common/images/watch.jpg" alt="" class="img-fluid">
+                        <img id="caravan" class="small1" src="/resources/common/images/watch.jpg" alt="" class="img-fluid">
                       </figure>
                      
                     </a>
@@ -96,7 +103,7 @@
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="/">
                       <figure class="image">
-                        <img class="small1" src="/resources/common/images/tablet.jpg" alt="" class="img-fluid">
+                        <img id="caravan" class="small1" src="/resources/common/images/tablet.jpg" alt="" class="img-fluid">
                       </figure>
                      
                     </a>
@@ -117,10 +124,11 @@
         </div>
       </div>
     </div>
-
+		
     <div class="site-section">
+   
       <div class="container">
-
+ 
         <div class="row mb-5">
           <div class="col-md-9 order-2">
 
@@ -133,8 +141,8 @@
                       	가격순
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                      <a class="dropdown-item" href="#">높은 가격순</a>
-                      <a class="dropdown-item" href="#">낮은 가격순</a>
+                      <a class="dropdown-item" href="javascript:pricehigh();">높은 가격순</a>
+                      <a class="dropdown-item" href="javascript:pricelowt();">낮은 가격순</a>
                      
                     </div>
                   </div>
@@ -150,87 +158,27 @@
                 </div>
               </div>
             </div>
-            <%-- <c:forEach items="${list}" var="productList">	 --%>
             <div class="row mb-5" >
-			
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/{p_id}'">
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+		
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">
               
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/{p_id}"><img src="/resources/common/images/cloth_1.jpg" alt="상품 사진" class="img-fluid"></a>
+                    <a href="/member/pro/productDetail/{p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="/member/pro/productDetail/${p_id}">${p_name}</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
+                    <p>상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                <div class="block-4 text-center border"onclick="location.href='/member/pro/productDetail'">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail"><img src="/resources/common/images/shoe_1.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail'">
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href=""><img src="/resources/common/images/cloth_2.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="">Polo Shirt</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail'">
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href=""><img src="/resources/common/images/cloth_3.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="">T-Shirt Mockup</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail'">
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail"><img src="/resources/common/images/shoe_1.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail'">
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail"><img src="/resources/common/images/cloth_1.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
+             </c:forEach> 
             
 
 
-		
+		<!-- 상품리스트 페이징 처리  -->
             </div>
             <div class="row" data-aos="fade-up">
               <div class="col-md-12 text-center">
@@ -302,7 +250,7 @@
             </div>
           </div>
         </div>
-
+<
         <div class="row">
           <div class="col-md-12">
             <div class="site-section site-blocks-2">
@@ -352,9 +300,11 @@
         </div>
         
       </div>
+     
     </div>
 
-  </div>    
+  </div> 
+ 
   <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
   <script src="/resources/common/js/jquery-ui.js"></script>
   <script src="/resources/common/js/popper.min.js"></script>

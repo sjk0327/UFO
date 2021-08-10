@@ -62,12 +62,14 @@
                          </div>
                          <div class="card-block table-border-style">
                             <div class="table-responsive">
-                            <form name="delList" id="form" action="/admin/pro/productDelete2">
-                           <input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="선택삭제" onclick="checkboxArr();"/>  
+                           <form name="delList" id="form">
+                           <input type="button" id="button" 
+                           		class="btn waves-effect waves-light btn-primary btn-outline-primary" value="선택삭제" onclick="checkboxArr();"/>  
                              	<div>
 									<br>
 								</div>
                            <input type="hidden" id="arrayParam" name="arrayParam"/>
+                            <input type="hidden" id="p_id" name="p_id"/>
                                <table class="table table-hover">
 						<thead>
 							 <tr>
@@ -92,27 +94,27 @@
                <tbody>
              <form id="sort" name="btnUpdate" method="post" action="/admin/pro/productUpdate/${p_id }"> 
 					 <input type="hidden" id="p_id" name="p_id" />
-                <tr onclick="location.href='/admin/pro/productDetail/${list.p_id }'" style="cursor:hand" >
+                <tr style="cursor:hand" >
                      <td onclick="event.cancelBubble=true">
-                     <input type="checkbox" name="RowCheck" value="${list.p_id }"></td>
+                     <input type="checkbox" id="checkboxup" name="RowCheck" value="${list.p_id }"></td>
                      <!-- <td scope="row"> -->
                     <%--  <td><a href="memDetail?m_id=${list.p_id }">${list.p_id }</a></td> --%>
                      <td onclick="event.cancelBubble=true">${list.p_id}</td>
-                     <td>${list.p_name}<br>
+                     <td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_name}<br>
                      <img src="/resources/img/${list.p_mainImg}" alt="${list.p_mainImg}" 
 										title="${list.p_mainImg}" class="img-fluid"></td>
-					<td><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
-					<td>${list.p_category}</td>
-					<td onclick="event.cancelBubble=true"><input type="text" size="10" fmt:formatNumber value="${list.p_canBuy}" pattern="###,###,###"  />개</td>
-					<td onclick="event.cancelBubble=true"><input type="text" size="10" fmt:formatNumber value="${list.p_canRent}" pattern="###,###,###" />개</td>
+					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
+					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
+					<td onclick="event.cancelBubble=true"><input type="text" name="b1" size="10" value="${list.p_canBuy}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" name="b2" size="10" value="${list.p_canRent}" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
-					<td><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
+					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
 
+					<td onclick="event.cancelBubble=true"><input type="button" id="button"
+											onClick="productUpdateRow('${list.p_id}','${list.p_canBuy}','${list.p_canRent}')"
+											<%-- onClick="productUpdate('${list.p_id}','${list.p_canBuy}','${list.p_canRent}');" --%>
+											value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">
 					<td onclick="event.cancelBubble=true"><button type="button" id="button"
-											onClick="productUpdate('${list.p_id}');"
-											value="상품수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">수정</button>
-					<td onclick="event.cancelBubble=true"><button type="button" id="button"
-
 											onClick="productDelete('${list.p_id}')"
 											value="상품삭제" class="btn waves-effect waves-light btn-primary btn-outline-primary">삭제</button> 
 				</tr> 

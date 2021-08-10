@@ -181,11 +181,11 @@
 				  
 				     </div>
                    <div class="rows col-12 subContainer" >	 				
-				  	<img width="50%" height="50%" class="img-fluid thumbnailSub">						
+				  	<img width="700px" height="50%" class="img-fluid thumbnailSub">						
 				   </div>
 				  
 				   <div class="rows col-12"><br><br>
-				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productVO.p_content }</textarea></pre>
+				   <pre><textarea name="p_content" cols="70" rows="70" placeholder="내용을 입력해주세요"style="border: none; font-size:13pt;">${ productVO.p_content }</textarea></pre>
 				   </div>             
       </div>
       

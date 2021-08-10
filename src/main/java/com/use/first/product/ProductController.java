@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,9 +29,7 @@ public class ProductController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-
-
-	// 신영-상품리스트
+		//신영-관리자 상품리스트
 		@RequestMapping(value = "/admin/pro/productList",method = RequestMethod.GET)
 		public String getProductList(Model model,Criteria cri) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
@@ -45,6 +44,7 @@ public class ProductController {
 			
 			return "admin/pro/adminProductList";
 		}
+		//신영-관리자 상품리스트
 		@RequestMapping(value = "/admin/pro/productList",method = RequestMethod.POST)
 		public String getProductSearch(Model model,Criteria cri) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
@@ -61,23 +61,26 @@ public class ProductController {
 			return "admin/pro/adminProductList";
 		}
 		
-		// 신영-상품등록
+		// 신영-관리자 상품등록
 		@RequestMapping(value="/admin/pro/productInsertForm", method=RequestMethod.GET)
 		public String productInsertForm(ProductVO productVO) {
 			return "admin/pro/adminProductInsertForm";
 		}
+		// 신영-관리자 상품등록
 		@RequestMapping(value = "/admin/pro/productInsert", method = RequestMethod.POST)
 		public String productInsert(ProductVO productVO) throws IOException {
 			MultipartFile mainFile = productVO.getMainFile();
 			if(!mainFile.isEmpty()) {
 				String mainFileName = mainFile.getOriginalFilename();
-				mainFile.transferTo(new File("C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\" + mainFileName));
+				mainFile.transferTo(new File(
+						"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\" + mainFileName));
 				productVO.setP_mainImg(mainFileName);
 			}
 			MultipartFile subFile = productVO.getSubFile();
 			if(!subFile.isEmpty()) {
 				String subFileName = subFile.getOriginalFilename();
-				subFile.transferTo(new File("C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\" + subFileName));
+				subFile.transferTo(new File(
+						"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\" + subFileName));
 				productVO.setP_subImg(subFileName);
 			}
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
@@ -87,56 +90,80 @@ public class ProductController {
 			return "redirect:/admin/pro/productList";
 		}
 
-		// 신영-상품리스트-다중선택삭제
+		// 신영-관리자 상품리스트-다중선택삭제
 		@RequestMapping(value = "/admin/pro/productDelete2", method = RequestMethod.GET)
 		public String adminProductSelectDelete(@RequestParam HashMap<String, Object> commandMap) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			
-			String[] code_array = null;
-			 
-	        String code = commandMap.get("arrayParam").toString();	        
-	        //System.out.println("code:" + code);	        
-	        
+			String[] code_array = null;			
+	        String code = commandMap.get("arrayParam").toString();	     
 	        code_array = code.split(",");
-	        
 	        for(int i=0; i< code_array.length; i++) {
-	        	System.out.println("code_array[]::::" + code_array[i]);
-	        	productDAO.deleteById(code_array[i]);	
+        	System.out.println("code_array[]::::" + code_array[i]);
+        	productDAO.deleteById(code_array[i]);	
 	        }        
 			return "redirect:/admin/pro/productList";
 		}
+		//신영 관리자상품리스트에서 한줄 수량관련 수정 -수정중
+				@RequestMapping(value = "/admin/pro/productUpdate2/{p_id}/{p_canBuy}/{p_canRent}", method = RequestMethod.GET)			
+				public String adminProductUpdate2(ProductVO productVO, @PathVariable String p_id) {
+					System.out.println("adminProductUpdate2 왔니?");
+					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+					int n = productDAO.productUpdate2(productVO);
+					if (n != 1) {
+						// 업데이트 실패 시
+						System.out.println("adminProductUpdate2 // 상품 수정 실패 // " + productVO.toString());
+					}	
+					return "redirect:/admin/pro/productList/";
+				}
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~신영 회원 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		
 		//신영-고객쪽 상품리스트
 		@RequestMapping(value = "/member/pro/productList",method = RequestMethod.GET)
-		public String getMemberProductList(Model model,Criteria cri) {
+		public String getMemberProductList(ProductVO productVO, Model model,Criteria cri) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			// 현재 페이지에 해당하는 게시물을 조회해 옴
 			List<ProductVO> list = productDAO.productList(cri);
+			
+			//for(int i=0; i<list.size(); i++) {
+			//ProductVO listarr = list.get(i);
+			//}
+			//model.addAttribute("listarr", );
 			model.addAttribute("productList", list);
 			PageMaker pageMaker = new PageMaker(cri);
 			int totalCount = productDAO.countProductListTotal(cri);
+			int totalCategoryCount = productDAO.countProductListCategory();
 			pageMaker.setTotalCount(totalCount);
 			//pageMaker.setTotalCount(productDAO.countProductListTotal());
 			model.addAttribute("pageMaker", pageMaker);
-			
+			model.addAttribute("totalCount", totalCount);
+			model.addAttribute("totalCategoryCount", totalCategoryCount);
+			System.out.println("totalCount:::" +totalCount);
+			System.out.println("totalCategoryCount:::" +totalCategoryCount);
 			return "member/pro/memberProductList";
 		}
-		//신영-고객쪽 상품리스트
-		@RequestMapping(value = "/member/pro/productList",method = RequestMethod.POST)
-		public String getMemberProductSearch(Model model,Criteria cri) {
-			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			System.out.println("여긴 오니?");
+	
+		//신영-고객쪽 상품리스트(카테고리별)
+		@RequestMapping(value = "/member/pro/productList/{p_category}", method = RequestMethod.GET)
+		public String getMemberProductCategory(ProductVO productVO,Model model,Criteria cri) {
+			
+			System.out.println("카테고리로 오니?");
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);			
 			List<ProductVO> list = productDAO.productList(cri);
 			model.addAttribute("productList", list);
 			PageMaker pageMaker = new PageMaker(cri);
 			int totalCount = productDAO.countProductListTotal(cri);
-			System.out.println("totalCount:::" + totalCount);
 			pageMaker.setTotalCount(totalCount);
-			
+			model.addAttribute("productVO", productVO);
 			model.addAttribute("pageMaker", pageMaker);
-			model.addAttribute("totalCount", totalCount);
+			System.out.println("productVO.getP_category()::::" + productVO.getP_category());
 			return "member/pro/memberProductList";
-		}
+			}
+		
 	
+	
+		
+		
+				
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬 관리자 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 		//상품상세보기
 		@RequestMapping(value = "/admin/pro/productDetail/{p_id}", method = RequestMethod.GET)
 		public String adminProductDetail(Model model, @PathVariable String p_id) {
@@ -152,6 +179,7 @@ public class ProductController {
 			int n = productDAO.productDelete(p_id);
 			return "redirect:/admin/pro/productList";
 		}
+		
 	
 		//상품수정	
 		@RequestMapping(value = "/admin/pro/productUpdate/{product_id}", method = RequestMethod.POST)
@@ -177,6 +205,7 @@ public class ProductController {
 			}	
 			return "redirect:/admin/pro/productDetail/"+ product_id;
 		}
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬 회원 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 		//고객 상품상세보기 작업중
 		@RequestMapping(value = "/member/pro/productDetail/{p_id}", method = RequestMethod.GET)
 		public String memberProductDetail(Model model, @PathVariable String p_id) {
