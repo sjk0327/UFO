@@ -89,6 +89,7 @@
 														        <input class="upload-name" value="파일선택" disabled="disabled" /> 
 														        <label for="input-file">업로드</label> 
 														        <input type="file" name="uploadFile" id="input-file" class="upload-hidden" /> 
+														        <input type="hidden" name="m_img" value="${userVO.m_img }" />
 														    </div>
 														   
                                                          </div>
@@ -96,7 +97,7 @@
                                                             <div class="form-group row">
                                                                <div class="col-sm-3 col-form-label">아이디</div>
                                                                <div class="form-group form-primary form-static-label col-sm-9">
-                                                                  <form:input path="m_id" />
+                                                                  <form:input path="m_id" class="form-control form-control-center form-control-round form-control-bold" />
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
@@ -202,7 +203,7 @@
                                                                      <img src="/resources/Images/tempProductImage.jpg" class="img-radius img-40 align-top m-r-15">
                                                                      <div class="d-inline-block">
                                                                      <h6>${list.p_name }</h6>
-                                                                     <p class="text-muted m-b-0">상품 카테고리</p>
+                                                                     <p class="text-muted m-b-0">${list.p_category }</p>
                                                                   </div>
                                                                </div>
                                                             </td>
@@ -214,7 +215,15 @@
                                                             <td>
                                                                <div>
                                                                
-                                                               D - ${list.r_sdate}
+                                                               	<c:if test="${list.r_state eq '대여중'}">
+																<fmt:parseDate var="tempToday" value="${list.r_sdate}" pattern="yyyy-MM-dd"/>
+										  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
+										   						<c:set var="now" value="<%=new java.util.Date()%>" />
+										    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+										    					<c:set var="dDay" value="${today-sdate}" />
+																<c:if test="${sdate+3>=today}">D - ${dDay }</c:if>
+																<c:if test="${sdate+3<today}">D + ${dDay }</c:if>
+																</c:if>
                                                                   
                                                                </div>
                                                             </td>
@@ -262,7 +271,7 @@
                                                                      <img src="/resources/Images/tempProductImage.jpg" class="img-radius img-40 align-top m-r-15">
                                                                      <div class="d-inline-block">
                                                                      <h6>${list.p_name }</h6>
-                                                                     <p class="text-muted m-b-0">상품 카테고리?</p>
+                                                                     <p class="text-muted m-b-0">${list.p_category }</p>
                                                                   </div>
                                                                </div>
                                                             </td>

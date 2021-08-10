@@ -94,8 +94,13 @@
 		WHERE m_id =
 		#{m_id}
 	</update>
+	
+	
+	<!-- 8/10 : 성훈 추가 -->
 
-
+	<select id="duplicateCheckId" resultType="int" parameterType="String" >
+		SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
+	</select>
 
 
 	<!-- <insert id="insert" parameterType="org.sp.mybatis.Emp"> insert into 

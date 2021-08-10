@@ -2,9 +2,10 @@ package com.use.first.member;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,12 +14,16 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -41,6 +46,7 @@ public class MemberController {
 
 	@Autowired
 	private KakaoAPI kakao;
+	
 	// 승빈 start
 
 	// 고객
@@ -349,15 +355,68 @@ public class MemberController {
 	}
 	
 	
+	// 8/10 : 성훈 추가
+	
     @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
-    public String adminMenUpdateByPath(Model model){
+    public String menJoin(Model model){
       
        return "/member/mem/memJoin";
     }
 	
+    @ResponseBody
+    @RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST , produces="application/json")
+    public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception{
+    	System.out.println("ajax 호출 / memIdCheck");
+    	UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+    	int result = dao.duplicateCheckId(m_id);
+    	
+    	map.put("check", result);
+    	
+    	return map;
+    }
 	
-	
-	
+    @Autowired
+    private JavaMailSender javaMailSender;
+    
+    @ResponseBody
+    @RequestMapping(value = "/member/mem/memEmailCheck", method = RequestMethod.POST , produces="application/json")
+    public String menEmailCheck(Model model, @RequestBody String m_email){
+    	System.out.println("ajax 호출 / menEmailCheck");
+
+    	//인증 번호 생성기
+        StringBuffer temp =new StringBuffer();
+        Random rnd = new Random();
+        for(int i=0;i<10;i++)
+        {
+            int rIndex = rnd.nextInt(3);
+            switch (rIndex) {
+            case 0:
+                // a-z
+                temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+                break;
+            case 1:
+                // A-Z
+                temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+                break;
+            case 2:
+                // 0-9
+                temp.append((rnd.nextInt(10)));
+                break;
+            }
+        }
+        String AuthenticationKey = temp.toString();
+        System.out.println(AuthenticationKey);
+    	
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setTo(m_email);
+    	message.setSubject("[UFO] 회원가입을 위한 인증번호 발송");
+    	message.setText("인증번호 : " + AuthenticationKey);
+    	javaMailSender.send(message);
+    	
+    	return AuthenticationKey;
+    	
+    }
 	// 성훈 end
 
 }
