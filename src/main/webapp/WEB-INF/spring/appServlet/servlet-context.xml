@@ -27,6 +27,9 @@
       <beans:property name="maxUploadSize" value="104857600"/>
    </beans:bean>
 	
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<beans:bean class="com.use.first.member.NaverLoginBO" id="naverLoginBO"/>
+	
 	
 	
 	
