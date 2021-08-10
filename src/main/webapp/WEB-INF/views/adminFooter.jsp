@@ -147,7 +147,8 @@
 		         }
 		        }
 		    }
-		}  
+		} 
+		 
 		 function checkboxArr() {
 			 
 			var array = new Array(); // 배열 선언

@@ -2,8 +2,10 @@
     pageEncoding="UTF-8"%>
 <style>
  .col-md-3 { font-size : 13px; }
+ .margin { margin-top: 100px; }
+ .padding{padding-top: 21px;}
 </style>
-<footer class="site-footer border-top">
+<footer class="site-footer border-top margin padding">
       <div class="container">
         <div class="row">
           <div class="col-md-12 col-lg-12">

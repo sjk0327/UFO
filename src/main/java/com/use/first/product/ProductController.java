@@ -29,7 +29,6 @@ public class ProductController {
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 
-
 	// 신영-상품리스트
 		@RequestMapping(value = "/admin/pro/productList",method = RequestMethod.GET)
 		public String getProductList(Model model,Criteria cri) {

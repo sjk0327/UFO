@@ -20,15 +20,13 @@ public interface RentDAO {
 	public void rentReturn(int r_id);
 	public List<RentVO> rentList(Criteria cri);
 	public int getRentTotalCount(Criteria cri);
+	public List<WishListVO> getWishList(String userId);
+	public int getWishTotalCount(Criteria cri);
+	public void deleteWishList(String w_id);
 	
-
-		
 	// 성훈 시작
 	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
 	   public List<RentVO> purchaseListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
 	   // 성훈 끝
-	
-	
-	
 	
 }

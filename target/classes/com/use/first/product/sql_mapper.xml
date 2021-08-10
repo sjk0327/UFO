@@ -76,10 +76,6 @@
 		delete from product where p_id = #{p_id}
 		]]>
 	</delete>
-	<delete id="deleteById" parameterType="com.use.first.product.ProductVO">
-		<![CDATA[
-		delete from product where p_id = #{p_id}
-		]]>
-	</delete>
+
 	
 </mapper>
