@@ -32,8 +32,30 @@
 	font-size: 1em;
 	background-color:transparent;
 	}
+	 input {
+    border:none;
+    text-align: left;
+    }
 
-	
+	.img-with-text {
+    text-align: justify;
+    width: 700px;
+	}
+
+	.img-with-text img {
+    display: block;
+    margin: 0 auto;
+    }
+    ul li {
+    margin-top:50px;
+     text-align: center;
+  padding: 0;
+    }  
+    p{
+      text-align: center;
+    }
+  
+  
   </style>
     <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
   </head>
@@ -48,29 +70,28 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="80%" height="80%" class="img-fluid">
+            <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="500px" height="500px" class="img-fluid">
           </div>
           <div class="col-md-6">
+   <form:form name="form" method="post" modelAttribute="productVO">
             <form:input path="p_id" value="${productVO.p_id}" hidden="true"/>
             <h2 class="text-black site-top-icons">${productVO.p_name}</h2><hr>
-            <p><strong class="text-primary h4"><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</strong></p>            
-            <p><strong class="text-primary h4">대여료 ${productVO.p_price* 0.05}원</strong></p>   
-            <div class="mb-6">
-              <div class="input-group mb-3" style="max-width: 120px;">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-              </div>
-              <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-              </div>
-            </div>
-
-            </div>
-            <div name="buttonGroup">
-            <a href="member/rent/rentList" class="buy-now btn btn-sm btn-primary">WishList</a>
-			<a href="member/buy" class="buy-now btn btn-sm btn-primary">Own</a>
-			 <a href="member/rent/rentInsert" class="buy-now btn btn-sm btn-primary">Use</a>
+             
+            <div class="row"><div class="col-lg-5"><label>판매가격</label></div><div class="col-lg-7" ><input type="text" name="buysum" size="11" readonly/>원</div></div>
+			<div class="row"><div class="col-lg-5"><label>대여가격</label></div><div class="col-lg-7"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
+            
+            
+             
+ <div class="row"><div class="col-lg-5"><label>수량</labeL></div><div class="col-lg-7"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/>
+<input type="button" value=" - " onclick="del();"/><input type="text" name="amount" value="1" size="3"  onchange="change();"/><input type="button" value=" + " onclick="add();"></div></div>
+ <div class="row"><div class="col-lg-5"><label>배송방법</label></div><div class="col-lg-7" ><p>택배</p></div></div>
+  <div class="row"><div class="col-lg-5"><label>배송비</label></div><div class="col-lg-7" ><p>5000원</p></div></div>                
+            <div id="buttonGroup" >
+            <a href="#" id="wish" class="buy-now btn btn-sm btn-primary" data-toggle="popover" data-placement="bottom" title="WishList" data-content="위시리스트에 추가되었습니다.">wishList</a>
+			<input type="submit" value="Own" formaction="/member/buy" class="buy-now btn btn-sm btn-primary"/>
+			<input type="submit" value="Use" formaction="/member/rent/rentInsert" class="buy-now btn btn-sm btn-primary"/>
+			</div>
+   </form:form>
 			</div>
           </div>
         </div>
@@ -80,23 +101,99 @@
     <div class="site-section block-3 site-blocks-2 bg-light">
      
       <div class="container ">
-      
-        <div class="row justify-content-center ">
-          
-           <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%"  	 		
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub" >							  
+      <ul class="nav nav-tabs centered">
+  <li class="nav-item">
+    <a class="nav-link active" href="#productInfo">상세정보</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/member/recList">리뷰게시판</a>
+  </li>
+ 
+</ul>
+        <div class="row justify-content-center">
+          <div class="col-lg-12 col-sm-12" style="text-align:center;">
+           <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%" 	 		
+							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	</div>
+		<pre><div style="text-align:center;">${ productVO.p_content }</div></pre>					  
           </div>
-          <div style="text-align:center;"><pre><textarea cols="85" rows="30" disabled="true">${ productVO.p_content }</textarea></pre></div>
+         
         </div> 
-        <div><button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
+        <div style="text-align:center;"><button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
       </div>
     </div>
 
-    <footer class="site-footer border-top">
-      
-    </footer>
+    <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
   </div>
 
+	<script language="JavaScript">
+//개수에 따라서 가격변동시키는거.
+var sell_price;
+var rent_price;
+var amount;
+
+window.onload = function() {
+	sell_price = document.form.sell_price.value;
+	rent_price = document.form.rent_price.value;
+	amount = document.form.amount.value;
+	document.form.buysum.value = sell_price;
+	document.form.rentsum.value = rent_price;
+	change();
+}
+
+function add () {
+	hm = document.form.amount;
+	buysum = document.form.buysum;
+	rentsum = document.form.rentsum;
+	hm.value ++ ;
+
+	buysum.value = parseInt(hm.value) * sell_price;
+	rentsum.value = parseInt(hm.value) * rent_price;
+}
+
+function del () {
+	hm = document.form.amount;
+	buysum = document.form.buysum;
+	rentsum = document.form.rentsum;
+		if (hm.value > 1) {
+			hm.value -- ;
+			buysum.value = parseInt(hm.value) * sell_price;		
+			rentsum.value = parseInt(hm.value) * rent_price;	
+		}
+		
+}
+
+function change () {
+	hm = document.form.amount;
+	buysum = document.form.buysum;
+	rentsum = document.form.rentsum;
+		if (hm.value < 0) {
+			hm.value = 0;
+		}
+		buysum.value = parseInt(hm.value) * sell_price;
+		rentsum.value = parseInt(hm.value) * rent_price;
+  }//여기까지~~
+  
+//고객 상품목록으로가기
+function productList() {
+		location.href = '/member/pro/productList';		 
+   }
+ 
+// 위시리스트 추가시 알림창.
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover(); 
+ 
+});
+
+
+
+
+</script>
+	
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
   <script src="/resources/common/js/jquery-ui.js"></script>
   <script src="/resources/common/js/popper.min.js"></script>

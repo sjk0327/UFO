@@ -182,24 +182,26 @@
            		    </form:select>
            		 </div></div> 
            		 <div class="row"><div class="col-3"><label for="fileUploadMain">메인사진</label></div><div class="col-9"><input name="mainFile" type="file" accept="image/*" id="fileUploadMain"/></div></div> <br>
+           		 <input type="text" name="p_mainImg" value="${productVO.p_mainImg}" hidden/>
            		 <div class="row"><div class="col-3"><label for="fileUploadSub">서브사진</label></div><div class="col-9"><input name="subFile" type="file" accept="image/*" id="fileUploadSub" /></div></div>
+           		  <input type="text" name="p_subImg" value="${productVO.p_subImg}" hidden/>
            		 	 <hr>
 					<input id="button" type="button" value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick="productUpdate()">&nbsp;&nbsp;&nbsp;  
-					<button id="button" type="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
-					<button id="button" type="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick='productDelete()'>삭제</button>
+					<input id="button" type="button" value="목록" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick='productList()'>&nbsp;&nbsp;&nbsp;
+					<input id="button" type="button" value="삭제" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick='productDelete()'>
                    	  </div>                       
                    </div>
                  	 <div class="rows col-12"><hr>
 				  
 				     </div>
                    <div class="rows col-12 subContainer" >	 				
-				  	<img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
+				  	<img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="50%"
 				  			
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub">						
+							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">						
 				   </div>
 				  
 				   <div class="rows col-12"><br><br>
-				   <pre><textarea name="p_content" cols="50" rows="30" style="border: none">${ productVO.p_content }</textarea></pre>
+				   <pre><textarea name="p_content" cols="70" rows="70" style="border: none; font-size:13pt;">${ productVO.p_content }</textarea></pre>
 				   </div>
                
       </div>
@@ -231,6 +233,48 @@
                         </div>
 <!--이 script 없으면 css 깨짐-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	jQuery(function($) {
+	    var targetText = "${productVO.p_category}";    
+	    var targetVal = $('#p_category option:contains(' + targetText + ')').val();   
+	    $('#p_category').val(targetVal);   
+	});
+
+	//상품삭제
+	function productDelete(p_id) {
+	if (confirm(' 상품을 삭제하시겠습니까?')) {
+		location.href = '/admin/pro/productDelete/${productVO.p_id }';
+	 }
+   }
+	//상품수정
+	function productUpdate() {
+		if (confirm(' 상품을 수정하시겠습니까')) {
+			 var updateForm = document.updateForm ;            
+			 updateForm.submit();
+		 }
+	   }
+	
+	//상품목록으로가기
+	function productList() {
+			location.href = '/admin/pro/productList';		 
+	   }
+	
+	
+	//mainImg 파일업로드시 바로보이게
+	const mainImageFile = document.querySelector('#fileUploadMain');
+	mainImageFile.addEventListener('change', e => {
+	  const file = e.target.files[0];
+	  const mainImage = document.querySelector(".thumbnailMain");
+	  mainImage.src = window.URL.createObjectURL(file);
+	});
+	//subImg 파일업로드시 바로보이게
+	const subImageFile = document.querySelector('#fileUploadSub');
+	subImageFile.addEventListener('change', e => {
+	  const file = e.target.files[0];
+	  const subImage = document.querySelector(".thumbnailSub");
+	  subImage.src = window.URL.createObjectURL(file);
+	});
+</script>
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     
 </body>

@@ -14,5 +14,8 @@ public interface ProductDAO {
 	public int countProductListTotal(Criteria cri);	
 	public ProductVO productInfo2();
 	public void deleteById(String id);
+	public int productUpdate2(ProductVO productVO);
+	public int countProductListCategory();
+	
 
 }

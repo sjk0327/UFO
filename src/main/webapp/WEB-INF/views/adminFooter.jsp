@@ -110,12 +110,20 @@
 				 //return false;
 			 }
 		}
-		function productUpdate(p_id) {
-			var p_id = p_id;
+		
+	   	
+		function productUpdateRow(p_id,p_canBuy,p_canRent) {
+			var p_id = p_id;	
+			var p_canBuy = $('input[name=b1]').val();
+			var p_canRent = $('input[name=b2]').val();
+			alert('p_id::: ' + p_id );
+			alert('p_canBuy::: ' + p_canBuy );
+			alert('p_canRent::: ' + p_canRent );
 			if (confirm('상품을 수정하시겠습니까?')) {	
-				location.href = '/admin/pro/productDetail/' + p_id;
+				location.href = '/admin/pro/productUpdate2/' + p_id +'/'+ p_canBuy +'/'+ p_canRent;
 			}
-		}
+		} 
+		
 		function productDeleteSeperate() {
 			var p_id = p_id;
 			if (confirm('상품을 수정하시겠습니까?')) {	
@@ -163,9 +171,16 @@
 			$("#form").attr("action", "/admin/pro/productDelete2");  
 			$("#form").submit();
 		}
-		 
-	
-	 
+		 $("#aa").on("click",function(e){
+			 alert('g22');
+		        e.preventDefault();    // 추가이벤트를 막아서 #의 최상위이동막음!!!
+		        alert(1);
+		})
+		 function check_update(){
+			 var is_use = document.getElementById('checkboxup');
+			 is_use.disabled=false;
+		 }
+		
  /*다음 우편번호 찾기 javaScript */
    
     function daumPostcode() {
