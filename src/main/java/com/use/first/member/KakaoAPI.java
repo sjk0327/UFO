@@ -109,9 +109,17 @@ public class KakaoAPI {
             
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
             
+            
+            
+            userInfo.put("userId", email);
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);
+            userInfo.put("gender", gender);
+            
+			
+			
             
         } catch (IOException e) {
             
@@ -121,6 +129,8 @@ public class KakaoAPI {
         return userInfo;
     }
     
+    
+
     
     public void kakaoLogout(String access_Token) {
         String reqURL = "https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://localhost:8090/logout";

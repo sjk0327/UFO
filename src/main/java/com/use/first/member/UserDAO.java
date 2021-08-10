@@ -10,5 +10,8 @@ public interface UserDAO {
 	public UserVO memInfo(String m_id);
 	public int memUpdate(UserVO user);
 	public int countMemListTotal(Criteria cri);	
+	public int kakaoJoin(UserVO user);
+	public int naverJoin(UserVO user);
+	public int duplicateCheckId(String m_id);
 
 }
