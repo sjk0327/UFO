@@ -59,6 +59,20 @@
 		</if>
 		</if>
 	</sql>
+	
+	
+		<!-- 카카오 회원가입 작성 -->
+	<insert id="kakaoJoin">
+	    INSERT INTO member(m_id, m_pw, m_name, m_email, m_gender, m_regtype, m_img)
+	    VALUES(#{m_id}, "카카오", #{m_name}, #{m_email}, #{m_gender}, "카카오", "defaultImage.jpg")
+    </insert>
+    
+    
+    	<!-- 네이버 회원가입 작성 -->
+	<insert id="naverJoin">
+	    INSERT INTO member(m_id, m_pw, m_name, m_email, m_gender, m_regtype, m_img, m_tel)
+	    VALUES(#{m_id}, "네이버", #{m_name}, #{m_email}, #{m_gender}, "네이버", "defaultImage.jpg", "010-6309-5802")
+    </insert>
 
 
 
@@ -96,7 +110,6 @@
 	</update>
 	
 	
-	<!-- 8/10 : 성훈 추가 -->
 
 	<select id="duplicateCheckId" resultType="int" parameterType="String" >
 		SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
