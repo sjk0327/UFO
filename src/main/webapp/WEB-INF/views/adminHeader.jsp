@@ -9,7 +9,8 @@
     content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
 <meta name="author" content="codedthemes" />
 <!-- Favicon icon -->
-<link rel="icon" href="/resources/assets/images/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufopico.ico" />
+
 <!-- Google font-->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
 <!-- waves.css -->
@@ -28,4 +29,5 @@
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <!-- Style.css -->
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>

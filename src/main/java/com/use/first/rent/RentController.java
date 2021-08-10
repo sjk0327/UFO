@@ -51,8 +51,6 @@ public class RentController {
 //	}
 	
 
-
-
 	@RequestMapping(value = "/admin/rent/rentList", method = RequestMethod.GET)
 	public String adminRentList(Criteria cri, Model model) {
 		RentDAO rentdao = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -105,12 +103,13 @@ public class RentController {
 
 
 	@RequestMapping("/admin/rent/rentDetail/{r_id}")
-	public String getRental(Model model, @PathVariable int r_id) {
+	public String getRental(Model model, @PathVariable int r_id,Criteria cri) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+		PageMaker pageMaker = new PageMaker(cri);
 		
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		List<RentVO> returnList = rentDAO.returnList();
@@ -124,6 +123,7 @@ public class RentController {
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
 		model.addAttribute("messageCount", messageCount);
+		model.addAttribute("pageMaker", pageMaker);
 		return "admin/rent/adminRentDetail";
 	}
 

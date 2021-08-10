@@ -9,6 +9,7 @@ public class Criteria {
 	private String searchType;
 	private String keyword;
 
+
 	public Criteria() {
 		this.page = 1;
 		this.perPageNum = 10;
@@ -73,6 +74,7 @@ public class Criteria {
 			uriComponentsBuilder
 					.queryParam("searchType", this.searchType)
 					.queryParam("keyword", this.keyword);
+		
 
 
 		}

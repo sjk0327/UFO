@@ -9,63 +9,10 @@
 <html lang="en">
 
 <head>
-<title>회원관리</title>
+<title> 관리자 회원 리스트 페이지 - UF&#38;O </title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 
-<style>
-#sort {
-	text-align: left;
-}
-
-#textsearch {
-	margin-left: 5px;
-	margin-right: 5px;
-	width: 250px;
-}
-
-#paging-div {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-}
-
-#searchType {
-	width: 100px;
-	height: 28px;
-	padding-left: 8px;
-	font-size: 13px;
-	color: #585858;
-	border-radius: 5px;
-}
-
-
-
-
-#keyword {
-	border-radius: 5px;
-	height: 28px;
-	border: solid 1px grey;
-}
-
-
-
-#button{
-color: #455a64;
-}
-
-#button:hover{ 
-background-color:#7971ea;
-color: white;
-font-weight: bold;
- }
-
-
-
-
-
-
-</style>
 
 </head>
 
@@ -91,7 +38,7 @@ font-weight: bold;
 
 										<form id="sort" class="dropdown-primary dropdown open"
 											name="memSearch" method="post" action="/admin/mem/memList">
-											<select id="searchType" name="searchType" style="width: 85px; height: 38px;">
+											<select id="searchType" name="searchType">
 												<option value="">검색조건</option>
 												<option value="t" <c:if test="${pageMaker.cri.searchType eq 't'}">selected </c:if>>회원ID</option>
 												<option value="c" <c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>이름</option>
@@ -100,7 +47,6 @@ font-weight: bold;
 
 											</select>&nbsp; 
 											<input type="text" id="keyword" name="keyword"
-												style="width: 200px; height: 38px;;"
 												value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요" />&nbsp; 
 											<button id="button"
 												class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp; 
@@ -166,13 +112,13 @@ font-weight: bold;
                               <ul class="btn-group pagination">
                                  <c:if test="${pageMaker.prev }">
                                     <li><a href='<c:url value="/admin/mem/memList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
-                                       <span style="font-weight: bold;">&nbsp;&#60;&#60;&#60;&nbsp;</span></a></li><span class="col-md-1"></span>
+                                       <span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
                                  </c:if>
                                  <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
                                     <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/admin/mem/memList${pageMaker.makeQuery(pageNum)}"/>'>
                                     <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
                                     <c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/admin/mem/memList${pageMaker.makeQuery(pageNum)}"/>'>
-                                    <span id="pagingCur">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
+                                    <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
                                     
                                  </c:forEach>
                                  <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
@@ -193,57 +139,7 @@ font-weight: bold;
 
 
  
-	<script>
 	
-		$(function() {
-			//perPageNum select 박스 설정
-			setPerPageNumSelect();
-
-			//등록, 삭제 후 문구 처리
-			var result = '${result}';
-			$(function() {
-				if (result === 'registerOK') {
-					$('#registerOK').removeClass('hidden');
-					$('#registerOK').fadeOut(2000);
-				}
-				if (result === 'removeOK') {
-					$('#removeOK').removeClass('hidden');
-					$('#removeOK').fadeOut(2000);
-				}
-			})
-
-			//prev 버튼 활성화, 비활성화 처리
-			var canPrev = '${pageMaker.prev}';
-			if (canPrev !== 'true') {
-				$('#page-prev').addClass('disabled');
-			}
-
-			//next 버튼 활성화, 비활성화 처리
-			var canNext = '${pageMaker.next}';
-			if (canNext !== 'true') {
-				$('#page-next').addClass('disabled');
-			}
-
-			//현재 페이지 파란색으로 활성화
-			var thisPage = '${pageMaker.cri.page}';
-			//매번 refresh 되므로 다른 페이지 removeClass 할 필요는 없음->Ajax 이용시엔 해야함
-			$('#page' + thisPage).addClass('active');
-		})
-
-		function setPerPageNumSelect() {
-			var perPageNum = "${pageMaker.cri.perPageNum}";
-			var $perPageSel = $('#perPageSel');
-			var thisPage = '${pageMaker.cri.page}';
-			$perPageSel.val(perPageNum).prop("selected", true);
-			//PerPageNum가 바뀌면 링크 이동
-			$perPageSel.on('change', function() {
-				//pageMarker.makeQuery 사용 못하는 이유: makeQuery는 page만을 매개변수로 받기에 변경된 perPageNum을 반영못함
-				window.location.href = "listPage?page=" + thisPage
-						+ "&perPageNum=" + $perPageSel.val();
-			})
-		}
-	</script>
-
 
 
 

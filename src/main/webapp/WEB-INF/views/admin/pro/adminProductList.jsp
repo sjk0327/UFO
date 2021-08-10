@@ -8,7 +8,7 @@
 <html lang="en">
 
 <head>
-<title>상품관리</title>
+<title> 관리자 상품 리스트 페이지 - UF&#38;O </title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 
@@ -36,18 +36,21 @@
 							<option value="t">상품번호</option> 
 							<option value="c">카테고리</option>
 							<option value="w">상품명</option>
-						</select>
-						<input type="text" id="keyword" name="keyword" value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요"/>
-						<button id="searchBtn">검색</button>&nbsp;
-						<input type="button" value="전체보기" onClick="location.href='/admin/pro/productList';"> 
+						</select>&nbsp;
+						<input type="text" id="keyword" name="keyword" value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요"/>&nbsp;
+						<button id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;
+						<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="전체보기" onClick="location.href='/admin/pro/productList';"> 
 						 &nbsp; 
-   				<input type="button" value="상품등록" onclick="location.href='/admin/pro/productInsertForm'" /> 
+   				<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="상품등록" onclick="location.href='/admin/pro/productInsertForm'" /> 
       			&nbsp;
       			
       			&nbsp;
       			<!--  <input type="submit"  value="선택삭제" onclick="location.href='/admin/pro/productDelete2'" />  -->
                          </form>    
                       </div>
+                      	<div>
+											<br>
+										</div>
 
 
 
@@ -59,7 +62,10 @@
                          <div class="card-block table-border-style">
                             <div class="table-responsive">
                             <form name="delList" id="form" action="/admin/pro/productDelete2">
-                           <input type="button"  value="선택삭제" onclick="checkboxArr();"/>  
+                           <input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="선택삭제" onclick="checkboxArr();"/>  
+                             	<div>
+									<br>
+								</div>
                            <input type="hidden" id="arrayParam" name="arrayParam"/>
                                <table class="table table-hover">
 						<thead>
@@ -97,12 +103,12 @@
 					<td><fmt:formatNumber value="${list.p_canRent}" pattern="###,###,###" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
-					<td onclick="event.cancelBubble=true"><button type="button" id="btnUpdate"
+					<td onclick="event.cancelBubble=true"><button type="button" id="button"
 											onClick="productUpdate('${list.p_id}');"
-											value="상품수정" class="btn btn-primary">수정</button>
-					<td onclick="event.cancelBubble=true"><button type="button" id="btnDelete"
+											value="상품수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">수정</button>
+					<td onclick="event.cancelBubble=true"><button type="button" id="button"
 											onClick="productDelete('${list.p_id}')"
-											value="상품삭제" class="btn btn-primary">삭제</button> 
+											value="상품삭제" class="btn waves-effect waves-light btn-primary btn-outline-primary">삭제</button> 
 				</tr> 
                                         
                                      </tbody>
@@ -111,108 +117,34 @@
                       </table>
                        </form> 
                       <br>
-                      <!-- page start -->
-                      <ul class="btn-group pagination">
-                         <c:if test="${pageMaker.prev }">
-                            <li><a
-                               href='<c:url value="/admin/pro/productList?page=${pageMaker.startPage-1 }"/>'><i
-                                  class="fa fa-chevron-left"></i></a></li>
-                         </c:if>
-                         <c:forEach begin="${pageMaker.startPage }"
-                            end="${pageMaker.endPage }" var="pageNum">
-                            <li><a
-                               href='<c:url value="/admin/pro/productList?page=${pageNum }"/>'><i
-                                  class="fa">${pageNum }</i></a></li>
-                         </c:forEach>
-                         <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-                            <li><a
-                               href='<c:url value="/admin/pro/productList?page=${pageMaker.endPage+1 }"/>'><i
-                                  class="fa fa-chevron-right"></i></a></li>
-                         </c:if>
-                      </ul>
-                      <!-- page end -->
-
-
+                      <!-- 페이징 start -->
+                              <div id = "paging-div">
+                              <ul class="btn-group pagination">
+                                 <c:if test="${pageMaker.prev }">
+                                    <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+                                       <span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
+                                 </c:if>
+                                 <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+                                    <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                                    <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+                                    <c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                                    <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
+                                    
+                                 </c:forEach>
+                                 <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+                                    <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+                                       <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
+                                 </c:if>
+                              </ul>
+                              </div>
+                              <!-- 페이징 end -->
+                     
                                     </div></div></div> </div>
                         </div>
                         <!-- Page-body end -->
                      </div>             </div>            </div>         </div>        </div>     </div>
  
-<script type="text/javascript">
 
-	function productDelete(p_id) {
-		
-		alert("id::" + p_id);
-		
-		
-		var p_id = p_id;
-		if (confirm('상품을 삭제하시겠습니까?')) {
-			location.href = '/admin/pro/productDelete/' + p_id;
-		}else{
-			alert('삭제 취소하였습니다.');
-			location.href ='/admin/pro/productList';
-			 
-			 //return false;
-		 }
-	}
-	function productUpdate(p_id) {
-		var p_id = p_id;
-		if (confirm('상품을 수정하시겠습니까?')) {	
-			location.href = '/admin/pro/productDetail/' + p_id;
-		}
-	}
-	function productDeleteSeperate() {
-		var p_id = p_id;
-		if (confirm('상품을 수정하시겠습니까?')) {	
-			location.href = '/admin/pro/productDetail/' + p_id;
-		}
-	}
-	$(function(){
-	    if($('input').is(":checked") == true){
-	        $('b').text('체크된 상태');
-	    }
-	    if($('input').is(":checked") == false){
-	        console.log('체크 안 된 상태');
-	    }
-	});
-	
-	 function allChk(obj){
-	    var chkObj = document.getElementsByName("RowCheck");
-	    var rowCnt = chkObj.length - 1;
-	    var check = obj.checked;
-	    if (check) {﻿
-	        for (var i=0; i<=rowCnt; i++){
-	         if(chkObj[i].type == "checkbox")
-	             chkObj[i].checked = true;
-	        }
-	    	} else {
-	        	for (var i=0; i<=rowCnt; i++) {
-	        	 if(chkObj[i].type == "checkbox"){
-	             chkObj[i].checked = false;
-	         }
-	        }
-	    }
-	}  
-	 function checkboxArr() {
-		 
-		var array = new Array(); // 배열 선언
-		
-		
-		$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-		    
-			array.push(this.value);
-		});
-					
-		$("#arrayParam").val(array);
-			
-		$("#form").attr("action", "/admin/pro/productDelete2");  
-		$("#form").submit();
-	}
-	 
-	
-	 
-	
-</script>  
 
 
 
