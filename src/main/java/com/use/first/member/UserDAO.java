@@ -11,4 +11,7 @@ public interface UserDAO {
 	public int memUpdate(UserVO user);
 	public int countMemListTotal(Criteria cri);	
 
+	
+	// 8/10 : 성훈 추가
+	public int duplicateCheckId(String m_id);
 }

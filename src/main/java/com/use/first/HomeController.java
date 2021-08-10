@@ -2,10 +2,7 @@ package com.use.first;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,14 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.use.first.member.UserDAO;
-import com.use.first.member.UserVO;
 
 
 
@@ -40,17 +31,21 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+	public String home(Locale locale, Model model, HttpSession session) {
+		if (session.getAttribute("userName") != null) {
+			System.out.println("home() userName : " + session.getAttribute("userName"));
+			if(!session.getAttribute("userName").equals("관리자")) {
+				System.out.println("! 이면 홈으로");
+				return "home";
+			}
+			else {
+				System.out.println("! 아니면 로그아웃으로");
+				return "redirect:/logout";
+			}
+		} else {
+			return "home";
+		}
 
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
-
-		return "home";
 	}
 
 	

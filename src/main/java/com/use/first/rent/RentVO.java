@@ -8,6 +8,7 @@ public class RentVO {
 		private String r_mid;
 		private String r_pid;
 		private String p_name;
+		
 		private Date r_sdate;
 		private int r_rent;
 		private String r_state;
@@ -63,15 +64,28 @@ public class RentVO {
 			this.r_pdate = r_pdate;
 		}
 		
-
+		
+		
+		
+		
+		
+		// 8/10 : 성훈 추가
+		
+		private String p_category;
+		
+		public String getP_category() {
+			return p_category;
+		}
+		public void setP_category(String p_category) {
+			this.p_category = p_category;
+		}
 		@Override
 		public String toString() {
 			return "RentVO [r_id=" + r_id + ", r_mid=" + r_mid + ", r_pid=" + r_pid + ", p_name=" + p_name
-					+ ", r_sdate=" + r_sdate + ", r_rent=" + r_rent + ", r_state=" + r_state + ", r_pdate=" + r_pdate
-					 + "]";
+					+ ", p_category=" + p_category + ", r_sdate=" + r_sdate + ", r_rent=" + r_rent + ", r_state="
+					+ r_state + ", r_pdate=" + r_pdate + "]";
 		}
-
-
+		
 	}
 
 	
