@@ -372,6 +372,33 @@ text-decoration: underline;
             </div>
         </div>
     </div>
+   <script>
+   	/*rentDetail function*/
+    $('#returnbtn').click(function() {
+      				
+      					if (confirm("해당 회원의 대여 제품을 반납 처리하시겠습니까?") == true){   
+      						window.location='/admin/rent/returnConfirm';
+      			  	  }else{   
+      						 event.preventDefault();
+      			           event.stopPropagation();
+
+      			  	  };	
+      				});
+    
+    $('#latebtn').click(function() {
+			
+			if (confirm("해당 회원에게 연체료 결제 주의 안내 메세지를 보내시겠습니까?") == true){   
+	
+	  	  }else{   
+				 event.preventDefault();
+	           event.stopPropagation();
+
+	  	  };	
+		});
+    
+   
+   
+    </script>
    
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     

@@ -49,35 +49,8 @@ public class HomeController {
 	}
 
 	
-	// 임시로 붙여본 것 (나중에 지우기)
-	@RequestMapping(value = "/adminsite", method = RequestMethod.GET)
-	public String admin(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		model.addAttribute("serverTime", formattedDate);
-
-		return "admintest";
-	}
 	
-	//수정
-	@RequestMapping(value = "/adminrentDetail", method = RequestMethod.GET)
-	public String adminrentDetail(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "/admin/rent/admin_rentDetail";
-	}
+	
 
 	
 	

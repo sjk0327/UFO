@@ -1,7 +1,11 @@
 package com.use.first.rent;
 
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -169,6 +173,63 @@ public class RentController {
 		out.println("</script>");
 		out.flush();
 		
+	}
+	
+	//위시리스트
+	@RequestMapping(value = "/customer/rent/wishList")
+	public String customerwishList(HttpSession session, Model model) {
+		//session.setAttribute("userId", "crystal");
+		String userId="crystal";
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		List<WishListVO> wishList = rentDAO.getWishList(userId);	
+		model.addAttribute("wishList", wishList);
+		return "/member/rent/memberWishList";
+	}
+	
+	
+	//위시리스트 삭제
+	@RequestMapping(value = "/customer/rent/deleteWishList", method = RequestMethod.POST)
+	public void customerDeleteWishList(@RequestParam("w_id") String w_id, Model model,HttpServletResponse response) throws Exception{
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		rentDAO.deleteWishList(w_id);	
+		
+		response.setContentType("text/html; charset=UTF-8");
+		 
+		PrintWriter out = response.getWriter();
+		 
+		out.println("<script language='javascript'>");
+		out.println("alert('상품이 위시리스트에서 삭제되었습니다!')");
+		out.println("window.location='/customer/rent/wishList'");
+		out.println("</script>");
+		out.flush();
+	}
+	
+	@RequestMapping(value = "/customer/rent/deleteWishList2", method = RequestMethod.GET)
+	public void customerWishSelectDelete(@RequestParam HashMap<String, Object> commandMap,HttpServletResponse response) throws Exception{
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		
+		String[] code_array = null;
+		 
+        String code = commandMap.get("arrayParam").toString();	        
+        //System.out.println("code:" + code);	        
+        
+        code_array = code.split(",");
+        
+        for(int i=0; i< code_array.length; i++) {
+        	System.out.println("code_array[]::::" + code_array[i]);
+        	rentDAO.deleteWishList(code_array[i]);	
+        }       
+        
+        response.setContentType("text/html; charset=UTF-8");
+		 
+		PrintWriter out = response.getWriter();
+		 
+		out.println("<script language='javascript'>");
+		out.println("alert('선택한 상품들이 위시리스트에서 삭제되었습니다!')");
+		out.println("window.location='/customer/rent/wishList'");
+		out.println("</script>");
+		out.flush();
+
 	}
 	
 

@@ -213,8 +213,16 @@
                         </div>
   <!--이 script 없으면 css 깨짐-->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
-  
+ <script>
+   	/*productInsert function*/
+   	//상품등록
+   	function productInsert() {
+   		if (confirm(' 상품을 추가하시겠습니까')) {
+   			 var insertForm = document.insertForm ;            
+   			 insertForm.submit();
+   		 }
+   	   }
+   	</script>
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     
 </body>

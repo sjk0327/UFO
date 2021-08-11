@@ -106,7 +106,31 @@
 		]]>
 	</insert>
 	
+	<select id="getWishList" resultType="com.use.first.rent.WishListVO">
+		<![CDATA[
+		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{userId} and w_pid=p_id
+		]]>
+	</select>
 	
+	
+	<!--  
+	<select id="getWishTotalCount" resultType="int">
+	<![CDATA[
+		select count(*) from wishlist, product where wishlist.w_mid=#{userId} and wishlist.w_pid=product.p_id
+		]]>
+	</select>-->
+	
+
+
+	
+	<delete id="deleteWishList">
+		<![CDATA[
+		delete from wishlist where w_id=#{w_id}
+		]]>
+	</delete>
+
+	
+
 	<!-- 08/10 : 성훈 추가 product.p_category -->
 	<!-- 성훈 시작 -->
    <select id="rentListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">

@@ -34,7 +34,9 @@
 color: #455a64;
 }
 
-#button:hover{ 
+
+
+#button:hover, #button2:hover{ 
 background-color:#7971ea;
 color: white;
 font-weight: bold;

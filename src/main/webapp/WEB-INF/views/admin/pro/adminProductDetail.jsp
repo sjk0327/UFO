@@ -274,6 +274,12 @@
 	  const subImage = document.querySelector(".thumbnailSub");
 	  subImage.src = window.URL.createObjectURL(file);
 	});
+	
+	
+	
+	
+	
+	
 </script>
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     
