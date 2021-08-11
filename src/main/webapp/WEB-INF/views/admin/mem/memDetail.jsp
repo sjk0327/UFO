@@ -138,7 +138,7 @@
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
-                                                                  <form:input type="text" id="extraAddress" path="m_addr" value="${fn:split(userVO.m_addr,',')[3]}" class="form-control" placeholder="참고항목"/>
+                                                                  <form:input type="text" id="extraAddress" path="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}" class="form-control" placeholder="참고항목"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>      
@@ -152,12 +152,36 @@
                                                          </div>
                                                       </div>
                                                       <div class="form-group row">
+                                                      	 <input type="hidden" name="m_email" id="realEmail" value="${userVO.m_email }"/>
                                                          <div class="col-sm-2 col-form-label">이메일</div>
-                                                         <div class="form-group form-primary form-static-label col-sm-10">
-                                                            <form:input type="text" path="m_email" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
+                                                         <div class="form-group form-primary form-static-label col-sm-5">
+                                                            <input type="text" id="frontEmail" value="${fn:split(userVO.m_email,'@')[0] }" onchange="emailSum()" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                             <span class="form-bar"></span>
                                                          </div>
+                                                         @
+                                                         <div class="col-sm-4">
+					                                    	<select id="backEmail" onchange="emailSum()">
+					                                    		<option value="">선택해주세요.</option>
+					                                    	<c:forTokens var="email" items="naver.com,daum.net,hanmail.net,gmail.com" delims=",">
+					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] eq email}">
+					                                    		<option value="${email }" selected>${email }</option>
+					                                    		</c:if>
+					                                    		<option value="${email }">${email }</option>
+					                                    		</c:forTokens>
+					                                    	</select>
+					                                    </div>
                                                       </div>
+                                                      <script>
+                                                      function emailSum(){
+                                                    	  var front = document.getElementById("frontEmail").value;
+                                                    	  var back = document.getElementById("backEmail");
+                                                    	  var email = "";
+                                                    	  var hidInput = document.getElementById("realEmail");
+                                                    	  email = front + "@" + back.options[back.selectedIndex].value;
+                                                    	  hidInput.value = email;
+                                                    	  
+                                                      }
+                                                      </script>
                                                       <div class="form-group row">
                                                          <div class="col-sm-2 col-form-label">포인트</div>
                                                          <div class="form-group form-primary form-static-label col-sm-10">

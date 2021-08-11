@@ -80,9 +80,11 @@
 
 
 	<select id="memInfo" resultType="com.use.first.member.UserVO">
+	<![CDATA[
 		select m_id, m_name, m_pw,
 		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate from
 		member where m_id=#{m_id}
+		]]>
 	</select>
 
 	<update id="memUpdate"
@@ -102,6 +104,12 @@
 		SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
 	</select>
 
+	<insert id="memJoin" parameterType="com.use.first.member.UserVO">
+		<![CDATA[
+		INSERT INTO MEMBER (m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_img, m_regdate)
+		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now())
+		]]> 
+	</insert>
 
 	<!-- <insert id="insert" parameterType="org.sp.mybatis.Emp"> insert into 
 		emp2 (empno, ename, deptno, job, sal) values ( #{empno}, #{ename}, #{deptno}, 

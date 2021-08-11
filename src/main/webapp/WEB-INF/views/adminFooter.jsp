@@ -245,7 +245,7 @@
 			            var reader = new FileReader(); 
 			            reader.onload = function(e){ 
 			                var src = e.target.result; 
-			                parent.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>'); 
+			                parent.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle" alt="프로필 이미지" style="display: block;margin-left: auto;margin-right: auto;"></div>'); 
 			            
 			            } 
 			            reader.readAsDataURL($(this)[0].files[0]);

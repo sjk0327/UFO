@@ -14,4 +14,5 @@ public interface UserDAO {
 	
 	// 8/10 : 성훈 추가
 	public int duplicateCheckId(String m_id);
+	public int memJoin(UserVO user);
 }
