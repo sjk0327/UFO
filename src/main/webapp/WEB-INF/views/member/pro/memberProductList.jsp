@@ -34,6 +34,7 @@
  	<style>
 .small1 { width: 100px; height: 100px; }
 .small2 { width: 80px; height: 80px; align:center;}
+.mb-1 { font-size : 18px; }
 </style>
   </head>
   <body>
@@ -56,58 +57,61 @@
                 
 
 
-                <div class="row" >
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="">
-                    <a class="block-2-item" href='/member/pro/productList/${list.p_category}'>
+                <div class="row" id="picCategory" >
+                  <div id="total" class="col-md-2 " data-aos="fade" data-aos-delay="">
+                    <a id="total" class="block-2-item" href="/member/pro/productList/" >
                       <figure class="image" >
-                     <img class="small2" src="/resources/common/images/total.jpg" alt="" class="img-fluid">
+                     <img id="total"class="small2" src="/resources/common/images/total.jpg" alt="" class="img-fluid">
                     <%--  <img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
-				  			
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub"> --%>
-                      </figure>
+				  	alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub"> --%>
+                     </figure>
                      
                     </a>
                   </div>
-                  <div id="aa" class="col-md-2 " data-aos="fade" data-aos-delay="100">
-                    <a class="block-2-item" href="/member/pro/productList/{productVO.p_category}" >
+            
+                  <div class="col-md-2 " data-aos="fade" data-aos-delay="100">
+                   	<a class="block-2-item" href="/member/pro/productList/스마트폰 ">
+                  
+                    <!-- <a class="block-2-item" href="/member/pro/productList/스마트폰" > -->
                       <figure class="image">
-                        <img id="caravan" class="small1" src="/resources/common/images/phone.jpg" alt="" class="img-fluid">
+                        <img id="smartPhone" class="small1" src="/resources/common/images/phone.jpg" alt="" class="img-fluid">
                       </figure>
                       
                     </a>
                   </div>
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/">
+                    <a class="block-2-item" href="/member/pro/productList/노트북" >
                       <figure class="image">
-                        <img id="caravan" class="small1" src="/resources/common/images/laptop.jpg" alt="" class="img-fluid">
+                        <img id="laptop" class="small1" src="/resources/common/images/laptop.jpg" alt="" class="img-fluid">
                       </figure>
                      
                     </a>
                   </div>
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/">
+                    <a class="block-2-item" href="/member/pro/productList/카메라" >
                       <figure class="image">
-                        <img id="caravan" class="small1" src="/resources/common/images/camera.jpg" alt="" class="img-fluid">
+                        <img id="camera" class="small1" src="/resources/common/images/camera.jpg" alt="" class="img-fluid">
                       </figure>
                       
                     </a>
                   </div>
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/">
+                    <a class="block-2-item" href="/member/pro/productList/스마트워치" >
                       <figure class="image">
-                        <img id="caravan" class="small1" src="/resources/common/images/watch.jpg" alt="" class="img-fluid">
+                        <img id="watch" class="small1" src="/resources/common/images/watch.jpg" alt="" class="img-fluid">
                       </figure>
                      
                     </a>
                   </div>
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/">
+                    <a class="block-2-item" href="/member/pro/productList/태블릿" >
                       <figure class="image">
-                        <img id="caravan" class="small1" src="/resources/common/images/tablet.jpg" alt="" class="img-fluid">
+                        <img id="tablet" class="small1" src="/resources/common/images/tablet.jpg" alt="" class="img-fluid">
                       </figure>
                      
                     </a>
                   </div>
+                  
                 </div>
               
             </div>
@@ -126,34 +130,22 @@
     </div>
 		
     <div class="site-section">
-   
-      <div class="container">
- 
+      <div class="container"> 
         <div class="row mb-5">
           <div class="col-md-9 order-2">
-
             <div class="row">
               <div class="col-md-12 mb-5">
                 <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
-                <div class="d-flex">
+                <div class="d-flex" id="sort">
                   <div class="dropdown mr-1 ml-md-auto">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      	가격순
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                      <a class="dropdown-item" href="javascript:pricehigh();">높은 가격순</a>
-                      <a class="dropdown-item" href="javascript:pricelowt();">낮은 가격순</a>
-                     
-                    </div>
+                    <button type="submit" class="btn btn-secondary btn-sm" onclick="pricehigh();" id="sort"  
+                    				name="ok" value="price" aria-haspopup="true" aria-expanded="false"></button>
+                   
                   </div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">추천순</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="#">Relevance</a>
-                      <a class="dropdown-item" href="#">Name, A to Z</a>
-                      <a class="dropdown-item" href="#">Name, Z to A</a>
+                    <button type="button" class="btn btn-secondary btn-sm" 
+                    			value="good" id="dropdownMenuReference" onclick="pricehigh();">추천순</button>
                     
-                    </div>
                   </div>
                 </div>
               </div>
@@ -161,23 +153,21 @@
             <div class="row mb-5" >
             <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
 		
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">
-              
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/{p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <p>상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
                     <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
                     <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
              </c:forEach> 
-            
-
-
+  
 		<!-- 상품리스트 페이징 처리  -->
             </div>
             <div class="row" data-aos="fade-up">
@@ -202,12 +192,12 @@
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               
               <ul class="list-unstyled mb-0">
-                <li class="mb-1"><a href="#" class="d-flex"><span>전체</span> <span class="text-black ml-auto">${totalCount}</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>핸드폰</span> <span class="text-black ml-auto">(2,550)</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>노트북</span> <span class="text-black ml-auto">(2,124)</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>카메라</span> <span class="text-black ml-auto">(2,124)</span></a></li>
-                  <li class="mb-1"><a href="#" class="d-flex"><span>스마트워치</span> <span class="text-black ml-auto">(2,124)</span></a></li>
-                   <li class="mb-1"><a href="#" class="d-flex"><span>태블릿</span> <span class="text-black ml-auto">(2,124)</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList/" class="d-flex"><span>전체</span> <span class="text-black ml-auto">(${totalCount})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList/스마트폰" class="d-flex"><span>핸드폰</span> <span class="text-black ml-auto">(${countSmartPhone})</span></a></li>
+                <li class="mb-1"><a href="#" class="d-flex"><span>노트북</span> <span class="text-black ml-auto">(${countLaptop})</span></a></li>
+                <li class="mb-1"><a href="#" class="d-flex"><span>카메라</span> <span class="text-black ml-auto">(${countCamera})</span></a></li>
+                  <li class="mb-1"><a href="#" class="d-flex"><span>스마트워치</span> <span class="text-black ml-auto">(${countWatch})</span></a></li>
+                   <li class="mb-1"><a href="#" class="d-flex"><span>태블릿</span> <span class="text-black ml-auto">(${count})</span></a></li>
               </ul>
             </div>
 
@@ -218,10 +208,10 @@
                 <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
               </div>
 
-              <div class="mb-4">
+             <!--   <div class="mb-4">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
                 <label for="s_sm" class="d-flex">
-                  <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">Small (2,319)</span>
+                  <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">64</span>
                 </label>
                 <label for="s_md" class="d-flex">
                   <input type="checkbox" id="s_md" class="mr-2 mt-1"> <span class="text-black">Medium (1,282)</span>
@@ -230,6 +220,7 @@
                   <input type="checkbox" id="s_lg" class="mr-2 mt-1"> <span class="text-black">Large (1,392)</span>
                 </label>
               </div>
+              -->
 
           <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
@@ -314,40 +305,8 @@
   <script src="/resources/common/js/aos.js"></script>
 
   <script src="js/main.js"></script>
-  <script type="text/javascript">
- 
-	var path = "${pageContext.request.contextPath }";
-	var qustr = "${searchVO.qustr}";
-	 
-	$(function(){
-	    
-	    $("input:button[name='button']").on('click',function(){
-	        var kind = $(this).val();       //버튼이 클릭 되었을 시, 개별 버튼의 값이 kind 변수에 담겨집니다.
-	        $.ajax({
-	            
-	            url : path+"/onlinecounsel/expertmb/list_ajax.do",
-	            type : "post",
-	            cache : false,
-	            headers : {"cache-control":"no-cache","pragma":"no-cache"},
-	            data : {
-	                 id : $(this).val(),
-	                "kind":kind    // 버튼의 value값에 따라 작동합니다.
-	                
-	            },
-	            success : function(data){
-	                console.log(data);
-	                $('body').html(data); // 성공 시, body부분에 data라는 html 문장들을 다 적용시킵니다.
-	            },
-	            error : function(data){
-	                alert('error');
-	            }//error
-	        })//ajax
-	    });//button click
-	    
-	}); 
- 
-</script>
   
+ 
   </body>
    <%@ include file="/WEB-INF/views/customerFooter.jsp"%>
 </html>
