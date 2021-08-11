@@ -8,6 +8,7 @@ import com.use.first.paging.Criteria;
 public interface UserDAO {
 	public List<UserVO> memList(Criteria cri);
 	public UserVO memInfo(String m_id);
+	public UserVO userInfo(String m_id);
 	public int memUpdate(UserVO user);
 	public int countMemListTotal(Criteria cri);	
 	public int kakaoJoin(UserVO user);

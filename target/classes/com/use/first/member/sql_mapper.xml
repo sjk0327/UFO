@@ -7,7 +7,7 @@
 
 	<select id="memList" resultType="com.use.first.member.UserVO">
 		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point,
-		m_img, m_regdate
+		m_img, m_regdate, m_regtype
 		from member
 		WHERE m_id NOT LIKE "%admin%" 
 		<if test="searchType == ''.toString()">
@@ -32,11 +32,12 @@
 	</select>
 
 	<select id="countMemListTotal" resultType="int">
+	
 		select count(*)
 		from member
 		WHERE m_id NOT LIKE "%admin%"
 		<include refid="searchCondition"></include>
-
+		
 	</select>
 
 
@@ -63,59 +64,79 @@
 	
 		<!-- 카카오 회원가입 작성 -->
 	<insert id="kakaoJoin">
+	<![CDATA[
 	    INSERT INTO member(m_id, m_pw, m_name, m_email, m_gender, m_regtype, m_img)
 	    VALUES(#{m_id}, "카카오", #{m_name}, #{m_email}, #{m_gender}, "카카오", "defaultImage.jpg")
+	    ]]>
     </insert>
     
     
     	<!-- 네이버 회원가입 작성 -->
 	<insert id="naverJoin">
+	<![CDATA[
 	    INSERT INTO member(m_id, m_pw, m_name, m_email, m_gender, m_regtype, m_img, m_tel)
-	    VALUES(#{m_id}, "네이버", #{m_name}, #{m_email}, #{m_gender}, "네이버", "defaultImage.jpg", "010-6309-5802")
+	    VALUES(#{m_id}, "네이버", #{m_name}, #{m_email}, #{m_gender}, "네이버", "defaultImage.jpg", #{m_tel})
+	    ]]>
     </insert>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<select id="memInfo" resultType="com.use.first.member.UserVO">
+    
+    	<!-- 내 정보 보기 -->
+    	<select id="userInfo" parameterType="String" resultType="com.use.first.member.UserVO">
 	<![CDATA[
 		select m_id, m_name, m_pw,
-		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate from
+		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate, m_regtype from
 		member where m_id=#{m_id}
-		]]>
+	]]>
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<select id="memInfo" parameterType="String" resultType="com.use.first.member.UserVO">
+	<![CDATA[
+		select m_id, m_name, m_pw,
+		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate, m_regtype from
+		member where m_id=#{m_id}
+
+	]]>
+
 	</select>
 
 	<update id="memUpdate"
 		parameterType="com.use.first.member.UserVO">
+	<![CDATA[
 		UPDATE member SET m_name=#{m_name},
 		m_gender=#{m_gender}, m_addr=#{m_addr},
 		m_tel=#{m_tel},
 		m_email=#{m_email}, m_point=#{m_point}, m_img=#{m_img}
 		WHERE m_id =
 		#{m_id}
+	]]>
 	</update>
 	
 	
-
+	
 	<select id="duplicateCheckId" resultType="int" parameterType="String" >
-		SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
-	</select>
+     <![CDATA[
+      SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
+      ]]>
+   </select>
 
 	<insert id="memJoin" parameterType="com.use.first.member.UserVO">
 		<![CDATA[

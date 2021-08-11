@@ -56,7 +56,7 @@
                                     
                                     <div class="row m-t-30">
                                         <div class="col-md-12">
-                                            <input type="submit" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+                                            <input type="submit" value="로그인" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
                                         </div>
                                     </div>
                                     
@@ -102,7 +102,7 @@
                                     
                                     
                                     
-                                    
+                           
                                     
                                     
                                     <hr/>
