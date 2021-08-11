@@ -47,7 +47,7 @@
 
             <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
               <div class="site-logo" >
-                <a href="index.html" class="js-logo-clone" style="font-size: 20pt; font-weight: bold;" >UF&O</a>
+                <a href="/" class="js-logo-clone" style="font-size: 20pt; font-weight: bold;" >UF&O</a>
               </div>
             </div>
 
@@ -62,7 +62,7 @@
                   <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
                   </c:when >
                   <c:otherwise>
-                   <li>${userName } 님, 환영합니다.
+                   <li>${userName } 님, 환영합니다.&nbsp&nbsp
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
                    <li><a href="/logout">[ 로그아웃 ]</a></li>
                    </c:if>
@@ -73,7 +73,7 @@
                    <li><a href="/logout">[ 로그아웃 ]</a></li>
                    </c:if>
                    
-                  <li><a href="/member/mem/memJoin">[ 내정보 ]</a></li>
+                  <li><a href="/member/mem/userInfo">[ 내정보 ]</a></li>
                   </c:otherwise>
                  </c:choose>
                    <li><a href="member/noticeList">[ 공지사항 ]</a></li>

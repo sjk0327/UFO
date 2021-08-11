@@ -76,8 +76,9 @@
 																<th width="150">아이디</th>
 																<th width="150">이름</th>
 																<th width="100">성별</th>
-																<th width="150">포인트</th>
-																<th width="200">가입일</th>
+																<th width="100">포인트</th>
+																<th width="100">가입일</th>
+																<th width="100">가입유형</th>
 															</tr>
 														</thead>
 
@@ -94,6 +95,7 @@
 																	<td><fmt:formatNumber value="${list.m_point }"
 																			pattern="#,###" />P</td>
 																	<td>${list.m_regdate }</td>
+																	<td>${list.m_regtype }</td>
 
 																</tr>
 															</tbody>

@@ -104,33 +104,43 @@ public class MemberController {
 		System.out.println("login Controller : " + userInfo);
 		System.out.println("dao.duplicateCheckId(\"email\")::::" + dao.duplicateCheckId("email"));
 		// 클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
+		String id = "";
 		if (userInfo.get("email") != null) {
+
+			String email = (String) userInfo.get("email");
+			String[] devid = email.split("@");
+			id = "kakao " + devid[0];
+
 			session.setAttribute("loginPl", "kakao");
-			session.setAttribute("userId", userInfo.get("email"));
+			session.setAttribute("userId", id);
 			session.setAttribute("userName", userInfo.get("nickname"));
 			session.setAttribute("userEmail", userInfo.get("email"));
-			session.setAttribute("userGender", userInfo.get("gender"));
+			if (userInfo.get("gender").toString().equals("male")) {
+				session.setAttribute("userGender", "남자");
+			} else if (userInfo.get("gender").toString().equals("female")) {
+				session.setAttribute("userGender", "여자");
+			} else {
+				session.setAttribute("userGender", "선택안함");
+			}
 			session.setAttribute("access_Token", access_Token);
 		}
-		
-			if (dao.duplicateCheckId(userInfo.get("email").toString())>0) {
-				
-				return "redirect:/";
-			}else {
-				return "redirect:/kakaoJoin";
-			}
 
-	
+		if (dao.duplicateCheckId(id) > 0) {
+
+			return "redirect:/";
+		} else {
+			return "redirect:/kakaoJoin";
+		}
+
 	}
-	
 
 	// 카카오 회원가입
 	@RequestMapping(value = "/kakaoJoin", method = RequestMethod.GET)
 	public String kakaoJoin(UserVO user, Model model, HttpSession session) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-
-		user.setM_id((String) session.getAttribute("userId"));
+		String id = (String) session.getAttribute("userId");
+		user.setM_id(id);
 		user.setM_name((String) session.getAttribute("userName"));
 		user.setM_email((String) session.getAttribute("userEmail"));
 		user.setM_gender((String) session.getAttribute("userGender"));
@@ -144,10 +154,6 @@ public class MemberController {
 		return "redirect:/";
 
 	}
-	
-	
-	
-	
 
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -163,6 +169,7 @@ public class MemberController {
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
 		System.out.println("여기는 callback");
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
 		if (oauthToken != null) {
@@ -189,36 +196,44 @@ public class MemberController {
 			System.out.println(name);
 			// 4.파싱 닉네임 세션으로 저장
 			session.setAttribute("loginPl", "naver");
-			session.setAttribute("userId", email); // 세션 생성
+
+			String[] devid = email.split("@");
+			String id = "naver " + devid[0];
+
+			session.setAttribute("userId", id); // 세션 생성
 			session.setAttribute("userName", name);
 			session.setAttribute("userEmail", email);
-			session.setAttribute("userGender", gender);
+
+			if (gender.equals("M")) {
+				session.setAttribute("userGender", "남자");
+			} else if (gender.equals("F")) {
+				session.setAttribute("userGender", "여자");
+			} else {
+				session.setAttribute("userGender", "선택안함");
+			}
 			session.setAttribute("userPhone", mobile);
 			model.addAttribute("result", apiResult);
-			return "redirect:/";
+
+			if (dao.duplicateCheckId(id) > 0) {
+
+				return "redirect:/";
+			} else {
+				return "redirect:/naverJoin";
+			}
+
 		} else {
 			return "/enterance/login";
 		}
 	}
 
-	
-	
-	
-	
-
-	
-
-	
-	
-	
-	
 	// 네이버회원가입
-//	@RequestMapping(value = "/naverJoin", method = RequestMethod.GET)
+	@RequestMapping(value = "/naverJoin", method = RequestMethod.GET)
 	public String naverJoin(UserVO user, Model model, HttpSession session) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
-		user.setM_id((String) session.getAttribute("userId"));
+		String id = (String) session.getAttribute("userId");
+		user.setM_id(id);
 		user.setM_name((String) session.getAttribute("userName"));
 		user.setM_email((String) session.getAttribute("userEmail"));
 		user.setM_gender((String) session.getAttribute("userGender"));
@@ -233,11 +248,6 @@ public class MemberController {
 		return "redirect:/";
 
 	}
-	
-	
-	
-	
-	
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String loginout(HttpSession session) {
@@ -248,6 +258,37 @@ public class MemberController {
 
 		return "redirect:/";
 	}
+
+	// 내 정보
+
+	@RequestMapping(value = "/member/mem/userInfo", method = RequestMethod.GET)
+	public String userInfo(UserVO user, Model model, HttpSession session, String m_id) {
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		UserVO userInfo = dao.userInfo(m_id);
+		session.getAttribute(m_id);
+		
+		model.addAttribute("userInfo", userInfo);
+		
+		user.setM_name((String) session.getAttribute("userName"));
+		user.setM_email((String) session.getAttribute("userEmail"));
+		user.setM_gender((String) session.getAttribute("userGender"));
+		
+
+		
+
+		return "/member/mem/userInfo";
+	}
+
+	
+
+
+	
+	
+	
+	
+	
+	
+	
 
 	// 관리자
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -370,13 +411,12 @@ public class MemberController {
 	public String adminMenDetailByPath(Model model, @PathVariable String m_id) {
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-
+		System.out.println("m_id " + m_id);
 		// User 정보 가져오기
 		System.out.println("adminMenDetailByPath() // 들어가서 유저정보");
 		UserVO userVO = userDAO.memInfo(m_id);
-
 		// 대여 정보 가져오기
-
+		System.out.println("userVO : " + userVO.toString());
 		System.out.println("adminMenDetailByPath() // 들어가서 대여정보");
 
 		List<RentVO> rentList = rentDAO.rentListByMid(m_id, "구매");
