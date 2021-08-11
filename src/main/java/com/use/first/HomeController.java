@@ -47,6 +47,31 @@ public class HomeController {
 		}
 
 	}
+	
+	
+	@RequestMapping(value = "/paytest", method = RequestMethod.GET)
+	public String paytest(Locale locale, Model model, HttpSession session) {
+		
+			return "/member/rent/paytest";
+		
+
+	}
+	
+	@RequestMapping(value = "/paysuccess")
+	public String paysucess(Locale locale, Model model, HttpSession session) {
+		
+			return "/member/rent/paysuccess";
+		
+
+	}
+	
+	@RequestMapping(value = "/payfail")
+	public String payfail(Locale locale, Model model, HttpSession session) {
+		
+			return "/member/rent/payfail";
+		
+
+	}
 
 	
 	
