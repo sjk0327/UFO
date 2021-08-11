@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
@@ -119,45 +119,86 @@ public class ProductController {
 		
 		//신영-고객쪽 상품리스트
 		@RequestMapping(value = "/member/pro/productList",method = RequestMethod.GET)
-		public String getMemberProductList(ProductVO productVO, Model model,Criteria cri) {
+		public String getMemberProductList(Model model,Criteria cri) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 			List<ProductVO> list = productDAO.productList(cri);
 			
-			//for(int i=0; i<list.size(); i++) {
-			//ProductVO listarr = list.get(i);
-			//}
-			//model.addAttribute("listarr", );
 			model.addAttribute("productList", list);
 			PageMaker pageMaker = new PageMaker(cri);
 			int totalCount = productDAO.countProductListTotal(cri);
-			int totalCategoryCount = productDAO.countProductListCategory();
+			int countSmartPhone = productDAO.countSmartPhone(cri);
+			int countLaptop = productDAO.countLaptop(cri);
+			int countCamera = productDAO.countCamera(cri);
+			int countWatch = productDAO.countWatch(cri);
+			int countTablet = productDAO.countTablet(cri);
 			pageMaker.setTotalCount(totalCount);
-			//pageMaker.setTotalCount(productDAO.countProductListTotal());
+		
 			model.addAttribute("pageMaker", pageMaker);
 			model.addAttribute("totalCount", totalCount);
-			model.addAttribute("totalCategoryCount", totalCategoryCount);
-			System.out.println("totalCount:::" +totalCount);
-			System.out.println("totalCategoryCount:::" +totalCategoryCount);
+			model.addAttribute("countSmartPhone", countSmartPhone);
+			model.addAttribute("countLaptop", countLaptop);
+			model.addAttribute("countCamera", countCamera);
+			model.addAttribute("countWatch", countWatch);
+			model.addAttribute("countTablet", countTablet);
+			
 			return "member/pro/memberProductList";
 		}
 	
-		//신영-고객쪽 상품리스트(카테고리별)
-		@RequestMapping(value = "/member/pro/productList/{p_category}", method = RequestMethod.GET)
-		public String getMemberProductCategory(ProductVO productVO,Model model,Criteria cri) {
-			
-			System.out.println("카테고리로 오니?");
-			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);			
-			List<ProductVO> list = productDAO.productList(cri);
-			model.addAttribute("productList", list);
-			PageMaker pageMaker = new PageMaker(cri);
-			int totalCount = productDAO.countProductListTotal(cri);
-			pageMaker.setTotalCount(totalCount);
-			model.addAttribute("productVO", productVO);
-			model.addAttribute("pageMaker", pageMaker);
-			System.out.println("productVO.getP_category()::::" + productVO.getP_category());
-			return "member/pro/memberProductList";
+	
+	 //신영-고객쪽 상품리스트(카테고리별)
+	  
+	  @RequestMapping(value = "/member/pro/productList/{p_category}", method = RequestMethod.GET)
+		  public String getMemberProductCateList(Model model,Criteria cri,@PathVariable String p_category) {
+		  		
+				ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+				List<ProductVO> list = productDAO.productSmartPhoneList(p_category);
+				//List<ProductVO> list = productDAO.productSmartPhoneList(cri,p_category);
+				
+				model.addAttribute("productList", list);
+				PageMaker pageMaker = new PageMaker(cri);
+				int totalCount = productDAO.countProductListTotal(cri);
+				int countSmartPhone = productDAO.countSmartPhone(cri);
+				int countLaptop = productDAO.countLaptop(cri);
+				int countCamera = productDAO.countCamera(cri);
+				int countWatch = productDAO.countWatch(cri);
+				int countTablet = productDAO.countTablet(cri);
+				pageMaker.setTotalCount(totalCount);
+				
+				model.addAttribute("pageMaker", pageMaker);
+				model.addAttribute("totalCount", totalCount);
+				model.addAttribute("countSmartPhone", countSmartPhone);
+				model.addAttribute("countLaptop", countLaptop);
+				model.addAttribute("countCamera", countCamera);
+				model.addAttribute("countWatch", countWatch);
+				model.addAttribute("countTablet", countTablet);
+				return "member/pro/memberProductList";
 			}
-		
+	  	//신영-상품정렬
+	  	
+	  /*
+	  @RequestMapping(value = "/member/pro/productList/sort", produces="application/json")
+		@ResponseBody
+		public String home2(@RequestParam("sort") String sort, HttpServletRequest request) {
+			System.out.println("ajax컨트롤러는 오니?");
+			Map<String, Object> map = new HashMap<String, Object>();
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+			
+			
+			System.out.println("p_id::::" +sort);
+			if( sort.equals("price")) {
+				List<ProductVO> sortPlist = productDAO.productSortP();
+				
+			}
+			else if( sort.equals("good")) {
+				List<ProductVO> sortRlist = productDAO.productSortR();
+			}
+			//정렬 성공
+			
+			//System.out.println(map.get("error"));
+			return map;
+		}	
+	  	*/
+	 
 	
 	
 		
@@ -214,5 +255,36 @@ public class ProductController {
 			model.addAttribute("productVO", productVO);
 			return "/member/pro/memberProductDetail";
 		}		
+		//고객에서 위시리스트 추가
+				/*
+				@RequestMapping(value = "/member/wishListInsert/{p_id}", method = RequestMethod.POST)
+				public String WishListInsert(WishListVO wishListVO, HttpSession session, @PathVariable String p_id ) {
+					
+					String w_mid = "bcbc";
+					wishListVO.setW_mid(w_mid);
+					wishListVO.setW_pid(p_id);		
+					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+					int n = productDAO.wishListInsert(wishListVO);
+				
+					 if(n==0) {System.out.println("등록 실패");}
+					return "redirect:/member/pro/productDetail/" + p_id;
+					
+				}
+				
+				//고객에서 장바구니 추가
+						@RequestMapping(value = "/member/cartInsert/{p_id}", method = RequestMethod.POST)
+						public String WishListInsert(CartVO cartVO, HttpSession session, @PathVariable String p_id, @RequestParam String amount ) {
+							
+							String c_mid = "bcbc";
+							cartVO.setC_mid(c_mid);
+							cartVO.setC_pid(p_id);
+							cartVO.setC_amount(amount);
+							ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+							int n = productDAO.cartListInsert(cartVO);
+						
+							 if(n==0) {System.out.println("등록 실패");}
+							return "redirect:/member/pro/productDetail/" + p_id;
+						}
+						*/
 	}
 

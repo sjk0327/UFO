@@ -25,14 +25,45 @@
 	<!-- 페이징을 위한 수량 세기 -->
 	<select id="countProductListTotal" resultType="int">
 		select count(*)	from product
-		<include refid="searchCondition"></include>
+	</select>
+	<select id="countSmartPhone" resultType="int">
+		select count(*) from product
+		where p_category = '스마트폰'	
+	</select>
+	<select id="countLaptop" resultType="int">
+		select count(*) from product
+		where p_category = '노트북'	
+	</select>
+	<select id="countCamera" resultType="int">
+		select count(*) from product
+		where p_category = '카메라'	
+	</select>
+	<select id="countWatch" resultType="int">
+		select count(*) from product
+		where p_category = '스마트워치'	
+	</select>
+	<select id="countTablet" resultType="int">
+		select count(*) from product
+		where p_category = '태블릿'	
 	</select>
 	<!--  카테고리별 수량 세기  -->
 	<select id="countProductListCategory" resultType="int">
 		select count(*)	from product
 		where p_category=#{p_category}
 	</select>
-	
+	<!--  가격순 정렬  -->
+	<select id="productSortP" resultType="int">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_recommand,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		order by p_price
+	</select>
+	<select id="productSortR" resultType="int">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_recommand,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		order by p_recommand
+	</select>
 	<sql id="searchCondition">
 		<if test="searchType != null">
 			 
@@ -48,12 +79,14 @@
 		</if>
 	</sql>
 	<!-- 상품카테고리 select -->
-	<select id="categoryList" resultType="com.use.first.product.ProductVO">
+
+	 <select id="productSmartPhoneList"  parameterType ="String" resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_recommand,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		order by p_category
+		where p_category = #{p_category}
 	</select>
+		
 	
 	<insert id="productInsert" parameterType="com.use.first.product.ProductVO">
 
@@ -92,5 +125,19 @@
 		delete from product where p_id = #{p_id}
 		]]>
 	</delete>
+	<!--  
 	
+	<insert id="wishListInsert" parameterType="com.use.first.rent.WishListVO">
+		
+		insert into wishlist (w_mid,w_pid,w_date)
+		values (#{w_mid},#{w_pid},now())
+	</insert>
+	
+	
+	<insert id="cartListInsert" parameterType="com.use.first.rent.CartVO">
+		
+		insert into cart (c_mid,c_pid,c_amount,c_date)
+		values (#{c_mid},#{c_pid},#{c_amount},now())
+	</insert>
+	 -->
 </mapper>

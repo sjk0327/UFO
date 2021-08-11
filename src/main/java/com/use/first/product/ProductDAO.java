@@ -17,5 +17,20 @@ public interface ProductDAO {
 	public int productUpdate2(ProductVO productVO);
 	public int countProductListCategory();
 	
+	public List<ProductVO> productSmartPhoneList(String p_category);
+	public ProductVO productSmartPhoneList();
+	public int countSmartPhone(Criteria cri);
+	public int countLaptop(Criteria cri);
+	public int countCamera(Criteria cri);
+	public int countWatch(Criteria cri);
+	public int countTablet(Criteria cri);
+	public List<ProductVO> productSortP();
+	public List<ProductVO> productSortR();
+	
+	//위시리스트추가
+		//public int wishListInsert(WishListVO wishListVO);
+		//장바구니추가
+		//public int cartListInsert(CartVO cartVO);
+	
 
 }
