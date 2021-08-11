@@ -46,7 +46,7 @@ background-color: #7971ea;
 color: white;
 }
 
-#deleteWish{
+#deletecart{
 background-color: #4e5a72;
 color: white;
 border-color: #4e5a72;
@@ -77,6 +77,7 @@ border-color: #4e5a72;
 
 </head>
 <body>
+<%int count=0; %>
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
@@ -89,7 +90,7 @@ border-color: #4e5a72;
 <div class="wrapper">
 <br>
     <div class="titleArea" style="text-align: center;">
-        <h2>WISHLIST</h2>
+        <h2>MY CART</h2>
     </div>
 
 <div>
@@ -120,13 +121,18 @@ border-color: #4e5a72;
                 </tr></thead>
                 
                 <tbody class="tablebody" >
-                <c:if test="${!empty wishList}">
-               <c:forEach var="wishInfo" items="${wishList}">
-                
+                <c:if test="${!empty cartList}">
+               <c:forEach var="cartInfo" items="${cartList}">
+               <%
+               count++;
+               String c=Integer.toString(count);
+               %>
+               <c:set var="count" value="<%=c%>"></c:set>
+                <input id="originprice${c}" type="hidden" value="${cartInfo.p_price}">
                 
                 <tr class="" style="text-align: center;">
                 <td onclick="event.cancelBubble=true">
-                     <input type="checkbox" name="RowCheck" value="${wishInfo.w_id }"></td>
+                     <input type="checkbox" name="RowCheck" value="${cartInfo.c_id }"></td>
                     <td class="thumb" style="padding : 0;"><a href="">
                     <div class="container text-center my-3">
    
@@ -135,14 +141,14 @@ border-color: #4e5a72;
             
             <div class="carousel-item row no-gutters active">
                 <div class="float-left">
-               		<img class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg">
+               		<img class="img-fluid" src="/resources/Images/${cartInfo.p_mainimg}.jpg">
                 </div>
               
             </div>
             
             <div class="carousel-item row no-gutters">
                 <div class="float-left">
-                	<img class="img-fluid" src="/resources/Images/${wishInfo.p_subimg}.jpg">
+                	<img class="img-fluid" src="/resources/Images/${cartInfo.p_subimg}.jpg">
                 </div>
                 
                
@@ -164,58 +170,77 @@ border-color: #4e5a72;
 </a></td>
                     <td class="left" style="text-align: left;">
                         <div class="name"><a href="" class="product-name">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #505050; font-weight: bold;">${wishInfo.p_name}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #505050; font-weight: bold;">[${cartInfo.p_category}] ${cartInfo.p_name}</span>
                         
-                        </a></div><br>
-                        <ul class="xans-element- xans-myshop xans-myshop-optionall option">
-                        <c:if test="${wishInfo.p_canrent <=5 and wishInfo.p_canrent ne 0}">
-                        <div class="displaynone" style="color: red;"><span style="font-weight: bold;">!</span>곧 대여 품절 예정인 상품입니다<span style="font-weight: bold;">!</span></div>
-                        </c:if>
-                        <c:if test="${wishInfo.p_canrent eq 0}">
-                        <div class="displaynone" style="color: gray;">대여 품절된 상품입니다.</div>
-                        </c:if>
-                        <c:if test="${wishInfo.p_canbuy <=5 and wishInfo.p_canbuy ne 0}">
-                        <div class="displaynone" style="color: red;"><span style="font-weight: bold;">!</span>곧 구매 품절 예정인 상품입니다<span style="font-weight: bold;">!</span></div>
-                        </c:if>
-                        <c:if test="${wishInfo.p_canbuy eq 0}">
-                        <div class="displaynone" style="color: gray;">구매 품절된 상품입니다.</div>
-                        </c:if>
+                        </a></div>
+                        <div>
+                        <div style="margin-top: 3pt;">
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;구매정보&nbsp;
+                        <select id="buyType${c}" name="buyType">
+                        <c:choose>
+						<c:when test="${cartInfo.p_canrent <=5 and cartInfo.p_canrent ne 0}"> 
+						<option value="대여" selected="selected">대여(남은 수량 : ${cartInfo.p_canrent})</option>
+						 </c:when>
+						<c:when test="${cartInfo.p_canrent eq 0}">
+						<option value="대여" disabled="disabled">대여(대여 품절)</option>
+						</c:when>
+						<c:otherwise>
+						<option value="대여" selected="selected">대여</option>
+						</c:otherwise>
+						</c:choose>
+						
+						
+						
+						<c:choose>
+						<c:when test="${cartInfo.p_canbuy <=5 and cartInfo.p_canbuy ne 0}"> 
+						<option value="구매">구매(남은 수량 : ${cartInfo.p_canbuy})</option>
+						 </c:when>
+						<c:when test="${cartInfo.p_canbuy eq 0}">
+						<option value="구매" disabled="disabled">구매(구매 품절)</option>
+						</c:when>
+						<c:otherwise>
+						<option value="구매">구매</option>
+						</c:otherwise>
+						</c:choose>
+                        </select>
+                        </div>
+                        <div style="margin-top: 3pt;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        ${count}
+                        <input id="proamount${c}" name="amount" type="number" style="width:56.67px; height: 30px" min="0" value="1"></div>
+                        </div>
+                        <br>
+ 
+</td>
+                    <td  class="price right">
+                    <input type=text id="price${c}" value="1">
 
-                          
-</ul>
 </td>
-                    <td class="price right">
-<strong class="" style="text-decoration: line-through;">원가 : <fmt:formatNumber value="${wishInfo.p_price}" pattern="###,###,###" />원<br/></strong>
-<fmt:parseNumber var="rentprice" value="${wishInfo.p_price*0.05}" integerOnly="true" />
-<fmt:parseNumber var="buyprice" value="${wishInfo.p_price*0.95}" integerOnly="true" />
-<strong class="">대여가<br><span style="font-weight: bold;"><fmt:formatNumber value="${rentprice }" pattern="###,###,###" />원</span><br/></strong><br/>
-<strong class="">즉시구매가<span style="font-weight: bold;"><fmt:formatNumber value="${buyprice }" pattern="###,###,###" />원</span><br/></strong>
-</td>
-<fmt:parseNumber var="rentpoint" value="${wishInfo.p_price*0.05*0.05}" integerOnly="true" />
-<fmt:parseNumber var="buypoint" value="${wishInfo.p_price*0.95*0.05}" integerOnly="true" />
+<fmt:parseNumber var="rentpoint" value="${cartInfo.p_price*0.05*0.05}" integerOnly="true" />
+<fmt:parseNumber var="buypoint" value="${cartInfo.p_price*0.95*0.05}" integerOnly="true" />
                     <td><span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>대여포인트 <fmt:formatNumber value="${rentpoint}" pattern="###,###,###" /></span>(5%)</span><br/>
                     <span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>구매포인트 <fmt:formatNumber value="${buypoint}" pattern="###,###,###" /></span>(5%)</span></td>
                     <td><div class="txtInfo">기본배송</div></td>
                     <td>
 <span class="">2,500원<br/></span> 조건</td>
-                    <td class="price right" style="font-weight: bold;"><fmt:formatNumber value="${wishInfo.p_price+2500}" pattern="###,###,###" />원</td>
+                    <td class="price right" style="font-weight: bold;"><fmt:formatNumber value="${cartInfo.p_price+2500}" pattern="###,###,###" />원</td>
                     <td class="button">
                    
                     	<span class="row">
                     	&nbsp;&nbsp;
                     	
                     	
-                    	 <c:if test="${wishInfo.p_canrent eq 0}">
+                    	 <c:if test="${cartInfo.p_canrent eq 0}">
                         <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block" disabled="disabled">대여</button></span>
                         </c:if>
-                        <c:if test="${wishInfo.p_canrent ne 0}">
+                        <c:if test="${cartInfo.p_canrent ne 0}">
                         <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block">대여</button></span>
                         </c:if>
                         
-                         <c:if test="${wishInfo.p_canbuy eq 0}">
+                         <c:if test="${cartInfo.p_canbuy eq 0}">
                         <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block" style="margin-left: 2pt;" disabled="disabled">구매</button></span>
                         </c:if>
-                        <c:if test="${wishInfo.p_canbuy ne 0}">
+                        <c:if test="${cartInfo.p_canbuy ne 0}">
                         <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block" style="margin-left: 2pt;">구매</button></span>
                         </c:if>
                        
@@ -223,9 +248,9 @@ border-color: #4e5a72;
                       
                         </span>
                         <button id="button" href="" class="btn btn-outline-primary btn-sm btn-block" style="margin-top: 8pt;">장바구니 담기</button>
-                        <form action="/customer/rent/deleteWishList" method="post">
-                        <input type="hidden" name="w_id" value="${wishInfo.w_id}">
-                        <button id="button" class="btn btn-outline-primary btn-sm btn-block deleteWish" style="margin-top: 8pt;" onclick="">삭제</button>
+                        <form action="/customer/rent/deletecartList" method="post">
+                        <input type="hidden" name="c_id" value="${cartInfo.c_id}">
+                        <button id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" onclick="">삭제</button>
                    </form>
                     </td>
                 </tr>
@@ -235,7 +260,7 @@ border-color: #4e5a72;
 </tbody>
 
 </table>
-<c:if test="${empty wishList }">
+<c:if test="${empty cartList }">
 <p style="text-align: center; font-weight: bold;">
 <br>
 등록된 위시리스트 상품이 없습니다!
@@ -243,17 +268,17 @@ border-color: #4e5a72;
 
 </c:if>
 
-<c:if test="${!empty wishList }">
+<c:if test="${!empty cartList }">
 <br>
 
  <span style="float: left;">
  <div class="row">
     		<span style="font-weight: bold;">선택상품을</span>
     		<form id="form">
-           	<span style="margin-left: 3pt;"><button id="deleteWish" href="" class="btn btn-outline-primary" onclick="wishcheckboxArr();">삭제하기</button></span>
+           	<span style="margin-left: 3pt;"><button id="deletecart" href="" class="btn btn-outline-primary" onclick="cartcheckboxArr();">삭제하기</button></span>
            	<input type="hidden" id="arrayParam" name="arrayParam"/>
            	</form>
-            <span style="margin-left: 3pt;"><button id="button" href="" class="btn btn-outline-primary">장바구니 담기</button></span>
+            <span style="margin-left: 3pt;"><button id="button" href="" class="btn btn-outline-primary">주문하기</button></span>
         </div>
         </span>
       
@@ -261,9 +286,9 @@ border-color: #4e5a72;
  <div class="row">
             <span><button id="button2" href="" class="btn btn-outline-primary">전체 상품 주문</button></span>
             <span>
-            <form id="form" action="/customer/rent/deleteWishAll" method="post">
+            <form id="form" action="/customer/rent/deletecartAll" method="post">
             <input type="hidden" id="userID" name="userID" value="crystal"/>
-            <span style="margin-left: 3pt;"><button id="deleteWish" class="btn btn-outline-primary deleteWishAll">위시리스트 비우기</button></span>
+            <span style="margin-left: 3pt;"><button id="deletecart" class="btn btn-outline-primary deletecartAll">장바구니 비우기</button></span>
             </form></span>
             </div>
      </span>  
@@ -302,7 +327,7 @@ $(document).ready(function() {
 	$('#myCarousel2').carousel('cycle');
 });
 
-$('.deleteWish').click(function() {
+$('.deletecart').click(function() {
 	
 	if (confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?") == true){   
 
@@ -313,7 +338,7 @@ $('.deleteWish').click(function() {
 	  };	
 });
 
-$('.deleteWishAll').click(function() {
+$('.deletecartAll').click(function() {
 	
 	if (confirm("위시리스트를 모두 비우시겠습니까?") == true){   
 		
@@ -325,7 +350,7 @@ $('.deleteWishAll').click(function() {
 });
 
 
-function wishcheckboxArr() { 
+function cartcheckboxArr() { 
 	var array = new Array(); // 배열 선언
 	$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.	    
 		array.push(this.value);
@@ -333,7 +358,7 @@ function wishcheckboxArr() {
 				
 	$("#arrayParam").val(array);
 	if (confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?") == true){   
-		$("#form").attr("action", "/customer/rent/deleteWishList2");  
+		$("#form").attr("action", "/customer/rent/deletecartList2");  
 		$("#form").submit();
 	  }else{   
 		 event.preventDefault();
@@ -359,6 +384,28 @@ function allChk(obj){
         }
     }
 } 
+
+
+$("#proamount${c}").on("propertychange change input", function() {
+	 var value = document.getElementById("proamount${c}").value;
+		if(value==0){
+			alert('해당 상품을 삭제하시겠습니까?');
+		}
+		else{
+			var state = document.getElementById("buyType${c}").value.toString().trim();
+			var price = document.getElementById("originprice${c}").value
+			if(state=="대여"){
+				
+			document.getElementById("price${c}").value=price*0.05*value;
+			}
+			if(state=="구매"){
+				
+				document.getElementById("price${c}").value=price*0.95*value;
+				}
+		}
+	
+});
+
 
 </script>
 </body>

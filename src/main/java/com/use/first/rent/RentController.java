@@ -231,6 +231,34 @@ public class RentController {
 		out.flush();
 
 	}
-	
+	//위시리스트 전체 삭제
+	@RequestMapping(value = "/customer/rent/deleteWishAll")
+	public void customerDeleteWishAll(@RequestParam("userID") String w_mid,HttpServletResponse response) throws Exception{
+		System.out.println(w_mid);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		
+		rentDAO.deleteWishAll(w_mid);
+        
+        response.setContentType("text/html; charset=UTF-8");
+		 
+		PrintWriter out = response.getWriter();
+		 
+		out.println("<script language='javascript'>");
+		out.println("alert('위시리스트를 모두 비웠습니다!')");
+		out.println("window.location='/customer/rent/wishList'");
+		out.println("</script>");
+		out.flush();
 
+	}
+	
+	//장바구니
+		@RequestMapping(value = "/customer/rent/cartList")
+		public String customercartList(HttpSession session, Model model) {
+			//session.setAttribute("userId", "crystal");
+			String userId="crystal";
+			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+			List<CartVO> cartList = rentDAO.getCartList(userId);	
+			model.addAttribute("cartList", cartList);
+			return "/member/rent/memberCart";
+		}
 }
