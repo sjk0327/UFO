@@ -86,8 +86,7 @@ color: white;
 																	</thead>
 																	<c:forEach var="list" items="${rentList}">
 																		<tbody>
-																			<tr
-																				onClick="location.href='/admin/rent/rentDetail/${list.r_id}'">
+																			<tr onClick="location.href='/admin/rent/rentDetail/${list.r_id}'">
 																				<td>${list.r_id }</td>
 																				<td>${list.r_mid }</td>
 																				<td>${list.r_pid }</td>

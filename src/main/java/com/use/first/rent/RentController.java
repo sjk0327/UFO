@@ -171,5 +171,20 @@ public class RentController {
 		
 	}
 	
+	//정노
+	@RequestMapping(value = "/member/rent/buy/{p_id}/{m_id}", method = RequestMethod.GET)
+	public String adminProductDetail(Model model, @PathVariable String p_id, @PathVariable String m_id) {
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
+		
+		
+		UserVO userVO = userDAO.memInfo(m_id);
+		ProductVO productVO = productDAO.productInfo(p_id);
+		
+		model.addAttribute("userVO", userVO);
+		model.addAttribute("productVO", productVO);
+		return "member/rent/buy";
+	}
+	
 
 }
