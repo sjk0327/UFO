@@ -12,9 +12,12 @@ public interface UserDAO {
 	public int countMemListTotal(Criteria cri);	
 	public int kakaoJoin(UserVO user);
 	public int naverJoin(UserVO user);
-	public int duplicateCheckId(String m_id);
+
 
 	
 	// 8/10 : 성훈 추가
-	//public int duplicateCheckId(String m_id);
+
+	public int duplicateCheckId(String m_id);
+	public int memJoin(UserVO user);
+
 }

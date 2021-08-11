@@ -318,7 +318,7 @@ text-decoration: underline;
 						<c:choose>
 							<c:when test="${messageCount eq 0}">
 								<button type="submit" id="button"
-								class="btn waves-effect waves-light btn-primary btn-outline-primary">연체 알림 메세지 보내기</button>
+								class="btn waves-effect waves-light btn-primary btn-outline-primary latebtn">연체 알림 메세지 보내기</button>
 							</c:when>
 							<c:otherwise>
 							<button type="submit" id="button"
@@ -385,7 +385,7 @@ text-decoration: underline;
       			  	  };	
       				});
     
-    $('#latebtn').click(function() {
+    $('.latebtn').click(function() {
 			
 			if (confirm("해당 회원에게 연체료 결제 주의 안내 메세지를 보내시겠습니까?") == true){   
 	

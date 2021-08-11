@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -14,10 +15,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-/*
-import org.springframework.mail.SimpleMailMessage;
+
 import org.springframework.mail.javamail.JavaMailSender;
-*/
+import org.springframework.mail.javamail.MimeMessageHelper;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -113,7 +114,11 @@ public class MemberController {
 		// 클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
 		if (userInfo.get("email") != null) {
 			session.setAttribute("loginPl", "kakao");
-			session.setAttribute("userId", userInfo.get("email"));
+			String idd = (String)userInfo.get("email");
+			
+			System.out.println("앞 : " + idd.split("@")[0]+ "/ 뒤 : " +idd.split("@")[1]);
+			String id = "kakao "+ idd.split("@")[0];
+			session.setAttribute("userId", id);
 			session.setAttribute("userName", userInfo.get("nickname"));
 			session.setAttribute("userEmail", userInfo.get("email"));
 			session.setAttribute("userGender", userInfo.get("gender"));
@@ -377,7 +382,11 @@ public class MemberController {
 	public String adminMenDetailByPath(Model model, @PathVariable String m_id) {
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-
+		
+		if(m_id.contains("@naver"))
+		{
+			m_id = m_id+ ".com";
+		}
 		// User 정보 가져오기
 		System.out.println("adminMenDetailByPath() // 들어가서 유저정보");
 		UserVO userVO = userDAO.memInfo(m_id);
@@ -428,7 +437,7 @@ public class MemberController {
 	// 8/10 : 성훈 추가
 	
     @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
-    public String menJoin(Model model){
+    public String menJoinForm(Model model){
       
        return "/member/mem/memJoin";
     }
@@ -481,15 +490,26 @@ public class MemberController {
         String AuthenticationKey = temp.toString();
         System.out.println(AuthenticationKey);
     	
-    	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setTo(m_email);
-    	message.setSubject("[UFO] 회원가입을 위한 인증번호 발송");
-    	message.setText("인증번호 : " + AuthenticationKey);
-    	javaMailSender.send(message);
+        try {
+            
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom("ufo@ufo.com");
+            helper.setTo(m_email);
+            helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다.");
+            helper.setText("인증번호 : " + AuthenticationKey,true);
+            javaMailSender.send(message);
+            
+        }catch(Exception e) {
+        	System.out.println("catch 안");
+            e.printStackTrace();
+        }
     	
+        System.out.println("email send success");
     	return AuthenticationKey;
     	
     }
+
 
 
 	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
@@ -499,6 +519,33 @@ public class MemberController {
 	}
 
 */
+
+    
+    @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
+    public String menJoinPro(Model model, UserVO userVO) throws IOException{
+    	
+    	System.out.println("시작 전" + userVO.toString());
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		// 파일 업로드
+		MultipartFile uploadFile = userVO.getUploadFile();
+		if (!uploadFile.isEmpty()) {
+			userVO.setM_img(uploadFile.getOriginalFilename());
+			uploadFile.transferTo(new File(
+					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
+							+ userVO.getM_img()));
+		}
+
+		int n = dao.memJoin(userVO);
+		System.out.println("시작 후" + userVO.toString());
+		if (n != 1) {
+			// 업데이트 실패 시
+			System.out.println("menJoinPro // member 회원가입 // " + userVO.toString());
+		}
+
+		return "redirect:/";
+    	
+    }
+
 	// 성훈 end
 
 }
