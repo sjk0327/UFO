@@ -15,10 +15,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,10 +43,11 @@ public class MemberController {
 
 	@Autowired
 	private KakaoAPI kakao;
-	
+
 	// 승빈 start
 
 	// 고객
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginG(UserVO user, Model model, HttpSession session) {
 		model.addAttribute("user", user);
@@ -68,6 +67,7 @@ public class MemberController {
 	}
 
 	// UFO 회원 로그인
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
@@ -76,35 +76,37 @@ public class MemberController {
 		List<RentVO> lateList = rentDAO.lateList();
 
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
-			return "/enterance/adminLogin";
+			return "redirect:/login";
 		} else if (vo.getM_pw() == null || vo.getM_pw().equals("")) {
-			return "/enterance/adminLogin";
+			return "redirect:/login";
 		}
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		UserVO user = dao.memInfo(vo.getM_id());
 
-		if (user != null && vo.getM_id().equals("admin")) {
+		if (user != null) {
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
-				session.setAttribute("loginPl", "ufo");
-				session.setAttribute("userId", user.getM_id());
-				session.setAttribute("userName", user.getM_name());
+				UserInfoVO info = new UserInfoVO(vo.getM_id(), vo.getM_name());
+				session.setAttribute("userInfo", info);
+//				session.setAttribute("loginPl", "ufo");
+//				session.setAttribute("userId", user.getM_id());
+//				session.setAttribute("userName", user.getM_name());
 				session.setAttribute("returnList", returnList);
 				session.setAttribute("lateList", lateList);
-				// return "/enterance/adminIndex";
-				return "redirect:/adminIndex";
+				return "redirect:/";
 			} else {
-				return "/enterance/adminLogin";
+				return "redirect:/login";
 			}
 
 		} else {
-			return "/enterance/adminLogin";
+			return "redirect:/login";
 		}
 	}
 
 	// 카카오로그인
+	
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
-	public String kakaoLoginG(UserVO user, Model model, HttpSession session, @RequestParam("code") String code) {
+	public String kakaoLoginG(UserInfoVO user, Model model, HttpSession session, @RequestParam("code") String code) {
 		model.addAttribute("user", user);
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		String access_Token = kakao.getAccessToken(code);
@@ -118,18 +120,25 @@ public class MemberController {
 			String email = (String) userInfo.get("email");
 			String[] devid = email.split("@");
 			id = "kakao " + devid[0];
+			String name = (String) userInfo.get("nickname");
+			String mEmail = (String) userInfo.get("email");
 
+			UserVO vo = new UserVO();
+			vo.setM_id(id);
+			vo.setM_name(name);
+			vo.setM_email(mEmail);
+			if (userInfo.get("gender").toString().equals("male")) {
+				vo.setM_gender("남자");
+			} else if (userInfo.get("gender").toString().equals("female")) {
+				vo.setM_gender("여자");
+			} else {
+				vo.setM_gender("선택안함");
+			}
+
+			session.setAttribute("LOGIN", vo);
 			session.setAttribute("loginPl", "kakao");
 			session.setAttribute("userId", id);
 			session.setAttribute("userName", userInfo.get("nickname"));
-			session.setAttribute("userEmail", userInfo.get("email"));
-			if (userInfo.get("gender").toString().equals("male")) {
-				session.setAttribute("userGender", "남자");
-			} else if (userInfo.get("gender").toString().equals("female")) {
-				session.setAttribute("userGender", "여자");
-			} else {
-				session.setAttribute("userGender", "선택안함");
-			}
 			session.setAttribute("access_Token", access_Token);
 		}
 
@@ -143,10 +152,12 @@ public class MemberController {
 	}
 
 	// 카카오 회원가입
+	
 	@RequestMapping(value = "/kakaoJoin", method = RequestMethod.GET)
 	public String kakaoJoin(UserVO user, Model model, HttpSession session) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		
 		String id = (String) session.getAttribute("userId");
 		user.setM_id(id);
 		user.setM_name((String) session.getAttribute("userName"));
@@ -173,6 +184,7 @@ public class MemberController {
 	}
 
 	// 네이버 로그인
+	
 	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
@@ -235,6 +247,7 @@ public class MemberController {
 	}
 
 	// 네이버회원가입
+	
 	@RequestMapping(value = "/naverJoin", method = RequestMethod.GET)
 	public String naverJoin(UserVO user, Model model, HttpSession session) {
 
@@ -272,23 +285,75 @@ public class MemberController {
 	@RequestMapping(value = "/member/mem/userInfo", method = RequestMethod.GET)
 	public String userInfo(UserVO user, Model model, HttpSession session, String m_id) {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		UserVO userInfo = dao.userInfo(m_id);
-		session.getAttribute(m_id);
-		
-		model.addAttribute("userInfo", userInfo);
-		
-		user.setM_name((String) session.getAttribute("userName"));
-		user.setM_email((String) session.getAttribute("userEmail"));
-		user.setM_gender((String) session.getAttribute("userGender"));
-		
 
-		
+		Object userObj = session.getAttribute("LOGIN");
+		UserVO userVO = (UserVO) userObj;
+		String userId = userVO.getM_id();
+		UserVO info = dao.userInfo(userId);
 
-		return "/member/mem/userInfo";
+		System.out.println("userId: " + userId);
+		model.addAttribute("userVO", info);
+
+		return "member/mem/userInfo";
+	}
+
+	//내 정보 수정
+	
+	@RequestMapping(value = "/member/mem/userInfo/{m_id}", method = RequestMethod.GET)
+	public String userInfoDetailByPath(UserVO user, Model model, @PathVariable String m_id, HttpSession session) {
+		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		
+		Object userObj = session.getAttribute("LOGIN");
+		UserVO userVO = (UserVO) userObj;
+		String userId = userVO.getM_id();
+		UserVO info = userDAO.userInfo(userId);
+
+		System.out.println("m_id " + m_id);
+		// User 정보 가져오기
+		System.out.println("userInfoDetailByPath() // 들어가서 유저정보");
+		
+		// 대여 정보 가져오기
+		System.out.println("userVO : " + userVO.toString());
+		System.out.println("userInfoDetailByPath() // 들어가서 대여정보");
+
+		List<RentVO> rentList = rentDAO.rentListByMid(m_id, "구매");
+		System.out.println("rentList size : " + rentList.size());
+		// 구매 정보 가져오기
+		System.out.println("userInfoDetailByPath() // 들어가서 구매정보");
+
+		List<RentVO> purchaseList = rentDAO.purchaseListByMid(m_id, "구매");
+		System.out.println("purchaseList size : " + purchaseList.size());
+		model.addAttribute("userVO", info);
+		model.addAttribute("rentList", rentList);
+		model.addAttribute("purchaseList", purchaseList);
+
+		return "member/mem/userInfo";
 	}
 
 	
+	@RequestMapping(value = "/member/mem/userInfo/{userID}", method = RequestMethod.POST)
+	public String userInfoUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
+		System.out.println("시작 전" + userVO.toString());
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		// 파일 업로드
+		MultipartFile uploadFile = userVO.getUploadFile();
+		if (!uploadFile.isEmpty()) {
+			userVO.setM_img(uploadFile.getOriginalFilename());
+			uploadFile.transferTo(new File(
+					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
+							+ userVO.getM_img()));
+		}
 
+		int n = dao.userUpdate(userVO);
+		System.out.println("시작 후" + userVO.toString());
+		if (n != 1) {
+			// 업데이트 실패 시
+			System.out.println("userInfoUpdateByPath // member 수정 실패 // " + userVO.toString());
+		}
+
+		return "redirect:/member/mem/userInfo";
+	}
 
 	
 	
@@ -296,8 +361,6 @@ public class MemberController {
 	
 	
 	
-	
-
 	// 관리자
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminLoginG(UserVO user, Model model, HttpSession session) {
@@ -312,6 +375,7 @@ public class MemberController {
 		}
 	}
 
+	
 	@RequestMapping(value = "/admin", method = RequestMethod.POST)
 	public String adminLogin(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
@@ -465,99 +529,76 @@ public class MemberController {
 		return "redirect:/admin/mem/memDetail/" + userID;
 	}
 
-	
-	
 	// 8/10 : 성훈 추가
-	
-    @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
-    public String menJoinForm(Model model){
-      
-       return "/member/mem/memJoin";
-    }
-	
-    
-    
-    /*
-    @ResponseBody
-    @RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST , produces="application/json")
-    public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception{
-    	System.out.println("ajax 호출 / memIdCheck");
-    	UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-    	Map<Object, Object> map = new HashMap<Object, Object>();
-    	int result = dao.duplicateCheckId(m_id);
-    	
-    	map.put("check", result);
-    	
-    	return map;
-    }
-	
-    @Autowired
-    private JavaMailSender javaMailSender;
-    
-    @ResponseBody
-    @RequestMapping(value = "/member/mem/memEmailCheck", method = RequestMethod.POST , produces="application/json")
-    public String menEmailCheck(Model model, @RequestBody String m_email){
-    	System.out.println("ajax 호출 / menEmailCheck");
-
-    	//인증 번호 생성기
-        StringBuffer temp =new StringBuffer();
-        Random rnd = new Random();
-        for(int i=0;i<10;i++)
-        {
-            int rIndex = rnd.nextInt(3);
-            switch (rIndex) {
-            case 0:
-                // a-z
-                temp.append((char) ((int) (rnd.nextInt(26)) + 97));
-                break;
-            case 1:
-                // A-Z
-                temp.append((char) ((int) (rnd.nextInt(26)) + 65));
-                break;
-            case 2:
-                // 0-9
-                temp.append((rnd.nextInt(10)));
-                break;
-            }
-        }
-        String AuthenticationKey = temp.toString();
-        System.out.println(AuthenticationKey);
-    	
-        try {
-            
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-            helper.setFrom("ufo@ufo.com");
-            helper.setTo(m_email);
-            helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다.");
-            helper.setText("인증번호 : " + AuthenticationKey,true);
-            javaMailSender.send(message);
-            
-        }catch(Exception e) {
-        	System.out.println("catch 안");
-            e.printStackTrace();
-        }
-    	
-        System.out.println("email send success");
-    	return AuthenticationKey;
-    	
-    }
-
-
 
 	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
-	public String adminMenUpdateByPath(Model model) {
+	public String menJoinForm(Model model) {
 
 		return "/member/mem/memJoin";
 	}
 
-*/
+	@ResponseBody
+	@RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST, produces = "application/json")
+	public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception {
+		System.out.println("ajax 호출 / memIdCheck");
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		int result = dao.duplicateCheckId(m_id);
 
-    
-    @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
-    public String menJoinPro(Model model, UserVO userVO) throws IOException{
-    	
-    	System.out.println("시작 전" + userVO.toString());
+		map.put("check", result);
+
+		return map;
+	}
+
+	@Autowired
+	private JavaMailSender javaMailSender;
+
+	@ResponseBody
+	@RequestMapping(value = "/member/mem/memEmailCheck", method =RequestMethod.POST , produces="application/json") 
+	public String menEmailCheck(Model model, @RequestBody String m_email){
+	  System.out.println("ajax 호출 / menEmailCheck");
+	  
+	  //인증 번호 생성기 
+	  StringBuffer temp = new StringBuffer();
+	  Random rnd = new Random();
+	  for(int i=0;i<10;i++) { 
+		  int rIndex = rnd.nextInt(3); 
+		  switch (rIndex) { 
+		  case 0: // a-z 
+			  temp.append((char) ((int) (rnd.nextInt(26)) + 97)); 
+			  break; 
+	      case 1: // A-Z 
+	    	  temp.append((char) ((int) (rnd.nextInt(26)) + 65)); 
+	    	  break;
+	      case 2: // 0-9 
+	    	  temp.append((rnd.nextInt(10))); 
+	    	  break; 
+		  } 
+	  } 
+	  String AuthenticationKey = temp.toString(); 
+	  System.out.println(AuthenticationKey);
+	  
+	  try {
+	  
+		  MimeMessage message = javaMailSender.createMimeMessage(); MimeMessageHelper
+		  helper = new MimeMessageHelper(message, true, "utf-8");
+		  helper.setFrom("ufo@ufo.com"); 
+		  helper.setTo(m_email);
+		  helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다."); 
+		  helper.setText("인증번호 : " +  AuthenticationKey,true); 
+		  javaMailSender.send(message);
+	  
+	  }catch(Exception e) { 
+		  System.out.println("catch 안"); e.printStackTrace(); }
+	  	  System.out.println("email send success"); return AuthenticationKey;
+	  
+	  }
+
+
+	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
+	public String menJoinPro(Model model, UserVO userVO) throws IOException {
+
+		System.out.println("시작 전" + userVO.toString());
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		// 파일 업로드
 		MultipartFile uploadFile = userVO.getUploadFile();
@@ -576,8 +617,8 @@ public class MemberController {
 		}
 
 		return "redirect:/";
-    	
-    }
+
+	}
 
 	// 성훈 end
 

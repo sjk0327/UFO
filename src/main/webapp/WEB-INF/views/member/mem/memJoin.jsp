@@ -129,15 +129,16 @@
 												dataType : "JSON",
 												contentType: "application/json; charset=UTF-8",
 												success : function(data) {
-													
-													if(data.check > 0){
-														$("#check_id").css("color","red");
-														$("#check_id").text("이미 사용중인 아이디 입니다.");
-														idCheck = false;
-													} else if(data.check == 0){
-														$("#check_id").css("color","blue");
-														$("#check_id").text("멋진 아이디 입니다.")
-														idCheck = true;
+													if(idLength){
+														if(data.check > 0){
+															$("#check_id").css("color","red");
+															$("#check_id").text("이미 사용중인 아이디 입니다.");
+															idCheck = false;
+														} else if(data.check == 0){
+															$("#check_id").css("color","blue");
+															$("#check_id").text("멋진 아이디 입니다.")
+															idCheck = true;
+														}
 													}
 												}
 											});
@@ -353,6 +354,7 @@
         <!-- end of container-fluid -->
     </section>
 <script>
+	var idLength = false;
     function check_id(){
     	var id = document.getElementById('id').value;
     	var SC = ["!","@","#","$","%","`","~","^","&","*","(",")","+","=","\\","|","{","}",":",";","\"","\'",",","<",".",">","/","?"];
@@ -365,12 +367,15 @@
     	if(id.length == 0 || id == ""){
         	document.getElementById('check_id').innerHTML='필수 정보입니다.'
             document.getElementById('check_id').style.color='red';
+        	idLength = false;
         }else if(id.length < 5 || check_SC == 1){
         	document.getElementById('check_id').innerHTML='5~20자리의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.'
             document.getElementById('check_id').style.color='red';
+        	idLength = false;
         }else {
         	document.getElementById('check_id').innerHTML='중복검사를 해주세요!';
             document.getElementById('check_id').style.color='green';
+            idLength = true;
         }
     };
     function check_pw(){
@@ -399,6 +404,37 @@
             }
         }
     };
+    /*사진 미리 보여주기 함수 memberDetail*/
+    $(document).ready(function(){ 
+        var fileTarget = $('.upload-hidden'); 
+        fileTarget.on('change', function(){ // 값이 변경되면 
+            if(window.FileReader){ // modern browser 
+                var filename = $(this)[0].files[0].name; 
+            } else { // old IE 
+                var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+            } // 추출한 파일명 삽입 
+            $(this).siblings('.upload-name').val(filename); 
+        }); 
+    });
+
+    var imgTarget = $('.upload-hidden');
+
+    imgTarget.on('change', function(){
+        var parent = $(this).parent();
+        parent.children('.m_imgPreview').remove();
+
+        if(window.FileReader){
+            if(!$(this)[0].files[0].type.match(/image\//)) return;
+
+            var reader = new FileReader(); 
+            reader.onload = function(e){ 
+                var src = e.target.result; 
+                parent.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>'); 
+            
+            } 
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+    });
 </script>
 
 <%@ include file="/WEB-INF/views/adminFooter.jsp" %>         
