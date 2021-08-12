@@ -105,8 +105,8 @@
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
-					<td onclick="event.cancelBubble=true"><input type="text" name="b1" size="10" value="${list.p_canBuy}" />개</td>
-					<td onclick="event.cancelBubble=true"><input type="text" name="b2" size="10" value="${list.p_canRent}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
 
@@ -175,8 +175,8 @@
 	   	
 		function productUpdateRow(p_id,p_canBuy,p_canRent) {
 			var p_id = p_id;	
-			var p_canBuy = $('input[name=b1]').val();
-			var p_canRent = $('input[name=b2]').val();
+			var p_canBuy = $("#"+p_id).val();
+			var p_canRent = $("#"+p_id).val();
 			alert('p_id::: ' + p_id );
 			alert('p_canBuy::: ' + p_canBuy );
 			alert('p_canRent::: ' + p_canRent );

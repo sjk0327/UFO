@@ -6,6 +6,7 @@
 <script type="text/javascript" src="/resources/assets/js/popper.js/popper.min.js"></script>
 <script type="text/javascript" src="/resources/assets/js/bootstrap/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="/resources/assets/pages/widget/excanvas.js "></script>
+
 <style>
  .col-md-3 { font-size : 13px; }
  .margin { margin-top: 100px; }
@@ -15,41 +16,45 @@
 <script>
 
 	/*고객productList function*/
-	function pricehigh() {
 	
-		alert('ajax...ㅋ..?');
-		var sort = $('#sort').val();
-		alert(sort);
-		$.ajax({
-			type : "POST", //요청 메소드 방식
-			data : {"sort" : sort},
-			url : "/member/pro/productList/sort",
-			dataType : "json", //서버가 요청 URL을 통해서 응답하는 내용의 타입
-			
-			success : function(result) {
-				if(result.error == true){
-					alert("성공하였습니다.");
-					
-					location.href='/member/pro/productList/';
-				}
-				else{
-					alert("실패하였습니다.");
-					location.href='/member/pro/productList/';
-				}
-				
-			},
-			
-			error : function(a, b, c) {
-				
-				alert(a + b + c);
-			}
-		});
-		
-	}
-		
 
-
-
+	$('#sortPh').on('click', function(){
+     	var url = "/member/pro/productList/sort/pricehigh";
+    	 $("#tempList").load(url, function(){
+      	  $("#ulList").html($("#tempList").html());
+       	  $("#tempList").html(""); 
+     	});
+	});
+	$('#sortPl').on('click', function(){
+     	var url = "/member/pro/productList/sort/pricelow";
+    	 $("#tempList").load(url, function(){
+      	  $("#ulList").html($("#tempList").html());
+       	  $("#tempList").html(""); 
+     	});
+	});
+	$('#sortRecommand').on('click', function(){
+     	var url = "/member/pro/productList/sort/recommand";
+    	 $("#tempList").load(url, function(){
+      	  $("#ulList").html($("#tempList").html());
+       	  $("#tempList").html(""); 
+     	});
+	});
+	
+	/* $(document).ready(function() {
+	    $("#slider-range" ).slider({
+	    	alert('슬라이더클릭?');
+	        // options
+	        start: function (event, ui) {
+	            // code
+	        },
+	        slide: function( event, ui ) {
+	            // code
+	        },
+	        change: function(event, ui) {
+	            $("#amount").submit();
+	        }
+	    });
+	}); */
 
 
 </script>
