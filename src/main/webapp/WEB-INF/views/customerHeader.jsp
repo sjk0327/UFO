@@ -57,12 +57,12 @@
                 <ul>
 
                <c:choose>
-                <c:when  test ="${empty userName}">
+                <c:when  test ="${empty userInfo}">
                   <li><a href="/login">[ 로그인 ]</a></li>
                   <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
                   </c:when >
                   <c:otherwise>
-                   <li>${userName } 님, 환영합니다.&nbsp&nbsp
+                   <li>${userInfo.m_id } 님, 환영합니다.&nbsp&nbsp
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
                    <li><a href="/logout">[ 로그아웃 ]</a></li>
                    </c:if>
