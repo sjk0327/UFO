@@ -24,7 +24,7 @@
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
                     
-                        <form:form class="md-float-material form-material" action="admin" method="post"  modelAttribute="user">
+                        <form:form class="md-float-material form-material" action="/login" method="post"  modelAttribute="user">
                             <div class="text-center">
                                 <img src="resources/assets/images/logo.png" alt="logo.png">
                             </div>

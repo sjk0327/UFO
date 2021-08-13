@@ -4,6 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+
+<!-- 8월 12일 성훈 수정 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,31 +89,32 @@
 														        <div class="m_imgPreview">
 																	<img src="/resources/Images/member/${userVO.m_img }" class="img-fluid img-circle">
 														        </div>
-														        <input class="upload-name" value="파일선택" disabled="disabled" /> 
-														        <label for="input-file">업로드</label> 
+														        <input class="upload-name" value="파일선택" style="width:100%;" disabled="disabled" />
+														        <label for="input-file" style="float:right; margin-right:9px;">업로드</label> 
 														        <input type="file" name="uploadFile" id="input-file" class="upload-hidden" /> 
 														        <input type="hidden" name="m_img" value="${userVO.m_img }" />
 														    </div>
 														   
                                                          </div>
-                                                         <div class="col-sm-8">
+                                                         <div class="col-sm-7">
                                                             <div class="form-group row">
-                                                               <div class="col-sm-3 col-form-label">아이디</div>
-                                                               <div class="form-group form-primary form-static-label col-sm-9">
-                                                                  <form:input path="m_id" class="form-control form-control-center form-control-round form-control-bold" />
+                                                               <div class="col-sm-5 col-form-label">아이디</div>
+                                                               <div class="form-group form-primary form-static-label col-sm-7">
+                                                                  <form:hidden path="m_id" class="form-control form-control-center form-control-round form-control-bold" />
+                                                                  <input id="id" value="${userVO.m_id }" disabled="disabled" class="form-control form-control-center form-control-round form-control-bold" />
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                               <div class="col-sm-3 col-form-label">이 름</div>
-                                                               <div class="form-group form-primary form-static-label col-sm-9">
+                                                               <div class="col-sm-5 col-form-label">이 름</div>
+                                                               <div class="form-group form-primary form-static-label col-sm-7">
                                                                   <form:input type="text" path="m_name" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                               <div class="col-sm-3 col-form-label">성별</div>
-                                                               <div class="form-group form-primary form-static-label col-sm-9">
+                                                               <div class="col-sm-5 col-form-label">성별</div>
+                                                               <div class="form-group form-primary form-static-label col-sm-7">
                                                                   <form:input type="text" path="m_gender" class="form-control form-control-center form-control-round form-control-bold" readonly="readonly"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
@@ -118,19 +122,19 @@
                                                          </div>
                                                       </div>
                                                       <div class="form-group row">
-                                                         <div class="col-sm-2 col-form-label">주소</div>
-                                                         <div class="form-group form-primary form-static-label col-sm-10">
+                                                         <div class="col-sm-3 col-form-label">주소</div>
+                                                         <div class="form-group form-primary form-static-label col-sm-8">
                                                          <!-- 주소 split 으로 나눠서 token 화 하기 -->
                                                             <div class="row">
                                                                <div class="col-sm-6">
-                                                                  <form:input type="text" id="postcode" path="m_addr" value="${fn:split(userVO.m_addr,',')[0]}" class="form-control" placeholder="우편번호" required="required"/>
+                                                                  <form:input type="text" id="postcode" path="m_addr" value="${fn:split(userVO.m_addr,',')[0]}" class="form-control" placeholder="우편번호" required="required" readonly="readonly"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
                                                                   <input type="button" onclick="daumPostcode()" value="우편번호 찾기" class="btn btn-mat waves-effect waves-light btn-info " style="background-color: #7971ea;"/>
                                                                </div>
                                                             </div>
-                                                            <form:input type="text" id="address" path="m_addr" value="${fn:split(userVO.m_addr,',')[1]}" class="form-control" placeholder="주소" required="required"/>
+                                                            <form:input type="text" id="address" path="m_addr" value="${fn:split(userVO.m_addr,',')[1]}" class="form-control" placeholder="주소" required="required" readonly="readonly"/>
                                                             <span class="form-bar"></span>
                                                             <div class="row">
                                                                <div class="col-sm-6">
@@ -138,29 +142,29 @@
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
-                                                                  <form:input type="text" id="extraAddress" path="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}" class="form-control" placeholder="참고항목"/>
+                                                                  <form:input type="text" id="extraAddress" path="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}" class="form-control" placeholder="참고항목" readonly="readonly"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>      
                                                          </div>
                                                       </div>
                                                       <div class="form-group row">
-                                                         <div class="col-sm-2 col-form-label">전화번호</div>
-                                                         <div class="form-group form-primary form-static-label col-sm-10">
+                                                         <div class="col-sm-3 col-form-label">전화번호</div>
+                                                         <div class="form-group form-primary form-static-label col-sm-8">
                                                             <form:input type="text" path="m_tel" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                       </div>
                                                       <div class="form-group row">
                                                       	 <input type="hidden" name="m_email" id="realEmail" value="${userVO.m_email }"/>
-                                                         <div class="col-sm-2 col-form-label">이메일</div>
-                                                         <div class="form-group form-primary form-static-label col-sm-5">
+                                                         <div class="col-sm-3 col-form-label">이메일</div>
+                                                         <div class="form-group form-primary form-static-label col-sm-4">
                                                             <input type="text" id="frontEmail" value="${fn:split(userVO.m_email,'@')[0] }" onchange="emailSum()" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                          @
                                                          <div class="col-sm-4">
-					                                    	<select id="backEmail" onchange="emailSum()">
+					                                    	<select id="backEmail" onchange="emailSum()" required="required">
 					                                    		<option value="">선택해주세요.</option>
 					                                    	<c:forTokens var="email" items="naver.com,daum.net,hanmail.net,gmail.com" delims=",">
 					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] eq email}">
@@ -183,23 +187,24 @@
                                                       }
                                                       </script>
                                                       <div class="form-group row">
-                                                         <div class="col-sm-2 col-form-label">포인트</div>
-                                                         <div class="form-group form-primary form-static-label col-sm-10">
+                                                         <div class="col-sm-3 col-form-label">포인트</div>
+                                                         <div class="form-group form-primary form-static-label col-sm-8">
                                                             <form:input type="text" path="m_point" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                       </div>
                                                       <div class="form-group row">
-                                                         <div class="col-sm-2 col-form-label">가입날짜</div>
+                                                         <div class="col-sm-3 col-form-label">가입날짜</div>
                                                          
                                                          <!--<fmt:formatDate var="formatRegDate" value="${userVO.m_regdate}" pattern="yyyy년 MM월 dd일, HH시 MM분 SS초"/>
                                                             <input value="${formatRegDate}" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." readonly="readonly"/>-->
-                                                         <div class="form-group form-primary col-sm-10">
-                                                            <form:input type="date" name="m_regdate" path="m_regdate"/>
+                                                         <div class="form-group form-primary form-static-label col-sm-8">
+                                                            <input id="regdate" value="${userVO.m_regdate }" disabled="disabled" class="form-control form-control-center form-control-round form-control-bold"/>
+                                                            <form:hidden path="m_regdate"/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                       </div>
-                                                      <div class="row">
+                                                      <div class="row" style="float:right;">
                                                          <div>
                                                             <input type="submit" id="button" value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">
                                                          </div>
