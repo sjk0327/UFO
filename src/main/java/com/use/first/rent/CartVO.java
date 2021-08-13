@@ -6,6 +6,7 @@ public class CartVO {
 	private int c_id;
 	private String c_mid;
 	private String c_pid;
+	private String c_state;
 	private String c_amount;
 	private Date c_date;
 	private String p_name;
@@ -34,6 +35,13 @@ public class CartVO {
 	}
 	public void setC_pid(String c_pid) {
 		this.c_pid = c_pid;
+	}
+	
+	public String getC_state() {
+		return c_state;
+	}
+	public void setC_state(String c_state) {
+		this.c_state = c_state;
 	}
 	public String getC_amount() {
 		return c_amount;
@@ -89,14 +97,15 @@ public class CartVO {
 	public void setP_subimg(String p_subimg) {
 		this.p_subimg = p_subimg;
 	}
-	
 	@Override
 	public String toString() {
-		return "CartVO [c_id=" + c_id + ", c_mid=" + c_mid + ", c_pid=" + c_pid + ", c_amount=" + c_amount + ", c_date="
-				+ c_date + ", p_name=" + p_name + ", p_price=" + p_price + ", p_canbuy=" + p_canbuy + ", p_canrent="
-				+ p_canrent + ", p_category=" + p_category + ", p_mainimg=" + p_mainimg + ", p_subimg=" + p_subimg
-				+ "]";
+		return "CartVO [c_id=" + c_id + ", c_mid=" + c_mid + ", c_pid=" + c_pid + ", c_state=" + c_state + ", c_amount="
+				+ c_amount + ", c_date=" + c_date + ", p_name=" + p_name + ", p_price=" + p_price + ", p_canbuy="
+				+ p_canbuy + ", p_canrent=" + p_canrent + ", p_category=" + p_category + ", p_mainimg=" + p_mainimg
+				+ ", p_subimg=" + p_subimg + "]";
 	}
+	
+	
 	
 	
 	

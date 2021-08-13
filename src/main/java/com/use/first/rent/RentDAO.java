@@ -25,6 +25,7 @@ public interface RentDAO {
 	public void deleteWishList(String w_id);
 	public void deleteWishAll(String userId);
 	public List<CartVO> getCartList(String userId);
+	public void deleteCartList(String c_id);
 	
 	// 성훈 시작
 	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);

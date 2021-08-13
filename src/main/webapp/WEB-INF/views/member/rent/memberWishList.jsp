@@ -102,9 +102,7 @@ border-color: #4e5a72;
 <col style="width:auto"/>
 <col style="width:150px"/>
 <col style="width:120px"/>
-<col style="width:100px"/>
-<col style="width:85px"/>
-<col style="width:105px"/>
+
 <col style="width:115px"/>
 </colgroup>
 <thead style="text-align: center;"><tr>
@@ -113,9 +111,8 @@ border-color: #4e5a72;
                     <th scope="col">상품정보</th>
                     <th scope="col">판매가</th>
                     <th scope="col">포인트</th>
-                    <th scope="col">배송구분</th>
-                    <th scope="col">배송비</th>
-                    <th scope="col">합계</th>
+
+                  
                     <th scope="col">선택</th>
                 </tr></thead>
                 
@@ -195,10 +192,9 @@ border-color: #4e5a72;
 <fmt:parseNumber var="buypoint" value="${wishInfo.p_price*0.95*0.05}" integerOnly="true" />
                     <td><span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>대여포인트 <fmt:formatNumber value="${rentpoint}" pattern="###,###,###" /></span>(5%)</span><br/>
                     <span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>구매포인트 <fmt:formatNumber value="${buypoint}" pattern="###,###,###" /></span>(5%)</span></td>
-                    <td><div class="txtInfo">기본배송</div></td>
-                    <td>
-<span class="">2,500원<br/></span> 조건</td>
-                    <td class="price right" style="font-weight: bold;"><fmt:formatNumber value="${wishInfo.p_price+2500}" pattern="###,###,###" />원</td>
+                   
+                   
+        
                     <td class="button">
                    
                     	<span class="row">
