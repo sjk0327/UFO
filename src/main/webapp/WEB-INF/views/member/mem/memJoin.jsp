@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 
-
+<!-- 8월 12일 성훈 수정 -->
 
 <!DOCTYPE html>
 <html>
@@ -116,38 +116,6 @@
 									</div>
 									<div class="col-sm-2" style="padding:0px 0px 0px 15px;">
 	                                  	<input type="button" value="중복확인" onclick="duplicateIdCheck()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
-									<script>
-									var idCheck = false;
-									function duplicateIdCheck(){
-										var inputed = $('input#id').val();
-										console.log(inputed);
-										if(inputed.length > 0) {
-											$.ajax({
-												data : inputed,
-												url : "/member/mem/idCheck",
-												type : "POST",
-												dataType : "JSON",
-												contentType: "application/json; charset=UTF-8",
-												success : function(data) {
-													
-													if(data.check > 0){
-														$("#check_id").css("color","red");
-														$("#check_id").text("이미 사용중인 아이디 입니다.");
-														idCheck = false;
-													} else if(data.check == 0){
-														$("#check_id").css("color","blue");
-														$("#check_id").text("멋진 아이디 입니다.")
-														idCheck = true;
-													}
-												}
-											});
-										}else{
-											$("#check_id").css("color","red");
-											$("#check_id").text("아이디를 입력해주세요.");
-											idCheck = false;
-										}
-									};
-									</script>
 									</div>
 								</div>
                                 <div class="form-group form-primary form-static-label">
@@ -210,71 +178,6 @@
                                     </div>
                                     <div class="col-sm-3" style="padding:0px 0px 0px 11px;">
                                    		<input type="button" value="인증번호 받기" onclick="authKeySend()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
-                                		<script>
-                                		var authKey = "";
-                                		var emailFormCheck = false;
-                                		var emailCheck = false;
-                                		// 인증 번호 발송
-										function authKeySend(){
-                                			var realEmail = $('input#realEmail');
-											var inputed = $('input#frontEmail').val();
-											var select = $('select#backEmail').val();
-											var checkInput = $('input#checkKey');
-											
-											console.log(inputed);
-											
-											var SC = ["!","@","#","$","%","`","~","^","&","*","(",")","+","=","\\","|","{","}",":",";","\"","\'",",","<",">","/","?"];
-									        var check_SC = 0;
-											
-									        for(var i = 0; i < SC.length; i++){
-									            if(inputed.indexOf(SC[i]) != -1) check_SC = 1;
-									        }
-											
-											if(check_SC == 1 || select == ""){
-												$("#check_email").css("color","red");
-												$("#check_email").text("이메일을 제대로 입력해주세요.");
-												emailFormCheck = false;
-											}else{
-												emailFormCheck = true;
-											}
-											
-											if(emailFormCheck && (inputed.length > 0 || inputed != "")) {
-												$("#check_email").text("");
-												$.ajax({
-													data : inputed + "@" + select,
-													url : "/member/mem/memEmailCheck",
-													type : "POST",
-													dataType : "text",
-													contentType: "application/json; charset=UTF-8",
-													success : function(data) {
-														alert('인증번호가 전송 되었습니다.');
-														
-														checkInput.attr("disabled", false);	
-														checkInput.attr("placeholder", "");
-														authKey = data;
-														realEmail.value = inputed + "@" + select;
-														console.log(authKey);
-													},
-												});
-											}
-										};
-										
-										//인증 번호 확인
-										function authKeyCompared(){
-											var inputCode = $("#checkKey").val();
-											var result = $("#check_authKey");
-											
-											if(inputCode == authKey ){
-												result.text("인증번호가 일치합니다.");
-												result.css("color","blue");
-												emailCheck = true;
-											} else{
-												result.text("인증번호를 다시 확인해주세요.");
-												result.css("color","red");
-												emailCheck = false;
-											}
-										};
-										</script>
                                 	</div>
                               	</div>
 
@@ -317,19 +220,6 @@
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
                                         <button type="button" onclick="signUp()" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">가입하기</button>
-                                        
-                                        <script>
-                                        function signUp(){
-                                        	if(!idCheck){
-                                        		alert("아이디 중복확인을 해주세요.")
-                                        	}else if(!emailCheck){
-                                        		alert("이메일 인증을 해주세요.")
-                                        	}else if(idCheck && emailCheck){
-                                        		document.signIn_form.submit();
-                                        	}
-                                        	
-                                        }
-                                        </script>
                                     </div>
                                 </div>
                                 <hr/>
@@ -353,6 +243,8 @@
         <!-- end of container-fluid -->
     </section>
 <script>
+	// 아이디 길이 체크
+ 	var idLength = false;
     function check_id(){
     	var id = document.getElementById('id').value;
     	var SC = ["!","@","#","$","%","`","~","^","&","*","(",")","+","=","\\","|","{","}",":",";","\"","\'",",","<",".",">","/","?"];
@@ -365,14 +257,51 @@
     	if(id.length == 0 || id == ""){
         	document.getElementById('check_id').innerHTML='필수 정보입니다.'
             document.getElementById('check_id').style.color='red';
+        	idLength = false;
         }else if(id.length < 5 || check_SC == 1){
         	document.getElementById('check_id').innerHTML='5~20자리의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.'
             document.getElementById('check_id').style.color='red';
+        	idLength = false;
         }else {
         	document.getElementById('check_id').innerHTML='중복검사를 해주세요!';
             document.getElementById('check_id').style.color='green';
+            idLength = true;
         }
     };
+    
+    // 아이디 중복 확인 체크
+	var idCheck = false;
+	function duplicateIdCheck(){
+		var inputed = $('input#id').val();
+		console.log(inputed);
+		if(inputed.length > 0) {
+			$.ajax({
+				data : inputed,
+				url : "/member/mem/idCheck",
+				type : "POST",
+				dataType : "JSON",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					if(idLength){
+						if(data.check > 0){
+							$("#check_id").css("color","red");
+							$("#check_id").text("이미 사용중인 아이디 입니다.");
+							idCheck = false;
+						} else if(data.check == 0){
+							$("#check_id").css("color","blue");
+							$("#check_id").text("멋진 아이디 입니다.")
+							idCheck = true;
+						}
+					}
+				}
+			});
+		}else{
+			$("#check_id").css("color","red");
+			$("#check_id").text("아이디를 입력해주세요.");
+			idCheck = false;
+		}
+	};
+	// 비밀번호 체크
     function check_pw(){
        var pw = document.getElementById('pw').value;
                 
@@ -399,6 +328,116 @@
             }
         }
     };
+    
+    //회원 가입 버튼 클릭시 중복검사, 이메일 인증 수행 여부 체크
+    function signUp(){
+    	if(!idCheck){
+    		alert("아이디 중복확인을 해주세요.")
+    	}else if(!emailCheck){
+    		alert("이메일 인증을 해주세요.")
+    	}else if(idCheck && emailCheck){
+    		document.signIn_form.submit();
+    	}
+    	
+    };
+    
+ 	// 인증 번호 발송
+	var authKey = "";
+	var emailFormCheck = false;
+	var emailCheck = false;
+	
+	function authKeySend(){
+		var realEmail = $('input#realEmail');
+		var inputed = $('input#frontEmail').val();
+		var select = $('select#backEmail').val();
+		var checkInput = $('input#checkKey');
+		
+		console.log(inputed);
+		
+		var SC = ["!","@","#","$","%","`","~","^","&","*","(",")","+","=","\\","|","{","}",":",";","\"","\'",",","<",">","/","?"];
+        var check_SC = 0;
+		
+        for(var i = 0; i < SC.length; i++){
+            if(inputed.indexOf(SC[i]) != -1) check_SC = 1;
+        }
+		
+		if(check_SC == 1 || select == ""){
+			$("#check_email").css("color","red");
+			$("#check_email").text("이메일을 제대로 입력해주세요.");
+			emailFormCheck = false;
+		}else{
+			emailFormCheck = true;
+		}
+		
+		if(emailFormCheck && (inputed.length > 0 || inputed != "")) {
+			$("#check_email").text("");
+			$.ajax({
+				data : inputed + "@" + select,
+				url : "/member/mem/memEmailCheck",
+				type : "POST",
+				dataType : "text",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					alert('인증번호가 전송 되었습니다.');
+					
+					checkInput.attr("disabled", false);	
+					checkInput.attr("placeholder", "");
+					authKey = data;
+					realEmail.value = inputed + "@" + select;
+					console.log(authKey);
+				},
+			});
+		}
+	};
+	
+	//인증 번호 확인
+	function authKeyCompared(){
+		var inputCode = $("#checkKey").val();
+		var result = $("#check_authKey");
+		
+		if(inputCode == authKey ){
+			result.text("인증번호가 일치합니다.");
+			result.css("color","blue");
+			emailCheck = true;
+		} else{
+			result.text("인증번호를 다시 확인해주세요.");
+			result.css("color","red");
+			emailCheck = false;
+		}
+	};
+    
+    
+    /*사진 미리 보여주기 함수 memberDetail*/
+    $(document).ready(function(){ 
+        var fileTarget = $('.upload-hidden'); 
+        fileTarget.on('change', function(){ // 값이 변경되면 
+            if(window.FileReader){ // modern browser 
+                var filename = $(this)[0].files[0].name; 
+            } else { // old IE 
+                var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+            } // 추출한 파일명 삽입 
+            $(this).siblings('.upload-name').val(filename); 
+        }); 
+    });
+
+    var imgTarget = $('.upload-hidden');
+
+    imgTarget.on('change', function(){
+        var parent = $(this).parent();
+        parent.children('.m_imgPreview').remove();
+
+        if(window.FileReader){
+            if(!$(this)[0].files[0].type.match(/image\//)) return;
+
+            var reader = new FileReader(); 
+            reader.onload = function(e){ 
+                var src = e.target.result; 
+                parent.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>'); 
+            
+            } 
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+    });
 </script>
 
 <%@ include file="/WEB-INF/views/adminFooter.jsp" %>         

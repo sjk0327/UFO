@@ -49,10 +49,10 @@
 	a {
 	cursor:pointer;
 	}
-	.icon-heart-o, .icon-heart{
+	.icon{
 	font-size: 50px;
 	color: red;
-	
+	background-color:green;
 	}
 	
   </style>
@@ -64,25 +64,20 @@
     
 
    
-	
+
     <div class="site-section">
       <div class="container">
         <div class="row">
-          <div class="col-md-6 mainContainer"><span>
+          <div class="col-md-6 mainContainer">
             <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="500px" height="500px" class="img-fluid">
           </div>
           <div class="col-md-6" id="info">
    <form:form name="form" method="post" modelAttribute="productVO">
             <form:input path="p_id" id="p_id" value="${productVO.p_id}" hidden="true"/>
-            
             <h2 class="text-black site-top-icons">${productVO.p_name}</h2><hr>
              
-
-<a id="wish"><span class="icon icon-heart-o"></span></a>
- <c:if test = "${wishListVO != null}">
- <a id="wish2" ><span class="icon icon-heart"></span></a>
- </c:if>
-                  
+            
+            
 <div class="row"><div class="col-lg-5"><label>제품가격</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
 <div class="row"><div class="col-lg-5"><label>대여금액</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
  <div class="row"><div class="col-lg-5"><label>수량</labeL></div><div class="col-lg-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/>
@@ -96,11 +91,12 @@
   
                
             <div id="buttonGroup" >
-            <!--<input type="button" value="위시리스트" id="wish" class="buy-now btn btn-sm btn-primary" data-toggle="popover" data-placement="bottom" title="WishList" data-content="위시리스트에 추가되었습니다." data-trigger="focus" />
-            <input type="button" value="위시삭제" hidden="true" id="wish2" class="buy-now btn btn-sm btn-primary" data-toggle="popover" data-placement="bottom" title="WishList" data-content="위시리스트에 삭제되었습니다." data-trigger="focus" />-->
+            <!--<a id="wish"><span class="icon icon-heart-o" data-toggle="popover" data-placement="bottom" title="WishList" data-content="위시리스트에 추가되었습니다." data-trigger="focus" ></span></a>!-->
+            <input type="button" value="위시리스트" id="wish" class="buy-now btn btn-sm btn-primary" data-toggle="popover" data-placement="bottom" title="WishList" data-content="위시리스트에 추가되었습니다." data-trigger="focus" />
+            <input type="button" value="위시삭제" hidden="true" id="wish2" class="buy-now btn btn-sm btn-primary" data-toggle="popover" data-placement="bottom" title="WishList" data-content="위시리스트에 삭제되었습니다." data-trigger="focus" />
             <input type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/>
-			<input type="submit" value="Own" formaction="/member/rent/buy/" class="buy-now btn btn-sm btn-primary"/>
-			<input type="submit" value="Use" formaction="/member/rent/buy/" class="buy-now btn btn-sm btn-primary"/>			
+			<input type="submit" value="Own" formaction="구매폼으로?" class="buy-now btn btn-sm btn-primary"/>
+			<input type="submit" value="Use" formaction="대여" class="buy-now btn btn-sm btn-primary"/>			
 			</div>
    </form:form>
 			</div>
@@ -143,12 +139,14 @@ var sell_price;
 var rent_price;
 var amount;
 
+
 window.onload = function() {
 	sell_price = document.form.sell_price.value;
 	rent_price = document.form.rent_price.value;
 	amount = document.form.amount.value;
 	document.form.buysum.value = sell_price;
-	document.form.rentsum.value = rent_price;	
+	document.form.rentsum.value = rent_price;
+	
 	change();
 }
 
@@ -198,27 +196,25 @@ function change () {
 function productList() {
 		location.href = '/member/pro/productList';		 
    }
-  
-
+  /*
+$(document).ready(function(){
+	  $('[data-toggle="popover"]').popover();   
+	  
+	});  */
 //ajax 위시리스트 추가
 $('#wish').on('click', function(){
     var form = {
     		  p_id      : $("#p_id").val()
             , amount    : $("#amount").val()
     }   
-        
     $.ajax({
         url: "/member/wishListInsert/${productVO.p_id}",
         type: "POST",
         data: form,
-        success: function(data){    
-        	$("#wish").attr('visible', 'hidden');
-        	$("#wish").css("display","none");
-        	
-        	
-        	if (confirm('WishList에 추가되었습니다.\n\nWishList 확인해볼래요?')) {
-    			location.href = '/customer/rent/wishList';
-    		 }
+        success: function(data){    	
+        	 document.getElementById("wish2").removeAttribute("hidden");		
+        	 document.getElementById("wish").setAttribute("hidden","true");
+        	 alert("위시리스트에 추가하였습니다");
         },
         error: function(){
             alert("위치 추가:실패!");
@@ -231,7 +227,7 @@ $("#wish2").on('click', function(){
     		  p_id      : $("#p_id").val()
             , amount    : $("#amount").val()
     }
-   
+    
     $.ajax({
         url: "/member/wishListDelete/${productVO.p_id}",
         type: "POST",
@@ -239,17 +235,14 @@ $("#wish2").on('click', function(){
         success: function(data){ 
         		
         	
-        
+        	
         	
         	
         },
         error: function(){
-        	
+        	document.getElementById("wish").removeAttribute("hidden");
+        	document.getElementById("wish2").setAttribute("hidden","true");
         	alert("위시리스트에서 삭제하였습니다");
-        	$("#wish2").css("display","none");
-        	 $("#wish").css("display","");
-        	
-        	
         	
         }
     });
@@ -267,7 +260,7 @@ $('#cart').on('click', function(){
         data: form,
         success: function(data){
         	
-        		if (confirm('추가되었습니다.\n\n장바구니로 갈래요?')) {
+        		if (confirm('추가되었습니다.              장바구니로 갈래요?')) {
         			location.href = '/customer/rent/cartList';
         		 }
         	   	 

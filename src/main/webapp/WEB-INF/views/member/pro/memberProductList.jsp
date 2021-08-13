@@ -1,16 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
   <head>
     <title>상품리스트(고객)</title>
     <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	
+	
+	
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"> 
     <link rel="stylesheet" href="/resources/common/fonts/icomoon/style.css">
-
+   
     <link rel="stylesheet" href="/resources/common/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/common/css/magnific-popup.css">
     <link rel="stylesheet" href="/resources/common/css/jquery-ui.css">
@@ -21,8 +25,7 @@
     <link rel="stylesheet" href="/resources/common/css/aos.css">
 
     <link rel="stylesheet" href="/resources/common/css/style.css">
-    
-   
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
   	<script src="/resources/common/js/jquery-ui.js"></script>
   	<script src="/resources/common/js/popper.min.js"></script>
@@ -38,7 +41,7 @@
 </style>
   </head>
   <body>
-
+<ul id="tempList" style=" display:none"></ul>
 
   <div class="site-wrap">
     <header class="site-navbar" role="banner">
@@ -138,21 +141,27 @@
                 <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
                 <div class="d-flex" id="sort">
                   <div class="dropdown mr-1 ml-md-auto">
-                    <button type="submit" class="btn btn-secondary btn-sm" onclick="pricehigh();" id="sort"  
-                    				name="ok" value="price" aria-haspopup="true" aria-expanded="false"></button>
-                   
+                 
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRecommand" name="sortRecommand " aria-haspopup="true" aria-expanded="false">추천순</button>
                   </div>
-                  <div class="btn-group">
+                <!--   <div class="btn-group">
                     <button type="button" class="btn btn-secondary btn-sm" 
-                    			value="good" id="dropdownMenuReference" onclick="pricehigh();">추천순</button>
+                    				id="sortR" name="sortR" >추천순</button>
                     
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
-            <div class="row mb-5" >
+           
+            <div class="row mb-5" id="ulList">
+            
+            
+            
+            
             <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-		
+			
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
@@ -167,7 +176,49 @@
                 </div>
               </div>
              </c:forEach> 
-  
+            
+             
+            <c:if test="${productList eq list}"> 
+            
+            
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+			
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                  </div>
+                </div>
+              </div>
+             </c:forEach> 
+             </c:if>
+             
+             
+             
+              <c:if test="${productList eq rlist}"> 
+   			<c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+			
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                  </div>
+                </div>
+              </div>
+             </c:forEach> 
+             </c:if>
 		<!-- 상품리스트 페이징 처리  -->
             </div>
             <div class="row" data-aos="fade-up">
