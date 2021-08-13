@@ -73,9 +73,9 @@ public class MemberController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
-		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> returnList = rentDAO.returnList();
-		List<RentVO> lateList = rentDAO.lateList();
+//		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+//		List<RentVO> returnList = rentDAO.returnList();
+//		List<RentVO> lateList = rentDAO.lateList();
 
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
 			return "redirect:/login";
@@ -93,8 +93,8 @@ public class MemberController {
 				session.setAttribute("userInfo", infoVO);
 				//session.setAttribute("userId", user.getM_id());
 				//session.setAttribute("userName", user.getM_name());
-				session.setAttribute("returnList", returnList);
-				session.setAttribute("lateList", lateList);
+//				session.setAttribute("returnList", returnList);
+//				session.setAttribute("lateList", lateList);
 				
 				return "redirect:/";
 			} else {
