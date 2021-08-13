@@ -262,9 +262,30 @@ public class RentController {
 			String userId="crystal";
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 			List<CartVO> cartList = rentDAO.getCartList(userId);	
+			cartList.toString();
 			model.addAttribute("cartList", cartList);
 			return "/member/rent/memberCart";
 		}
+		
+		
+		//장바구니 상품 삭제
+		@RequestMapping(value = "/customer/rent/deleteCartList", method = RequestMethod.POST)
+		public void customerDeleteCartList(@RequestParam("c_id") String c_id, Model model,HttpServletResponse response) throws Exception{
+			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+			rentDAO.deleteCartList(c_id);	
+			
+			response.setContentType("text/html; charset=UTF-8");
+			 
+			PrintWriter out = response.getWriter();
+			 
+			out.println("<script language='javascript'>");
+			out.println("alert('상품이 장바구니에서 삭제되었습니다!')");
+			out.println("window.location='/customer/rent/cartList'");
+			out.println("</script>");
+			out.flush();
+		}
+		
+		
 		//정노
 		@RequestMapping(value = "/member/rent/buy/{p_id}/{m_id}", method = RequestMethod.GET)
 		public String adminProductDetail(Model model, @PathVariable String p_id, @PathVariable String m_id) {
