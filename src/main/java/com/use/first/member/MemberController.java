@@ -73,6 +73,8 @@ public class MemberController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
+		
+		//08월 13일 김수정 : 회원로그인 부분은 반환요청리스트, 연체 리스트 필요없어서 일단 주석처리. 확인할 것
 //		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 //		List<RentVO> returnList = rentDAO.returnList();
 //		List<RentVO> lateList = rentDAO.lateList();
