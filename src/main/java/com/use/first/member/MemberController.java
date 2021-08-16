@@ -297,23 +297,101 @@ public class MemberController {
 	// 내 정보
 
 	@RequestMapping(value = "/member/mem/userInfo", method = RequestMethod.GET)
-	public String userInfo(UserVO user, Model model, HttpSession session, String m_id) {
+	public String userInfo(UserVO user, Model model, HttpSession session) {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		UserVO userInfo = dao.userInfo(m_id);
-		session.getAttribute(m_id);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+				
+		UserVO userInfo = dao.userInfo(userId);
+		
 		
 		model.addAttribute("userInfo", userInfo);
+	
 		
-		user.setM_name((String) session.getAttribute("userName"));
-		user.setM_email((String) session.getAttribute("userEmail"));
-		user.setM_gender((String) session.getAttribute("userGender"));
+		List<RentVO> rentList = rentDAO.rentListByMid(userId, "구매");
+		List<RentVO> purchaseList = rentDAO.purchaseListByMid(userId, "구매");
+//		List<AlertVO> message = dao.messageByMid(userId);
 		
+		model.addAttribute("rentList", rentList);
+		model.addAttribute("purchaseList", purchaseList);
+//		model.addAttribute("message", message);
 
-		
 
 		return "/member/mem/userInfo";
 	}
+	
+	
+	
+	
+	//사진 업로드
+	
+		@RequestMapping(value = "/member/mem/userInfo/{userID}", method = RequestMethod.POST)
+		public String userInfoUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
+			System.out.println("시작 전" + userVO.toString());
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			
+			// 파일 업로드
+			MultipartFile uploadFile = userVO.getUploadFile();
+			if (!uploadFile.isEmpty()) {
+				userVO.setM_img(uploadFile.getOriginalFilename());
+				uploadFile.transferTo(new File(
+						"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
+								+ userVO.getM_img()));
+			}
 
+			int n = dao.userUpdate(userVO);
+			System.out.println("시작 후" + userVO.toString());
+			if (n != 1) {
+				// 업데이트 실패 시
+				System.out.println("userInfoUpdateByPath // user 수정 실패 // " + userVO.toString());
+			}
+
+			return "redirect:/member/mem/userInfo";
+		}
+		
+		
+		
+	//회원 탈퇴
+		
+		@RequestMapping(value = "/member/mem/userDelete/{userID}", method = RequestMethod.POST)
+		public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID) throws IOException {
+			System.out.println("시작 전" + userVO.toString());
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+			
+			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+			String userId = infoVO.getM_id();
+			
+			
+		
+			
+			
+			int n = dao.userDelete(userVO);
+//			int n2 = dao.userDeleteUpdateCa(userVO);
+//			
+			System.out.println("시작 후" + userVO.toString());
+			if (n != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
+			}
+//			if (n2 != 1) {
+//				// 삭제 실패 시
+//				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
+//			}
+		
+			
+		
+			session.invalidate();
+
+			return "redirect:/";
+		}
+
+
+		
+		
+		
 	
 
 

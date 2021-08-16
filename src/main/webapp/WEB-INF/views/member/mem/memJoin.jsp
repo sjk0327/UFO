@@ -160,7 +160,7 @@
                                     </div>
                                     @
                                     <div class="col-sm-5">
-                                    	<select id="backEmail">
+                                    	<select id="backEmail" required>
                                     		<option value="" selected>선택해주세요.</option>
                                     		<option value="naver.com">naver.com</option>
                                     		<option value="daum.net">daum.net</option>

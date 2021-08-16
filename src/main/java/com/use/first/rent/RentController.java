@@ -300,4 +300,6 @@ public class RentController {
 			model.addAttribute("productVO", productVO);
 			return "member/rent/buy";
 		}
+		
+	
 }
