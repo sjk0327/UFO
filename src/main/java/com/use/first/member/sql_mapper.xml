@@ -144,10 +144,18 @@
 		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now())
 		]]> 
 	</insert>
+	
+	<update id="memUpdatePoint"  parameterType="com.use.first.member.UserVO">
+	<![CDATA[
+		UPDATE member SET m_point = #{m_point}
+		WHERE m_id = #{m_id}
+	]]>
+	</update>
 
 	<!-- <insert id="insert" parameterType="org.sp.mybatis.Emp"> insert into 
 		emp2 (empno, ename, deptno, job, sal) values ( #{empno}, #{ename}, #{deptno}, 
 		#{job}, #{sal}) </insert> <update id="update" parameterType="org.sp.mybatis.Emp"> 
 		update emp2 set deptno=#{deptno}, sal=#{sal} where empno=#{empno} </update> 
 		<delete id="delete"> delete from emp2 where empno=#{empno} </delete> -->
+	
 </mapper>

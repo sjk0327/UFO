@@ -15,6 +15,11 @@
 <link rel="stylesheet" type="text/css" href="/ind-script/optimizer.php?filename=rczLDcMgEEXRAsjWdTwpizThKvi8GBRgImZQ5O5t1-Bsr3QPsjSC0U3lUAT2YtK8Gge-M9QSXbZWoYkuUcvWoZ_Sny9EVcTsh63cfzLS4wwLbnFbD39QmqRZiep3mYa3yLld7AE&type=css&k=04827dcf247ed9d72d23c4e72d4402951c293c7b&t=1627969594" />
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <style type="text/css">
+@media only screen and (min-width: 768px){
+.col-md-10 {
+    flex: 0 0 78.33333%;
+}
+}
 table {
     width: 100%;
     border: 0;
@@ -37,7 +42,8 @@ padding : 10px;
 
 .wrapper {
     width: 1280px;
-    margin: auto;
+    margin-left: 70px;
+    margin-right:0;
 }
 
 
@@ -77,7 +83,7 @@ border-color: #4e5a72;
 
 </head>
 <body>
-<%int count=0; %>
+
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
@@ -86,12 +92,12 @@ border-color: #4e5a72;
       </div>
     </div>
     
-    
-<div class="wrapper">
 <br>
     <div class="titleArea" style="text-align: center;">
         <h2>MY CART</h2>
     </div>
+    <div class="row">
+<div class="wrapper col-md-10">
 
 <div>
 <br>
@@ -99,14 +105,14 @@ border-color: #4e5a72;
 <table border="1" summary="" class="" >
             <colgroup>
 <col style="width:50px;"/>
-<col style="width:180px"/>
-<col style="width:auto"/>
 <col style="width:150px"/>
+<col style="width:270px"/>
+<col style="width:120px"/>
 <col style="width:120px"/>
 <col style="width:100px"/>
 <col style="width:85px"/>
 <col style="width:105px"/>
-<col style="width:115px"/>
+<col style="width:150px"/>
 </colgroup>
 <thead style="text-align: center;"><tr>
 <th scope="col"><input type="checkbox" name="RowCheck" onclick="allChk(this);"/></th>
@@ -123,18 +129,16 @@ border-color: #4e5a72;
                 <tbody class="tablebody" >
                 <c:if test="${!empty cartList}">
                <c:forEach var="cartInfo" items="${cartList}">
-               <%
-               count++;
-               String c=Integer.toString(count);
-               %>
-               <c:set var="count" value="<%=c%>"></c:set>
-                <input id="originprice${c}" type="hidden" value="${cartInfo.p_price}">
+              
+              	<form id="zerodelete">
+                <input id="cartId" name="cartId" type="hidden" value="${cartInfo.c_id}"></form>
+                <input id="originprice" type="hidden" value="${cartInfo.p_price}">
                 
                 <tr class="" style="text-align: center;">
                 <td onclick="event.cancelBubble=true">
                      <input type="checkbox" name="RowCheck" value="${cartInfo.c_id }"></td>
                     <td class="thumb" style="padding : 0;"><a href="">
-                    <div class="container text-center my-3">
+                   
    
     <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -156,7 +160,7 @@ border-color: #4e5a72;
         
                
             </div>
-        </div>
+       
         <a class="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
@@ -171,25 +175,25 @@ border-color: #4e5a72;
                     <td class="left" style="text-align: left;">
                         <div class="name"><a href="" class="product-name">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #505050; font-weight: bold;">[${cartInfo.p_category}] ${cartInfo.p_name}</span>
-                        
+                     
                         </a></div>
                         <div>
                         <div style="margin-top: 3pt;">
                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;구매정보&nbsp;
-                        <select id="buyType${c}" name="buyType">
+                        <select id="buyType" name="buyType">
+                        
+                        <c:if test="${cartInfo.c_state eq '대여'}">
                         <c:choose>
 						<c:when test="${cartInfo.p_canrent <=5 and cartInfo.p_canrent ne 0}"> 
 						<option value="대여" selected="selected">대여(남은 수량 : ${cartInfo.p_canrent})</option>
 						 </c:when>
 						<c:when test="${cartInfo.p_canrent eq 0}">
-						<option value="대여" disabled="disabled">대여(대여 품절)</option>
+						<option value="대여" selected="selected" disabled="disabled">대여(대여 품절)</option>
 						</c:when>
 						<c:otherwise>
 						<option value="대여" selected="selected">대여</option>
 						</c:otherwise>
 						</c:choose>
-						
-						
 						
 						<c:choose>
 						<c:when test="${cartInfo.p_canbuy <=5 and cartInfo.p_canbuy ne 0}"> 
@@ -202,54 +206,108 @@ border-color: #4e5a72;
 						<option value="구매">구매</option>
 						</c:otherwise>
 						</c:choose>
+						</c:if>
+						
+						<c:if test="${cartInfo.c_state eq '구매'}">
+                        <c:choose>
+						<c:when test="${cartInfo.p_canrent <=5 and cartInfo.p_canrent ne 0}"> 
+						<option value="대여">대여(남은 수량 : ${cartInfo.p_canrent})</option>
+						 </c:when>
+						<c:when test="${cartInfo.p_canrent eq 0}">
+						<option value="대여" disabled="disabled">대여(대여 품절)</option>
+						</c:when>
+						<c:otherwise>
+						<option value="대여">대여</option>
+						</c:otherwise>
+						</c:choose>
+						
+						<c:choose>
+						<c:when test="${cartInfo.p_canbuy <=5 and cartInfo.p_canbuy ne 0}"> 
+						<option value="구매" selected="selected">구매(남은 수량 : ${cartInfo.p_canbuy})</option>
+						 </c:when>
+						<c:when test="${cartInfo.p_canbuy eq 0}">
+						<option value="구매" selected="selected" disabled="disabled">구매(구매 품절)</option>
+						</c:when>
+						<c:otherwise>
+						<option value="구매" selected="selected">구매</option>
+						</c:otherwise>
+						</c:choose>
+						</c:if>
+	
                         </select>
                         </div>
                         <div style="margin-top: 3pt;">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        ${count}
-                        <input id="proamount${c}" name="amount" type="number" style="width:56.67px; height: 30px" min="0" value="1"></div>
+                        
+                        <input type="hidden" id="canrent" value="${cartInfo.p_canrent}">
+                        <input type="hidden" id="canbuy" value="${cartInfo.p_canbuy}">
+                        <c:if test="${cartInfo.c_state eq '대여'}">
+                        <c:choose>
+						<c:when test="${cartInfo.p_canrent eq 0}">
+						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}" disabled="disabled">
+						</c:when>
+						<c:otherwise>
+						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}">
+						</c:otherwise>
+						</c:choose>
+						</c:if>
+						
+						<c:if test="${cartInfo.c_state eq '구매'}">
+						
+						<c:choose>
+						<c:when test="${cartInfo.p_canbuy eq 0}">
+						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}" disabled="disabled">
+						</c:when>
+						<c:otherwise>
+						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.c_amount}">
+						</c:otherwise>
+						</c:choose>
+						</c:if>
+	
+                        
+                        </div>
                         </div>
                         <br>
  
 </td>
                     <td  class="price right">
-                    <input type=text id="price${c}" value="1">
+                    <input type=text id="price" value="1" style="width: 100px;">원
 
 </td>
 <fmt:parseNumber var="rentpoint" value="${cartInfo.p_price*0.05*0.05}" integerOnly="true" />
 <fmt:parseNumber var="buypoint" value="${cartInfo.p_price*0.95*0.05}" integerOnly="true" />
-                    <td><span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>대여포인트 <fmt:formatNumber value="${rentpoint}" pattern="###,###,###" /></span>(5%)</span><br/>
-                    <span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>구매포인트 <fmt:formatNumber value="${buypoint}" pattern="###,###,###" /></span>(5%)</span></td>
+                    <td>
+                    
+                    
+                    <span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>포인트<span id="point">1</span></span>(5%)</span><br/>
+                  </td>
                     <td><div class="txtInfo">기본배송</div></td>
                     <td>
 <span class="">2,500원<br/></span> 조건</td>
-                    <td class="price right" style="font-weight: bold;"><fmt:formatNumber value="${cartInfo.p_price+2500}" pattern="###,###,###" />원</td>
+                    <td class="price right" style="font-weight: bold;"><span id="totalprice">1</span></td>
                     <td class="button">
                    
                     	<span class="row">
+                    	<span style="padding:0; margin-right: 1px;">
                     	&nbsp;&nbsp;
-                    	
-                    	
                     	 <c:if test="${cartInfo.p_canrent eq 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block" disabled="disabled">대여</button></span>
+                        <span><button id="button2" class="btn btn-outline-primary btn-sm" disabled="disabled">대여</button></span>
                         </c:if>
                         <c:if test="${cartInfo.p_canrent ne 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block">대여</button></span>
+                        <span><button id="button2" class="btn btn-outline-primary btn-sm">대여</button></span>
                         </c:if>
                         
                          <c:if test="${cartInfo.p_canbuy eq 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block" style="margin-left: 2pt;" disabled="disabled">구매</button></span>
+                        <span><button id="button2" class="btn btn-outline-primary btn-sm" style="margin-left: 2pt;" disabled="disabled">구매</button></span>
                         </c:if>
                         <c:if test="${cartInfo.p_canbuy ne 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm btn-block" style="margin-left: 2pt;">구매</button></span>
+                        <span><button id="button2" class="btn btn-outline-primary btn-sm" style="margin-left: 2pt;">구매</button></span>
                         </c:if>
-                       
-                       
-                      
                         </span>
-                        <button id="button" href="" class="btn btn-outline-primary btn-sm btn-block" style="margin-top: 8pt;">장바구니 담기</button>
-                        <form action="/customer/rent/deletecartList" method="post">
-                        <input type="hidden" name="c_id" value="${cartInfo.c_id}">
+                        </span>
+                     <button id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" onclick="">옵션 수정</button>
+                        <form action="/customer/rent/deleteCartList" method="post">
+                        <input type="hidden" name="cartId" value="${cartInfo.c_id}">
                         <button id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" onclick="">삭제</button>
                    </form>
                     </td>
@@ -276,7 +334,7 @@ border-color: #4e5a72;
     		<span style="font-weight: bold;">선택상품을</span>
     		<form id="form">
            	<span style="margin-left: 3pt;"><button id="deletecart" href="" class="btn btn-outline-primary" onclick="cartcheckboxArr();">삭제하기</button></span>
-           	<input type="hidden" id="arrayParam" name="arrayParam"/>
+           	<input type="hidden" id="arrayParam" name="arrayParam">
            	</form>
             <span style="margin-left: 3pt;"><button id="button" href="" class="btn btn-outline-primary">주문하기</button></span>
         </div>
@@ -293,31 +351,14 @@ border-color: #4e5a72;
             </div>
      </span>  
                                 
-        </div>
        
-                 <div id = "paging-div">
-                              <ul class="btn-group pagination">
-                                 <c:if test="${pageMaker.prev }">
-                                    <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
-                                       <span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
-                                 </c:if>
-                                 <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-                                    <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                                    <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-                                    <c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                                    <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
-                                    
-                                 </c:forEach>
-                                 <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-                                    <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-                                       <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
-                                 </c:if>
-                              </ul>
-                              </div>
-                              <!-- 페이징 end -->
+                 
                  
       </c:if>                         
-                             
+        </div>
+                          
+</div>
+<div class="col-md-2">ddd</div>
 </div>
 
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
@@ -329,7 +370,7 @@ $(document).ready(function() {
 
 $('.deletecart').click(function() {
 	
-	if (confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?") == true){   
+	if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?") == true){   
 
 	  }else{   
 		 event.preventDefault();
@@ -385,28 +426,102 @@ function allChk(obj){
     }
 } 
 
+ 
 
-$("#proamount${c}").on("propertychange change input", function() {
-	 var value = document.getElementById("proamount${c}").value;
-		if(value==0){
-			alert('해당 상품을 삭제하시겠습니까?');
-		}
-		else{
-			var state = document.getElementById("buyType${c}").value.toString().trim();
-			var price = document.getElementById("originprice${c}").value
-			if(state=="대여"){
-				
-			document.getElementById("price${c}").value=price*0.05*value;
-			}
-			if(state=="구매"){
-				
-				document.getElementById("price${c}").value=price*0.95*value;
-				}
-		}
+		var amountList=document.querySelectorAll("#proamount");
+		var amountLength = amountList.length;
+		var stateList=document.querySelectorAll("#buyType");
+		var originpriceList=document.querySelectorAll("#originprice");
+		var priceList=document.querySelectorAll("#price");
+		var pointList=document.querySelectorAll("#point");
+		var totalpriceList=document.querySelectorAll("#totalprice");
+		var proIdList=document.querySelectorAll("#proId");
+		var rentamountList=document.querySelectorAll("#canrent");
+		var buyamountList=document.querySelectorAll("#canbuy");
+
 	
-});
+		for(var i=0; i < amountLength; i++){
+			amountList[i].addEventListener('input',onIncreaseCountHandler)};
+			
+			for(var i=0; i < amountLength; i++){
+				stateList[i].addEventListener('input',onStateCountHandler)};
+				
+			
+						
+		function onIncreaseCountHandler(e) {
+			
+			for(var i=0; i< amountLength;i++){
+				if(e.target==amountList[i]){
+					if(amountList[i].value==0){
+						if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?") == true){   
+								$("#zerodelete").attr("action", "/customer/rent/deleteCartList");  
+								$("#zerodelete").attr("method", "POST");  
+								$("#zerodelete").submit();
+								
+						  }else{   
+							 event.preventDefault();
+					       event.stopPropagation();
 
+						  };
+						
+					}
+					else{
+						if(stateList[i].value=="대여"){
+					priceList[i].value=originprice[i].value*amountList[i].value*0.05;}
+						if(stateList[i].value=="구매"){
+							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
+						}
+					pointList[i].innerText=String(priceList[i].value*0.05);
+					totalpriceList[i].innerText=priceList[i].value*1+2500;
+					}
+				}
+			}
+		}
+		
+function onStateCountHandler(e) {
+			
+			for(var i=0; i< amountLength;i++){
+				if(e.target==stateList[i]){
+					
+						if(stateList[i].value=="대여"){
+					priceList[i].value=originprice[i].value*amountList[i].value*0.05;}
+						if(rentamountList[i].value==0){
+							amountList[i].disabled=true;
+						}
+						else{
+							amountList[i].disabled=false;
+							if(amountList[i].value>rentamountList[i].value){
+								amountList[i].value=rentamountList[i].value
+							}
+							amountList[i].max(rentamountList[i].value);
+						}
+					
+						if(stateList[i].value=="구매"){
+							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
+							if(buyamountList[i].value==0){
+								amountList[i].disabled=true;
+							}
+							else{
+								amountList[i].disabled=false;
+								if(amountList[i].value>buyamountList[i].value){
+									amountList[i].value=buyamountList[i].value
+								}
+								amountList[i].max(buyamountList[i].value);
+								
+							}
+						}
+						pointList[i].innerText=String(priceList[i].value*0.05);
+					totalpriceList[i].innerText=priceList[i].value*1+2500;
+					}
+				}
+			}
+			
 
+		
+		
+    
+
+		
 </script>
 </body>
 </html>

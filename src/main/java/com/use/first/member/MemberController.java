@@ -2,12 +2,14 @@ package com.use.first.member;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -15,10 +17,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +36,9 @@ import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
 /**
- * Handles requests for the application home page.
+ *  8.12일  성훈 수정 - 성훈 start 밑에는 이걸 우선으로 통합
+ *  승빈 start 부분은 로그인 로그아웃 쪽은 성훈이 수정했음
+ *  아마 승빈은 고객쪽 내정보 보기 userInfo 쪽을 오늘 했었음
  */
 @Controller
 public class MemberController {
@@ -71,40 +73,45 @@ public class MemberController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
-		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> returnList = rentDAO.returnList();
-		List<RentVO> lateList = rentDAO.lateList();
+		
+		//08월 13일 김수정 : 회원로그인 부분은 반환요청리스트, 연체 리스트 필요없어서 일단 주석처리. 확인할 것
+//		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+//		List<RentVO> returnList = rentDAO.returnList();
+//		List<RentVO> lateList = rentDAO.lateList();
 
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
-			return "/enterance/adminLogin";
+			return "redirect:/login";
 		} else if (vo.getM_pw() == null || vo.getM_pw().equals("")) {
-			return "/enterance/adminLogin";
+			return "redirect:/login";
 		}
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		UserVO user = dao.memInfo(vo.getM_id());
 
-		if (user != null && vo.getM_id().equals("admin")) {
+		if (user != null ) {
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
 				session.setAttribute("loginPl", "ufo");
-				session.setAttribute("userId", user.getM_id());
-				session.setAttribute("userName", user.getM_name());
-				session.setAttribute("returnList", returnList);
-				session.setAttribute("lateList", lateList);
-				// return "/enterance/adminIndex";
-				return "redirect:/adminIndex";
+				UserInfoVO infoVO = new UserInfoVO(user.getM_id(), user.getM_name());
+				session.setAttribute("userInfo", infoVO);
+				//session.setAttribute("userId", user.getM_id());
+				//session.setAttribute("userName", user.getM_name());
+//				session.setAttribute("returnList", returnList);
+//				session.setAttribute("lateList", lateList);
+				
+				return "redirect:/";
 			} else {
-				return "/enterance/adminLogin";
+				return "redirect:/login";
 			}
 
 		} else {
-			return "/enterance/adminLogin";
+			
+			return "redirect:/login";
 		}
 	}
 
 	// 카카오로그인
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
-	public String kakaoLoginG(UserVO user, Model model, HttpSession session, @RequestParam("code") String code) {
+	public String kakaoLoginG(UserVO user, Model model, HttpSession session, @RequestParam("code") String code, HttpServletResponse response) throws IOException{
 		model.addAttribute("user", user);
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		String access_Token = kakao.getAccessToken(code);
@@ -113,45 +120,63 @@ public class MemberController {
 		System.out.println("dao.duplicateCheckId(\"email\")::::" + dao.duplicateCheckId("email"));
 		// 클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
 		String id = "";
-		if (userInfo.get("email") != null) {
-
+		if (userInfo.get("email") != null && !userInfo.get("email").equals("")) {
+			System.out.println("kakaoLoginG if문 in!!!!");
 			String email = (String) userInfo.get("email");
 			String[] devid = email.split("@");
 			id = "kakao " + devid[0];
 
 			session.setAttribute("loginPl", "kakao");
-			session.setAttribute("userId", id);
-			session.setAttribute("userName", userInfo.get("nickname"));
-			session.setAttribute("userEmail", userInfo.get("email"));
-			if (userInfo.get("gender").toString().equals("male")) {
-				session.setAttribute("userGender", "남자");
-			} else if (userInfo.get("gender").toString().equals("female")) {
-				session.setAttribute("userGender", "여자");
+			UserInfoVO infoVO = new UserInfoVO(id, userInfo.get("nickname").toString());
+			session.setAttribute("userInfo", infoVO);
+			int b = email.indexOf("@");
+			int e = email.indexOf(".");
+			if(b > 0 && e > 0)
+				email = email.substring(b+1, e);
+			System.out.println("email cutting : " + email);
+			String gender = userInfo.get("gender").toString();
+		
+			if (dao.duplicateCheckId(id) > 0) {
+				return "redirect:/";
 			} else {
-				session.setAttribute("userGender", "선택안함");
+				return "redirect:/kakaoJoin/"+email+"/"+gender;
 			}
-			session.setAttribute("access_Token", access_Token);
+		}else {
+			System.out.println("kakaoLoginG else문 in!!!!");
+			response.setContentType("text/html; charset=euc-kr");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('선택사항을 동의해주세요'); location.href='redirect:/login'; </script>");
+			out.flush();
+			return null;
 		}
-
-		if (dao.duplicateCheckId(id) > 0) {
-
-			return "redirect:/";
-		} else {
-			return "redirect:/kakaoJoin";
-		}
-
 	}
 
+	@RequestMapping(value = "/kakaoReject", method = RequestMethod.GET)
+	public String kakaoRejectG(HttpServletResponse response) throws IOException{
+		return "";
+	}
+	@RequestMapping(value = "/kakaoReject", method = RequestMethod.POST)
+	public String kakaoRejectP(HttpServletResponse response) throws IOException{
+		return "";
+	}
 	// 카카오 회원가입
-	@RequestMapping(value = "/kakaoJoin", method = RequestMethod.GET)
-	public String kakaoJoin(UserVO user, Model model, HttpSession session) {
+	@RequestMapping(value = "/kakaoJoin/{email}/{gender}", method = RequestMethod.GET)
+	public String kakaoJoin(UserVO user, Model model, HttpSession session,@PathVariable String email, @PathVariable String gender) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		String id = (String) session.getAttribute("userId");
-		user.setM_id(id);
-		user.setM_name((String) session.getAttribute("userName"));
-		user.setM_email((String) session.getAttribute("userEmail"));
-		user.setM_gender((String) session.getAttribute("userGender"));
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		user.setM_id(infoVO.getM_id());
+		user.setM_name(infoVO.getM_name());
+		if(email.equals("naver")) email = infoVO.getM_id().split(" ")[1] +"@naver.com";
+		else if(email.equals("daum")) email = infoVO.getM_id().split(" ")[1] +"@daum.net";
+		else if(email.equals("hanmail")) email = infoVO.getM_id().split(" ")[1] +"@hanmail.net";
+		else if(email.equals("gmail")) email = infoVO.getM_id().split(" ")[1] +"@gmail.net";
+		else email = "동의안함";
+		user.setM_email(email);
+		if(gender.equals("M") || gender.equals("male")) gender = "남자";
+		else if(gender.equals("F") || gender.equals("female")) gender = "여자";
+		else gender = "선택안함";
+		user.setM_gender(gender);
 
 		int n = dao.kakaoJoin(user);
 
@@ -201,32 +226,26 @@ public class MemberController {
 			String name = (String) response_obj.get("name");
 			String gender = (String) response_obj.get("gender");
 			String mobile = (String) response_obj.get("mobile");
-			System.out.println(name);
 			// 4.파싱 닉네임 세션으로 저장
 			session.setAttribute("loginPl", "naver");
 
 			String[] devid = email.split("@");
 			String id = "naver " + devid[0];
+			UserInfoVO infoVO = new UserInfoVO(id, name);
+			session.setAttribute("userInfo", infoVO);
+			int b = email.indexOf("@");
+			int e = email.indexOf(".");
+			if(b > 0 && e > 0)
+				email = email.substring(b+1, e);
+			System.out.println("email cutting : " + email);
 
-			session.setAttribute("userId", id); // 세션 생성
-			session.setAttribute("userName", name);
-			session.setAttribute("userEmail", email);
-
-			if (gender.equals("M")) {
-				session.setAttribute("userGender", "남자");
-			} else if (gender.equals("F")) {
-				session.setAttribute("userGender", "여자");
-			} else {
-				session.setAttribute("userGender", "선택안함");
-			}
-			session.setAttribute("userPhone", mobile);
 			model.addAttribute("result", apiResult);
 
 			if (dao.duplicateCheckId(id) > 0) {
 
 				return "redirect:/";
 			} else {
-				return "redirect:/naverJoin";
+				return "redirect:/naverJoin/" + email + "/" + gender + "/" + mobile;
 			}
 
 		} else {
@@ -235,17 +254,25 @@ public class MemberController {
 	}
 
 	// 네이버회원가입
-	@RequestMapping(value = "/naverJoin", method = RequestMethod.GET)
-	public String naverJoin(UserVO user, Model model, HttpSession session) {
+	@RequestMapping(value = "/naverJoin/{email}/{gender}/{mobile}", method = RequestMethod.GET)
+	public String naverJoin(UserVO user, Model model, HttpSession session,@PathVariable String email, @PathVariable String gender, @PathVariable String mobile) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
-		String id = (String) session.getAttribute("userId");
-		user.setM_id(id);
-		user.setM_name((String) session.getAttribute("userName"));
-		user.setM_email((String) session.getAttribute("userEmail"));
-		user.setM_gender((String) session.getAttribute("userGender"));
-		user.setM_tel((String) session.getAttribute("userPhone"));
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		user.setM_id(infoVO.getM_id());
+		user.setM_name(infoVO.getM_name());
+		if(email.equals("naver")) email = infoVO.getM_id().split(" ")[1] +"@naver.com";
+		else if(email.equals("daum")) email = infoVO.getM_id().split(" ")[1] +"@daum.net";
+		else if(email.equals("hanmail")) email = infoVO.getM_id().split(" ")[1] +"@hanmail.net";
+		else if(email.equals("gmail")) email = infoVO.getM_id().split(" ")[1] +"@gmail.net";
+		else email = "동의안함";
+		user.setM_email(email);
+		if(gender.equals("M") || gender.equals("male")) gender = "남자";
+		else if(gender.equals("F") || gender.equals("female")) gender = "여자";
+		else gender = "선택안함";
+		user.setM_gender(gender);
+		user.setM_tel(mobile);
 
 		int n = dao.naverJoin(user);
 
@@ -261,7 +288,7 @@ public class MemberController {
 	public String loginout(HttpSession session) {
 
 		session.removeAttribute("access_Token");
-		session.removeAttribute("userId");
+		session.removeAttribute("userInfo");
 		session.invalidate();
 
 		return "redirect:/";
@@ -334,7 +361,6 @@ public class MemberController {
 				session.setAttribute("userName", user.getM_name());
 				session.setAttribute("returnList", returnList);
 				session.setAttribute("lateList", lateList);
-				// return "/enterance/adminIndex";
 				return "redirect:/adminIndex";
 			} else {
 				return "/enterance/adminLogin";
@@ -403,6 +429,11 @@ public class MemberController {
 
 	// 승빈 end
 
+	
+	
+	
+	
+	
 	// 성훈 start
 	@RequestMapping(value = "/admin/mem/memDetail", method = RequestMethod.GET)
 	public String adminMenDetail(Model model, @RequestParam String m_id) {
@@ -467,7 +498,7 @@ public class MemberController {
 
 	
 	
-	// 8/10 : 성훈 추가
+	
 	
     @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
     public String menJoinForm(Model model){
@@ -476,8 +507,6 @@ public class MemberController {
     }
 	
     
-    
-    /*
     @ResponseBody
     @RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST , produces="application/json")
     public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception{
@@ -542,16 +571,6 @@ public class MemberController {
     	return AuthenticationKey;
     	
     }
-
-
-
-	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
-	public String adminMenUpdateByPath(Model model) {
-
-		return "/member/mem/memJoin";
-	}
-
-*/
 
     
     @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)

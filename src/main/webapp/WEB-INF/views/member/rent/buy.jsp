@@ -32,6 +32,8 @@
 
 <style type="text/css">
 
+
+
 table {
 	width: 100%;
 	border: 0;
@@ -91,60 +93,64 @@ td, th {
 }
 
 .snip1535 {
-	background-color: #5a50e5;
-	border: none;
-	color: #ffffff;
-	cursor: pointer;
-	display: block;
-	font-family: 'BenchNine', Arial, sans-serif;
-	font-size: 1em;
-	font-size: 22px;
-	line-height: 1em;
-	margin: auto;
-	outline: none;
-	padding: 12px 40px 10px;
-	position: relative;
-	text-transform: uppercase;
-	font-weight: 700;
+  background-color: #c47135;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'BenchNine', Arial, sans-serif;
+  font-size: 1em;
+  font-size: 22px;
+  line-height: 1em;
+  margin: 15px 10px;
+  outline: none;
+  padding: 17px 200px 10px;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
 }
-
-.snip1535:before, .snip1535:after {
-	border-color: transparent;
-	-webkit-transition: all 0.25s;
-	transition: all 0.25s;
-	border-style: solid;
-	border-width: 0;
-	content: "";
-	height: 24px;
-	position: absolute;
-	width: 24px;
-}
-
-.snip1535:before {
-	border-color: #5a50e5;
-	border-right-width: 2px;
-	border-top-width: 2px;
-	right: -5px;
-	top: -5px;
-}
-
+.snip1535:before,
 .snip1535:after {
-	border-bottom-width: 2px;
-	border-color: #5a50e5;
-	border-left-width: 2px;
-	bottom: -5px;
-	left: -5px;
+  border-color: transparent;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  border-style: solid;
+  border-width: 0;
+  content: "";
+  height: 24px;
+  position: absolute;
+  width: 24px;
+}
+.snip1535:before {
+  border-color: #c47135;
+  border-right-width: 2px;
+  border-top-width: 2px;
+  right: -5px;
+  top: -5px;
+}
+.snip1535:after {
+  border-bottom-width: 2px;
+  border-color: #c47135;
+  border-left-width: 2px;
+  bottom: -5px;
+  left: -5px;
+}
+.snip1535:hover,
+.snip1535.hover {
+  background-color: #c47135;
+}
+.snip1535:hover:before,
+.snip1535.hover:before,
+.snip1535:hover:after,
+.snip1535.hover:after {
+  height: 100%;
+  width: 100%;
 }
 
-.snip1535:hover, .snip1535.hover {
-	background-color: #c47135;
+#radio{
+	padding: 10px;
 }
 
-.snip1535:hover:before, .snip1535.hover:before, .snip1535:hover:after,
-	.snip1535.hover:after {
-	height: 100%;
-	width: 100%;
-}
 </style>
 </head>
 <body>
@@ -170,25 +176,51 @@ td, th {
 										<tr>
 											<th scope="col">이미지</th>
 											<th scope="col">상품정보</th>
-											<th scope="col">상태</th>
+											<th scope="col">구매정보</th>
 											<th scope="col">포인트적립</th>
 											<th scope="col">수량</th>
 											<th scope="col">상품금액</th>
 										</tr>
 									</thead>
 									<tbody class="tablebody">
-										<tr style="text-align: center; color: #111111;">
-											<td><img
-												src="/resources/Images/product/${productVO.p_mainImg}"
+									<c:forEach var="list" items="${cartList}">
+									<c:if test="${list.c_state eq '대여' }">
+									<c:set var="i" value="${(list.p_price * 0.05) * list.c_amount }"/>
+									</c:if>
+									<c:if test="${list.c_state eq '구매' }">
+									<c:set var="i" value="${(list.p_price * 0.95) * list.c_amount }"/>
+									</c:if>
+									<c:if test="${list.c_state eq '대여' }">
+									<c:set var="k" value="${(list.p_price * 0.05) * list.c_amount * 0.01}"/>
+									</c:if>
+									<c:if test="${list.c_state eq '구매' }">
+									<c:set var="k" value="${(list.p_price * 0.95) * list.c_amount * 0.01}"/>
+									</c:if>
+									<!-- 총금액 s -->
+									<c:set var="s" value="${i + s }"/>
+									<c:set var="p" value="${k + p }"/>
+										<tr style="text-align: center; color: #111111; font-size: 14px;">
+											<td><img src="/resources/Images/product/${productVO.p_mainImg}"
 												alt="Image" class="img-fluid"></td>
-											<td>${productVO.p_name }</td>
-											<td>즉시구매</td>
-											<td><img
-											src="/resources/Images/icon_cash.gif" alt="적립금"
-											style="margin-bottom: 2px;" />${productVO.p_price } </td>
-											<td>1</td>
-											<td><fmt:formatNumber pattern="###,###,###">${productVO.p_price }</fmt:formatNumber>원</td>
+											<td>${list.p_name }</td>
+											<td>${list.c_state }</td>
+											<c:if test="${list.c_state eq '대여' }">
+											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
+											style="margin-bottom: 2px;" />${(list.p_price * 0.05) * list.c_amount * 0.01} </td>
+											</c:if>
+											<c:if test="${list.c_state eq '구매' }">
+											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
+											style="margin-bottom: 2px;" />${(list.p_price * 0.95) * list.c_amount * 0.01} </td>
+											</c:if>
+											<td>${list.c_amount }</td>
+											<c:if test="${list.c_state eq '대여' }">
+											<td><fmt:formatNumber pattern="###,###,###">${(list.p_price * 0.05) * list.c_amount }</fmt:formatNumber>원</td>
+											</c:if>
+											<c:if test="${list.c_state eq '구매'}">
+											<td><fmt:formatNumber pattern="###,###,###">${(list.p_price * 0.95) * list.c_amount }</fmt:formatNumber>원</td>
+											</c:if>
 										</tr>
+									</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -296,14 +328,14 @@ td, th {
 									</div>
 
 									<div class="col-sm-1.5" style="line-height: 1;">
-										<input type="button" class="postbtn" onClick="clickPoint('${userVO.m_point }','${productVO.p_price }')"
+										<input type="button" class="postbtn" onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
 											value="사용"
 											style="height: 30px; float: right;">
 									</div>
 
 									<div class="col-sm-1.5" style="line-height: 1;">
 										<input type="button" class="postbtn"
-											onClick="cancelPoint('${userVO.m_point }','${productVO.p_price }')"
+											onClick="cancelPoint('${userVO.m_point }','${s }','${p }')"
 											value="취소" style="height: 30px; float: right;">
 									</div>
 								</div>
@@ -312,11 +344,10 @@ td, th {
 									<div class="col-sm-3 col-form-label"
 										style="color: #566963; font-weight: bold; line-height: 1;">요청사항</div>
 									<div class="col-sm-9">
-										<input id="m_name" name="m_name" type="text"
-											placeholder="요청사항"
+										<input id="req" name="req" type="text" placeholder="요청사항" value=""
 											class="form-control form-control-center form-control-round form-control-bold"
-											style="height: 30px; font-size: 14px;" list="Requests" />
-										<datalist id="Requests">
+											style="height: 30px; font-size: 14px;" list="reqs" onchange="data(this)" />
+										<datalist id="reqs">
 											<option value="배송전에 미리 연락 바랍니다.">
 											<option value="부재시 경비실에 맡겨 주세요 .">
 											<option value="부재시 전화 주시거나 문자 남겨주세요.">
@@ -339,48 +370,33 @@ td, th {
 								<table class="table site-block-order-table mb-5">
 									<thead>
 										<tr>
-											<th style="color: #666666; font-size: 17px;">상태</th>
-											<th><input
-												id="" name="" type="text"
-												value="즉시구매"
-												class="form-control form-control-center form-control-round form-control-bold"
-												style="background-color: white; color: #666666; border: none; height: 30px; text-align: right; font-size: 17px; font-weight: bold;"
-												readonly /></th>
-										</tr>
-										<tr>
 											<th style="color: #666666; font-size: 17px;">주문금액</th>
 											<th><input
-												id="price" name="" type="text"
-												value="원" onload="total('${productVO.p_price }');"
-												class="form-control form-control-center form-control-round form-control-bold"
+												id="price" name="price" type="text"
+												value="원" onload="total(${s });" class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-size: 19px; font-weight: bold;"
 												readonly /></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>${productVO.p_name }<strong class="mx-2">x</strong>1</td>
-											<td style="text-align: right;"><fmt:formatNumber value="${productVO.p_price }" pattern="###,###,###" />원&nbsp;&nbsp;&nbsp;<br /></td>
-										</tr>
-										
-										<tr>
 										<td>배송료</td>
-											<td style="text-align: right;">
+											<td style="text-align: right; font-size: 14px;">
 											<fmt:formatNumber value="2500" pattern="###,###,###" />원&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										
 										<tr>
-											<td style="color: #c47135;">포인트할인</td>
-											<td style="text-align: right;"><input id="usep" name=""
+											<td style="color: #c47135; font-size: 14px;">포인트할인</td>
+											<td style="text-align: right;"><input id="usep" name="usep"
 												type="text" value="0원"
 												class="form-control form-control-center form-control-round form-control-bold"
-												style="background-color: white; border: none; height: 30px; text-align: right; color: #c47135;"
+												style="background-color: white; border: none; height: 30px; text-align: right; color: #c47135; font-size: 14px;"
 												readonly /></td>
 										</tr>
 										<tr>
 											<td style="color: #666666; font-size: 19px; font-weight: bold;">결제금액</td>
 											<td style="text-align: right;">
-											<input id="total" name="" type="text" value=""
+											<input id="total" name="total" type="text" value=""
 												class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-weight: bold; font-size: 19px;"
 												readonly /></td>
@@ -388,17 +404,41 @@ td, th {
 									</tbody>
 								</table>
 							</div>
-							<br>
-							<div class="form-group">
-								<button class="snip1535"
-									onclick="window.location='thankyou.html'">결 제 하 기</button>
-							</div>
 						</div>
 					</div>
+					<br>
+					<div class="form-group" style="text-align: center;">
+							<form name="buyInsert" action="/customer/buyInsert" method="post" >
+							<input type="hidden" id="m_id" name="m_id" value="${userVO.m_id }" />
+							<c:forEach var="list" items="${cartList}" >
+								<input type="hidden" id="b_mid" name="b_mid" value="${list.c_mid }" />
+								<input type="hidden" id="b_pid" name="b_pid" value="${list.c_pid }" />
+								<input type="hidden" id="b_amount" name="b_amount" value="${list.c_amount }" />
+								<input type="hidden" id="b_how" name="b_how" value="" />
+								<input type="hidden" id="b_state" name="b_state" value="${list.c_state }" />
+								<input type="hidden" id="b_purchase" name="b_purchase" value="${list.p_price }" />
+								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
+							</c:forEach>
+							<div>
+								<input type="text" id="sp" name="m_point" value="${p + userVO.m_point }" />
+								<div class="form-group row">
+								<div id="radio" class="col-sm-6" style="color: #316320; font-family:Arial; font-size:17px; font-weight:bold;">
+								<input type='radio' id="how" name='b_how' value='신용카드' onclick="check(this)" required />&nbsp;신 용 카 드
+								</div>
+								<div id="radio" class="col-sm-6" style="color: #316320; font-family:Arial; font-size:17px; font-weight:bold;" >
+  								<input type='radio' id="how" name='b_how' value='카카오페이' onclick="check(this)" required />&nbsp;카 카 오 페 이
+  								</div>
+  								</div>
+							</div>
+								<button id="buy" class="snip1535">결 제 하 기</button>
+							</form>
+							
+							</div>
 				</div>
 			</div>
 			<!-- 결제정보 end -->
 			<br>
+							
 		</div>
 
 		<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
@@ -418,31 +458,54 @@ td, th {
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	
+	function check(country){
+		var size = document.getElementsByName("b_how").length;
+		var country = country.value;
+		for(var i = 0; i < size; i++){
+		    document.getElementsByName("b_how")[i].value = country;
+		}
+	}	
+	
+	function data(obj) {
+		var size = document.getElementsByName("b_message").length;
+		var data = obj.value;
+		for(var i = 0; i < size; i++){
+		    document.getElementsByName("b_message")[i].value = data;
+		}
+	}
+	
 	$(document).ready(function(){
-		total(${productVO.p_price });
+		total(${s });
 			  
-	})
-	function total(p_price){
-		document.getElementById("price").value = p_price + 2500;
-		var price = parseInt(document.getElementById("price").value);
+	});
+	
+	function total(s){
+		
+		document.getElementById("price").value = s;
+		var price = Number(document.getElementById("price").value);
+		var total = Number(document.getElementById("price").value) + 2500;
 		document.getElementById("price").value = price.toLocaleString() + "원";
-		document.getElementById("total").value = price.toLocaleString() + "원";
+		document.getElementById("total").value = total.toLocaleString() + "원";
 	}
 
-	
 		// 포인트 사용
 		$(document).ready(function(){
 		       $("#usepoint").keypress(function (e) {
 		        if (e.which == 13){
-		        	clickPoint(${userVO.m_point },${productVO.p_price });
+		        	clickPoint(${userVO.m_point },${s },${p });
 		        }
 		    });
 		});
 		
-		function clickPoint(m_point, p_price) {
+		function clickPoint(m_point, s, p) {
 			
-			var p_price =  parseInt(p_price) + 2500;
-			var v_point = parseInt(document.getElementById("usepoint").value);
+			var p_price =  Number(s) + 2500;
+			var v_point = Number(document.getElementById("usepoint").value);
+			var sp = Number(p) + (m_point - v_point);
+			
+			document.getElementById("sp").value = sp;
+			concole.log(sp);
+			
 			
 			if (v_point < 100) {
 				v_point = 0;
@@ -470,11 +533,11 @@ td, th {
 			} else {
 				
 				document.getElementById("usep").value = v_point;
-				var usep = parseInt(document.getElementById("usep").value);
+				var usep = Number(document.getElementById("usep").value);
 				document.getElementById("usep").value = usep.toLocaleString() + "원";
 				
 				document.getElementById("total").value = p_price - v_point;
-				var total = parseInt(document.getElementById("total").value);
+				var total = Number(document.getElementById("total").value);
 				document.getElementById("total").value = total.toLocaleString() + "원";
 				
 				document.getElementById("m_point").value = m_point - v_point + "P";
@@ -483,17 +546,26 @@ td, th {
 		}
 		
 		//포인트 사용 취소
-		function cancelPoint(m_point, p_price) {
+		function cancelPoint(m_point, p_price, p) {
 			
 			var c_point = 
 				parseInt(document.getElementById("usep").value.replace(/,/g,"")) + parseInt(document.getElementById("m_point").value);
+			var sp = c_point + Number(p);
+			
+			console.log(c_point);
+			console.log(p);
+			console.log(sp);
+			
+			document.getElementById("sp").value = sp;
+			
 			
 			document.getElementById("m_point").value = c_point + "P";
 			
 			document.getElementById("usepoint").value = 0;
 			
 			document.getElementById("total").value = p_price;
-			var cancleTotal = parseInt(document.getElementById("total").value) + 2500;
+			var cancleTotal = Number(document.getElementById("total").value) + 2500;
+			
 			
 			document.getElementById("total").value = cancleTotal.toLocaleString() + "원";
 			
@@ -501,8 +573,7 @@ td, th {
 				parseInt(document.getElementById("usep").value) - parseInt(document.getElementById("usep").value) + "원";
 			
 		}
-		
-		
+		 
 		// 다음 우편번호 찾기 javaScript
 		function DaumPostcode() {
 			new daum.Postcode(

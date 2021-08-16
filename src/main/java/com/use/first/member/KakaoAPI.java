@@ -15,6 +15,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
  
+
+// 8.12일 성훈 수정  - getUserInfo() 함수 부분 수정 다수 했음 
+
 @Service
 public class KakaoAPI {
     
@@ -108,8 +111,15 @@ public class KakaoAPI {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
             
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().get("email").getAsString();
-            String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
+            String email = "no_agreement";
+            String gender = "no_agreement";
+            if(kakao_account.getAsJsonObject().get("has_email").getAsBoolean()
+            		&& !kakao_account.getAsJsonObject().get("email_needs_agreement").getAsBoolean())
+            	email = kakao_account.getAsJsonObject().get("email").getAsString();
+            	
+            if(kakao_account.getAsJsonObject().get("has_gender").getAsBoolean()
+            		&& !kakao_account.getAsJsonObject().get("gender_needs_agreement").getAsBoolean())
+            	gender = kakao_account.getAsJsonObject().get("gender").getAsString();
             
             
             
