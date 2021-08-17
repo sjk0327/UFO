@@ -41,7 +41,6 @@ color: white;
 										<form id="sort" name="rentSearch" method="post"
 											action="/admin/rent/rentList">
 
-											
 										<select id="searchType" name="searchType">
                                     <option value="">검색조건</option>
                                     <option value="t" <c:if test="${pageMaker.cri.searchType eq 't'}">selected </c:if>>회원ID</option>

@@ -26,10 +26,14 @@ public interface RentDAO {
 	public void deleteWishAll(String userId);
 	public List<CartVO> getCartList(String userId);
 	public void deleteCartList(String c_id);
+	public int rentSelect();
+	
+	
 	
 	// 성훈 시작
 	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
 	   public List<RentVO> purchaseListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
 	   // 성훈 끝
+	
 	
 }

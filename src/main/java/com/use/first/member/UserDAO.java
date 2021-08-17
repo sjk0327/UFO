@@ -20,5 +20,8 @@ public interface UserDAO {
 
 	public int duplicateCheckId(String m_id);
 	public int memJoin(UserVO user);
+	
+	// 8/16 : 정노 추가
+	public void memUpdateBuy(String m_id, String m_point, String m_tel, String m_addr);
 
 }
