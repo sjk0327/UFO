@@ -377,66 +377,70 @@
 														</div>
 													</div>
 												</div>
-												
-												
-												
-												
-												
+
+
+
+
+
 												<!-- 회원 메시지함 -->
 												<div class="card table-card">
 													<div class="card-header">
-														<h5>회원 메시지함</h5>
+														<h5>메시지함</h5>
 													</div>
 													<div class="card-block">
 														<div class="table-responsive">
 															<table class="table table-hover">
 
-																<c:forEach var="list" items="${message }">
+																<c:forEach var="messageList" items="${messageList }">
 																	<tbody>
 																		<tr>
+																		<tr>
 																			<td>
-																				<div class="d-inline-block align-middle">
-																					
-																				
-																						<h6>${message.a_title }</h6>
-																						<p class="text-muted m-b-0"></p>
+																				<div>
+
+																					<div>
+																						<h5>${messageList.a_mid }&nbsp;회원님</h5>
+																						<br>
 																					</div>
-												
+																					<h5>${messageList.a_title }</h5>
 																				</div>
-																				
 																			</td>
-																		
-																						<h6>${message.a_content }</h6>
-																						<p class="text-muted m-b-0"></p>
-																					</div>
-																			<td>
-																				<div>${message.a_date }</div>
-																			</td>
-																			
 																		</tr>
 																	</tbody>
+
+																	<td>
+																		<div>
+																			<pre>${messageList.a_content }</pre>
+																		</div>
+																	</td>
 																</c:forEach>
 
 
+
+
 															</table>
+															
+																
+															
 														</div>
 													</div>
 												</div>
-
+												<!-- 회원 메시지함  끝-->
 
 
 											</div>
-											<!--  sale analytics end -->
+
 
 
 										</div>
 									</div>
 									<!-- Page-body end -->
 									<form:form class="form-material"
-										action="/member/mem/userDelete/${userInfo.m_id }" method="post"
-										enctype="multipart/form-data" modelAttribute="userVO">
+										action="/member/mem/userDelete/${userInfo.m_id }"
+										method="post" enctype="multipart/form-data"
+										modelAttribute="userVO">
 										<form:hidden path="m_id" value="${userInfo.m_id }"
-																				class="form-control form-control-center form-control-round form-control-bold" />
+											class="form-control form-control-center form-control-round form-control-bold" />
 
 										<div style="float: right;">
 											<input type="submit" id="resign" value="회원탈퇴"

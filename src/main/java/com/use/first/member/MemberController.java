@@ -30,10 +30,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.use.first.buy.BuyVO;
+import com.use.first.message.MessageDAO;
+import com.use.first.message.MessageVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
+import com.use.first.rent.CartVO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
+import com.use.first.rent.WishListVO;
 
 /**
  *  8.12일  성훈 수정 - 성훈 start 밑에는 이걸 우선으로 통합
@@ -300,6 +305,7 @@ public class MemberController {
 	public String userInfo(UserVO user, Model model, HttpSession session) {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 		
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 		String userId = infoVO.getM_id();
@@ -312,11 +318,11 @@ public class MemberController {
 		
 		List<RentVO> rentList = rentDAO.rentListByMid(userId, "구매");
 		List<RentVO> purchaseList = rentDAO.purchaseListByMid(userId, "구매");
-//		List<AlertVO> message = dao.messageByMid(userId);
+		List<MessageVO> messageList = messageDAO.messageByMid(userId);
 		
 		model.addAttribute("rentList", rentList);
 		model.addAttribute("purchaseList", purchaseList);
-//		model.addAttribute("message", message);
+		model.addAttribute("messageList", messageList);
 
 
 		return "/member/mem/userInfo";
@@ -359,27 +365,56 @@ public class MemberController {
 		public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID) throws IOException {
 			System.out.println("시작 전" + userVO.toString());
 			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-			
+		
 			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 			String userId = infoVO.getM_id();
 			
 			
+			int s = dao.userConfirm(userId);
+			
+			
 		
-			
-			
 			int n = dao.userDelete(userVO);
-//			int n2 = dao.userDeleteUpdateCa(userVO);
-//			
+			
+			int n2 = dao.userDeleteUpdateAlert(userId);
+			int n3 = dao.userDeleteUpdateCart(userId);
+			int n4 = dao.userDeleteUpdateWish(userId);
+			
+//			int n5 = dao.userDeleteUpdateRental(userId);		
+//			int n6 = dao.userDeleteUpdateBuy(userId);
+	        int n7 = dao.userDeleteUpdateReview(userId);
+			
+			
+			
 			System.out.println("시작 후" + userVO.toString());
 			if (n != 1) {
 				// 삭제 실패 시
 				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
 			}
-//			if (n2 != 1) {
+			if (n2 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // alertmessage 삭제 실패 // " + userId.toString());
+			}
+			if (n3 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // cart 삭제 실패 // " + userId.toString());
+			}
+			if (n4 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // wish 삭제 실패 // " + userId.toString());
+			}
+//			if (n5 != 1) {
 //				// 삭제 실패 시
-//				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
+//				System.out.println("userDelete // rental 삭제 실패 // " + userId.toString());
 //			}
+//			if (n6 != 1) {
+//				// 삭제 실패 시
+//				System.out.println("userDelete // buy 삭제 실패 // " + userId.toString());
+//			}
+			if (n7 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // review 삭제 실패 // " + userId.toString());
+			}
 		
 			
 		

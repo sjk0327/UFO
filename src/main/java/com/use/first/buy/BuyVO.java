@@ -11,6 +11,9 @@ public class BuyVO {
 	private String b_how;
 	private String b_state;
 	private int b_purchase;
+	private String b_message;
+	
+	
 	public int getB_id() {
 		return b_id;
 	}
@@ -59,12 +62,22 @@ public class BuyVO {
 	public void setB_purchase(int b_purchase) {
 		this.b_purchase = b_purchase;
 	}
+	public String getB_message() {
+		return b_message;
+	}
+	public void setB_message(String b_message) {
+		this.b_message = b_message;
+	}
 	@Override
 	public String toString() {
 		return "BuyVO [b_id=" + b_id + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_buydate=" + b_buydate
 				+ ", b_amount=" + b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase=" + b_purchase
-				+ "]";
+				+ ", b_message=" + b_message + "]";
 	}
+	
+	
+	
+	
 	
 	
 	

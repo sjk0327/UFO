@@ -8,20 +8,27 @@ import com.use.first.paging.Criteria;
 
 
 
+
+
+
 public interface UserDAO {
 	public List<UserVO> memList(Criteria cri);
 	public UserVO memInfo(String m_id);
 	public UserVO userInfo(String m_id);
-	public List<AlertVO> messageByMid(@Param("a_mid") String a_mid);	
 	public int memUpdate(UserVO user);
 	public int userUpdate(UserVO user);
 	public int userDelete(UserVO user);
-	public int userDeleteUpdateCa(UserVO user);
-	public int userDeleteUpdateWi(UserVO user);
-	public int userDeleteUpdateAl(UserVO user);
-	public int userDeleteUpdateRev(UserVO user);
-	public int userDeleteUpdateBuy(UserVO user);
-	public int userDeleteUpdateRental(UserVO user);
+	public int userDeleteUpdateCart(@Param("c_mid") String c_mid);
+	public int userDeleteUpdateAlert(@Param("a_mid") String a_mid);
+	public int userDeleteUpdateWish(@Param("w_mid") String w_mid);
+	
+//	public int userDeleteUpdateBuy(@Param("b_mid") String b_mid);
+//	public int userDeleteUpdateRental(@Param("r_mid") String r_mid);
+	public int userDeleteUpdateReview(@Param("v_mid") String v_mid);
+	
+	public int userConfirm(@Param("r_mid") String r_mid);
+	
+	
 	public int countMemListTotal(Criteria cri);	
 	public int kakaoJoin(UserVO user);
 	public int naverJoin(UserVO user);

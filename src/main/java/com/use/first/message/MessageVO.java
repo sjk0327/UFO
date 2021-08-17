@@ -8,7 +8,7 @@ public class MessageVO {
 	private int r_id;
 	private String a_mid;
 	private String a_title;
-	private TextArea a_content;
+	private String a_content;
 	private Date a_date;
 	public int getA_id() {
 		return a_id;
@@ -34,10 +34,10 @@ public class MessageVO {
 	public void setA_title(String a_title) {
 		this.a_title = a_title;
 	}
-	public TextArea getA_content() {
+	public String getA_content() {
 		return a_content;
 	}
-	public void setA_content(TextArea a_content) {
+	public void setA_content(String a_content) {
 		this.a_content = a_content;
 	}
 	public Date getA_date() {
