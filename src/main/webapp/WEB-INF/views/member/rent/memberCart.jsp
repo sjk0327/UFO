@@ -79,6 +79,7 @@ border-color: #4e5a72;
 	box-shadow: 3px 4px 5px 0 rgba(2, 2, 2, .2);
 	text-align: center;
 }
+
 </style>
 
 </head>
@@ -96,7 +97,7 @@ border-color: #4e5a72;
     <div class="titleArea" style="text-align: center;">
         <h2>MY CART</h2>
     </div>
-    <div class="row">
+
 <div class="wrapper col-md-10">
 
 <div>
@@ -358,8 +359,8 @@ border-color: #4e5a72;
         </div>
                           
 </div>
-<div class="col-md-2">ddd</div>
-</div>
+<div class="container col-md-2" style="position: fixed; top:300px; margin-bottom:1000px; margin-left: 1350px; background-color: #4e5a72;">ddd</div>
+
 
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
 <script type="text/javascript">

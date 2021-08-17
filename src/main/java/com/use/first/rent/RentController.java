@@ -1,11 +1,9 @@
 package com.use.first.rent;
 
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,6 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.use.first.buy.BuyDAO;
 import com.use.first.buy.BuyVO;
 import com.use.first.member.UserDAO;
+import com.use.first.member.UserInfoVO;
 import com.use.first.member.UserVO;
 import com.use.first.message.MessageDAO;
 import com.use.first.paging.Criteria;
@@ -119,7 +119,7 @@ public class RentController {
 		List<RentVO> returnList = rentDAO.returnList();
 		UserVO userVO= userDAO.memInfo(rentVO.getR_mid());
 		ProductVO productVO=productDAO.productInfo(rentVO.getR_pid());
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		Integer messageCount=messageDAO.findMessage(r_id);
 		
 		model.addAttribute("rentInfo", rentVO);
@@ -179,8 +179,10 @@ public class RentController {
 	//위시리스트
 	@RequestMapping(value = "/customer/rent/wishList")
 	public String customerwishList(HttpSession session, Model model) {
-		//session.setAttribute("userId", "crystal");
-		String userId="crystal";
+		System.out.println(session.getAttribute("userInfo")+"aaa");
+		UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+		String userId=userInfo.getM_id();
+		
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		List<WishListVO> wishList = rentDAO.getWishList(userId);	
 		model.addAttribute("wishList", wishList);
@@ -249,17 +251,14 @@ public class RentController {
 		out.println("window.location='/customer/rent/wishList'");
 		out.println("</script>");
 		out.flush();
-
-
-
 	}
 	
 	
 	//장바구니
 		@RequestMapping(value = "/customer/rent/cartList")
 		public String customercartList(HttpSession session, Model model) {
-			//session.setAttribute("userId", "crystal");
-			String userId="crystal";
+			UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+			String userId=userInfo.getM_id();
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 			List<CartVO> cartList = rentDAO.getCartList(userId);	
 			cartList.toString();
@@ -284,6 +283,46 @@ public class RentController {
 			out.println("</script>");
 			out.flush();
 		}
+		
+		//데이터 전송 test
+		@RequestMapping(value ="/member/rent/wishToRent")
+		public String customerWishtoRent(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model){
+
+			String productId=buyInfoVO.getProductId();
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+			ProductVO productVO=productDAO.productInfo(productId);
+			buyInfoVO.setProductPrice(productVO.getP_price());
+			buyInfoVO.setProductImg(productVO.getP_mainImg());
+			buyInfoVO.setProductName(productVO.getP_name());
+			System.out.println(buyInfoVO.toString()+"zz");
+			model.addAttribute("buyInfo", buyInfoVO);
+			
+			return "member/rent/test";
+		}
+		
+		//장바구니 insert
+				@RequestMapping(value ="/member/rent/wishToCart")
+				public String customerWishtoCart(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session){
+					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+					String userId=userInfo.getM_id();
+					String productId=buyInfoVO.getProductId();
+					String state=buyInfoVO.getBuyType();
+					int amount=buyInfoVO.getProamount();
+					Date sdate=buyInfoVO.getRentdate();
+				
+					CartVO cartVO = new CartVO();
+					cartVO.setC_mid(userId);
+					cartVO.setC_pid(productId);
+					cartVO.setC_state(state);
+					cartVO.setC_amount(amount);
+					cartVO.setC_date(sdate);
+					
+					rentDAO.insertCartList(cartVO);
+					
+					return "redirect:/customer/rent/cartList";
+				}
+		
 		
 		
 		//정노

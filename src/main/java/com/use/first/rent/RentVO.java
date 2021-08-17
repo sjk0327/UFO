@@ -8,7 +8,6 @@ public class RentVO {
 		private String r_mid;
 		private String r_pid;
 		private String p_name;
-		
 		private Date r_sdate;
 		private int r_rent;
 		private String r_state;

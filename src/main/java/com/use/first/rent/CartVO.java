@@ -7,7 +7,7 @@ public class CartVO {
 	private String c_mid;
 	private String c_pid;
 	private String c_state;
-	private String c_amount;
+	private int c_amount;
 	private Date c_date;
 	private String p_name;
 	private int p_price;
@@ -43,10 +43,10 @@ public class CartVO {
 	public void setC_state(String c_state) {
 		this.c_state = c_state;
 	}
-	public String getC_amount() {
+	public int getC_amount() {
 		return c_amount;
 	}
-	public void setC_amount(String c_amount) {
+	public void setC_amount(int c_amount) {
 		this.c_amount = c_amount;
 	}
 	public Date getC_date() {

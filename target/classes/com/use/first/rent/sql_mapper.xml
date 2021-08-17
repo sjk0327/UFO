@@ -134,7 +134,14 @@
 		delete from wishlist where w_mid=#{userID}
 		]]>
 	</delete>
-
+	
+	<insert id="insertCartList" parameterType="com.use.first.rent.CartVO">
+		<![CDATA[
+		insert into cart(c_mid,c_pid, c_state, c_amount, c_date)
+		values(#{c_mid},#{c_pid},#{c_state},#{c_amount},#{c_date})
+		]]>
+	</insert>
+	
 	<select id="getCartList" resultType="com.use.first.rent.CartVO">
 		<![CDATA[
 		select cart.c_id, cart.c_mid, cart.c_pid, cart.c_state, cart.c_amount, cart.c_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from cart, product where c_mid=#{userId} and c_pid=p_id

@@ -25,6 +25,7 @@ public interface RentDAO {
 	public void deleteWishList(String w_id);
 	public void deleteWishAll(String userId);
 	public List<CartVO> getCartList(String userId);
+	public void insertCartList(CartVO cartVO);
 	public void deleteCartList(String c_id);
 	
 	// 성훈 시작

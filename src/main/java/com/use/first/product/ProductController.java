@@ -312,7 +312,7 @@ public class ProductController {
 				//고객에서 장바구니 추가
 @ResponseBody
 @RequestMapping(value = "/member/cartInsert/{p_id}", method = RequestMethod.POST)
-public String WishListInsert(CartVO cartVO, HttpSession session, @PathVariable String p_id, @RequestParam String amount ) {
+public String WishListInsert(CartVO cartVO, HttpSession session, @PathVariable String p_id, @RequestParam int amount ) {
 							
 			String c_mid = "crystal";
 			cartVO.setC_mid(c_mid);

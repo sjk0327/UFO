@@ -159,6 +159,7 @@ public class MemberController {
 	public String kakaoRejectP(HttpServletResponse response) throws IOException{
 		return "";
 	}
+	
 	// 카카오 회원가입
 	@RequestMapping(value = "/kakaoJoin/{email}/{gender}", method = RequestMethod.GET)
 	public String kakaoJoin(UserVO user, Model model, HttpSession session,@PathVariable String email, @PathVariable String gender) {
