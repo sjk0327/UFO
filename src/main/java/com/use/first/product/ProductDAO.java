@@ -1,5 +1,6 @@
 package com.use.first.product;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.use.first.paging.Criteria;
@@ -21,22 +22,38 @@ public interface ProductDAO {
 	
 	public List<ProductVO> productSmartPhoneList(String p_category);
 	public ProductVO productSmartPhoneList();
-	public int countSmartPhone(Criteria cri);
-	public int countLaptop(Criteria cri);
-	public int countCamera(Criteria cri);
-	public int countWatch(Criteria cri);
-	public int countTablet(Criteria cri);
+	public int countSmartPhone();
+	public int countLaptop();
+	public int countCamera();
+	public int countWatch();
+	public int countTablet();
 	public List<ProductVO> productSortLow(Criteria cri);
 	public List<ProductVO> productSortHigh(Criteria cri);
 	public List<ProductVO> productRecommand(Criteria cri);
+	public List<ProductVO> productMenubarPriceSearch(String minPrice, String maxPrice);
+	public List<ProductVO> pictogramSearch(String p_category);
 	
-	//위시리스트추가
-		public int wishListInsert(WishListVO wishListVO);
-		public int wishListDelete(WishListVO wishListVO);
-	//장바구니추가
-		public int cartListInsert(CartVO cartVO);
-	//위시리스트 체크
-		public WishListVO checkWishList(String w_pid, String w_mid);
+	
+		
+		
+		public List<ProductVO> productKeywordList(Criteria cri);
+		public List<ProductVO> productKeywordSearchTypeList(Criteria cri);
+		public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
+		public List<ProductVO> productSearchTypeList(Criteria cri);
+		
+		//위시리스트추가,삭제
+				public int wishListInsert(WishListVO wishListVO);
+				public int wishListDelete(WishListVO wishListVO);
+			//장바구니추가
+				public int cartListInsert(CartVO cartVO);
+			//위시리스트 체크
+				public WishListVO checkWishList(String w_pid, String w_mid);
+			//조아요 추가,삭제,체크
+				public int recommendInsert(RecommendVO recommendVO);
+				public int recommendDelete(RecommendVO recommendVO);
+				public RecommendVO checkRecommend(String r_pid, String r_mid);
+				
+		
 	
 
 }

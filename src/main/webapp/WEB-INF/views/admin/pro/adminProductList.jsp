@@ -29,9 +29,9 @@
                         <div class="page-wrapper">
                            <!-- Page-body start -->
                            <div class="page-body">
-                   <form id="sort" name="productSearch" method="post" action="/admin/pro/productList">
-					 <input type="hidden" id="rezNumA" name="rezNumA" />
-						<select id="searchType" name="searchType">
+                   <form id="sort" name="productSearch" method="get" action="/admin/pro/productList">
+					
+						<select id="searchType" name="Type">
 							<option value="">검색조건</option>
 							<option value="t">상품번호</option> 
 							<option value="c">카테고리</option>
@@ -41,16 +41,14 @@
 						<button id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;
 						<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="전체보기" onClick="location.href='/admin/pro/productList';"> 
 						 &nbsp; 
-   				<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="상품등록" onclick="location.href='/admin/pro/productInsertForm'" /> 
-      			&nbsp;
-      			
-      			&nbsp;
-      			<!--  <input type="submit"  value="선택삭제" onclick="location.href='/admin/pro/productDelete2'" />  -->
-                         </form>    
+   						<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="상품등록" onclick="location.href='/admin/pro/productInsertForm'" /> 
+      					 &nbsp;
+      					 &nbsp;
+      			    </form>    
                       </div>
                       	<div>
-											<br>
-										</div>
+						<br>
+					</div>
 
 
 
@@ -158,11 +156,8 @@
 /*productList function*/
 		function productDelete(p_id) {
 			
-			alert("id::" + p_id);
-			
-			
 			var p_id = p_id;
-			if (confirm('상품을 삭제하시겠습니까?')) {
+			if (confirm( '상품' + p_id + '를 삭제하시겠습니까?')) {
 				location.href = '/admin/pro/productDelete/' + p_id;
 			}else{
 				alert('삭제 취소하였습니다.');
@@ -175,8 +170,8 @@
 	   	
 		function productUpdateRow(p_id,p_canBuy,p_canRent) {
 			var p_id = p_id;	
-			var p_canBuy = $("#"+p_id).val();
-			var p_canRent = $("#"+p_id).val();
+			var p_canBuy = $("#" + p_id).val();
+			var p_canRent = $("#" + p_id).val();
 			alert('p_id::: ' + p_id );
 			alert('p_canBuy::: ' + p_canBuy );
 			alert('p_canRent::: ' + p_canRent );
@@ -199,8 +194,7 @@
 		        console.log('체크 안 된 상태');
 		    }
 		});
-		
-		 function allChk(obj){
+		function allChk(obj){
 		    var chkObj = document.getElementsByName("RowCheck");
 		    var rowCnt = chkObj.length - 1;
 		    var check = obj.checked;
@@ -208,36 +202,33 @@
 		        for (var i=0; i<=rowCnt; i++){
 		         if(chkObj[i].type == "checkbox")
 		             chkObj[i].checked = true;
-		        }
+		       	 }
 		    	} else {
 		        	for (var i=0; i<=rowCnt; i++) {
 		        	 if(chkObj[i].type == "checkbox"){
 		             chkObj[i].checked = false;
-		         }
+		         	}
 		        }
-		    }
-		} 
+		     }
+		 } 
 		 
 		 function checkboxArr() {
-			 
-			var array = new Array(); // 배열 선언
-			
-			
-			$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-			    
+			if (confirm('선택한 상품을 삭제하시겠습니까?')) {	
+			var array = new Array(); // 배열 선언		
+			$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.			    
 				array.push(this.value);
 			});
 						
-			$("#arrayParam").val(array);
-				
+			$("#arrayParam").val(array);				
 			$("#form").attr("action", "/admin/pro/productDelete2");  
 			$("#form").submit();
-		}
-		 $("#aa").on("click",function(e){
+			}
+		 }
+		/*  $("#aa").on("click",function(e){
 			 alert('g22');
 		        e.preventDefault();    // 추가이벤트를 막아서 #의 최상위이동막음!!!
 		        alert(1);
-		})
+		}) */
 		 function check_update(){
 			 var is_use = document.getElementById('checkboxup');
 			 is_use.disabled=false;

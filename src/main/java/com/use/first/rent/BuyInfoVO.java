@@ -3,6 +3,7 @@ package com.use.first.rent;
 import java.sql.Date;
 
 public class BuyInfoVO {
+
    private String productId;
    private String productName;
    private String buyType;

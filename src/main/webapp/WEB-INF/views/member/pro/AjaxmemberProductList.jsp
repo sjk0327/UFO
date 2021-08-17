@@ -15,6 +15,8 @@
 	      <p class="mb-0">${list.p_name }</p>
 	      <p class="text-primary font-weight-bold" >${list.p_category }</p>
 	      <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+	      <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">즉시대여</button>
+          <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">즉시구매</button>
 	    </div>
 	  </div>
 	</div>
