@@ -33,6 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.use.first.buy.BuyDAO;
 import com.use.first.buy.BuyVO;
+import com.use.first.message.MessageDAO;
+import com.use.first.message.MessageVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
 import com.use.first.product.ProductDAO;
@@ -303,23 +305,131 @@ public class MemberController {
 	// 내 정보
 
 	@RequestMapping(value = "/member/mem/userInfo", method = RequestMethod.GET)
-	public String userInfo(UserVO user, Model model, HttpSession session, String m_id) {
+	public String userInfo(UserVO user, Model model, HttpSession session) {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		UserVO userInfo = dao.userInfo(m_id);
-		session.getAttribute(m_id);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+		
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+				
+		UserVO userInfo = dao.userInfo(userId);
+		
 		
 		model.addAttribute("userInfo", userInfo);
+	
 		
-		user.setM_name((String) session.getAttribute("userName"));
-		user.setM_email((String) session.getAttribute("userEmail"));
-		user.setM_gender((String) session.getAttribute("userGender"));
+		List<RentVO> rentList = rentDAO.rentListByMid(userId, "구매");
+		List<RentVO> purchaseList = rentDAO.purchaseListByMid(userId, "구매");
+		List<MessageVO> messageList = messageDAO.messageByMid(userId);
 		
+		model.addAttribute("rentList", rentList);
+		model.addAttribute("purchaseList", purchaseList);
+		model.addAttribute("messageList", messageList);
 
-		
 
 		return "/member/mem/userInfo";
 	}
+	
+	
+	
+	
+	//사진 업로드
+	
+		@RequestMapping(value = "/member/mem/userInfo/{userID}", method = RequestMethod.POST)
+		public String userInfoUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
+			System.out.println("시작 전" + userVO.toString());
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			
+			// 파일 업로드
+			MultipartFile uploadFile = userVO.getUploadFile();
+			if (!uploadFile.isEmpty()) {
+				userVO.setM_img(uploadFile.getOriginalFilename());
+				uploadFile.transferTo(new File(
+						"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
+								+ userVO.getM_img()));
+			}
 
+			int n = dao.userUpdate(userVO);
+			System.out.println("시작 후" + userVO.toString());
+			if (n != 1) {
+				// 업데이트 실패 시
+				System.out.println("userInfoUpdateByPath // user 수정 실패 // " + userVO.toString());
+			}
+
+			return "redirect:/member/mem/userInfo";
+		}
+		
+		
+		
+	//회원 탈퇴
+		
+		@RequestMapping(value = "/member/mem/userDelete/{userID}", method = RequestMethod.POST)
+		public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID) throws IOException {
+			System.out.println("시작 전" + userVO.toString());
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		
+			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+			String userId = infoVO.getM_id();
+			
+			
+			int s = dao.userConfirm(userId);
+			
+			
+		
+			int n = dao.userDelete(userVO);
+			
+			int n2 = dao.userDeleteUpdateAlert(userId);
+			int n3 = dao.userDeleteUpdateCart(userId);
+			int n4 = dao.userDeleteUpdateWish(userId);
+			
+//			int n5 = dao.userDeleteUpdateRental(userId);		
+//			int n6 = dao.userDeleteUpdateBuy(userId);
+	        int n7 = dao.userDeleteUpdateReview(userId);
+			
+			
+			
+			System.out.println("시작 후" + userVO.toString());
+			if (n != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
+			}
+			if (n2 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // alertmessage 삭제 실패 // " + userId.toString());
+			}
+			if (n3 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // cart 삭제 실패 // " + userId.toString());
+			}
+			if (n4 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // wish 삭제 실패 // " + userId.toString());
+			}
+//			if (n5 != 1) {
+//				// 삭제 실패 시
+//				System.out.println("userDelete // rental 삭제 실패 // " + userId.toString());
+//			}
+//			if (n6 != 1) {
+//				// 삭제 실패 시
+//				System.out.println("userDelete // buy 삭제 실패 // " + userId.toString());
+//			}
+			if (n7 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // review 삭제 실패 // " + userId.toString());
+			}
+		
+			
+		
+			session.invalidate();
+
+			return "redirect:/";
+		}
+
+
+		
+		
+		
 	
 
 

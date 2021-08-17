@@ -300,6 +300,7 @@ public class RentController {
 			return "member/rent/test";
 		}
 		
+
 		//장바구니 insert
 				@RequestMapping(value ="/member/rent/wishToCart")
 				public String customerWishtoCart(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session){
@@ -340,5 +341,4 @@ public class RentController {
 					return "member/rent/buy";
 				}
 
-		
 }

@@ -17,6 +17,21 @@
 		values(#{r_id},#{r_mid},'대여 연체 알림 및 추가 결제 주의 안내', '고객님!\n\r현재 대여 중인 상품이 연체 중입니다.\n\r서둘러서 반납 요청을 통해 상품 반납 처리를 부탁드립니다.\n\r\n\r반납 요청 시 추가 연체 금액이 발생할 수 있으니 확인바랍니다.\n\r연체 금액은 대여 금액과 연체일을 통해 산정됩니다.\n\r문의사항이 있으시면 언제든지 연락바랍니다.\n\r감사합니다.')
 		]]>
 	</insert>
+	
+	
+	<!-- 승빈 추가 시작 -->
+	  <select id="messageByMid" parameterType="String" resultType="com.use.first.message.MessageVO">
+		<![CDATA[
+		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
+		from alertmessage 
+		where a_mid = #{a_mid};     
+		]]>
+	</select>
+ 
+	<!-- 승빈 추가 끝 -->
+	
+	
+	
 </mapper>
 
 

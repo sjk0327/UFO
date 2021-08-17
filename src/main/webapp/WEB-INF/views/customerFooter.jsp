@@ -41,6 +41,7 @@
      	});
 	});
 	
+
 	//메뉴bar 가격조회
 	$('#priceSearch').on('click', function(){
      	
@@ -85,6 +86,39 @@
             $("#slidemenu").stop().animate({"top":position+currentPosition+"px"},700);
         });
     });
+
+	/* $(document).ready(function() {
+	    $("#slider-range" ).slider({
+	    	alert('슬라이더클릭?');
+	        // options
+	        start: function (event, ui) {
+	            // code
+	        },
+	        slide: function( event, ui ) {
+	            // code
+	        },
+	        change: function(event, ui) {
+	            $("#amount").submit();
+	        }
+	    });
+	}); */
+	
+	
+	//승빈 탈퇴 막기 메시지 end
+	
+	$(function(){
+			$('#resign').click(function(){
+				if(!confirm('정말로 탈퇴하시겠습니까?')){
+					return false;
+				}
+				
+			}
+			)
+		})
+	//승빈 탈퇴 막기 메시지 end
+	
+	
+
 
 	
 	
