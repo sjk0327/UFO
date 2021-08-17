@@ -29,8 +29,15 @@
  	<script src="/resources/common/js/main.js"></script>
   	<script src="http://code.jquery.com/jquery-latest.js"></script>
   
-  
-  
+	
+  </script>
+  <style>
+  #firstSearch {
+  border-radius:5px;
+  border: solid 2px grey;
+  background-color: white;
+  } 
+  </style>
   
  <header class="site-navbar" role="banner" >
       <div class="site-navbar-top">
@@ -38,11 +45,13 @@
           <div class="row align-items-center">
 
             <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left" >
-              <form action="" >
+              
+              <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
                 <span class="icon icon-search2"></span>  
-                <input type="text"  placeholder="Search" style="border-radius:5px; border: solid 2px grey;" >
-              	<input type="submit" value="검색" style="border-radius:5px; border: solid 2px grey; background-color: white;">
+                <input type="text" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
+              	<button type="submit" id="firstSearchId" value="검색" >검색</button>
               </form>
+              
             </div>
 
             <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
@@ -86,5 +95,16 @@
           </div>
         </div>
       </div> 
+     
+     
+  <!-- <script>
+
+	$('#firstSearchId').on('click', function(){
+		var firstSearch = $('input[name=firstSearch]').val();
+		alert(firstSearch);
+		location.href = '/member/pro/productList/search/' + firstSearch;
+		});
+	</script>
+      -->
      
     </header>

@@ -12,7 +12,6 @@ public class ProductVO {
 	private int p_canBuy;
 	private int p_canRent;
 	private int p_soldCount;
-	private int p_recommand;
 	private String p_category;
 	private String p_mainImg;
 	private String p_subImg;
@@ -58,12 +57,6 @@ public class ProductVO {
 	}
 	public void setP_soldCount(int p_soldCount) {
 		this.p_soldCount = p_soldCount;
-	}
-	public int getP_recommand() {
-		return p_recommand;
-	}
-	public void setP_recommand(int p_recommand) {
-		this.p_recommand = p_recommand;
 	}
 	public String getP_category() {
 		return p_category;
@@ -128,12 +121,13 @@ public class ProductVO {
 	@Override
 	public String toString() {
 		return "ProductVO [p_id=" + p_id + ", p_name=" + p_name + ", p_price=" + p_price + ", p_canBuy=" + p_canBuy
-				+ ", p_canRent=" + p_canRent + ", p_soldCount=" + p_soldCount + ", p_recommand=" + p_recommand
-				+ ", p_category=" + p_category + ", p_mainImg=" + p_mainImg + ", p_subImg=" + p_subImg + ", p_regdate="
-				+ p_regdate + ", p_readCount=" + p_readCount + ", p_content=" + p_content + ", mainFile=" + mainFile
-				+ ", subFile=" + subFile + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
-				+ "]";
+				+ ", p_canRent=" + p_canRent + ", p_soldCount=" + p_soldCount + ", p_category=" + p_category
+				+ ", p_mainImg=" + p_mainImg + ", p_subImg=" + p_subImg + ", p_regdate=" + p_regdate + ", p_readCount="
+				+ p_readCount + ", p_content=" + p_content + ", mainFile=" + mainFile + ", subFile=" + subFile
+				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + "]";
 	}
+	
+	
 	
 	
 	

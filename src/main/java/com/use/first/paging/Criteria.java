@@ -8,12 +8,11 @@ public class Criteria {
 	private int perPageNum;
 	private String searchType;
 	private String keyword;
-
-
+	
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 10;
-		//this.perPageNum = 3; 신영페이지넘버바꿈
+		this.perPageNum = 9;
+		
 		this.searchType = null;
 		this.keyword = null;
 	}
