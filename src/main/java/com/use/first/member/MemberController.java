@@ -3,6 +3,7 @@ package com.use.first.member;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.use.first.buy.BuyDAO;
+import com.use.first.buy.BuyVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
+import com.use.first.product.ProductDAO;
+import com.use.first.product.ProductVO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
@@ -595,6 +600,116 @@ public class MemberController {
 		return "redirect:/";
     	
     }
+    
+    //  method 를 Post 로 수정해야 한다.
+    @RequestMapping(value ="/member/mem/memRentDetail", method = RequestMethod.GET)
+	public String memRentDetail(Model model, @RequestParam int r_id) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		
+		// 선택한 대여 정보 가져오기
+		RentVO rentVO = rentDAO.rentInfo(r_id);
+		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+		// 선택한 대여 상품 정보 가져오기
+		ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
+		System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
+		// 선택한 대여의 결제 정보 가져오기
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
+		
+		model.addAttribute("rentInfo", rentVO);
+		model.addAttribute("proInfo", productVO);
+		model.addAttribute("buyList", buyList);
+		return "/member/mem/memRentDetail";
+	}
+    
+    @RequestMapping(value ="/member/mem/memRentReturn", method = RequestMethod.POST)
+	public String memRentReturn(Model model, @RequestParam int r_id) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		System.out.println("memController - memRentReturn  :  반납 하기 클릭 컨트롤러");
+		// 선택한 대여 정보 가져오기
+		RentVO rentVO = rentDAO.rentInfo(r_id);
+		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
+		int late = Double.valueOf(Math.floor(gap / (1000*60*60*24)) * -1).intValue();
+		if( late > 3 ) {
+			
+		}
+		// 선택한 대여의 결제 정보 가져오기
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
+		
+		model.addAttribute("rentInfo", rentVO);
+		model.addAttribute("buyList", buyList);
+		return "redirect:/member/mem/memRentDetail/" + r_id;
+	}
+    
+    @RequestMapping(value ="/member/mem/memRentRefund", method = RequestMethod.POST)
+   	public String memRentRefund(Model model, @RequestParam int r_id) {
+   		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+   		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+   		System.out.println("memController - memRentRefund  :  환불 하기 클릭 컨트롤러");
+   		// 선택한 대여 정보 가져오기
+   		RentVO rentVO = rentDAO.rentInfo(r_id);
+   		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+   		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
+   		int late = Double.valueOf(Math.floor(gap / (1000*60*60*24)) * -1).intValue();
+   		if( late > 3 ) {
+   			
+   		}
+   		// 선택한 대여의 결제 정보 가져오기
+   		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+   		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
+   		
+   		model.addAttribute("rentInfo", rentVO);
+   		model.addAttribute("buyList", buyList);
+   		return "redirect:/member/mem/memRentDetail/" + r_id;
+   	}
+    
+    
+    @RequestMapping(value ="/member/mem/memRentLate", method = RequestMethod.POST)
+	public String memRentLate(Model model, @RequestParam int r_id) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		
+		// 선택한 대여 정보 가져오기
+		RentVO rentVO = rentDAO.rentInfo(r_id);
+		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+		
+		// 연체료 납부 후 반납
+		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
+		int late = Double.valueOf(Math.floor(gap / (1000*60*60*24)) * -1).intValue();
+		if( late > 3 ) {
+			
+		}
+		// 선택한 대여의 결제 정보 가져오기
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
+		
+		model.addAttribute("rentInfo", rentVO);
+		model.addAttribute("buyList", buyList);
+		return "/member/mem/memRentDetail";
+	}
+    
+    
+    @RequestMapping("/member/mem/memBuyDetail/{r_id}")
+   	public String memBuyDetail(Model model, @PathVariable int r_id) {
+   		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+   		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+   		
+   		// 선택한 구매 정보 가져오기
+		RentVO rentVO = rentDAO.rentInfo(r_id);
+		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+		// 선택한 구매의 결제 정보 가져오기
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
+		
+		model.addAttribute("rentInfo", rentVO);
+		model.addAttribute("buyList", buyList);
+   		return "/member/mem/memBuyDetail";
+   	}
 
 	// 성훈 end
 
