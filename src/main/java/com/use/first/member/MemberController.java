@@ -164,6 +164,7 @@ public class MemberController {
 	public String kakaoRejectP(HttpServletResponse response) throws IOException{
 		return "";
 	}
+	
 	// 카카오 회원가입
 	@RequestMapping(value = "/kakaoJoin/{email}/{gender}", method = RequestMethod.GET)
 	public String kakaoJoin(UserVO user, Model model, HttpSession session,@PathVariable String email, @PathVariable String gender) {
@@ -617,7 +618,7 @@ public class MemberController {
 		ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
 		System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
 		// 선택한 대여의 결제 정보 가져오기
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
 		
 		model.addAttribute("rentInfo", rentVO);
@@ -640,7 +641,7 @@ public class MemberController {
 			
 		}
 		// 선택한 대여의 결제 정보 가져오기
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
 		
 		model.addAttribute("rentInfo", rentVO);
@@ -662,7 +663,7 @@ public class MemberController {
    			
    		}
    		// 선택한 대여의 결제 정보 가져오기
-   		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+   		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
    		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
    		
    		model.addAttribute("rentInfo", rentVO);
@@ -687,7 +688,7 @@ public class MemberController {
 			
 		}
 		// 선택한 대여의 결제 정보 가져오기
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
 		
 		model.addAttribute("rentInfo", rentVO);
@@ -705,7 +706,7 @@ public class MemberController {
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
 		// 선택한 구매의 결제 정보 가져오기
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_mid(), rentVO.getR_pid());
+		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
 		
 		model.addAttribute("rentInfo", rentVO);

@@ -83,4 +83,5 @@ public class BuyVO {
 				+ b_purchase + ", b_message=" + b_message + "]";
 	}
 	
+
 }

@@ -117,11 +117,11 @@
  */
 
 </script>
-<footer class="site-footer border-top">
+<footer class="site-footer border-top" style="margin-top: 100px;">
 
       <div class="container">
         <div class="row">
-          <div class="col-md-12 col-lg-12">
+          <div class="col-md-12 col-lg-12 col-xs-12">
           
            	<div class="row">
            	

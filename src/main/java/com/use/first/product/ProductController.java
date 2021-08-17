@@ -430,11 +430,13 @@ public class ProductController {
 			
 	//ajax 위시리스트 삭제
 					
+
 			@RequestMapping(value = "/member/wishListDelete/{p_id}", method = RequestMethod.POST)
 			public String WishListDelete(WishListVO wishListVO, HttpSession session, @PathVariable String p_id ) {					
 				String w_mid = "bcbc";
 			wishListVO.setW_mid(w_mid);
 			wishListVO.setW_pid(p_id);
+
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 			int n = productDAO.wishListDelete(wishListVO);
 				if(n==0) {System.out.println("등록 실패");}
