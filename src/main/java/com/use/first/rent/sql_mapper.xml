@@ -57,7 +57,7 @@
 	<insert id="rentInsert" parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
 		insert into rental(r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate)
-		values(#{r_id},#{r_mid},#{r_pid}, #{r_sdate}, #{r_rent}, #{r_state}, #{r_pdate})
+		values(#{r_id},#{r_mid},#{r_pid}, now(), #{r_rent}, #{r_state}, now())
 		]]>
 	</insert>
 
@@ -73,6 +73,13 @@
 		update rental set r_state = #{r_state} where r_id = #{r_id}
 		]]>
 	</update>
+	
+	<!-- 정노 -->
+	<select id="rentSelect" resultType="int">
+		<![CDATA[
+		 SELECT r_id FROM rental ORDER BY r_id DESC LIMIT 1;
+		]]>
+	</select>
 
 	
 	<update id="rentReturn">

@@ -1,21 +1,32 @@
 package com.use.first.buy;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 public class BuyVO {
 	private int b_id;
+	private int b_rid;
 	private String b_mid;
 	private String b_pid;
 	private Date b_buydate;
-	private int b_amount;
+	private String b_amount;
 	private String b_how;
 	private String b_state;
-	private int b_purchase;
+	private String b_purchase;
+	private String b_message;
+	
 	public int getB_id() {
 		return b_id;
 	}
 	public void setB_id(int b_id) {
 		this.b_id = b_id;
+	}
+	public int getB_rid() {
+		return b_rid;
+	}
+	public void setB_rid(int b_rid) {
+		this.b_rid = b_rid;
 	}
 	public String getB_mid() {
 		return b_mid;
@@ -35,10 +46,10 @@ public class BuyVO {
 	public void setB_buydate(Date b_buydate) {
 		this.b_buydate = b_buydate;
 	}
-	public int getB_amount() {
+	public String getB_amount() {
 		return b_amount;
 	}
-	public void setB_amount(int b_amount) {
+	public void setB_amount(String b_amount) {
 		this.b_amount = b_amount;
 	}
 	public String getB_how() {
@@ -53,22 +64,23 @@ public class BuyVO {
 	public void setB_state(String b_state) {
 		this.b_state = b_state;
 	}
-	public int getB_purchase() {
+	public String getB_purchase() {
 		return b_purchase;
 	}
-	public void setB_purchase(int b_purchase) {
+	public void setB_purchase(String b_purchase) {
 		this.b_purchase = b_purchase;
+	}
+	public String getB_message() {
+		return b_message;
+	}
+	public void setB_message(String b_message) {
+		this.b_message = b_message;
 	}
 	@Override
 	public String toString() {
-		return "BuyVO [b_id=" + b_id + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_buydate=" + b_buydate
-				+ ", b_amount=" + b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase=" + b_purchase
-				+ "]";
+		return "BuyVO [b_id=" + b_id + ", b_rid=" + b_rid + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_buydate="
+				+ b_buydate + ", b_amount=" + b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase="
+				+ b_purchase + ", b_message=" + b_message + "]";
 	}
-	
-	
-	
-	
-	
 	
 }

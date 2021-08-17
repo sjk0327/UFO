@@ -144,10 +144,19 @@
 		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now())
 		]]> 
 	</insert>
+	
+	<!-- 정노추가 -->
+	<update id="memUpdateBuy"  parameterType="map">
+	<![CDATA[
+		UPDATE member SET m_point = #{param2}, m_tel=#{param3}, m_addr=#{param4}
+		WHERE m_id = #{param1}
+	]]>
+	</update>
 
 	<!-- <insert id="insert" parameterType="org.sp.mybatis.Emp"> insert into 
 		emp2 (empno, ename, deptno, job, sal) values ( #{empno}, #{ename}, #{deptno}, 
 		#{job}, #{sal}) </insert> <update id="update" parameterType="org.sp.mybatis.Emp"> 
 		update emp2 set deptno=#{deptno}, sal=#{sal} where empno=#{empno} </update> 
 		<delete id="delete"> delete from emp2 where empno=#{empno} </delete> -->
+	
 </mapper>
