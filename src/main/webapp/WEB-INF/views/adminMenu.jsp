@@ -31,7 +31,7 @@
             </a>
         </li>
         <li class="pcoded-hasmenu">
-            <a href="adminsite" class="waves-effect waves-dark">
+            <a href="/admin/rec/recList" class="waves-effect waves-dark">
                 <span class="pcoded-micon"><i class="ti-comments"></i></span>
                 <span class="pcoded-mtext" data-i18n="nav.basic-components.main">추천글관리</span>
             </a>

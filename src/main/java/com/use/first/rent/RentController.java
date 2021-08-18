@@ -327,8 +327,9 @@ public class RentController {
 				// 정노
 				@RequestMapping(value = "/customer/rent/buy")
 				public String adminProductDetail(Model model, HttpSession session) {
-
-					String userId = "crystal";
+					
+					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+					String userId=userInfo.getM_id();
 
 					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 					UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
@@ -340,5 +341,7 @@ public class RentController {
 					model.addAttribute("cartList", cartList);
 					return "member/rent/buy";
 				}
+				
+				
 
 }
