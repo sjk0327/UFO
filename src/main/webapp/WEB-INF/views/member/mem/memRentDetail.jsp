@@ -149,6 +149,11 @@
 			text-align: center; 
 		}
 	}
+.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content {
+  margin-left: 0; }
+.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content {
+  margin-left: 0;
+  }
 
 
 </style>
@@ -225,11 +230,11 @@
 			     					<td>
 			     						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료'}">
 										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" />
-										${totalprice}원
+										${totalprice}<%="원" %>
 										</c:if>
 									
 									</td>
-			     					<td>${rentInfo.r_rent }개</td>
+			     					<td>${rentInfo.r_rent }<%="개" %></td>
 			     					<td style="padding: 9.6px 0px;">
 			     						<!-- 상태 색깔 변경 로직 부분  추가-->
 									<span class="col-md-2"> 
@@ -238,11 +243,12 @@
 										<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
 										<c:set var="now" value="<%=new java.util.Date()%>" />
 										<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
-										<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대 여  중</label></c:if>
-										<c:if test="${sdate+3<today}"><label class="btn btn-danger">연 체  중</label></c:if>
+										
+										<c:if test="${sdate+3>=today}"><label class="btn btn-primary rent-state-btn-label">대 여  중</label></c:if>
+										<c:if test="${sdate+3<today}"><label class="btn btn-danger late-state-btn-label">연 체  중</label></c:if>
 									</c:if>
-									<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
-									<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
+									<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning request-state-btn-label">반납 요청</label></c:if>
+									<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success return-state-btn-label">반납 완료</label></c:if>
 									</span>
 									<!-- 상태 색깔 변경 로직 부분  끝 -->
 			       					</td>
@@ -276,27 +282,99 @@
 							<hr>
 							</c:forEach>
 							<div class="col-sm-12" style="float:right;">
-							<c:if test="${sdate+1>=today}">
-								<form:form method="post" action="/member/mem/memRentRefund" modelAttribute="rentInfo" style="float:right;">
-								<form:hidden path="r_id"/>
-								<button type="submit" id="button"
-								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px">환불하기</button>
-								</form:form>
-			     			</c:if>
+							<c:if test="${rentInfo.r_state eq '대여중'}">
 		        			<c:if test="${sdate+3>=today}">
 			     				<form:form method="post" action="/member/mem/memRentReturn" modelAttribute="rentInfo" style="float:right;">
 								<form:hidden path="r_id"/>
-								<button type="submit" id="button"
-								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px">반납하기</button>
+								<input type="button" id="returnButton"  data-toggle="modal" data-target="#returnModal" 
+								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px" value="반납하기">
 								</form:form>
+								<!-- The Modal start-->
+							   	<div class="modal" id="returnModal">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<!-- Modal Header -->
+											<div class="modal-header">
+											  <h4 class="modal-title">반납 확인창</h4>
+											  <button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+											<!-- Modal body -->
+											<div class="modal-body">
+												위의 상품을 반납하시겠습니까?
+											</div>
+											<!-- Modal footer -->
+											<div class="modal-footer">
+											  <button type="button" class="btn btn-success" data-dismiss="modal" onClick="returnRental(${rentInfo.r_id})">확인</button>
+											      <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+										    </div>
+										</div>
+									</div>
+								</div>
+								<!-- The Modal end-->
 							</c:if>
 							<c:if test="${sdate+3<today}">
-								<form:form method="post" action="/member/mem/memRentReturn" modelAttribute="rentInfo" style="float:right;">
+								<form:form method="post" action="/member/mem/memRentLate" modelAttribute="rentInfo" style="float:right;">
 								<form:hidden path="r_id"/>
-								<button type="submit" id="button"
+								<button type="button" id="lateButton" data-toggle="modal" data-target="#lateFeeModal" 
 								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px">연체료 납부 후 반납</button>
 								</form:form>
+								<!-- The Modal start-->
+							   	<div class="modal" id="lateFeeModal">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<!-- Modal Header -->
+											<div class="modal-header">
+											  <h4 class="modal-title">연체료 납부 확인창</h4>
+											  <button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+											<!-- Modal body -->
+											<div class="modal-body">
+												연체료가 있습니다. 연체료를 납부 후 반납이 진행됩니다.
+											</div>
+											<!-- Modal footer -->
+											<div class="modal-footer">
+											  <button type="button" class="btn btn-success" data-dismiss="modal" onClick="lateFeeRental()">확인</button>
+											      <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+										    </div>
+										</div>
+									</div>
+								</div>
+								<!-- The Modal end-->
 							</c:if>
+							<c:if test="${sdate+1>=today}">
+								<form:form method="post" action="/member/mem/memRentRefund" modelAttribute="rentInfo" style="float:right;">
+								<form:hidden path="r_id"/>
+								<button type="button" id="refundButton" data-toggle="modal" data-target="#refundModal"
+								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px">환불하기</button>
+								</form:form>
+								<!-- The Modal start-->
+							   	<div class="modal" id="refundModal">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<!-- Modal Header -->
+											<div class="modal-header">
+											  <h4 class="modal-title">환불 확인창</h4>
+											  <button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+											<!-- Modal body -->
+											<div class="modal-body">
+												위의 상품을 환불하시겠습니까?
+											</div>
+											<!-- Modal footer -->
+											<div class="modal-footer">
+											  <button type="button" class="btn btn-success" data-dismiss="modal" onClick="refundRental()">확인</button>
+											      <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+										    </div>
+										</div>
+									</div>
+								</div>
+								<!-- The Modal end-->
+			     			</c:if>
+							</c:if>
+							
+			     			
+			     			
+			     			
 							</div>
 						</div>    
 			    	</main>
@@ -320,93 +398,38 @@
 </div>
 </div>
 </div>
-   <script>
-   $(function () {
-	    //사용 예시 **************************
-	    $(document).on("click", "#rentReturn", function () {
-	        action_popup.confirm("hello world confirm test !!!", function (res) {
-	            if (res) {
-	                action_popup.alert("확인창을 눌렀습니다.");
-	            }
-	        })
-	    });
-
-	    $(document).on("click", "#alert", function () {
-	        action_popup.alert("경고창 테스트!!!");
-	    });
-
-	    $(".modal_close").on("click", function () {
-	        action_popup.close(this);
-	    });
-	    //사용 예시 **************************
+<script>
+function returnRental(r_id){
+	console.log(r_id + " 반납 요청으로 변경");
+	$.ajax({
+		data : r_id,
+		url : "/member/mem/memRentReturn",
+		type: "POST",
+		dataType: "JSON",
+		contentType: "application/json; charset=UTF-8",
+		success : function(data) {
+			if(data.check > 0){
+				$('.rent-state-btn-label').attr("class", "");
+				$('.rent-state-btn-label').attr("class", "btn btn-warning request-state-btn-label");
+				$('.rent-state-btn-label').text("반납 요청");
+			}else{
+				$('#returnModal .modal-dialog .modal-content .modal-body').text("반납에 실패 하였습니다.");
+				$('#returnModal .modal-dialog .modal-content .modal-footer .btn-success').css("display", "none");
+				$('#returnModal .modal-dialog .modal-content .modal-footer .btn-danger').text("확인");
+				$('#returnModal').model("show");
+				
+			}
+		}
 	});
+}
 
-
-
-	/**
-	 *  alert, confirm 대용 팝업 메소드 정의 <br/>
-	 *  timer : 애니메이션 동작 속도 <br/>
-	 *  alert : 경고창 <br/>
-	 *  confirm : 확인창 <br/>
-	 *  open : 팝업 열기 <br/>
-	 *  close : 팝업 닫기 <br/>
-	 */ 
-	var action_popup = {
-	    timer: 500,
-	    confirm: function (txt, callback) {
-	        if (txt == null || txt.trim() == "") {
-	            console.warn("confirm message is empty.");
-	            return;
-	        } else if (callback == null || typeof callback != 'function') {
-	            console.warn("callback is null or not function.");
-	            return;
-	        } else {
-	            $(".type-confirm .btn_ok").on("click", function () {
-	                $(this).unbind("click");
-	                callback(true);
-	                action_popup.close(this);
-	            });
-	            this.open("type-confirm", txt);
-	        }
-	    },
-
-	    alert: function (txt) {
-	        if (txt == null || txt.trim() == "") {
-	            console.warn("confirm message is empty.");
-	            return;
-	        } else {
-	            this.open("type-alert", txt);
-	        }
-	    },
-
-	    open: function (type, txt) {
-	        var popup = $("." + type);
-	        popup.find(".menu_msg").text(txt);
-	        $("body").append("<div class='dimLayer'></div>");
-	        $(".dimLayer").css('height', $(document).height()).attr("target", type);
-	        popup.fadeIn(this.timer);
-	    },
-
-	    close: function (target) {
-	        var modal = $(target).closest(".modal-section");
-	        var dimLayer;
-	        if (modal.hasClass("type-confirm")) {
-	            dimLayer = $(".dimLayer[target=type-confirm]");
-	        } else if (modal.hasClass("type-alert")) {
-	            dimLayer = $(".dimLayer[target=type-alert]")
-	        } else {
-	            console.warn("close unknown target.")
-	            return;
-	        }
-	        modal.fadeOut(this.timer);
-	        setTimeout(function () {
-	            dimLayer != null ? dimLayer.remove() : "";
-	        }, this.timer);
-	    }
-	}
-    </script>
-   
-    <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
+function lateFeeRental(){
+	console.log("연체료 납부 요청으로 변경");
+}
+function refundRental(){
+	console.log("환불 요청으로 변경");
+}
+</script>
     <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
     
 </body>

@@ -6,7 +6,31 @@
 <script type="text/javascript" src="/resources/assets/js/popper.js/popper.min.js"></script>
 <script type="text/javascript" src="/resources/assets/js/bootstrap/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="/resources/assets/pages/widget/excanvas.js "></script>
-
+<!-- waves js -->
+<script src="/resources/assets/pages/waves/js/waves.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="/resources/assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="/resources/assets/js/modernizr/modernizr.js "></script>
+<!-- slimscroll js -->
+<script type="text/javascript" src="/resources/assets/js/SmoothScroll.js"></script>
+<script src="/resources/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+<!-- Chart js -->
+<script type="text/javascript" src="/resources/assets/js/chart.js/Chart.js"></script>
+<!-- amchart js -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="/resources/assets/pages/widget/amchart/gauge.js"></script>
+<script src="/resources/assets/pages/widget/amchart/serial.js"></script>
+<script src="/resources/assets/pages/widget/amchart/light.js"></script>
+<script src="/resources/assets/pages/widget/amchart/pie.min.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<!-- menu js -->
+<script src="/resources/assets/js/pcoded.min.js"></script>
+<script src="/resources/assets/js/vertical-layout.min.js "></script>
+<!-- custom js -->
+<script type="text/javascript" src="/resources/assets/pages/dashboard/custom-dashboard.js"></script>
+<script type="text/javascript" src="/resources/assets/js/script.js "></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
  .col-md-3 { font-size : 13px; }
  .margin { margin-top: 100px; }
