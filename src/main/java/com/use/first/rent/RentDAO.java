@@ -27,6 +27,8 @@ public interface RentDAO {
 	public List<CartVO> getCartList(String userId);
 	public void insertCartList(CartVO cartVO);
 	public void deleteCartList(String c_id);
+	public void deleteCartAll(String userId);
+	public void updateCart(BuyInfoVO buyInfoVo);
 	public int rentSelect();
 	
 	

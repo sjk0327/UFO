@@ -397,7 +397,7 @@ margin-right: 25px;
                         </span>
                         
                         <button id="button" class="btn btn-outline-primary btn-sm btn-block btncart" style="margin-top: 8pt;">장바구니 담기</button>
-                        <form action="/customer/rent/deleteWishList" method="post">
+                        <form action="/member/rent/deleteWishList" method="post">
                         <input type="hidden" name="w_id" value="${wishInfo.w_id}">
                         <button id="button" class="btn btn-outline-primary btn-sm btn-block deleteWish" style="margin-top: 8pt;" onclick="">삭제</button>
                  
@@ -439,7 +439,7 @@ margin-right: 25px;
  <div class="row allpro">
             <span><button id="button2" href="" class="btn btn-outline-primary">전체 상품 주문</button></span>
             <span>
-            <form id="form" action="/customer/rent/deleteWishAll" method="post">
+            <form id="form" action="/member/rent/deleteWishAll" method="post">
             <input type="hidden" id="userID" name="userID" value="crystal"/>
             <span style="margin-left: 3pt;"><button id="deleteWish" class="btn btn-outline-primary deleteWishAll">위시리스트 비우기</button></span>
             </form></span>
@@ -492,7 +492,7 @@ function wishcheckboxArr() {
 	$("#arrayParam").val(array);
 	
 	if (confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?") == true){   
-		$("#form").attr("action", "/customer/rent/deleteWishList2");  
+		$("#form").attr("action", "/member/rent/deleteWishList2");  
 		$("#form").submit();
 	  }else{   
 		 event.preventDefault();
@@ -511,7 +511,7 @@ function wishcheckArr() {
 	$("#arrayParam2").val(array);
 	
 	if (confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?") == true){   
-		$("#form").attr("action", "/customer/rent/deleteWishList2");  
+		$("#form").attr("action", "/member/rent/deleteWishList2");  
 		$("#form").submit();
 	  }else{   
 		 event.preventDefault();
@@ -590,7 +590,7 @@ for(var i=0; i < btnrentLength; i++){
 				function giveData(){
 					if (confirm("대여 결제를 진행하시겠습니까?") == true){   
 						document.getElementById("buyType").removeAttribute('disabled');
-						$("#buyform").attr("action", "/member/rent/wishToRent");  
+						$("#buyform").attr("action", "/member/rent/buy");  
 						$("#buyform").submit();
 					  }else{   
 						 event.preventDefault();
@@ -623,7 +623,7 @@ for(var i=0; i < btnrentLength; i++){
 					function giveData(){
 						if (confirm("구매 결제를 진행하시겠습니까?") == true){   
 							document.getElementById("buyType").removeAttribute('disabled');
-							$("#buyform").attr("action", "/member/rent/wishToRent");  
+							$("#buyform").attr("action", "/member/rent/buy");  
 							$("#buyform").submit();
 						  }else{   
 							 event.preventDefault();

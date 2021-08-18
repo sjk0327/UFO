@@ -41,10 +41,10 @@
   
  <header class="site-navbar" role="banner" >
       <div class="site-navbar-top">
-        <div class="container">
-          <div class="row align-items-center">
-
-            <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left" >
+   
+<div class="col">
+          <div class="row">
+            <div class="col-md-4 order-2 order-md-1 site-search-icon text-left" >
               
               <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
                 <span class="icon icon-search2"></span>  
@@ -54,13 +54,13 @@
               
             </div>
 
-            <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
+            <div class="mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
               <div class="site-logo" >
                 <a href="/" class="js-logo-clone" style="font-size: 20pt; font-weight: bold;" >UF&O</a>
               </div>
             </div>
 
-            <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+            <div class="col-md-4 order-3 order-md-3 text-right">
             
               <div class="site-top-icons">
                 <ul>
@@ -71,7 +71,10 @@
                   <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
                   </c:when >
                   <c:otherwise>
-                   <li>${userInfo.m_id } 님, 환영합니다.&nbsp&nbsp
+                   <li>${userInfo.m_id } 님, 환영합니다!&nbsp&nbsp
+                  <li><a href="/member/mem/userInfo">[ 내정보 ]</a></li>
+                  <li><a href="/member/rent/wishList">[ 위시리스트 ]</a></li>
+                  <li><a href="/member/rent/cartList">[ 장바구니 ]</a></li>
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
                    <li><a href="/logout">[ 로그아웃 ]</a></li>
                    </c:if>
@@ -82,18 +85,18 @@
                    <li><a href="/logout">[ 로그아웃 ]</a></li>
                    </c:if>
                    
-                  <li><a href="/member/mem/userInfo">[ 내정보 ]</a></li>
                   </c:otherwise>
                  </c:choose>
+                 <br>
                    <li><a href="member/noticeList">[ 공지사항 ]</a></li>
                     <li><a href="member/qnaList">[ Q&A ]</a></li>
                  
                 </ul>
               </div> 
             </div>
-
+</div>
           </div>
-        </div>
+       
       </div> 
      
      

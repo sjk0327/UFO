@@ -1,6 +1,9 @@
 package com.use.first.rent;
 
+
 import java.sql.Date;
+import java.util.ArrayList;
+
 
 public class BuyInfoVO {
 
@@ -12,6 +15,7 @@ public class BuyInfoVO {
 	private int cartId;
 	private int productPrice;
 	private String productImg;
+	private ArrayList<BuyInfoVO> buyInfoList;
 	
 	
 	public String getProductId() {
@@ -61,6 +65,15 @@ public class BuyInfoVO {
 	}
 	public void setProductImg(String productImg) {
 		this.productImg = productImg;
+	}
+	
+	
+	
+	public ArrayList<BuyInfoVO> getBuyInfoList() {
+		return buyInfoList;
+	}
+	public void setBuyInfoList(ArrayList<BuyInfoVO> buyInfoList) {
+		this.buyInfoList = buyInfoList;
 	}
 	@Override
 	public String toString() {
