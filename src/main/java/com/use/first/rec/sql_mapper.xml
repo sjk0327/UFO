@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.rec.RecDAO">
+
+	<select id="recList" resultType="com.use.first.rec.RecVO">
+		select review.v_id, review.v_mid, review.v_pid, review.v_content,
+		product.p_name,review.v_date from
+		review, product
+		where review.v_pid = product.p_id
+		<if test="searchType == 't'.toString()">
+			AND v_mid LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'c'.toString()">
+			AND v_pid LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'w'.toString()">
+			AND product.p_name LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		ORDER BY v_id desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+
+	<select id="getRecTotalCount" resultType="int">
+		select count(*) from
+		review, product
+		where review.v_pid = product.p_id
+		<include refid="searchCondition"></include>
+	</select>
+
+
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				AND v_mid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND v_pid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND product.p_name LIKE CONCAT('%', #{keyword},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<update id="recUpdate">
+	<![CDATA[
+		UPDATE review SET v_content = #{param2}
+		WHERE v_id = #{param1}
+	]]>
+	</update>
+
+</mapper>
+
+
+
