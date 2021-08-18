@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.rent.RentDAO">
+
+	<select id="rentList" resultType="com.use.first.rent.RentVO">
+
+		select rental.r_id, rental.r_mid, rental.r_pid, product.p_name,
+		rental.r_sdate, rental.r_rent, rental.r_state, rental.r_pdate from
+		rental, product
+		where rental.r_pid = product.p_id
+		<if test="searchType == 't'.toString()">
+				AND r_mid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND r_pid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND product.p_name LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				AND r_state LIKE CONCAT('%', #{keyword},'%')
+			</if>
+		ORDER BY r_id desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+
+	<select id="getRentTotalCount" resultType="int">
+		select count(*) from
+		rental, product
+		where rental.r_pid = product.p_id
+		<include refid="searchCondition"></include>
+	</select>
+
+
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				AND r_mid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND r_pid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND product.p_name LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				AND r_state LIKE CONCAT('%', #{keyword},'%')
+			</if>
+		</if>
+	</sql>
+
+
+	
+	<insert id="rentInsert" parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		insert into rental(r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate)
+		values(#{r_id},#{r_mid},#{r_pid}, now(), #{r_rent}, #{r_state}, now())
+		]]>
+	</insert>
+
+	<select id="rentInfo" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_id=#{r_id}
+		]]>
+	</select>
+
+	<update id="rentUpdate"
+		parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		update rental set r_state = #{r_state} where r_id = #{r_id}
+		]]>
+	</update>
+	
+	<!-- 정노 -->
+	<select id="rentSelect" resultType="int">
+		<![CDATA[
+		 SELECT r_id FROM rental ORDER BY r_id DESC LIMIT 1;
+		]]>
+	</select>
+
+	
+	<update id="rentReturn">
+		<![CDATA[
+		update rental set r_state = '반납 완료' where r_id = #{r_id}
+		]]>
+	</update>
+	
+	<select id="returnList" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, product.p_name, r_sdate, r_rent, r_state, r_pdate from rental,product where r_state='반납 요청' and r_pid=p_id;
+		]]>
+	</select>
+	
+	<select id="lateList" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, product.p_name, r_sdate, r_rent, r_state, r_pdate from rental,product where (r_state='대여중' and r_sdate+3<now()) and r_pid=p_id;
+		]]>
+	</select>
+	
+	<select id="findMessage">
+		<![CDATA[
+		select a_id, a_rid, a_mid, a_title, a_content, a_date from alert where a_date+3<=now()
+		]]>
+	</select>
+	
+	<insert id="sendMessage">
+		<![CDATA[
+		insert into alert(a_rid, a_mid, a_title, a_content)
+		values(#{r_id},#{r_mid},'대여 연체 알림 및 추가 결제 주의 안내', '고객님!\n\r현재 대여 중인 상품이 연체 중입니다.\n\r서둘러서 반납 요청을 통해 상품 반납 처리를 부탁드립니다.\n\r\n\r반납 요청 시 추가 연체 금액이 발생할 수 있으니 확인바랍니다.\n\r연체 금액은 대여 금액과 연체일을 통해 산정됩니다.\n\r문의사항이 있으시면 언제든지 연락바랍니다.\n\r감사합니다.')
+		]]>
+	</insert>
+	
+	<select id="getWishList" resultType="com.use.first.rent.WishListVO">
+		<![CDATA[
+		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{userId} and w_pid=p_id
+		]]>
+	</select>
+	
+	
+	<!--  
+	<select id="getWishTotalCount" resultType="int">
+	<![CDATA[
+		select count(*) from wishlist, product where wishlist.w_mid=#{userId} and wishlist.w_pid=product.p_id
+		]]>
+	</select>-->
+	
+
+
+	
+	<delete id="deleteWishList">
+		<![CDATA[
+		delete from wishlist where w_id=#{w_id}
+		]]>
+	</delete>
+	
+	<delete id="deleteWishAll">
+		<![CDATA[
+		delete from wishlist where w_mid=#{userID}
+		]]>
+	</delete>
+	
+	<insert id="insertCartList" parameterType="com.use.first.rent.CartVO">
+		<![CDATA[
+		insert into cart(c_mid,c_pid, c_state, c_amount, c_date)
+		values(#{c_mid},#{c_pid},#{c_state},#{c_amount},#{c_date})
+		]]>
+	</insert>
+	
+	<select id="getCartList" resultType="com.use.first.rent.CartVO">
+		<![CDATA[
+		select cart.c_id, cart.c_mid, cart.c_pid, cart.c_state, cart.c_amount, cart.c_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from cart, product where c_mid=#{userId} and c_pid=p_id
+		]]>
+	</select>
+	
+	<delete id="deleteCartList">
+		<![CDATA[
+		delete from cart where c_id=#{c_id}
+		]]>
+	</delete>
+
+	<!-- 08/10 : 성훈 추가 product.p_category -->
+	<!-- 성훈 시작 -->
+   <select id="rentListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">
+      <![CDATA[
+      select rental.r_id, product.p_name, product.p_category, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
+      where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state not like concat('%',#{r_state},'%') 
+      order by r_id desc
+      ]]>
+   </select>
+   
+   <select id="purchaseListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">
+      <![CDATA[
+      select rental.r_id, product.p_name, product.p_category, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
+      where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state like concat('%',#{r_state},'%') 
+      order by r_id desc
+      ]]>
+   </select>
+   <!-- 성훈 끝 -->
+   
+   
+
+</mapper>
+
+
+

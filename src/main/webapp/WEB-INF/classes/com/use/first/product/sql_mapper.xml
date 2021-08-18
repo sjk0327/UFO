@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.product.ProductDAO">
+	<select id="productList"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+			
+			<if test="searchType == 't'.toString()">
+				where p_id LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				where p_category LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				where p_name LIKE CONCAT('%', #{keyword},'%')
+			</if> 
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<!-- 페이징을 위한 수량 세기 -->
+	<select id="countProductListTotal" resultType="int">
+		select count(*)	from product
+	</select>
+	<select id="countSmartPhone" resultType="int">
+		select count(*) from product
+		where p_category = '스마트폰'	
+	</select>
+	<select id="countLaptop" resultType="int">
+		select count(*) from product
+		where p_category = '노트북'	
+	</select>
+	<select id="countCamera" resultType="int">
+		select count(*) from product
+		where p_category = '카메라'	
+	</select>
+	<select id="countWatch" resultType="int">
+		select count(*) from product
+		where p_category = '스마트워치'	
+	</select>
+	<select id="countTablet" resultType="int">
+		select count(*) from product
+		where p_category = '태블릿'	
+	</select>
+	<!--  카테고리별 수량 세기  -->
+	<select id="countProductListCategory" resultType="int">
+		select count(*)	from product
+		where p_category=#{p_category}
+	</select>
+	<!--  가격순 정렬  -->
+	<select id="productSortLow" resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		order by p_price asc
+	</select>
+	<select id="productSortHigh" resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		order by p_price desc
+	</select>
+	<!-- <select id="productRecommand" resultType="com.use.first.product.ProductVO">
+		select 
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		order by p_recommand desc
+	</select> -->
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			 
+			<if test="searchType == 't'.toString()">
+				where p_id LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				where p_category LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				where p_name LIKE CONCAT('%', #{keyword},'%')
+			</if> 
+		</if>
+	</sql>
+	<!-- 상품카테고리 select -->
+	 <select id="productSmartPhoneList"  parameterType ="String" resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		where p_category = #{p_category}
+	</select>
+	<!--  상품 메뉴바 가격조회 -->
+	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
+		select 
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		where p_price between #{0} and #{1}
+		order by p_price asc
+	</select>	
+	
+	<select id="productKeywordList"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		where p_name LIKE CONCAT('%', #{keyword},'%')
+		or p_name LIKE CONCAT('%', #{keyword},'%')
+		or p_id LIKE CONCAT('%', #{keyword},'%')
+		or p_category LIKE CONCAT('%', #{keyword},'%')
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<select id="productSearchTypeList"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		<if test="where p_name LIKE CONCAT('%', #{keyword},'%')">
+		where p_name LIKE CONCAT('%', #{searchType},'%')
+		</if>
+		or p_name LIKE CONCAT('%', #{searchType},'%')
+		or p_id LIKE CONCAT('%', #{searchType},'%')
+		or p_category LIKE CONCAT('%', #{searchType},'%')
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<select id="productKeywordSearchTypeList"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		where p_name LIKE CONCAT('%', #{searchType},'%')
+		or p_name LIKE CONCAT('%', #{searchType},'%')
+		or p_id LIKE CONCAT('%', #{searchType},'%')
+		or p_category LIKE CONCAT('%', #{searchType},'%')
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<!--  조회수 update 진행중.... -->
+	<update id="productHitsUpdate" parameterType="int"> 
+		update product set p_readcount = p_readcount + 1 
+		where p_id=#{p_id} 
+	</update>
+
+	<insert id="productInsert" parameterType="com.use.first.product.ProductVO">
+
+		<!-- insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,p_category,p_mainImg,p_subImg,p_regdate,p_content)
+		values(#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_soldCount},#{p_category},#{p_mainImg},#{p_subImg},#{p_regdate},#{p_content}) -->
+		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg,p_regdate,p_content)
+		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
+	</insert>
+	
+	<select id="productRecommand" resultType="com.use.first.product.ProductVO">
+      select p.p_id, p.p_name, p.p_price, p.p_category, r.count
+      from product p
+      join (select r_pid, count(*) as count from rental group by r_pid) r
+      on p.p_id = r.r_pid
+      order by r.count desc      
+   </select>
+	
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<select id="productInfo" resultType="com.use.first.product.ProductVO">
+		<![CDATA[
+		select p_id, p_name, p_price, p_canBuy, p_canRent, p_soldCount, p_category, p_mainImg, p_subImg, 
+		p_regdate, p_readCount, p_content from product where p_id=#{p_id}
+		]]>
+	</select>
+	
+	<update id="productUpdate" parameterType="com.use.first.product.ProductVO">
+		<![CDATA[
+		update product set p_name = #{p_name}, p_price = #{p_price}, p_canBuy = #{p_canBuy}, p_canRent = #{p_canRent}
+		, p_category = #{p_category}, p_mainImg = #{p_mainImg}, p_subImg = #{p_subImg}, p_content = #{p_content} where p_id = #{p_id}
+		]]>
+	</update>
+	<update id="productUpdate2" parameterType="com.use.first.product.ProductVO">
+		<![CDATA[
+		update product set p_canBuy = #{p_canBuy}, p_canRent = #{p_canRent}
+		where p_id = #{p_id} 
+		]]>
+	</update>
+	<delete id="productDelete">
+		<![CDATA[
+		delete from product where p_id = #{p_id}
+		]]>
+	</delete>
+
+	<delete id="deleteById" parameterType="com.use.first.product.ProductVO">
+		<![CDATA[
+		delete from product where p_id = #{p_id}
+		]]>
+	</delete> 
+
+	<insert id="wishListInsert" parameterType="com.use.first.rent.WishListVO">
+		
+		insert into wishlist (w_mid,w_pid,w_date)
+		values (#{w_mid},#{w_pid},now())
+	</insert>
+	
+	<delete id="wishListDelete" parameterType="com.use.first.rent.WishListVO">
+		<![CDATA[
+		delete from wishlist where w_pid = #{w_pid} and w_mid = #{w_mid}
+		]]>
+	</delete> 
+	
+	<insert id="cartListInsert" parameterType="com.use.first.rent.CartVO">
+		
+		insert into cart (c_mid,c_pid,c_amount,c_state,c_date)
+		values (#{c_mid},#{c_pid},#{c_amount},#{c_state},now())
+	</insert>
+	
+	<select id="checkWishList" resultType="com.use.first.rent.WishListVO">
+		<![CDATA[
+		select w_pid,w_mid from wishlist where w_pid = #{param1} and w_mid = #{param2}
+		]]>
+	</select>
+	<!-- 조아요 -->
+	<insert id="recommendInsert" parameterType="com.use.first.product.RecommendVO">
+		
+		insert into recommend (r_mid,r_pid,r_date)
+		values (#{r_mid},#{r_pid},now())
+	</insert>
+	
+	<delete id="recommendDelete" parameterType="com.use.first.product.RecommendVO">
+		<![CDATA[
+		delete from recommend where r_pid = #{r_pid} and r_mid = #{r_mid}
+		]]>
+	</delete> 
+	
+	<select id="checkRecommend" resultType="com.use.first.product.RecommendVO">
+		<![CDATA[
+		select r_pid,r_mid from recommend where r_pid = #{param1} and r_mid = #{param2}
+		]]>
+	</select>
+	
+	<select id="recommendCount" resultType="int">
+		<![CDATA[
+		select count(r_pid) from recommend where r_pid = #{param1}
+		]]>
+	</select>
+	
+</mapper>

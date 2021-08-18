@@ -101,7 +101,7 @@ td, th {
   height:85px;
   font-size:2.0em;
   font-family: fantasy;
-  padding:0 2em;
+  width : 200px;
   cursor:pointer;
   transition:800ms ease all;
   outline:none;
@@ -132,13 +132,16 @@ td, th {
 }
 
 .picture{
+	border-radius: 8px;
+	width : 200px;
 	height: 85px;
 }
-
 
 </style>
 </head>
 <body>
+
+
 
 	<div class="site-wrap">
 		<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
@@ -311,9 +314,32 @@ td, th {
 										<input type="number" min="100" step="100" class="form-control form-control-round form-control-bold"
 											id="usepoint" value="0" placeholder="0" style="height: 30px; font-size: 14px; text-align: right;">
 									</div>
+									<!-- The Modal -->
+									<div class="modal" id="mymodal">
+									  <div class="modal-dialog">
+									    <div class="modal-content">
+									
+									      <!-- Modal Header -->
+									      <div class="modal-header">
+									        <h5 class="modal-title">Modal Heading</h5>
+									        <button type="button" class="close" data-dismiss="modal">&times;</button>
+									      </div>
+									
+									      <!-- Modal body -->
+									      <div class="modal-body">
+									        <input style="width: 100%; border: none; background-color: #ffffff;" type="text" id="modalbody" name="modalbody" value="" disabled />
+									      </div>
+									
+									      <!-- Modal footer -->
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-danger" data-dismiss="modal">확인</button>
+									      </div>
+									      
+									    </div>
+									  </div>
+									</div>
 
-									<div class="col-sm-1.5" style="line-height: 1;">
-										<input type="button" class="postbtn" onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
+									<div class="col-sm-1.5" style="line-height: 1;"><input type="button" class="postbtn" onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
 											value="사용"
 											style="height: 30px; float: right;">
 									</div>
@@ -344,6 +370,7 @@ td, th {
 					</div>
 				</div>
 				<!-- 주문자정보 end -->
+				
 
 				<!-- 결제정보  start-->
 				<div class="col-md-6">
@@ -426,26 +453,24 @@ td, th {
 											
 							</div><br>
 							<div class="form-group row">
-							&nbsp;&nbsp;&nbsp;&nbsp;<div class="col-sm-5">
+							<div class="col-sm-6">
 							<img class="picture" src="/resources/img/image_readto.jpg" alt="카카오페이">
 							</div>
-							<div class="col-sm-5">
+							<div class="col-sm-6">
 							<button id="buy">kakaopay</button>
 							</div>
 							</div>
 							</form>
-							
 							</div>
 				</div>
 			</div>
 			<!-- 결제정보 end -->
 			<br>
-							
 		</div>
-
 		<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+		
 	</div>
-
+	
 	<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
 	<script src="/resources/common/js/jquery-ui.js"></script>
 	<script src="/resources/common/js/popper.min.js"></script>
@@ -459,7 +484,7 @@ td, th {
 	
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-	
+
 	//요청사항
 	function data(obj) {
 		var size = document.getElementsByName("b_message").length;
@@ -515,10 +540,15 @@ td, th {
 			
 			if (v_point < 100) {
 				v_point = 0;
-				alert("포인트는 100P 부터 사용가능 합니다.");
+				var body = "포인트는 100P 이상 사용가능 합니다";
+				document.getElementById("modalbody").value = body;
+				$("#mymodal").modal("show");
+				
 			} else if(v_point%100 != 0){
 				v_point = 0;
-				alert("포인트는 100P 단위로만 사용가능 합니다.");
+				var body = "포인트는 100P 단위로만 사용가능 합니다.";
+				document.getElementById("modalbody").value = body;
+				$("#mymodal").modal("show");
 			}
 
 			if (v_point > p_price) {
@@ -549,7 +579,6 @@ td, th {
 			}
 
 		}
-		
 		//포인트 사용 취소
 		function cancelPoint(m_point, p_price, p) {
 			
