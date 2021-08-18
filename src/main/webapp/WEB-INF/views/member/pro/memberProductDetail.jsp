@@ -10,15 +10,8 @@
     <title>UFO</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
- 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- 	 <link rel="stylesheet" href="/resources/demos/style.css">
- 	 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	
 
 
   <style>
@@ -83,41 +76,113 @@
 	#like-o, #like {
 	cursor: pointer;
 	}
+	#recommendation input{
+	font-size: 30pt;
+	text-align:left;
+	}
+	
+
+
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.mocdal{width: 500px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center; }
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+
+
+
+
+
+
+
 	
   </style>
     <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
-  </head>
-  <body>
-  
-  <div class="site-wrap">
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 	 <link rel="stylesheet" href="/resources/demos/style.css">
+ 	 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
+  </head>
+
+  <body>
+
+  <div class="site-wrap">
+ 
     <div class="site-section">
       <div class="container">
         <div class="row">
-          <div class="col-md-6 mainContainer"><span>
+          <div class="col-md-5 mainContainer"><span>
             <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="500px" height="500px" class="img-fluid">
+          </div> 
+          
+          <div class="col-md-1 mmodal">
+          <!-- 모달창 구현 -->
+	 <!-- confirm 모달을 쓸 페이지에 추가 start-->
+        <section class="mocdal modal-section type-confirm">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn pink_btn btn_ok">확인</button>
+                <button class="btn gray_btn modal_close">취소</button>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+
+        <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section class="mocdal modal-section type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn pink_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->
           </div>
+          
           <div class="col-md-6" id="info">
-   <form:form name="form" method="get" action="/member/rent/buy" modelAttribute="buyInfoVO">
+   <form:form name="form" method="post" action="/customer/rent/buy" modelAttribute="buyInfoVO">
             <form:input path="productId" id="p_id" value="${productVO.p_id}" hidden="true"/>
-            
+            <form:input path="productImg" id="productImg" value="${productVO.p_mainImg}" hidden="true"/>
+            <input name="p_id" id="p_id" value="${productVO.p_id}" hidden="true"/>
             <h2 class="text-black site-top-icons">${productVO.p_name}</h2><hr>
-            
+      
+      		
+      
+      
+      
+      
+      
+      <div class="row">     
+       <div class="col-lg-6 sm-6" id="recommendation">     
           <c:if test = "${recommendVO eq null}">   
        <a id="like"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" onclick= 'like();'/></a>
           </c:if>
            <c:if test = "${recommendVO ne null}">  	 
 		<a id="like"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" onclick= 'like();'/></a>      
 		   </c:if>
-
- <c:if test = "${wishListVO eq null}">
-<a id="wish"><span class="icon icon-heart-o"></span></a> 
-</c:if>
- <c:if test = "${wishListVO ne null}">
- <a id="wish"><span class="icon icon-heart"></span></a>
-</c:if>
+		   <input id='recommendCount' name='recommendCount' value="${recommendCount}" readonly size="1">
+	   </div>
+	<div class="col-lg-6 sm-6 id="wishList" align="right">     
+ 	<c:if test = "${wishListVO eq null}">
+	<a id="wish"><span class="icon icon-heart-o"></span></a> 
+	</c:if>
+ 	<c:if test = "${wishListVO ne null}">
+ 	<a id="wish"><span class="icon icon-heart"></span></a>
+	</c:if> 
+	</div>
+	</div>
 <form:input type="text" path="productPrice" value="${productVO.p_price}" hidden="true"/> 
 <div class="row"><div class="col-lg-5"><label>제품가격</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
 <div class="row"><div class="col-lg-5"><label>대여금액</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
@@ -145,6 +210,12 @@
              <input type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/>
 			<input type="button" value="결제" onclick="payment();" class="buy-now btn btn-sm btn-primary"/>			
 			</div>
+			
+			
+			
+
+			
+			
    </form:form>
 
           </div>
@@ -189,6 +260,7 @@ var amount;
 var selectDate;
 var stateSelect;
 var selectValue;
+var recommendCount;
 
 window.onload = function() {
 	sell_price = document.form.sell_price.value;
@@ -281,13 +353,21 @@ function payment() {
 	 stateSelect = document.getElementById("buyType"); 
 	 selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	if (selectValue == "optSel") {
-		alert('옵션을 선택해주세요');
-	} else {
-		document.form.submit();		
+		action_popup.alert('옵션을 선택해주세요');
+	} else { 
+		
+				action_popup.confirm('결제를 진행하시겠습니까?', function (res) {
+        		if (res) {
+        			document.form.submit();		
+       		 } 
+    		})
+		
+		
 	}
 }
 //조아요
 $('#like').on('click', function(){
+	recommend = document.form.recommendCount;
     var form = {
     		  p_id      : $("#p_id").val()         
     }    
@@ -296,13 +376,16 @@ $('#like').on('click', function(){
         url: "/member/recommendInsert/${productVO.p_id}",
         type: "POST",
         data: form,
-        success: function(data){   
+        success: function(data){  
         	$('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
         	$('.like-o').attr('class','like'); 
-        	alert('구독&조아요');
+        	recommend.value ++;
+ 
+        	 action_popup.alert('구독&조아요');
+        	
         },
         error: function(){
-            alert("위시 추가:실패!");
+            action_popup.alert("조아요 실패!");
         }				
     });                } else { 
    
@@ -316,7 +399,8 @@ $('#like').on('click', function(){
           					
           					$('.like').attr('src','/resources/Images/product/like1.jpg');
           					$('.like').attr('class','like-o');  
-           				alert("구독&좋아요 취소");
+           				action_popup.alert("구독&좋아요 취소");
+           				recommend.value --;
  	
           				 }
       					 });
@@ -338,12 +422,15 @@ $('#wish').on('click', function(){
         success: function(data){   
         	$('.icon-heart-o').attr('class','icon-heart');
         	
-        	if (confirm('WishList에 추가되었습니다.\n\nWishList 확인해볼래요?')) {
-    			location.href = '/customer/rent/wishList';
-    		 }
+        	
+        	action_popup.confirm('WishList에 추가되었습니다.  확인해볼래요?', function (res) {
+                if (res) {
+                	location.href = '/customer/rent/wishList';
+                }
+            })
         },
         error: function(){
-            alert("위시 추가:실패!");
+        	action_popup.alert("위시리스트추가 실패");
         }				
     });                } else{ 
     	 				
@@ -357,7 +444,7 @@ $('#wish').on('click', function(){
           		 },
           		 error: function(){
           			$('.icon-heart').attr('class','icon-heart-o');
-           				alert("위시리스트에서 삭제하였습니다");
+          			action_popup.alert("위시리스트에서 삭제됐습니다");
    		
           		 }
       			 });
@@ -367,12 +454,13 @@ $('#wish').on('click', function(){
 
 //ajax 장바구니꺼
 $('#cart').on('click', function(){
+	
 	var stateSelect = document.getElementById("buyType"); 
 	var selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	if (selectValue == "optSel") {
-		alert("옵션을 선택해주세요");
+		action_popup.alert("옵션을 선택하세요");
   } else  {										
-				 
+	  		 
     var form = {
     		  p_id      : $("#p_id").val()
             , amount    : $("#amount").val()
@@ -385,13 +473,17 @@ $('#cart').on('click', function(){
         data: form,
         success: function(data){
         	
-        		if (confirm('추가되었습니다.\n\n장바구니로 갈래요?')) {
-        			location.href = '/customer/rent/cartList';
-        		 }
+        	action_popup.confirm("장바구니에 추가됐습니다.  장바구니 볼라우?", function (res) {
+                if (res) {
+                	location.href = '/customer/rent/cartList';
+                }
+            })
+             
         	   	 
         },
         error: function(){
-            alert("장바구니 추가 :실패!");
+        	action_popup.alert("장바구니 추가 :실패!");
+
         }
     });   }  
 });
@@ -435,6 +527,68 @@ function changeStateSelect(){
 
 	} 
 }
+
+$(function () {
+    $(".modal_close").on("click", function () {
+        action_popup.close(this);
+    });
+
+});
+
+var action_popup = {
+    timer: 500,
+    confirm: function (txt, callback) {
+        if (txt == null || txt.trim() == "") {
+            console.warn("confirm message is empty.");
+            return;
+        } else if (callback == null || typeof callback != 'function') {
+            console.warn("callback is null or not function.");
+            return;
+        } else {
+            $(".type-confirm .btn_ok").on("click", function () {
+                $(this).unbind("click");
+                callback(true);
+                action_popup.close(this);
+            });
+            this.open("type-confirm", txt);
+        }
+    },
+
+    alert: function (txt) {
+        if (txt == null || txt.trim() == "") {
+            console.warn("confirm message is empty.");
+            return;
+        } else {
+            this.open("type-alert", txt);
+        }
+    },
+
+    open: function (type, txt) {
+        var popup = $("." + type);
+        popup.find(".menu_msg").text(txt);
+        $("body").append("<div class='dimLayer'></div>");
+        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+        popup.fadeIn(this.timer);
+    },
+
+    close: function (target) {
+        var modal = $(target).closest(".modal-section");
+        var dimLayer;
+        if (modal.hasClass("type-confirm")) {
+            dimLayer = $(".dimLayer[target=type-confirm]");
+        } else if (modal.hasClass("type-alert")) {
+            dimLayer = $(".dimLayer[target=type-alert]")
+        } else {
+            console.warn("close unknown target.")
+            return;
+        }
+        modal.fadeOut(this.timer);
+        setTimeout(function () {
+            dimLayer != null ? dimLayer.remove() : "";
+        }, this.timer);
+    }
+}
+
 
 
 </script>
