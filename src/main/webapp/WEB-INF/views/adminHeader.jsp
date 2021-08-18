@@ -32,3 +32,12 @@
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
 
+<style>
+.pecode{ 
+	flex: 1; 
+} 
+footer{ 
+	height:60px;
+}
+
+</style>

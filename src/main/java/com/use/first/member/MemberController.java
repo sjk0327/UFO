@@ -551,17 +551,18 @@ public class MemberController {
 	
 	
 	// 성훈 start
-	@RequestMapping(value = "/admin/mem/memDetail", method = RequestMethod.GET)
-	public String adminMenDetail(Model model, @RequestParam String m_id) {
-		System.out.println("admin/mem/memDetail // 들어가서 처음");
-		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		UserVO userInfo = dao.memInfo(m_id);
-
-		model.addAttribute("userInfo", userInfo);
-
-		return "/admin/mem/memDetail";
-	}
-
+	// 관리자 회원 상세 정보 보기
+//	@RequestMapping(value = "/admin/mem/memDetail", method = RequestMethod.GET)
+//	public String adminMenDetail(Model model, @RequestParam String m_id) {
+//		System.out.println("admin/mem/memDetail // 들어가서 처음");
+//		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+//		UserVO userInfo = dao.memInfo(m_id);
+//
+//		model.addAttribute("userInfo", userInfo);
+//
+//		return "/admin/mem/memDetail";
+//	}
+	// 관리자 회원 상세 정보 보기
 	@RequestMapping(value = "/admin/mem/memDetail/{m_id}", method = RequestMethod.GET)
 	public String adminMenDetailByPath(Model model, @PathVariable String m_id) {
 		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
@@ -588,7 +589,7 @@ public class MemberController {
 
 		return "/admin/mem/memDetail";
 	}
-
+	// 관리자 회원 상세 정보에서 수정 클릭
 	@RequestMapping(value = "/admin/mem/memDetail/{userID}", method = RequestMethod.POST)
 	public String adminMenUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
 		System.out.println("시작 전" + userVO.toString());
@@ -615,14 +616,14 @@ public class MemberController {
 	
 	
 	
-	
+	// 회원 가입 폼
     @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
     public String menJoinForm(Model model){
       
        return "/member/mem/memJoin";
     }
 	
-    
+    // 회원 가입 - 아이디 중복 검사
     @ResponseBody
     @RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST , produces="application/json")
     public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception{
@@ -636,6 +637,7 @@ public class MemberController {
     	return map;
     }
 	
+	// 회원 가입 - 이메일 인증
     @Autowired
     private JavaMailSender javaMailSender;
     
@@ -688,7 +690,7 @@ public class MemberController {
     	
     }
 
-    
+    // 회원 가입 submit
     @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
     public String menJoinPro(Model model, UserVO userVO) throws IOException{
     	
@@ -714,6 +716,7 @@ public class MemberController {
     	
     }
     
+    //회원 상세 정보 - 대여 상세 정보
     //  method 를 Post 로 수정해야 한다.
     @RequestMapping(value ="/member/mem/memRentDetail", method = RequestMethod.GET)
 	public String memRentDetail(Model model, @RequestParam int r_id) {
@@ -737,28 +740,27 @@ public class MemberController {
 		return "/member/mem/memRentDetail";
 	}
     
-    @RequestMapping(value ="/member/mem/memRentReturn", method = RequestMethod.POST)
-	public String memRentReturn(Model model, @RequestParam int r_id) {
+    
+    //회원 상세 정보 - 대여 상세 정보 - 반납
+    @ResponseBody
+    @RequestMapping(value ="/member/mem/memRentReturn", method = RequestMethod.POST , produces="application/json")
+	public Map<Object, Object> memRentReturn(Model model, @RequestBody String r_id) throws Exception{
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		int id = Integer.parseInt(r_id);
 		System.out.println("memController - memRentReturn  :  반납 하기 클릭 컨트롤러");
 		// 선택한 대여 정보 가져오기
-		RentVO rentVO = rentDAO.rentInfo(r_id);
-		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
-		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
-		int late = Double.valueOf(Math.floor(gap / (1000*60*60*24)) * -1).intValue();
-		if( late > 3 ) {
-			
-		}
-		// 선택한 대여의 결제 정보 가져오기
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
-		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
-		
-		model.addAttribute("rentInfo", rentVO);
-		model.addAttribute("buyList", buyList);
-		return "redirect:/member/mem/memRentDetail/" + r_id;
+		RentVO rentVO = new RentVO();
+		rentVO.setR_id(id);
+		rentVO.setR_state("반납 요청");
+		System.out.println("memController - memRentReturn new rentVO : " + rentVO.toString());
+		Map<Object, Object> map = new HashMap<Object, Object>();
+    	int result = rentDAO.rentUpdate(rentVO);
+    	System.out.println("memController - memRentReturn result : " + result);
+    	map.put("check", result);
+    	
+    	return map;
 	}
-    
+    // 회원 상세 정보 - 대여 상세 정보 - 환불
     @RequestMapping(value ="/member/mem/memRentRefund", method = RequestMethod.POST)
    	public String memRentRefund(Model model, @RequestParam int r_id) {
    		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -781,7 +783,7 @@ public class MemberController {
    		return "redirect:/member/mem/memRentDetail/" + r_id;
    	}
     
-    
+    // 회원 상세 정보 - 대여 상세 정보 - 연체료 존재
     @RequestMapping(value ="/member/mem/memRentLate", method = RequestMethod.POST)
 	public String memRentLate(Model model, @RequestParam int r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -806,8 +808,8 @@ public class MemberController {
 		return "/member/mem/memRentDetail";
 	}
     
-    
-    @RequestMapping("/member/mem/memBuyDetail/{r_id}")
+    // 회원 상세 정보 - 구매 상세 정보
+    @RequestMapping(value ="/member/mem/memBuyDetail/{r_id}", method = RequestMethod.POST)
    	public String memBuyDetail(Model model, @PathVariable int r_id) {
    		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
    		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
