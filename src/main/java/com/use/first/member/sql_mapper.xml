@@ -111,6 +111,15 @@
 	</delete>
 	
 	
+	  <!-- 탈퇴 조건 확인 -->
+	<select id="userConfirm" parameterType="String" resultType="int">
+	<![CDATA[
+		SELECT count(*) from rental 
+		WHERE r_mid=#{r_mid} and (r_state="대여중" or r_state="반납 요청");
+	]]>
+	</select>
+	
+	
 	
 	
 	<!--탈퇴 정보  AlertMessage 수정 -->

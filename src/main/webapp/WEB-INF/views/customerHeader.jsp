@@ -29,8 +29,9 @@
  	<script src="/resources/common/js/main.js"></script>
   	<script src="http://code.jquery.com/jquery-latest.js"></script>
   
+  
 	
-  </script>
+  
   <style>
   #firstSearch {
   border-radius:5px;

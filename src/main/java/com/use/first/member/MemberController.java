@@ -372,59 +372,70 @@ public class MemberController {
 			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 			String userId = infoVO.getM_id();
 			
-			
-			int s = dao.userConfirm(userId);
-			
-			
-		
-			int n = dao.userDelete(userVO);
-			
-			int n2 = dao.userDeleteUpdateAlert(userId);
-			int n3 = dao.userDeleteUpdateCart(userId);
-			int n4 = dao.userDeleteUpdateWish(userId);
-			
-//			int n5 = dao.userDeleteUpdateRental(userId);		
-//			int n6 = dao.userDeleteUpdateBuy(userId);
-	        int n7 = dao.userDeleteUpdateReview(userId);
+			int c = dao.userConfirm(userId);
 			
 			
+			if(c == 0) {
+				int n = dao.userDelete(userVO);
+				
+				int n2 = dao.userDeleteUpdateAlert(userId);
+				int n3 = dao.userDeleteUpdateCart(userId);
+				int n4 = dao.userDeleteUpdateWish(userId);
+				
+				int n5 = dao.userDeleteUpdateRental(userId);		
+				int n6 = dao.userDeleteUpdateBuy(userId);
+		        int n7 = dao.userDeleteUpdateReview(userId);
+				
+				
+				
+				System.out.println("시작 후" + userVO.toString());
+				if (n != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
+				}
+				if (n2 != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // alertmessage 삭제 실패 // " + userId.toString());
+				}
+				if (n3 != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // cart 삭제 실패 // " + userId.toString());
+				}
+				if (n4 != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // wish 삭제 실패 // " + userId.toString());
+				}
+				if (n5 != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // rental 삭제 실패 // " + userId.toString());
+				}
+				if (n6 != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // buy 삭제 실패 // " + userId.toString());
+				}
+				if (n7 != 1) {
+					// 삭제 실패 시
+					System.out.println("userDelete // review 삭제 실패 // " + userId.toString());
+				}
 			
-			System.out.println("시작 후" + userVO.toString());
-			if (n != 1) {
-				// 삭제 실패 시
-				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
-			}
-			if (n2 != 1) {
-				// 삭제 실패 시
-				System.out.println("userDelete // alertmessage 삭제 실패 // " + userId.toString());
-			}
-			if (n3 != 1) {
-				// 삭제 실패 시
-				System.out.println("userDelete // cart 삭제 실패 // " + userId.toString());
-			}
-			if (n4 != 1) {
-				// 삭제 실패 시
-				System.out.println("userDelete // wish 삭제 실패 // " + userId.toString());
-			}
-//			if (n5 != 1) {
-//				// 삭제 실패 시
-//				System.out.println("userDelete // rental 삭제 실패 // " + userId.toString());
-//			}
-//			if (n6 != 1) {
-//				// 삭제 실패 시
-//				System.out.println("userDelete // buy 삭제 실패 // " + userId.toString());
-//			}
-			if (n7 != 1) {
-				// 삭제 실패 시
-				System.out.println("userDelete // review 삭제 실패 // " + userId.toString());
-			}
-		
+				
 			
-		
-			session.invalidate();
+				session.invalidate();
 
-			return "redirect:/";
+				return "redirect:/";
+			}
+			else {
+				//탈퇴 실패
+				System.out.println("userConfirm // user 탈퇴 실패 // " + userId.toString());
+				
+				return "redirect:/member/mem/userInfo";	
+			} 
+			
+			
 		}
+	
+			
+			
 
 
 		
