@@ -22,8 +22,8 @@ public interface UserDAO {
 	public int userDeleteUpdateAlert(@Param("a_mid") String a_mid);
 	public int userDeleteUpdateWish(@Param("w_mid") String w_mid);
 	
-//	public int userDeleteUpdateBuy(@Param("b_mid") String b_mid);
-//	public int userDeleteUpdateRental(@Param("r_mid") String r_mid);
+	public int userDeleteUpdateBuy(@Param("b_mid") String b_mid);
+	public int userDeleteUpdateRental(@Param("r_mid") String r_mid);
 	public int userDeleteUpdateReview(@Param("v_mid") String v_mid);
 	
 	public int userConfirm(@Param("r_mid") String r_mid);
