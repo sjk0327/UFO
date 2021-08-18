@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.member.UserDAO">
+
+	<select id="memList" resultType="com.use.first.member.UserVO">
+		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point,
+		m_img, m_regdate, m_regtype
+		from member
+		WHERE m_id NOT LIKE "%admin%" 
+		<if test="searchType == ''.toString()">
+			AND m_name LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 't'.toString()">
+			AND m_id LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'c'.toString()">
+			AND m_name LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'w'.toString()">
+			AND m_point LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'tc'.toString()">
+			AND m_regdate LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+
+		ORDER BY m_id
+		LIMIT #{pageStart}, #{perPageNum}
+
+	</select>
+
+	<select id="countMemListTotal" resultType="int">
+	
+		select count(*)
+		from member
+		WHERE m_id NOT LIKE "%admin%"
+		<include refid="searchCondition"></include>
+		
+	</select>
+
+
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == ''.toString()">
+			AND m_name LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 't'.toString()">
+			AND m_id LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'c'.toString()">
+			AND m_name LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'w'.toString()">
+			AND m_point LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'tc'.toString()">
+			AND m_regdate LIKE CONCAT ('%', #{keyword},'%')
+		</if>
+		</if>
+	</sql>
+	
+	
+	<!-- 카카오 회원가입 작성 -->
+	<insert id="kakaoJoin">
+	<![CDATA[
+	    INSERT INTO member(m_id, m_pw, m_name, m_email, m_gender, m_regtype, m_img, m_point)
+	    VALUES(#{m_id}, "카카오", #{m_name}, #{m_email}, #{m_gender}, "카카오", "defaultImage.jpg", "3000")
+	    ]]>
+    </insert>
+    
+    
+    <!-- 네이버 회원가입 작성 -->
+	<insert id="naverJoin">
+	<![CDATA[
+	    INSERT INTO member(m_id, m_pw, m_name, m_email, m_gender, m_regtype, m_img, m_tel, m_point)
+	    VALUES(#{m_id}, "네이버", #{m_name}, #{m_email}, #{m_gender}, "네이버", "defaultImage.jpg", #{m_tel}, "3000")
+	    ]]> 
+    </insert>
+    
+    
+   <!-- 내 정보 보기 -->
+	<select id="userInfo" resultType="com.use.first.member.UserVO">
+	<![CDATA[
+		select m_id, m_name, m_pw,
+		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate, m_regtype from
+		member where m_id=#{m_id}
+	]]>
+	</select>
+	
+	
+	
+	<!-- 내 정보 수정 -->
+	<update id="userUpdate" parameterType="com.use.first.member.UserVO">
+	<![CDATA[
+		UPDATE member SET m_name=#{m_name},
+		m_gender=#{m_gender}, m_addr=#{m_addr},
+		m_tel=#{m_tel}, m_email=#{m_email}, m_point=#{m_point}, m_img=#{m_img}
+		WHERE m_id =#{m_id}
+	]]>
+	</update>
+	
+	
+	<!-- 탈퇴 -->
+	<delete id="userDelete" parameterType="com.use.first.member.UserVO">
+	<![CDATA[
+		DELETE from member 
+		WHERE m_id =#{m_id}
+	]]>
+	</delete>
+	
+	
+	
+	
+	<!--탈퇴 정보  AlertMessage 수정 -->
+	<delete id="userDeleteUpdateAlert" parameterType="com.use.first.message.MessageVO">
+	<![CDATA[
+		DELETE from alertmessage 
+		WHERE a_mid =#{a_mid}
+	]]>
+	</delete>
+	
+	<!--탈퇴 정보 cart 수정 -->
+	<delete id="userDeleteUpdateCart" parameterType="com.use.first.rent.CartVO">
+	<![CDATA[
+		DELETE from cart 
+		WHERE c_mid =#{c_mid}
+	]]>
+	</delete>
+	
+	<!--탈퇴 정보  Wish 수정 -->
+	<delete id="userDeleteUpdateWish" parameterType="com.use.first.rent.WishListVO">
+	<![CDATA[
+		DELETE from wishlist 
+		WHERE w_mid =#{w_mid}
+	]]>
+	</delete>
+	
+	<!--탈퇴 정보 Review 수정 -->
+	<update id="userDeleteUpdateReview" parameterType="com.use.first.member.ReviewVO">
+	<![CDATA[
+		UPDATE review SET v_mid="탈퇴한 회원입니다."
+		WHERE v_mid =#{v_mid}
+	]]>
+	</update>
+	
+	
+	
+	<!--탈퇴 정보  Buy 수정 -->
+	<update id="userDeleteUpdateBuy" parameterType="com.use.first.buy.BuyVO">
+	<![CDATA[
+		UPDATE buy SET b_mid="탈퇴한 회원입니다."
+		WHERE b_mid =#{b_mid}
+	]]>
+	</update>
+	
+	<!--탈퇴 정보 Rental  수정 -->
+	<update id="userDeleteUpdateRental" parameterType="com.use.first.rent.RentVO">
+	<![CDATA[
+		UPDATE rental SET r_mid="탈퇴한 회원입니다."
+		WHERE r_mid =#{r_mid}
+	]]>
+	</update>
+	
+	
+	
+
+
+
+
+
+
+	<select id="memInfo" parameterType="String" resultType="com.use.first.member.UserVO">
+	<![CDATA[
+		select m_id, m_name, m_pw,
+		m_gender, m_addr, m_tel, m_email, m_point, m_img, m_regdate, m_regtype from
+		member where m_id=#{m_id}
+
+	]]>
+
+	</select>
+
+	<update id="memUpdate"
+		parameterType="com.use.first.member.UserVO">
+	<![CDATA[
+		UPDATE member SET m_name=#{m_name},
+		m_gender=#{m_gender}, m_addr=#{m_addr},
+		m_tel=#{m_tel},
+		m_email=#{m_email}, m_point=#{m_point}, m_img=#{m_img}
+		WHERE m_id =
+		#{m_id}
+	]]>
+	</update>
+	
+	
+	
+	<select id="duplicateCheckId" resultType="int" parameterType="String" >
+     <![CDATA[
+      SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
+      ]]>
+   </select>
+
+	<insert id="memJoin" parameterType="com.use.first.member.UserVO">
+		<![CDATA[
+		INSERT INTO MEMBER (m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_img, m_regdate)
+		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now())
+		]]> 
+	</insert>
+	
+	<!-- 정노추가 -->
+	<update id="memUpdateBuy"  parameterType="map">
+	<![CDATA[
+		UPDATE member SET m_point = #{param2}, m_tel=#{param3}, m_addr=#{param4}
+		WHERE m_id = #{param1}
+	]]>
+	</update>
+
+	<!-- <insert id="insert" parameterType="org.sp.mybatis.Emp"> insert into 
+		emp2 (empno, ename, deptno, job, sal) values ( #{empno}, #{ename}, #{deptno}, 
+		#{job}, #{sal}) </insert> <update id="update" parameterType="org.sp.mybatis.Emp"> 
+		update emp2 set deptno=#{deptno}, sal=#{sal} where empno=#{empno} </update> 
+		<delete id="delete"> delete from emp2 where empno=#{empno} </delete> -->
+	
+</mapper>
