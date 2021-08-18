@@ -2,16 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+   Cookie cookies1 = new Cookie("name","홍길동");
+   Cookie cookies2 = new Cookie("age","20");
+   System.out.println(cookies1.getValue());System.out.println(cookies2.getValue());
+   Cookie[] cookies = request.getCookies();
+       if(cookies != null && cookies.length > 0) {
+        for(int i = 0; i < cookies.length; i++) {
+          if(cookies[i].getName().equals("name")) {
+             Cookie cookie = new Cookie("name","kka");
+          }
+       }
+    }
+
+%>
 <!DOCTYPE html>
 <html lang="en" >
   <head>
     <title>상품리스트(고객)</title>
     <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-	
-	
-	
+   
+   
+   
+   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"> 
     <link rel="stylesheet" href="/resources/common/fonts/icomoon/style.css">
    
@@ -27,27 +41,38 @@
     <link rel="stylesheet" href="/resources/common/css/style.css">
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
-  	<script src="/resources/common/js/jquery-ui.js"></script>
-  	<script src="/resources/common/js/popper.min.js"></script>
-  	<script src="/resources/common/js/bootstrap.min.js"></script>
-  	<script src="/resources/common/js/owl.carousel.min.js"></script>
-	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
- 	<script src="/resources/common/js/aos.js"></script>
- 	<script src="/resources/common/js/main.js"></script>
- 	<style>
+     <script src="/resources/common/js/jquery-ui.js"></script>
+     <script src="/resources/common/js/popper.min.js"></script>
+     <script src="/resources/common/js/bootstrap.min.js"></script>
+     <script src="/resources/common/js/owl.carousel.min.js"></script>
+   <script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+    <script src="/resources/common/js/aos.js"></script>
+    <script src="/resources/common/js/main.js"></script>
+    <style>
 .small1 { width: 100px; height: 100px; }
 .small2 { width: 80px; height: 80px; align:center;}
 .mb-1 { font-size : 18px; }
+
 #searchType {
-	width: 85px;
-	height: 38px;
-	padding-left: 8px;
-	font-size: 13px;
-	color: #585858;
-	border-radius: 5px;
+   width: 85px;
+   height: 38px;
+   padding-left: 8px;
+   font-size: 13px;
+   color: #585858;
+   border-radius: 5px;
 }
 #slidemenu{background:#12cf3d;position:absolute;width:100px;top:50px;right:10px;}
 #imghover:hover { margin:0px ; border:2px solid #888; }  
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 </style>
   </head>
   <body>
@@ -68,7 +93,10 @@
                     <h2></h2>
                   </div>
                 </div>
-                
+                <div class="container">
+  
+  
+ 
 
                <div class="row" id="picCategory" >
                  <div class="col-md-2 " data-aos="fade" data-aos-delay="">
@@ -76,14 +104,14 @@
                      <figure class="image">
                     <img class="small2" src="/resources/common/images/total.jpg" alt="" class="img-fluid">
                    <%--  <img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
-				 	alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub"> --%>
+                alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub"> --%>
                 </figure>
                     
                    </a>
                  </div>
-           	 	
+                  
                   <div class="col-md-2 " data-aos="fade" data-aos-delay="100">
-                   	<a id="smartPhone" class="block-2-item" value="스마트폰"  href="/member/pro/productList/스마트폰">
+                      <a id="smartPhone" class="block-2-item" value="스마트폰"  href="/member/pro/productList/스마트폰">
                       <figure class="image">
                         <img class="small1" src="/resources/common/images/phone.jpg" alt="" class="img-fluid">
                       </figure>
@@ -143,21 +171,21 @@
         </div>
       </div>
     </div>
-		
+      
     <div class="site-section">
     
     <div id="slidemenu">
-	<ul>
-		<li><a href="/member/pro/productList">상단으로</a></li>
-		<li><a href="#">메뉴1</a></li>
-		<li><a href="#">메뉴2</a></li>
-		<li><a href="#">메뉴3</a></li>
-		<li><a href="#">메뉴4</a></li>
-		<li><a href="#">메뉴5</a></li>
-		<li><a href="#">메뉴6</a></li>
-		<li><a href="#">메뉴7</a></li>
-		<li><a href="#">메뉴8</a></li>
-	</ul>
+   <ul>
+      <li><a href="/member/pro/productList">상단으로</a></li>
+      <li><a href="#">메뉴1</a></li>
+      <li><a href="#">메뉴2</a></li>
+      <li><a href="#">메뉴3</a></li>
+      <li><a href="#">메뉴4</a></li>
+      <li><a href="#">메뉴5</a></li>
+      <li><a href="#">메뉴6</a></li>
+      <li><a href="#">메뉴7</a></li>
+      <li><a href="#">메뉴8</a></li>
+   </ul>
 </div>
 
       <div class="container"> 
@@ -168,11 +196,11 @@
                 <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
                 <div class="d-flex" id="sort">
                   <div class="dropdown mr-1 ml-md-auto">
-                 	 <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
-                 	 	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
-						<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
-						<button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;						
-      			    </form>
+                     <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
+                        <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+                  <input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
+                  <button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;                  
+                   </form>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>
@@ -181,15 +209,13 @@
                 </div>
               </div>
             </div>
-           
+ 
             <div class="row mb-5" id="ulList" >
-            
-            
-            
-            
+         
             <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-			
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
+         
+             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
+                     
                 <div  class="block-4 text-center border">
                   <figure class="block-4-image">
                     <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
@@ -211,7 +237,7 @@
             
             
             <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-			
+         
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
@@ -231,8 +257,8 @@
              
              
               <c:if test="${productList eq rlist}"> 
-   			<c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-			
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+         
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
@@ -246,10 +272,43 @@
                   </div>
                 </div>
               </div>
+                          
+
              </c:forEach> 
              </c:if>
-		<!-- 상품리스트 페이징 처리  -->
+          
             </div>
+            
+            
+       <div class="wrap">
+       
+        
+        <!-- confirm 모달을 쓸 페이지에 추가 start-->
+        <section class="modal modal-section type-confirm">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn pink_btn btn_ok">확인</button>
+                <button class="btn gray_btn modal_close">취소</button>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+
+        <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section class="modal modal-section type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn pink_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->
+    </div>
+            
+            
+            
              <!-- 페이징 start -->
                 <div id = "paging-div text-center">
                 <ul class="btn-group pagination text-center">
@@ -259,11 +318,11 @@
                    </c:if>
                    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
                       <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url 
-                      						value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                                        value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
-                      						border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
                       <c:if test="${pageNum ne pageMaker.cri.page}"><li>
-                      				<a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                                  <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
                       <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
                       
                    </c:forEach>
@@ -298,7 +357,7 @@
                 <!-- <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" />   -->             
               </div>
 
-          <div class="mb-4">
+          <div class="mb-4" id="mymodal">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
               <div>
                  <select name="minPrice" id="minPrice" class="line selectric">
@@ -310,8 +369,8 @@
                       <option value="4000000">400만원</option>                                      
                  </select>
                    <span class="inp_division">~</span>
-                   	  <select name="maxPrice" id="maxPrice" class="line selectric">
-                   	 	<option value="">최대</option>                    
+                        <select name="maxPrice" id="maxPrice" class="line selectric">
+                          <option value="">최대</option>                    
                         <option value="1000000">100만원</option>                    
                         <option value="2000000">200만원</option>                    
                         <option value="3000000">300만원</option>                    
@@ -321,24 +380,29 @@
                       </div>
                     
                        <button type="button" id="priceSearch" name="searchType"
-                         		 class="btn waves-effect waves-light btn-primary btn-outline-primary">조회</button>
+                                class="btn waves-effect waves-light btn-primary btn-outline-primary">조회</button>
               <div class="">
                   <div class="container">
                       <div class="row">
                           <input type="text" name="selfminprice" id="selfminprice" class="" 
-                        		  placeholder="최소금액" maxlength="" size=5>
-                        		   <span class="inp_division">~</span>        
+                                placeholder="최소금액" maxlength="" size=5>
+                                 <span class="inp_division">~</span>        
                           <input type="text" name="selfmaxprice" id="selfmaxprice" class=""
-                          		  placeholder="최대금액" size=5>
+                                  placeholder="최대금액" size=5>
                       </div>
                       <div class="form_inner_fixed">
                           <button type="button" id="selfSearch" name="searchType"
-                     		class="btn waves-effect waves-light btn-primary btn-outline-primary">직접입력</button>
+                           class="btn waves-effect waves-light btn-primary btn-outline-primary">직접입력</button>
                       </div>
                   </div>
                </div>
+              
              </div>
-            
+
+  
+</div>
+  
+</div>
 
          <!--  <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>

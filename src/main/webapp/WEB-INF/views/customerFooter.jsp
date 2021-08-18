@@ -43,41 +43,49 @@
 	
 
 	//메뉴bar 가격조회
-	$('#priceSearch').on('click', function(){
-     	
-     	var minPrice = $('#minPrice option:selected').val();
-     	var maxPrice = $('#maxPrice option:selected').val();    	
-     	alert('최소금액' + minPrice + '최대금액' + maxPrice);
-     	if(minPrice != "" && maxPrice != ""){
-     	var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
-     	
-   	 	$("#tempList").load(url, function(){
-     	  $("#ulList").html($("#tempList").html());
-      	  $("#tempList").html(""); 
-    	});
-     	}
-     	else{
-     		alert('최소금액 혹은 최대금액을 선택해주세요.');
-     	}
-	});
-	//가격 직접입력 조회
-	$('#selfSearch').on('click', function(p_price){
-		alert('selfSearch 누름?');
-		var selfminprice = $('input[name=selfminprice]').val();
-     	var selfmaxprice = $('input[name=selfmaxprice]').val();    	
-     	alert('최소금액' + selfminprice + '최대금액' + selfmaxprice);
-     	
-     	if(selfminprice != "" && selfmaxprice != ""){
-     	var url = '/member/pro/productList/priceSearch/' + selfminprice +'/'+ selfmaxprice;
-   	 	$("#tempList").load(url, function(){
-     	  $("#ulList").html($("#tempList").html());
-      	  $("#tempList").html(""); 
-    	});
-     	}
-     	else{
-     		alert('최소금액 혹은 최대금액을 입력해주세요.');
-     	}
-	});
+	   $('#priceSearch').on('click', function(){
+	      action_popup.confirm("hello world confirm test !!!", function (res) {
+	            if (res) {
+	                action_popup.alert("확인창을 눌렀습니다.");
+	            }
+	        })
+	        var minPrice = $('#minPrice option:selected').val();
+	        var maxPrice = $('#maxPrice option:selected').val();       
+	        alert('최소금액' + minPrice + '최대금액' + maxPrice);
+	        if(minPrice != "" && maxPrice != ""){
+	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
+	        
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       });
+	        }
+	        else{
+	           alert('최소금액 혹은 최대금액을 선택해주세요.');
+	        }
+	   });
+	    $(".modal_close").on("click", function () {
+	           action_popup.close(this);
+	       });
+	   //가격 직접입력 조회
+	   $('#selfSearch').on('click', function(p_price){
+	       action_popup.alert("경고창 테스트!!!");
+	      var selfminprice = $('input[name=selfminprice]').val();
+	        var selfmaxprice = $('input[name=selfmaxprice]').val();       
+	        
+	        
+	        if(selfminprice != "" && selfmaxprice != ""){
+	        var url = '/member/pro/productList/priceSearch/' + selfminprice +'/'+ selfmaxprice;
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       });
+	        }
+	        else{
+	           alert('최소금액 혹은 최대금액을 입력해주세요.');
+	        }
+	   });
+
 	//최근본상품 퀵메뉴bar
 	 $(document).ready(function(){
         var currentPosition = parseInt($("#slidemenu").css("top"));
@@ -102,7 +110,69 @@
 	        }
 	    });
 	}); */
-	
+	   /**
+	 *  alert, confirm 대용 팝업 메소드 정의 <br/>
+	 *  timer : 애니메이션 동작 속도 <br/>
+	 *  alert : 경고창 <br/>
+	 *  confirm : 확인창 <br/>
+	 *  open : 팝업 열기 <br/>
+	 *  close : 팝업 닫기 <br/>
+	 */ 
+	var action_popup = {
+	    timer: 500,
+	    confirm: function (txt, callback) {
+	        if (txt == null || txt.trim() == "") {
+	            console.warn("confirm message is empty.");
+	            return;
+	        } else if (callback == null || typeof callback != 'function') {
+	            console.warn("callback is null or not function.");
+	            return;
+	        } else {
+	            $(".type-confirm .btn_ok").on("click", function () {
+	                $(this).unbind("click");
+	                callback(true);
+	                action_popup.close(this);
+	            });
+	            this.open("type-confirm", txt);
+	        }
+	    },
+
+	    alert: function (txt) {
+	        if (txt == null || txt.trim() == "") {
+	            console.warn("confirm message is empty.");
+	            return;
+	        } else {
+	            this.open("type-alert", txt);
+	        }
+	    },
+
+	    open: function (type, txt) {
+	        var popup = $("." + type);
+	        popup.find(".menu_msg").text(txt);
+	        $("body").append("<div class='dimLayer'></div>");
+	        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+	        popup.fadeIn(this.timer);
+	    },
+
+	    close: function (target) {
+	        var modal = $(target).closest(".modal-section");
+	        var dimLayer;
+	        if (modal.hasClass("type-confirm")) {
+	            dimLayer = $(".dimLayer[target=type-confirm]");
+	        } else if (modal.hasClass("type-alert")) {
+	            dimLayer = $(".dimLayer[target=type-alert]")
+	        } else {
+	            console.warn("close unknown target.")
+	            return;
+	        }
+	        modal.fadeOut(this.timer);
+	        setTimeout(function () {
+	            dimLayer != null ? dimLayer.remove() : "";
+	        }, this.timer);
+	    }
+	}
+	   
+
 	
 	//승빈 탈퇴 막기 메시지 end
 	
