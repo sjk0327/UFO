@@ -119,6 +119,12 @@
 		]]>
 	</select>
 	
+	<update id="updateCart"
+		parameterType="com.use.first.rent.BuyInfoVO">
+		<![CDATA[
+		update cart set c_state = #{buyType}, c_amount = #{proamount}, c_date=#{rentdate} where c_id = #{cartId}
+		]]>
+	</update>
 	
 	<!--  
 	<select id="getWishTotalCount" resultType="int">
@@ -158,6 +164,12 @@
 	<delete id="deleteCartList">
 		<![CDATA[
 		delete from cart where c_id=#{c_id}
+		]]>
+	</delete>
+	
+	<delete id="deleteCartAll">
+		<![CDATA[
+		delete from cart where c_mid=#{userID}
 		]]>
 	</delete>
 

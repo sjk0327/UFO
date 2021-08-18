@@ -1,3 +1,6 @@
+<%@page import="java.util.Date"%>
+
+<%@page import="org.aspectj.weaver.reflect.Java14GenericSignatureInformationProvider"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -42,8 +45,6 @@ padding : 10px;
 
 .wrapper {
     width: 1280px;
-    margin-left: 70px;
-    margin-right:0;
 }
 
 
@@ -98,7 +99,7 @@ border-color: #4e5a72;
         <h2>MY CART</h2>
     </div>
 
-<div class="wrapper col-md-10">
+<div class="container col-md-8">
 
 <div>
 <br>
@@ -136,8 +137,9 @@ border-color: #4e5a72;
                 <input id="originprice" type="hidden" value="${cartInfo.p_price}">
                 
                 <tr class="" style="text-align: center;">
+                 <form:form id="proInfo" commandName="BuyInfoVO" method="post">
                 <td onclick="event.cancelBubble=true">
-                     <input type="checkbox" name="RowCheck" value="${cartInfo.c_id }"></td>
+                     <input id="checkBox" type="checkbox" name="RowCheck" value="${cartInfo.c_id }"></td>
                     <td class="thumb" style="padding : 0;"><a href="">
                    
    
@@ -173,11 +175,14 @@ border-color: #4e5a72;
     </div>
 
 </a></td>
+                       
                     <td class="left" style="text-align: left;">
                         <div class="name"><a href="" class="product-name">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #505050; font-weight: bold;">[${cartInfo.p_category}] ${cartInfo.p_name}</span>
                      
                         </a></div>
+                        <input id="cartId" name="cartId" type="hidden" value="${cartInfo.c_id}">
+                        <input id="productId" name="productId" type="hidden" value="${cartInfo.c_pid}">
                         <div>
                         <div style="margin-top: 3pt;">
                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;구매정보&nbsp;
@@ -245,10 +250,10 @@ border-color: #4e5a72;
                         <c:if test="${cartInfo.c_state eq '대여'}">
                         <c:choose>
 						<c:when test="${cartInfo.p_canrent eq 0}">
-						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}" disabled="disabled">
+						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}" disabled="disabled">
 						</c:when>
 						<c:otherwise>
-						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}">
+						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}">
 						</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -257,58 +262,109 @@ border-color: #4e5a72;
 						
 						<c:choose>
 						<c:when test="${cartInfo.p_canbuy eq 0}">
-						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}" disabled="disabled">
+						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.c_amount}" disabled="disabled">
 						</c:when>
 						<c:otherwise>
-						<input id="proamount" name="amount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.c_amount}">
+						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.c_amount}">
 						</c:otherwise>
 						</c:choose>
 						</c:if>
 	
                         
                         </div>
+                        
+                        <fmt:parseDate var="tempToday" value="${cartInfo.c_date}" pattern="yyyy-MM-dd"/>
+  						<fmt:parseNumber var="cdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
+   						<c:set var="now" value="<%=new java.util.Date()%>" />
+   						<c:set var="todaydate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set>
+    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+    					
+                        <c:choose>
+						<c:when test="${cartInfo.c_state eq '대여'}">
+						<div class="rdate" style="margin-top: 3pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여날짜
+						<c:if test="${cdate >= today }">
+						<input id="rentdate" name="rentdate" type="date" min="${todaydate }" value="${cartInfo.c_date}"></c:if>
+						<c:if test="${cdate < today }">
+						<input id="rentdate" name="rentdate" type="date" min="${todaydate }" value="${todaydate}"></c:if>
+						
+						</div>
+						</c:when>
+						<c:otherwise>
+						<div class="rdate" style="margin-top: 3pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여날짜
+						<input id="rentdate" name="rentdate" type="date" value="" disabled="disabled"></div>
+						</c:otherwise>
+						</c:choose>
+                        
                         </div>
                         <br>
  
 </td>
                     <td  class="price right">
-                    <input type=text id="price" value="1" style="width: 100px;">원
+                    <fmt:parseNumber var="rentprice" value="${cartInfo.p_price*0.05*cartInfo.c_amount}" integerOnly="true" />
+					<fmt:parseNumber var="buyprice" value="${cartInfo.p_price*0.95*cartInfo.c_amount}" integerOnly="true" />
+					<c:if test="${cartInfo.c_state eq '대여' }">
+                    <input type=text id="price" value="${rentprice}" style="width: 100px;" disabled="disabled">원					
+					</c:if>
+					<c:if test="${cartInfo.c_state eq '구매' }">
+                    <input type=text id="price" value="${buyprice}" style="width: 100px;" disabled="disabled">원					
+					</c:if>
 
 </td>
-<fmt:parseNumber var="rentpoint" value="${cartInfo.p_price*0.05*0.05}" integerOnly="true" />
-<fmt:parseNumber var="buypoint" value="${cartInfo.p_price*0.95*0.05}" integerOnly="true" />
+<fmt:parseNumber var="rentpoint" value="${rentprice*0.01}" integerOnly="true" />
+<fmt:parseNumber var="buypoint" value="${buyprice*0.01}" integerOnly="true" />
                     <td>
                     
                     
-                    <span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>포인트<span id="point">1</span></span>(5%)</span><br/>
+                    <span class="txtInfo"><span id="span_mileage_text"><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom:2px;"/>포인트
+                    <c:if test="${cartInfo.c_state eq '대여' }">
+                     <span id="point">${rentpoint }</span>					
+					</c:if>
+					<c:if test="${cartInfo.c_state eq '구매' }">
+                    <span id="point">${buypoint }</span>			
+					</c:if>      
+                    </span>(1%)</span><br/>
                   </td>
                     <td><div class="txtInfo">기본배송</div></td>
                     <td>
 <span class="">2,500원<br/></span> 조건</td>
-                    <td class="price right" style="font-weight: bold;"><span id="totalprice">1</span></td>
+                    <td class="price right" style="font-weight: bold;">
+                    <c:if test="${cartInfo.c_state eq '대여' }">
+                    <span id="totalprice">${rentprice+2500 }원</span>					
+					</c:if>
+					<c:if test="${cartInfo.c_state eq '구매' }">
+                   <span id="totalprice">${buyprice+2500 }원</span>		
+					</c:if>
+                    
+                    
+                    </td>
                     <td class="button">
                    
-                    	<span class="row">
-                    	<span style="padding:0; margin-right: 1px;">
-                    	&nbsp;&nbsp;
-                    	 <c:if test="${cartInfo.p_canrent eq 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm" disabled="disabled">대여</button></span>
-                        </c:if>
-                        <c:if test="${cartInfo.p_canrent ne 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm">대여</button></span>
-                        </c:if>
-                        
-                         <c:if test="${cartInfo.p_canbuy eq 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm" style="margin-left: 2pt;" disabled="disabled">구매</button></span>
-                        </c:if>
-                        <c:if test="${cartInfo.p_canbuy ne 0}">
-                        <span><button id="button2" class="btn btn-outline-primary btn-sm" style="margin-left: 2pt;">구매</button></span>
-                        </c:if>
-                        </span>
-                        </span>
-                     <button id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" onclick="">옵션 수정</button>
-                        <form action="/customer/rent/deleteCartList" method="post">
-                        <input type="hidden" name="cartId" value="${cartInfo.c_id}">
+                        <button id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy">결제</button>
+                         <c:if test="${cartInfo.c_state eq '대여'}">
+                        <c:choose>
+						<c:when test="${cartInfo.p_canrent eq 0}">
+						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" disabled="disabled" style="margin-top: 8pt;">옵션 수정</button>
+						</c:when>
+						<c:otherwise>
+						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" style="margin-top: 8pt;">옵션 수정</button>
+						</c:otherwise>
+						</c:choose>
+						</c:if>
+						
+						<c:if test="${cartInfo.c_state eq '구매'}">
+						
+						<c:choose>
+						<c:when test="${cartInfo.p_canbuy eq 0}">
+						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" disabled="disabled" style="margin-top: 8pt;">옵션 수정</button>
+						</c:when>
+						<c:otherwise>
+						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" style="margin-top: 8pt;">옵션 수정</button>
+						</c:otherwise>
+						</c:choose>
+						</c:if>
+                     </form:form>
+                        <form action="/member/rent/deleteCartList" method="post">
+                        <input type="hidden" Id="cartId" name="cartId" value="${cartInfo.c_id}">
                         <button id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" onclick="">삭제</button>
                    </form>
                     </td>
@@ -337,7 +393,16 @@ border-color: #4e5a72;
            	<span style="margin-left: 3pt;"><button id="deletecart" href="" class="btn btn-outline-primary" onclick="cartcheckboxArr();">삭제하기</button></span>
            	<input type="hidden" id="arrayParam" name="arrayParam">
            	</form>
-            <span style="margin-left: 3pt;"><button id="button" href="" class="btn btn-outline-primary">주문하기</button></span>
+           	
+           	<form id="selectBuy" method="post">
+            <span style="margin-left: 3pt;"><button id="button" href="" class="btn btn-outline-primary" onclick="selectBuy();">주문하기</button></span>
+       		
+   
+       		<input type="hidden" id="productIdArray" name="productIdArray">
+       		<input type="hidden" id="buyTypeArray" name="buyTypeArray">
+       		<input type="hidden" id="proamountArray" name="proamountArray">
+       		<input type="hidden" id="rentdateArray" name="rentdateArray">
+           	</form>>
         </div>
         </span>
       
@@ -345,8 +410,8 @@ border-color: #4e5a72;
  <div class="row">
             <span><button id="button2" href="" class="btn btn-outline-primary">전체 상품 주문</button></span>
             <span>
-            <form id="form" action="/customer/rent/deletecartAll" method="post">
-            <input type="hidden" id="userID" name="userID" value="crystal"/>
+            <form id="form" action="/member/rent/deleteCartAll" method="post">
+            <input type="hidden" id="userID" name="userID" value="${userInfo.m_id }"/>
             <span style="margin-left: 3pt;"><button id="deletecart" class="btn btn-outline-primary deletecartAll">장바구니 비우기</button></span>
             </form></span>
             </div>
@@ -359,7 +424,7 @@ border-color: #4e5a72;
         </div>
                           
 </div>
-<div class="container col-md-2" style="position: fixed; top:300px; margin-bottom:1000px; margin-left: 1350px; background-color: #4e5a72;">ddd</div>
+
 
 
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
@@ -382,7 +447,7 @@ $('.deletecart').click(function() {
 
 $('.deletecartAll').click(function() {
 	
-	if (confirm("위시리스트를 모두 비우시겠습니까?") == true){   
+	if (confirm("장바구니를 모두 비우시겠습니까?") == true){   
 		
 	  }else{   
 		 event.preventDefault();
@@ -399,8 +464,8 @@ function cartcheckboxArr() {
 	});
 				
 	$("#arrayParam").val(array);
-	if (confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?") == true){   
-		$("#form").attr("action", "/customer/rent/deletecartList2");  
+	if (confirm("선택한 상품들을 장바구니에서 삭제하시겠습니까?") == true){   
+		$("#form").attr("action", "/member/rent/deleteCartList2");  
 		$("#form").submit();
 	  }else{   
 		 event.preventDefault();
@@ -436,9 +501,15 @@ function allChk(obj){
 		var priceList=document.querySelectorAll("#price");
 		var pointList=document.querySelectorAll("#point");
 		var totalpriceList=document.querySelectorAll("#totalprice");
-		var proIdList=document.querySelectorAll("#proId");
+		var productIdList=document.querySelectorAll("#productId");
 		var rentamountList=document.querySelectorAll("#canrent");
 		var buyamountList=document.querySelectorAll("#canbuy");
+		var rentdateList=document.querySelectorAll("#rentdate");
+		var rdateList=document.querySelectorAll(".rdate");
+		var updatecartList=document.querySelectorAll(".updatecart");
+		var carttobuyList=document.querySelectorAll(".carttobuy");
+		var proInfoList=document.querySelectorAll("#proInfo");
+		var checkBoxList=document.querySelectorAll("#checkBox");
 
 	
 		for(var i=0; i < amountLength; i++){
@@ -446,7 +517,10 @@ function allChk(obj){
 			
 			for(var i=0; i < amountLength; i++){
 				stateList[i].addEventListener('input',onStateCountHandler)};
-				
+	for(var i=0; i < amountLength; i++){
+		updatecartList[i].addEventListener('click',updateInfo)};
+		for(var i=0; i < amountLength; i++){
+			carttobuyList[i].addEventListener('click',cartToBuyForm)};
 			
 						
 		function onIncreaseCountHandler(e) {
@@ -455,11 +529,12 @@ function allChk(obj){
 				if(e.target==amountList[i]){
 					if(amountList[i].value==0){
 						if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?") == true){   
-								$("#zerodelete").attr("action", "/customer/rent/deleteCartList");  
+								$("#zerodelete").attr("action", "/member/rent/deleteCartList");  
 								$("#zerodelete").attr("method", "POST");  
 								$("#zerodelete").submit();
 								
-						  }else{   
+						  }else{ 
+							  amountList[i].value=1;
 							 event.preventDefault();
 					       event.stopPropagation();
 
@@ -472,7 +547,7 @@ function allChk(obj){
 						if(stateList[i].value=="구매"){
 							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
 						}
-					pointList[i].innerText=String(priceList[i].value*0.05);
+					pointList[i].innerText=String(priceList[i].value*0.01);
 					totalpriceList[i].innerText=priceList[i].value*1+2500;
 					}
 				}
@@ -485,42 +560,141 @@ function onStateCountHandler(e) {
 				if(e.target==stateList[i]){
 					
 						if(stateList[i].value=="대여"){
-					priceList[i].value=originprice[i].value*amountList[i].value*0.05;}
+					rentdateList[i].removeAttribute('disabled');
+					priceList[i].value=originprice[i].value*amountList[i].value*0.05;
+					rentdateList[i].value=new Date().toISOString().substring(0, 10);
+					rentdateList[i].setAttribute('min',new Date().toISOString().substring(0, 10));
+					pointList[i].innerText=String(priceList[i].value*0.01);
+					totalpriceList[i].innerText=priceList[i].value*1+2500;
+					amountList[i].setAttribute('max',rentamountList[i].value);
+					amountList[i].value=1;
 						if(rentamountList[i].value==0){
 							amountList[i].disabled=true;
 						}
 						else{
 							amountList[i].disabled=false;
+							updatecartList[i].disabled=false;
 							if(amountList[i].value>rentamountList[i].value){
 								amountList[i].value=rentamountList[i].value
 							}
-							amountList[i].max(rentamountList[i].value);
+							
 						}
+						
+						
+						
+				}
 					
 						if(stateList[i].value=="구매"){
 							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
+							rentdateList[i].value="";
+							rentdateList[i].setAttribute('disabled','disabled');
+							pointList[i].innerText=String(priceList[i].value*0.01);
+							totalpriceList[i].innerText=priceList[i].value*1+2500;
+							amountList[i].setAttribute('max',buyamountList[i].value);
+							amountList[i].value=1;
 							if(buyamountList[i].value==0){
 								amountList[i].disabled=true;
 							}
 							else{
 								amountList[i].disabled=false;
+								updatecartList[i].disabled=false;
 								if(amountList[i].value>buyamountList[i].value){
 									amountList[i].value=buyamountList[i].value
 								}
-								amountList[i].max(buyamountList[i].value);
+								
 								
 							}
 						}
-						pointList[i].innerText=String(priceList[i].value*0.05);
-					totalpriceList[i].innerText=priceList[i].value*1+2500;
+						
 					}
 				}
 			}
 			
+/*
+function cartcheckboxArr() { 
+	var array = new Array(); // 배열 선언
+	$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.	    
+		array.push(this.value);
+	});
+				
+	$("#arrayParam").val(array);
+	if (confirm("선택한 상품들을 장바구니에서 삭제하시겠습니까?") == true){   
+		$("#form").attr("action", "/member/rent/deleteCartList2");  
+		$("#form").submit();
+	  }else{   
+		 event.preventDefault();
+     event.stopPropagation();
 
+	  };	
+}*/
+function selectBuy() { 
+	var array = new Array();
+	var array1 = new Array();
+	var array2 = new Array();
+	var array3 = new Array();
+	var array4 = new Array();
+	for(var i=0; i< amountLength;i++){
+		if(checkBoxList[i].checked==true){
+			array1.push(productIdList[i].value);
+			array2.push(stateList[i].value);
+			array3.push(amountList[i].value);
+			array4.push(rentdateList[i].value);
+	
+			
+		}
+	}
+	$("#productIdArray").val(array1);
+	$("#buyTypeArray").val(array2);
+	$("#proamountArray").val(array3);
+	$("#rentdateArray").val(array4);
+	
+	
+
+	
+	if (confirm("선택한 상품들의 결제를 진행하시겠습니까?") == true){   
+		$("#selectBuy").attr("action", "/member/rent/buySelect");  
+		$("#selectBuy").submit();
+	  }else{   
+		 event.preventDefault();
+     event.stopPropagation();
+
+	  }
+	};
+	
 		
+function updateInfo(e) { 
+	for(var i=0; i< amountLength;i++){
+		if(e.target==updatecartList[i]){
+	
+	if (confirm("옵션을 수정하시겠습니까?") == true){   
+		proInfoList[i].setAttribute("action", "/member/rent/cartUpdate");  
+		proInfoList[i].submit();
+	  }else{   
+		 event.preventDefault();
+     event.stopPropagation();
+
+	  }
+		}
+		}
+};   
+
+function cartToBuyForm(e) { 
+	for(var i=0; i< amountLength;i++){
+		if(e.target==carttobuyList[i]){
+	if (confirm("해당 상품의 결제를 진행하시겠습니까?") == true){   
+		proInfoList[i].setAttribute("action", "/member/rent/buy");  
+		proInfoList[i].submit();
 		
-    
+
+	  }else{   
+		 event.preventDefault();
+     event.stopPropagation();
+
+	  }
+		}
+	}
+} ;  
+
 
 		
 </script>

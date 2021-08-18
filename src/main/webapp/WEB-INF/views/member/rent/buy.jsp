@@ -171,41 +171,41 @@ td, th {
 										</tr>
 									</thead>
 									<tbody class="tablebody">
-									<c:forEach var="list" items="${cartList}">
-									<c:if test="${list.c_state eq '대여' }">
-									<c:set var="i" value="${(list.p_price * 0.05) * list.c_amount }"/>
+									<c:forEach var="buyInfo" items="${buyInfoList}">
+									<c:if test="${buyInfo.buyType eq '대여' }">
+									<c:set var="i" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }"/>
 									</c:if>
-									<c:if test="${list.c_state eq '구매' }">
-									<c:set var="i" value="${(list.p_price * 0.95) * list.c_amount }"/>
+									<c:if test="${buyInfo.buyType eq '구매' }">
+									<c:set var="i" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }"/>
 									</c:if>
-									<c:if test="${list.c_state eq '대여' }">
-									<c:set var="k" value="${(list.p_price * 0.05) * list.c_amount * 0.01}"/>
+									<c:if test="${buyInfo.buyType eq '대여' }">
+									<c:set var="k" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}"/>
 									</c:if>
-									<c:if test="${list.c_state eq '구매' }">
-									<c:set var="k" value="${(list.p_price * 0.95) * list.c_amount * 0.01}"/>
+									<c:if test="${buyInfo.buyType eq '구매' }">
+									<c:set var="k" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}"/>
 									</c:if>
 									<!-- 총금액 s -->
 									<c:set var="s" value="${i + s }"/>
 									<c:set var="p" value="${k + p }"/>
 										<tr style="text-align: center; color: #111111; font-size: 14px;">
-											<td><img src="/resources/Images/${productVO.p_mainImg}"
-												alt="Image" class="img-fluid"></td>
-											<td>${list.p_name }</td>
-											<td>${list.c_state }</td>
-											<c:if test="${list.c_state eq '대여' }">
+											<td><img src="/resources/Images/${buyInfo.productImg}.jpg"
+												alt="Image" class="img-fluid" style="width: 100px; height: 100px;"></td>
+											<td>${buyInfo.productName }</td>
+											<td>${buyInfo.buyType }</td>
+											<c:if test="${buyInfo.buyType eq '대여' }">
 											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
-											style="margin-bottom: 2px;" />${(list.p_price * 0.05) * list.c_amount * 0.01} </td>
+											style="margin-bottom: 2px;" />${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01} </td>
 											</c:if>
-											<c:if test="${list.c_state eq '구매' }">
+											<c:if test="${buyInfo.buyType eq '구매' }">
 											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
-											style="margin-bottom: 2px;" />${(list.p_price * 0.95) * list.c_amount * 0.01} </td>
+											style="margin-bottom: 2px;" />${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01} </td>
 											</c:if>
-											<td>${list.c_amount }</td>
-											<c:if test="${list.c_state eq '대여' }">
-											<td><fmt:formatNumber pattern="###,###,###">${(list.p_price * 0.05) * list.c_amount }</fmt:formatNumber>원</td>
+											<td>${buyInfo.buyType }</td>
+											<c:if test="${buyInfo.buyType eq '대여' }">
+											<td><fmt:formatNumber pattern="###,###,###">${(buyInfo.productPrice * 0.05) * buyInfo.proamount }</fmt:formatNumber>원</td>
 											</c:if>
-											<c:if test="${list.c_state eq '구매'}">
-											<td><fmt:formatNumber pattern="###,###,###">${(list.p_price * 0.95) * list.c_amount }</fmt:formatNumber>원</td>
+											<c:if test="${buyInfo.buyType eq '구매'}">
+											<td><fmt:formatNumber pattern="###,###,###">${(buyInfo.productPrice * 0.95) * buyInfo.proamount }</fmt:formatNumber>원</td>
 											</c:if>
 										</tr>
 									</c:forEach>
@@ -422,13 +422,13 @@ td, th {
 					<div class="form-group" style="text-align: center;">
 							<form name="buyInsert" action="/customer/buyInsert" method="post" >
 							<input type="hidden" id="m_id" name="m_id" value="${userVO.m_id }" />
-							<c:forEach var="list" items="${cartList}" >
-								<input type="hidden" id="b_mid" name="b_mid" value="${list.c_mid }" />
-								<input type="hidden" id="b_pid" name="b_pid" value="${list.c_pid }" />
-								<input type="hidden" id="b_amount" name="b_amount" value="${list.c_amount }" />
+							<c:forEach var="buyInfo" items="${buyInfo}" >
+								<input type="hidden" id="b_mid" name="b_mid" value="${userVO.m_id }" />
+								<input type="hidden" id="b_pid" name="b_pid" value="${buyInfo.productId }" />
+								<input type="hidden" id="b_amount" name="b_amount" value="${buyInfo.proamount }" />
 								<input type="hidden" id="b_how" name="b_how" value="카카오페이" />
-								<input type="hidden" id="b_state" name="b_state" value="${list.c_state }" />
-								<input type="hidden" id="b_purchase" name="b_purchase" value="${list.p_price }" />
+								<input type="hidden" id="b_state" name="b_state" value="${buyInfo.buyType }" />
+								<input type="hidden" id="b_purchase" name="b_purchase" value="${buyInfo.productPrice }" />
 								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
 							</c:forEach>
 							<div>
