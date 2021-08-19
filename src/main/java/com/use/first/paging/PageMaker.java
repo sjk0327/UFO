@@ -117,6 +117,9 @@ public class PageMaker {
 				.queryParam("keyword", this.cri.getKeyword());
 				
 
+		} else if (this.cri.getV_pid() != null){
+			uriComponentsBuilder
+			.queryParam("v_pid", this.cri.getV_pid());			
 		}
 		return uriComponentsBuilder.build().encode().toString();
 	}

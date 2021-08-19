@@ -158,14 +158,7 @@ public class MemberController {
 		}
 	}
 
-	@RequestMapping(value = "/kakaoReject", method = RequestMethod.GET)
-	public String kakaoRejectG(HttpServletResponse response) throws IOException{
-		return "";
-	}
-	@RequestMapping(value = "/kakaoReject", method = RequestMethod.POST)
-	public String kakaoRejectP(HttpServletResponse response) throws IOException{
-		return "";
-	}
+	
 	
 	// 카카오 회원가입
 	@RequestMapping(value = "/kakaoJoin/{email}/{gender}", method = RequestMethod.GET)
@@ -502,7 +495,7 @@ public class MemberController {
 	public String adminLoginout(HttpSession session) {
 		session.invalidate();
 
-		return "redirect:/";
+		return "redirect:/admin";
 	}
 
 	@RequestMapping(value = "/adminIndex", method = RequestMethod.GET)
@@ -728,9 +721,8 @@ public class MemberController {
     }
     
     //회원 상세 정보 - 대여 상세 정보
-    //  method 를 Post 로 수정해야 한다.
-    @RequestMapping(value ="/member/mem/memRentDetail", method = RequestMethod.GET)
-	public String memRentDetail(Model model, @RequestParam int r_id) {
+    @RequestMapping(value ="/member/mem/memRentDetail/{r_id}", method = RequestMethod.GET)
+	public String memRentDetail(Model model, @PathVariable int r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
@@ -743,8 +735,11 @@ public class MemberController {
 		System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
 		// 선택한 대여의 결제 정보 가져오기
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
-		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
-		
+		if(!buyList.isEmpty() && buyList.size() != 0) {
+			for(int i = 0; i < buyList.size(); i++) {
+				System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
+			}
+		}
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
@@ -752,50 +747,52 @@ public class MemberController {
 	}
     
     
-    //회원 상세 정보 - 대여 상세 정보 - 반납
-    @ResponseBody
-    @RequestMapping(value ="/member/mem/memRentReturn", method = RequestMethod.POST , produces="application/json")
-	public Map<Object, Object> memRentReturn(Model model, @RequestBody String r_id) throws Exception{
+  //회원 상세 정보 - 대여 상세 정보 - 반납
+    @RequestMapping(value ="/member/mem/memRentReturn/{r_id}", method = RequestMethod.GET)
+	public String memRentReturn(Model model, @PathVariable int r_id) throws Exception{
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-		int id = Integer.parseInt(r_id);
 		System.out.println("memController - memRentReturn  :  반납 하기 클릭 컨트롤러");
 		// 선택한 대여 정보 가져오기
 		RentVO rentVO = new RentVO();
-		rentVO.setR_id(id);
+		rentVO.setR_id(r_id);
 		rentVO.setR_state("반납 요청");
 		System.out.println("memController - memRentReturn new rentVO : " + rentVO.toString());
-		Map<Object, Object> map = new HashMap<Object, Object>();
     	int result = rentDAO.rentUpdate(rentVO);
     	System.out.println("memController - memRentReturn result : " + result);
-    	map.put("check", result);
     	
-    	return map;
+    	
+    	return "redirect:/member/mem/memRentDetail/"+r_id;
 	}
+    
+    
     // 회원 상세 정보 - 대여 상세 정보 - 환불
-    @RequestMapping(value ="/member/mem/memRentRefund", method = RequestMethod.POST)
-   	public String memRentRefund(Model model, @RequestParam int r_id) {
+    @RequestMapping(value ="/member/mem/memRentRefund/{b_id}/{r_id}", method = RequestMethod.GET)
+   	public String memRentRefund(Model model, @PathVariable int b_id, @PathVariable int r_id) throws Exception{
    		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
    		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
    		System.out.println("memController - memRentRefund  :  환불 하기 클릭 컨트롤러");
    		// 선택한 대여 정보 가져오기
-   		RentVO rentVO = rentDAO.rentInfo(r_id);
-   		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
-   		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
-   		int late = Double.valueOf(Math.floor(gap / (1000*60*60*24)) * -1).intValue();
-   		if( late > 3 ) {
-   			
-   		}
-   		// 선택한 대여의 결제 정보 가져오기
-   		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
-   		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
+   		RentVO rentVO = new RentVO();
+		rentVO.setR_id(r_id);
+		rentVO.setR_state("환불 요청");
+		System.out.println("memController - memRentReturn new rentVO : " + rentVO.toString());
+    	int result = rentDAO.rentUpdate(rentVO);
+   		System.out.println("memController - memRentRefund 1result : " + result);
+    	
+    	BuyVO buyVO = buyDAO.buyInfo(b_id);
+   		buyVO.setB_id(b_id);
+   		buyVO.setB_state("환불 요청");
+   		buyVO.setB_purchase("-"+buyVO.getB_purchase());
+   		System.out.println("memController - memRentRefund - buyVO : " + buyVO.toString());
    		
-   		model.addAttribute("rentInfo", rentVO);
-   		model.addAttribute("buyList", buyList);
-   		return "redirect:/member/mem/memRentDetail/" + r_id;
+   		result += buyDAO.buyInsert(buyVO);
+   		System.out.println("memController - memRentRefund 2result : " + result);
+   		
+   		return "redirect:/member/mem/memRentDetail/" + r_id ;
    	}
     
     // 회원 상세 정보 - 대여 상세 정보 - 연체료 존재
-    @RequestMapping(value ="/member/mem/memRentLate", method = RequestMethod.POST)
+    @RequestMapping(value ="/member/mem/memRentLate", method = RequestMethod.GET)
 	public String memRentLate(Model model, @RequestParam int r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
@@ -820,19 +817,27 @@ public class MemberController {
 	}
     
     // 회원 상세 정보 - 구매 상세 정보
-    @RequestMapping(value ="/member/mem/memBuyDetail/{r_id}", method = RequestMethod.POST)
+    @RequestMapping(value ="/member/mem/memBuyDetail/{r_id}", method = RequestMethod.GET)
    	public String memBuyDetail(Model model, @PathVariable int r_id) {
    		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
    		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
-   		
+   		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		
    		// 선택한 구매 정보 가져오기
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+		// 선택한 대여 상품 정보 가져오기
+				ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
+				System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
 		// 선택한 구매의 결제 정보 가져오기
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
-		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
-		
+		if(!buyList.isEmpty() && buyList.size() != 0) {
+			for(int i = 0; i < buyList.size(); i++) {
+				System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
+			}
+		}
 		model.addAttribute("rentInfo", rentVO);
+		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
    		return "/member/mem/memBuyDetail";
    	}
