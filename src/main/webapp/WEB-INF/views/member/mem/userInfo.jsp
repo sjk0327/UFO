@@ -126,13 +126,23 @@ body, html {
 
 .pink_btn {
 	width: 90px;
-	background: #ed197a;
+	background: #7971ea;
 	color: #fff;
 	height: 36px;
 	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
+}
+
+.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content
+	{
+	margin-left: 0;
+}
+
+.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content
+	{
+	margin-left: 0;
 }
 </style>
 <script
@@ -165,7 +175,7 @@ body, html {
 														<h5>개인 정보</h5>
 													</div>
 													<div class="card-block">
-														<form:form class="form-material"
+														<form:form class="form-material" name="update"
 															action="/member/mem/userInfo/${userInfo.m_id }"
 															method="post" enctype="multipart/form-data"
 															modelAttribute="userVO">
@@ -200,6 +210,19 @@ body, html {
 																			<span class="form-bar"></span>
 																		</div>
 																	</div>
+																	
+																	<div class="form-group row">
+																		<div class="col-sm-3 col-form-label">비밀번호</div>
+																		<div
+																			class="form-group form-primary form-static-label col-sm-9">
+																			<form:input type="text" value="${userInfo.m_pw }"
+																				path="m_pw"
+																				class="form-control form-control-center form-control-round form-control-bold"
+																				placeholder="필수 항목 입니다." required="required" />
+																			<span class="form-bar"></span>
+																		</div>
+																	</div>
+																	
 																	<div class="form-group row">
 																		<div class="col-sm-3 col-form-label">이 름</div>
 																		<div
@@ -352,10 +375,6 @@ body, html {
 																<div>
 																	<input type="button" id="update" value="수정"
 																		class="btn waves-effect waves-light btn-primary btn-outline-primary">
-
-
-
-
 																</div>
 
 															</div>
@@ -497,12 +516,6 @@ body, html {
 																			</td>
 																		</tr>
 																	</tbody>
-
-																	<td>
-																		<div>
-																			<pre>${messageList.a_content }</pre>
-																		</div>
-																	</td>
 																</c:forEach>
 
 
@@ -525,7 +538,7 @@ body, html {
 										</div>
 									</div>
 									<!-- Page-body end -->
-									<form:form class="form-material"
+									<form:form class="form-material" name="delete2"
 										action="/member/mem/userDelete/${userInfo.m_id }"
 										method="post" enctype="multipart/form-data"
 										modelAttribute="userVO">
@@ -536,8 +549,6 @@ body, html {
 											<input type="button" id="confirm" value="회원탈퇴"
 												class="btn waves-effect waves-light btn-primary btn-outline-primary">
 										</div>
-
-
 									</form:form>
 
 
@@ -556,6 +567,7 @@ body, html {
 			</div>
 		</div>
 	</div>
+	<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="modal modal-section type-confirm">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
@@ -565,6 +577,22 @@ body, html {
 			<button class="btn gray_btn modal_close">취소</button>
 		</div>
 	</section>
+	<!-- confirm 모달을 쓸 페이지에 추가 end-->
+
+
+	<!-- alert 모달을 쓸 페이지에 추가 start-->
+	<section class="modal modal-section type-alert">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn modal_close">확인</button>
+		</div>
+	</section>
+	<!-- alert 모달을 쓸 페이지에 추가 end-->
+
+
+
 
 	<!--이 script 없으면 css 깨짐-->
 	<script
@@ -672,6 +700,7 @@ body, html {
 				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
 					if (res) {
 						action_popup.alert("탈퇴가 되었습니다.");
+						document.delete2.submit();
 					} else {
 						action_popup.alert("탈퇴에 실패하였습니다.");
 					}
@@ -679,9 +708,10 @@ body, html {
 			});
 
 			$(document).on("click", "#update", function() {
-				action_popup.confirm("수정 하시겠습니까?", function(res) {
-					if (res) {
+				action_popup.confirm("수정 하시겠습니까?", function(upd) {
+					if (upd) {
 						action_popup.alert("수정이 되었습니다.");
+						document.update.submit();
 					} else {
 						action_popup.alert("수정에 실패하였습니다.");
 					}
@@ -761,7 +791,7 @@ body, html {
 			}
 		}
 	</script>
-	<%@ include file="/WEB-INF/views/adminFooter.jsp"%>
+
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
 </body>
 
