@@ -10,7 +10,18 @@
 <head>
 <title> 관리자 상품 리스트 페이지 - UF&#38;O </title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
-
+<style>
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+</style>
 
 </head>
 
@@ -50,7 +61,32 @@
 						<br>
 					</div>
 
+  <div class="wrap">
+       
+        
+        <!-- confirm 모달을 쓸 페이지에 추가 start-->
+        <section class="modal modal-section type-confirm">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn pink_btn btn_ok">확인</button>
+                <button class="btn gray_btn modal_close">취소</button>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
 
+        <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section class="modal modal-section type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn pink_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->
+    </div>
 
 
                       <!-- Basic table card start -->
@@ -86,11 +122,10 @@
                           </thead>
 
 
-            <c:forEach var="list" items="${productList}" begin="0"
-               end="10" step="1" varStatus="status">
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
 
                <tbody>
-             <form id="sort" name="btnUpdate" method="post" action="/admin/pro/productUpdate/${p_id }"> 
+             <form id="sort" name="btnUpdate" method="post" action="/admin/pro/productUpdate/${p_id}"> 
 					 <input type="hidden" id="p_id" name="p_id" />
                 <tr style="cursor:hand" >
                      <td onclick="event.cancelBubble=true">
@@ -107,18 +142,20 @@
 					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
-
 					<td onclick="event.cancelBubble=true"><input type="button" id="button"
-											onClick="productUpdateRow('${list.p_id}','${list.p_canBuy}','${list.p_canRent}')"
+											onClick="productUpdateRow('${list.p_id}','${list.p_canBuy}','${list.p_canRent}');"
 											<%-- onClick="productUpdate('${list.p_id}','${list.p_canBuy}','${list.p_canRent}');" --%>
 											value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">
 					<td onclick="event.cancelBubble=true"><button type="button" id="button"
-											onClick="productDelete('${list.p_id}')"
+											onClick="productDelete('${list.p_id}');"
 											value="상품삭제" class="btn waves-effect waves-light btn-primary btn-outline-primary">삭제</button> 
 				</tr> 
-                         <!--  </form>      -->         
-                                     </tbody>
-                                  </c:forEach>
+				</form>
+				
+		
+                       
+              </tbody>
+            </c:forEach>
 
                       </table>
                        </form> 
@@ -167,14 +204,23 @@
 			 }
 		}
 		
-	   	
+	   	//한줄 수정 갑자기 안됌.....................210819....
 		function productUpdateRow(p_id,p_canBuy,p_canRent) {
-			var p_id = p_id;	
+			
+			var p_id = p_id;
 			var p_canBuy = $("#" + p_id).val();
-			var p_canRent = $("#" + p_id).val();
-			alert('p_id::: ' + p_id );
+			var p_canRent = $("#" + p_id).val() + 1; 
+			
+			
 			alert('p_canBuy::: ' + p_canBuy );
-			alert('p_canRent::: ' + p_canRent );
+			alert('p_canRent::: ' + p_canRent ); */
+			
+						
+			
+			/* var p_canBuy = $('input[name=b1]').val();
+			var p_canRent = $('input[name=b2]').val(); */
+			
+			
 			if (confirm('상품을 수정하시겠습니까?')) {	
 				location.href = '/admin/pro/productUpdate2/' + p_id +'/'+ p_canBuy +'/'+ p_canRent;
 			}
@@ -233,6 +279,63 @@
 			 var is_use = document.getElementById('checkboxup');
 			 is_use.disabled=false;
 		 }
+		
+		 var action_popup = {
+	    timer: 500,
+	    confirm: function (txt, callback) {
+	        if (txt == null || txt.trim() == "") {
+	            console.warn("confirm message is empty.");
+	            return;
+	        } else if (callback == null || typeof callback != 'function') {
+	            console.warn("callback is null or not function.");
+	            return;
+	        } else {
+	            $(".type-confirm .btn_ok").on("click", function () {
+	                $(this).unbind("click");
+	                callback(true);
+	                action_popup.close(this);
+	            });
+	            this.open("type-confirm", txt);
+	        }
+	    },
+
+	    alert: function (txt) {
+	        if (txt == null || txt.trim() == "") {
+	            console.warn("confirm message is empty.");
+	            return;
+	        } else {
+	            this.open("type-alert", txt);
+	        }
+	    },
+
+	    open: function (type, txt) {
+	        var popup = $("." + type);
+	        popup.find(".menu_msg").text(txt);
+	        $("body").append("<div class='dimLayer'></div>");
+	        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+	        popup.fadeIn(this.timer);
+	    },
+
+	    close: function (target) {
+	        var modal = $(target).closest(".modal-section");
+	        var dimLayer;
+	        if (modal.hasClass("type-confirm")) {
+	            dimLayer = $(".dimLayer[target=type-confirm]");
+	        } else if (modal.hasClass("type-alert")) {
+	            dimLayer = $(".dimLayer[target=type-alert]")
+	        } else {
+	            console.warn("close unknown target.")
+	            return;
+	        }
+	        modal.fadeOut(this.timer);
+	        setTimeout(function () {
+	            dimLayer != null ? dimLayer.remove() : "";
+	        }, this.timer);
+	    }
+	}
+		 $(".modal_close").on("click", function () {
+	           action_popup.close(this);
+	       });
 		 </script>
 
    <%@ include file="/WEB-INF/views/adminFooter.jsp"%>

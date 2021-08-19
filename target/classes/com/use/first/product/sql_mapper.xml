@@ -64,12 +64,13 @@
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		order by p_price desc
 	</select>
-	<!-- <select id="productRecommand" resultType="com.use.first.product.ProductVO">
-		select 
-		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
-		p_category,p_mainImg,p_subImg,p_regdate from product
-		order by p_recommand desc
-	</select> -->
+	<select id="productRecommand" resultType="com.use.first.product.ProductVO">
+      select p.p_id, p.p_name, p.p_price, p.p_category, r.count
+      from product p
+      join (select r_pid, count(*) as count from rental group by r_pid) r
+      on p.p_id = r.r_pid
+      order by r.count desc      
+   </select>
 	<sql id="searchCondition">
 		<if test="searchType != null">
 			 
@@ -139,7 +140,7 @@
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!--  조회수 update 진행중.... -->
-	<update id="productHitsUpdate" parameterType="int"> 
+	<update id="productReadUpdate" parameterType="String" > 
 		update product set p_readcount = p_readcount + 1 
 		where p_id=#{p_id} 
 	</update>
@@ -192,14 +193,14 @@
 	
 	<delete id="wishListDelete" parameterType="com.use.first.rent.WishListVO">
 		<![CDATA[
-		delete from wishlist where w_pid = #{w_pid}
+		delete from wishlist where w_pid = #{w_pid} and w_mid = #{w_mid}
 		]]>
 	</delete> 
 	
 	<insert id="cartListInsert" parameterType="com.use.first.rent.CartVO">
 		
-		insert into cart (c_mid,c_pid,c_amount,c_date)
-		values (#{c_mid},#{c_pid},#{c_amount},now())
+		insert into cart (c_mid,c_pid,c_amount,c_state,c_date)
+		values (#{c_mid},#{c_pid},#{c_amount},#{c_state},now())
 	</insert>
 	
 	<select id="checkWishList" resultType="com.use.first.rent.WishListVO">
@@ -216,7 +217,7 @@
 	
 	<delete id="recommendDelete" parameterType="com.use.first.product.RecommendVO">
 		<![CDATA[
-		delete from recommend where r_pid = #{r_pid}
+		delete from recommend where r_pid = #{r_pid} and r_mid = #{r_mid}
 		]]>
 	</delete> 
 	
@@ -225,5 +226,23 @@
 		select r_pid,r_mid from recommend where r_pid = #{param1} and r_mid = #{param2}
 		]]>
 	</select>
+	
+	<select id="recommendCount" resultType="int">
+		<![CDATA[
+		select count(r_pid) from recommend where r_pid = #{param1}
+		]]>
+	</select>
+	
+	<!-- 리뷰 list,list숫자,-->
+	<select id="reviewList" resultType="com.use.first.product.ReviewVO">
+		select v_id, v_pid, v_mid, v_content, v_date from review WHERE v_pid = #{v_pid}	
+		ORDER BY v_id desc
+		
+	</select>
+	
+	<select id="countReviewListTotal" resultType="int">
+		select count(*) from review WHERE v_pid = #{v_pid}	
+	</select>
+
 	
 </mapper>
