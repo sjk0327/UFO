@@ -137,11 +137,20 @@ td, th {
 	height: 85px;
 }
 
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.mocdal{width: 500px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center; }
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+
 </style>
 </head>
 <body>
-
-
 
 	<div class="site-wrap">
 		<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
@@ -168,6 +177,7 @@ td, th {
 											<th scope="col">포인트적립</th>
 											<th scope="col">수량</th>
 											<th scope="col">상품금액</th>
+											<th scope="col">대여날짜</th>
 										</tr>
 									</thead>
 									<tbody class="tablebody">
@@ -200,13 +210,14 @@ td, th {
 											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
 											style="margin-bottom: 2px;" />${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01} </td>
 											</c:if>
-											<td>${buyInfo.buyType }</td>
+											<td>${buyInfo.proamount }</td>
 											<c:if test="${buyInfo.buyType eq '대여' }">
 											<td><fmt:formatNumber pattern="###,###,###">${(buyInfo.productPrice * 0.05) * buyInfo.proamount }</fmt:formatNumber>원</td>
 											</c:if>
 											<c:if test="${buyInfo.buyType eq '구매'}">
 											<td><fmt:formatNumber pattern="###,###,###">${(buyInfo.productPrice * 0.95) * buyInfo.proamount }</fmt:formatNumber>원</td>
 											</c:if>
+											<td>${buyInfo.rentdate }</td>
 										</tr>
 									</c:forEach>
 									</tbody>
@@ -218,7 +229,31 @@ td, th {
 			</div>
 		</div>
 		<!-- 장바구니내역 end -->
-
+	 <div class="col-md-1 mmodal">
+	          <!-- 모달창 구현 -->
+		 <!-- confirm 모달을 쓸 페이지에 추가 start-->
+	        <section class="mocdal modal-section type-confirm">
+	            <div class="enroll_box">
+	                <p class="menu_msg"></p>
+	            </div>
+	            <div class="enroll_btn">
+	                <button class="btn pink_btn btn_ok">확인</button>
+	                <button class="btn gray_btn modal_close">취소</button>
+	            </div>
+	        </section>
+	        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+	
+	        <!-- alert 모달을 쓸 페이지에 추가 start-->
+	        <section class="mocdal modal-section type-alert">
+	            <div class="enroll_box">
+	                <p class="menu_msg"></p>
+	            </div>
+	            <div class="enroll_btn">
+	                <button class="btn pink_btn modal_close">확인</button>
+	            </div>
+	        </section>
+	        <!-- alert 모달을 쓸 페이지에 추가 end-->
+	          </div>
 		<br> <br> <br>
 		<!-- 주문자정보 start -->
 		<div class="container">
@@ -275,7 +310,7 @@ td, th {
 												<input type="text"
 													class="form-control form-control-round form-control-bold"
 													id="postcode" name="m_addr" value="${fn:split(userVO.m_addr,',')[0]}" placeholder="우편번호"
-													style="height: 30px; font-size: 14px;" required>
+													style="height: 30px; font-size: 14px; background-color: #ffffff;" readonly>
 											</div>
 											<div class="col-sm-6">
 												<input type="button" class="postbtn"onclick="DaumPostcode()" value="우편번호 찾기"
@@ -284,11 +319,11 @@ td, th {
 										</div>
 										<input type="text" id="address" name="m_addr" value="${fn:split(userVO.m_addr,',')[1]}"
 											class="form-control form-control-center form-control-round form-control-bold"
-											placeholder="주소" style="height: 30px; font-size: 14px;" required> 
+											placeholder="주소" style="height: 30px; font-size: 14px; background-color: #ffffff;" readonly> 
 											
-										<input type="text" name="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}"
+										<input type="text" name="m_addr" value="${fn:split(userVO.m_addr,'(')[1]}"
 											class="form-control form-control-center form-control-round form-control-bold"
-											id="extraAddress" placeholder="참고사항" style="height: 30px; font-size: 14px;" required> 
+											id="extraAddress" placeholder="참고사항" style="height: 30px; font-size: 14px; background-color: #ffffff;" readonly> 
 											
 										<input type="text" name="m_addr" value="${fn:split(userVO.m_addr,',')[2]}"
 											class="form-control form-control-center form-control-round form-control-bold"
@@ -313,30 +348,6 @@ td, th {
 									<div class="col-sm-6">
 										<input type="number" min="100" step="100" class="form-control form-control-round form-control-bold"
 											id="usepoint" value="0" placeholder="0" style="height: 30px; font-size: 14px; text-align: right;">
-									</div>
-									<!-- The Modal -->
-									<div class="modal" id="mymodal">
-									  <div class="modal-dialog">
-									    <div class="modal-content">
-									
-									      <!-- Modal Header -->
-									      <div class="modal-header">
-									        <h5 class="modal-title">Modal Heading</h5>
-									        <button type="button" class="close" data-dismiss="modal">&times;</button>
-									      </div>
-									
-									      <!-- Modal body -->
-									      <div class="modal-body">
-									        <input style="width: 100%; border: none; background-color: #ffffff;" type="text" id="modalbody" name="modalbody" value="" disabled />
-									      </div>
-									
-									      <!-- Modal footer -->
-									      <div class="modal-footer">
-									        <button type="button" class="btn btn-danger" data-dismiss="modal">확인</button>
-									      </div>
-									      
-									    </div>
-									  </div>
 									</div>
 
 									<div class="col-sm-1.5" style="line-height: 1;"><input type="button" class="postbtn" onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
@@ -420,15 +431,20 @@ td, th {
 					</div>
 					<br>
 					<div class="form-group" style="text-align: center;">
-							<form name="buyInsert" action="/customer/buyInsert" method="post" >
+							<form:form name="buyInsert" action="/customer/buyInsert" commandName="BuyVO" method="post" >
 							<input type="hidden" id="m_id" name="m_id" value="${userVO.m_id }" />
-							<c:forEach var="buyInfo" items="${buyInfo}" >
+							<c:forEach var="buyInfo" items="${buyInfoList}" >
 								<input type="hidden" id="b_mid" name="b_mid" value="${userVO.m_id }" />
 								<input type="hidden" id="b_pid" name="b_pid" value="${buyInfo.productId }" />
 								<input type="hidden" id="b_amount" name="b_amount" value="${buyInfo.proamount }" />
 								<input type="hidden" id="b_how" name="b_how" value="카카오페이" />
 								<input type="hidden" id="b_state" name="b_state" value="${buyInfo.buyType }" />
-								<input type="hidden" id="b_purchase" name="b_purchase" value="${buyInfo.productPrice }" />
+								<c:if test="${buyInfo.buyType eq '대여' }">
+								<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+								</c:if>
+								<c:if test="${buyInfo.buyType eq '구매' }">
+								<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+								</c:if>
 								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
 							</c:forEach>
 							<div>
@@ -445,7 +461,7 @@ td, th {
 											
 								<input type="hidden" name="m_addr" value="${fn:split(userVO.m_addr,',')[2]}"
 											class="form-control form-control-center form-control-round form-control-bold"
-											id="detailAddress2" placeholder="상세주소" style="height: 30px; font-size: 14px;" required>
+											id="detailAddress2" placeholder="상세주소" style="height: 30px; font-size: 14px;">
 											
 								<input type="hidden" name="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}"
 											class="form-control form-control-center form-control-round form-control-bold"
@@ -460,7 +476,7 @@ td, th {
 							<button id="buy">kakaopay</button>
 							</div>
 							</div>
-							</form>
+							</form:form>
 							</div>
 				</div>
 			</div>
@@ -540,15 +556,11 @@ td, th {
 			
 			if (v_point < 100) {
 				v_point = 0;
-				var body = "포인트는 100P 이상 사용가능 합니다";
-				document.getElementById("modalbody").value = body;
-				$("#mymodal").modal("show");
+				action_popup.alert("포인트는 100P 이상 사용가능 합니다");
 				
 			} else if(v_point%100 != 0){
 				v_point = 0;
-				var body = "포인트는 100P 단위로만 사용가능 합니다.";
-				document.getElementById("modalbody").value = body;
-				$("#mymodal").modal("show");
+				action_popup.alert("포인트는 100P 단위로만 사용가능 합니다.");
 			}
 
 			if (v_point > p_price) {
@@ -659,6 +671,60 @@ td, th {
 						}
 					}).open();
 		}
+		
+		var action_popup = {
+			    timer: 500,
+			    confirm: function (txt, callback) {
+			        if (txt == null || txt.trim() == "") {
+			            console.warn("confirm message is empty.");
+			            return;
+			        } else if (callback == null || typeof callback != 'function') {
+			            console.warn("callback is null or not function.");
+			            return;
+			        } else {
+			            $(".type-confirm .btn_ok").on("click", function () {
+			                $(this).unbind("click");
+			                callback(true);
+			                action_popup.close(this);
+			            });
+			            this.open("type-confirm", txt);
+			        }
+			    },
+
+			    alert: function (txt) {
+			        if (txt == null || txt.trim() == "") {
+			            console.warn("confirm message is empty.");
+			            return;
+			        } else {
+			            this.open("type-alert", txt);
+			        }
+			    },
+
+			    open: function (type, txt) {
+			        var popup = $("." + type);
+			        popup.find(".menu_msg").text(txt);
+			        $("body").append("<div class='dimLayer'></div>");
+			        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+			        popup.fadeIn(this.timer);
+			    },
+
+			    close: function (target) {
+			        var modal = $(target).closest(".modal-section");
+			        var dimLayer;
+			        if (modal.hasClass("type-confirm")) {
+			            dimLayer = $(".dimLayer[target=type-confirm]");
+			        } else if (modal.hasClass("type-alert")) {
+			            dimLayer = $(".dimLayer[target=type-alert]")
+			        } else {
+			            console.warn("close unknown target.")
+			            return;
+			        }
+			        modal.fadeOut(this.timer);
+			        setTimeout(function () {
+			            dimLayer != null ? dimLayer.remove() : "";
+			        }, this.timer);
+			    }
+			}
 	</script>
 
 </body>

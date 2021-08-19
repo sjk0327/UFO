@@ -11,7 +11,7 @@ public class BuyInfoVO {
 	private String productName;
 	private String buyType;
 	private int proamount;
-	private Date rentdate;
+	private String rentdate;
 	private int cartId;
 	private int productPrice;
 	private String productImg;
@@ -42,10 +42,10 @@ public class BuyInfoVO {
 	public void setProamount(int proamount) {
 		this.proamount = proamount;
 	}
-	public Date getRentdate() {
+	public String getRentdate() {
 		return rentdate;
 	}
-	public void setRentdate(Date rentdate) {
+	public void setRentdate(String rentdate) {
 		this.rentdate = rentdate;
 	}
 	public int getCartId() {
