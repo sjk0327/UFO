@@ -8,7 +8,16 @@ public class Criteria {
 	private int perPageNum;
 	private String searchType;
 	private String keyword;
-	
+	private String v_pid;
+
+	public String getV_pid() {
+		return v_pid;
+	}
+
+	public void setV_pid(String v_pid) {
+		this.v_pid = v_pid;
+	}
+
 	public Criteria() {
 		this.page = 1;
 		this.perPageNum = 9;

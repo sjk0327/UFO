@@ -72,7 +72,7 @@ body, html {height: 100%;}
 .menu_msg{font-size: 21px;font-weight: 500;}
 .enroll_box p{padding-bottom: 56px;}
 .gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
-.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 </style>
   </head>
   <body>
@@ -95,8 +95,7 @@ body, html {height: 100%;}
                 </div>
                 <div class="container">
   
-  
- 
+     
 
                <div class="row" id="picCategory" >
                  <div class="col-md-2 " data-aos="fade" data-aos-delay="">
@@ -173,114 +172,7 @@ body, html {height: 100%;}
     </div>
       
     <div class="site-section">
-    
-    <div id="slidemenu">
-   <ul>
-      <li><a href="/member/pro/productList">상단으로</a></li>
-      <li><a href="#">메뉴1</a></li>
-      <li><a href="#">메뉴2</a></li>
-      <li><a href="#">메뉴3</a></li>
-      <li><a href="#">메뉴4</a></li>
-      <li><a href="#">메뉴5</a></li>
-      <li><a href="#">메뉴6</a></li>
-      <li><a href="#">메뉴7</a></li>
-      <li><a href="#">메뉴8</a></li>
-   </ul>
-</div>
-
-      <div class="container"> 
-        <div class="row mb-5">
-          <div class="col-md-9 order-2">
-            <div class="row">
-              <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
-                <div class="d-flex" id="sort">
-                  <div class="dropdown mr-1 ml-md-auto">
-                     <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
-                        <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
-                  <input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
-                  <button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;                  
-                   </form>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>
-                  </div>
-               
-                </div>
-              </div>
-            </div>
- 
-            <div class="row mb-5" id="ulList" >
-         
-            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-         
-             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
-                     
-                <div  class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
-                    <p class="mb-0">${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
-                  </div>
-                </div>
-              </div>
-             </c:forEach> 
-            
-             
-            <c:if test="${productList eq list}"> 
-            
-            
-            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-         
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
-                    <p class="mb-0">${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                  </div>
-                </div>
-              </div>
-             </c:forEach> 
-             </c:if>
-             
-             
-             
-              <c:if test="${productList eq rlist}"> 
-            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-         
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
-                    <p class="mb-0">${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                  </div>
-                </div>
-              </div>
-                          
-
-             </c:forEach> 
-             </c:if>
-          
-            </div>
-            
-            
-       <div class="wrap">
+    <div class="wrap">
        
         
         <!-- confirm 모달을 쓸 페이지에 추가 start-->
@@ -306,6 +198,118 @@ body, html {height: 100%;}
         </section>
         <!-- alert 모달을 쓸 페이지에 추가 end-->
     </div>
+   <!--  <div id="slidemenu">
+   <ul>
+      <li><a href="/member/pro/productList">상단으로</a></li>
+      <li><a href="#">메뉴1</a></li>
+      <li><a href="#">메뉴2</a></li>
+      <li><a href="#">메뉴3</a></li>
+      <li><a href="#">메뉴4</a></li>
+      <li><a href="#">메뉴5</a></li>
+      <li><a href="#">메뉴6</a></li>
+      <li><a href="#">메뉴7</a></li>
+      <li><a href="#">메뉴8</a></li>
+   </ul>
+</div> -->
+
+      <div class="container"> 
+        <div class="row mb-5">
+          <div class="col-md-9 order-2">
+            <div class="row">
+              <div class="col-md-12 mb-5">
+                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
+                <div class="d-flex" id="sort">
+                  <div class="dropdown mr-1 ml-md-auto">
+                     <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
+                        <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+                  <input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
+                  <button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;                  
+                   </form>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>
+                  </div>
+               
+                </div>
+              </div>
+            </div>
+            <div class="row mb-5" id="ulList" >
+ 	 <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+         
+           
+         
+             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
+                     
+                <div  class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
+                  </div>
+                </div>
+              </div>
+              
+             </c:forEach> 
+            
+             
+            <c:if test="${productList eq list}"> 
+            
+            
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+         
+              <div class="col-sm-6 col-lg-4 mb-4" onClick="productReadUpdate('${list.p_id}')"data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
+                  </div>
+                </div>
+              </div>
+             </c:forEach> 
+             </c:if>
+             
+             
+             
+              <c:if test="${productList eq rlist}"> 
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
+         
+              <div class="col-sm-6 col-lg-4 mb-4" onClick="productReadUpdate('${list.p_id}')"data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                    <p class="mb-0">${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                  	<button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
+                  </div>
+                </div>
+              </div>
+                          
+
+             </c:forEach> 
+             </c:if>
+          
+            </div>
+            
+            
+     
             
             
             
@@ -323,7 +327,7 @@ body, html {height: 100%;}
                                         border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
                       <c:if test="${pageNum ne pageMaker.cri.page}"><li>
                                   <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                      <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
+                      <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
                       
                    </c:forEach>
                    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
@@ -345,8 +349,8 @@ body, html {height: 100%;}
                 <li class="mb-1"><a href="/member/pro/productList/스마트폰" class="d-flex"><span>핸드폰</span> <span class="text-black ml-auto">(${countSmartPhone})</span></a></li>
                 <li class="mb-1"><a href="/member/pro/productList/노트북" class="d-flex"><span>노트북</span> <span class="text-black ml-auto">(${countLaptop})</span></a></li>
                 <li class="mb-1"><a href="/member/pro/productList/카메라" class="d-flex"><span>카메라</span> <span class="text-black ml-auto">(${countCamera})</span></a></li>
-                  <li class="mb-1"><a href="/member/pro/productList/스마트워치" class="d-flex"><span>스마트워치</span> <span class="text-black ml-auto">(${countWatch})</span></a></li>
-                   <li class="mb-1"><a href="/member/pro/productList/태블릿" class="d-flex"><span>태블릿</span> <span class="text-black ml-auto">(${countTablet})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList/스마트워치" class="d-flex"><span>스마트워치</span> <span class="text-black ml-auto">(${countWatch})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList/태블릿" class="d-flex"><span>태블릿</span> <span class="text-black ml-auto">(${countTablet})</span></a></li>
               </ul>
             </div>
 
@@ -379,20 +383,20 @@ body, html {height: 100%;}
                    
                       </div>
                     
-                       <button type="button" id="priceSearch" name="searchType"
+                       <button type="button" id="priceSearch" name="searchType" 
                                 class="btn waves-effect waves-light btn-primary btn-outline-primary">조회</button>
               <div class="">
                   <div class="container">
                       <div class="row">
                           <input type="text" name="selfminprice" id="selfminprice" class="" 
-                                placeholder="최소금액" maxlength="" size=5>
+                                placeholder="최소금액" maxlength="" size=5 style="text-align:right;">
                                  <span class="inp_division">~</span>        
                           <input type="text" name="selfmaxprice" id="selfmaxprice" class=""
-                                  placeholder="최대금액" size=5>
+                                  placeholder="최대금액" size=5  style="text-align:right;">
                       </div>
                       <div class="form_inner_fixed">
-                          <button type="button" id="selfSearch" name="searchType"
-                           class="btn waves-effect waves-light btn-primary btn-outline-primary">직접입력</button>
+                          <button type="button" id="selfSearch" name="searchType" 
+                           class="btn waves-effect waves-light btn-primary btn-outline-primary" >직접입력</button>
                       </div>
                   </div>
                </div>

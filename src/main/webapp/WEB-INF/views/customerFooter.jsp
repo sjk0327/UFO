@@ -66,16 +66,16 @@
 	});
 	
 
-	//메뉴bar 가격조회
+	//신영-메뉴bar 가격조회
 	   $('#priceSearch').on('click', function(){
-	      action_popup.confirm("hello world confirm test !!!", function (res) {
+	     /*  action_popup.confirm("hello world confirm test !!!", function (res) {
 	            if (res) {
 	                action_popup.alert("확인창을 눌렀습니다.");
 	            }
-	        })
+	        }) */
 	        var minPrice = $('#minPrice option:selected').val();
 	        var maxPrice = $('#maxPrice option:selected').val();       
-	        alert('최소금액' + minPrice + '최대금액' + maxPrice);
+	        /* alert('최소금액' + minPrice + '최대금액' + maxPrice); */
 	        if(minPrice != "" && maxPrice != ""){
 	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
 	        
@@ -85,19 +85,22 @@
 	       });
 	        }
 	        else{
-	           alert('최소금액 혹은 최대금액을 선택해주세요.');
+	        	 action_popup.confirm("조회하실 가격을 선택해 주세요.", function (res) {
+	        	 document.getElementsByName("minPrice")[0].focus();
+	 	        })
 	        }
 	   });
 	    $(".modal_close").on("click", function () {
 	           action_popup.close(this);
 	       });
-	   //가격 직접입력 조회
+	    
+	    
+	   //신영-가격 직접입력 조회
 	   $('#selfSearch').on('click', function(p_price){
-	       action_popup.alert("경고창 테스트!!!");
+	      
 	      var selfminprice = $('input[name=selfminprice]').val();
-	        var selfmaxprice = $('input[name=selfmaxprice]').val();       
-	        
-	        
+	      var selfmaxprice = $('input[name=selfmaxprice]').val();
+	       
 	        if(selfminprice != "" && selfmaxprice != ""){
 	        var url = '/member/pro/productList/priceSearch/' + selfminprice +'/'+ selfmaxprice;
 	          $("#tempList").load(url, function(){
@@ -106,42 +109,28 @@
 	       });
 	        }
 	        else{
-	           alert('최소금액 혹은 최대금액을 입력해주세요.');
+	        	action_popup.confirm("조회하실 가격을 입력해 주세요.", function (res) {
+		        document.getElementsByName("selfminprice")[0].focus();
+	        	})
 	        }
+	        
 	   });
 
-	//최근본상품 퀵메뉴bar
-	 $(document).ready(function(){
+	//신영-최근본상품 퀵메뉴bar
+	 /* $(document).ready(function(){
         var currentPosition = parseInt($("#slidemenu").css("top"));
         $(window).scroll(function() {
             var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
             $("#slidemenu").stop().animate({"top":position+currentPosition+"px"},700);
         });
-    });
-
-	/* $(document).ready(function() {
-	    $("#slider-range" ).slider({
-	    	alert('슬라이더클릭?');
-	        // options
-	        start: function (event, ui) {
-	            // code
-	        },
-	        slide: function( event, ui ) {
-	            // code
-	        },
-	        change: function(event, ui) {
-	            $("#amount").submit();
-	        }
-	    });
-	}); */
-	   /**
-	 *  alert, confirm 대용 팝업 메소드 정의 <br/>
-	 *  timer : 애니메이션 동작 속도 <br/>
-	 *  alert : 경고창 <br/>
-	 *  confirm : 확인창 <br/>
-	 *  open : 팝업 열기 <br/>
-	 *  close : 팝업 닫기 <br/>
-	 */ 
+    }); */
+	 //신영-상품클릭시 조회수 증가
+	 function productReadUpdate(p_id) {			
+			var p_id = p_id;			
+			location.href = '/member/pro/productList/readUpdate/' + p_id;
+			 }
+			 
+	//신영-모달창 pop
 	var action_popup = {
 	    timer: 500,
 	    confirm: function (txt, callback) {
@@ -212,46 +201,9 @@
 	*/
 		
 	
-	
-	
-	
-	
-	
-	
 	//승빈 탈퇴 막기 메시지 end
 	
 	
-
-
-	
-	
-	/* javascript:alert(document.cookie) 
-	setcookie("goods_view", $_COOKIE['goods_view'].",".$_GET['idx']);
-	// 쿠키 가져와서 최근본 상품 구현 중....
-	function addCookie(id) {
-		  var items = getCookie('productItems'); // 이미 저장된 값을 쿠키에서 가져오기
-		  var maxItemNum = 5; // 최대 저장 가능한 아이템개수
-		  var expire = 7; // 쿠키값을 저장할 기간
-		  if (items) {
-		    var itemArray = items.split(',');
-		    if (itemArray.indexOf(id) != -1) {
-		      // 이미 존재하는 경우 종료
-		      console.log('Already exists.');
-		    }
-		    else {
-		      // 새로운 값 저장 및 최대 개수 유지하기
-		      itemArray.unshift(id);
-		      if (itemArray.length > maxItemNum ) itemArray.length = 5;
-		      items = itemArray.join(',');
-		      setCookie('productItems', items, expire);
-		    }
-		  }
-		  else {
-		    // 신규 id값 저장하기
-		    setCookie('productItems', id, expire);
-		  }
-		}
- */
 
 </script>
 <footer class="site-footer border-top" style="margin-top: 100px;">
@@ -285,7 +237,14 @@
           <div class="col-md-12">
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | ThisWebSite is made with <i class="icon-heart" style="color:red;" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-primary" style="font-weight: bold;">Team UFO(김수정, 지승빈, 공병찬, 김성훈, 김신영, 이정노)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-heart" style="color:red;" aria-hidden="true"></i><a href="/admin" id="goadmin">바로가기</a>
+            Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+            <script>document.write(new Date().getFullYear());</script>
+            All rights reserved | ThisWebSite is made with <i class="icon-heart" style="color:red;" aria-hidden="true">
+            </i> by <a href="https://colorlib.com" target="_blank" class="text-primary" style="font-weight: bold;">
+            Team UFO(김수정, 지승빈, 공병찬, 김성훈, 김신영, 이정노)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- <i class="icon-heart" style="color:red;" 
+            aria-hidden="true"></i> --><a href="/admin" id="goadmin">바로가기</a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>
