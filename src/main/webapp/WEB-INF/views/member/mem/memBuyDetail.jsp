@@ -123,7 +123,7 @@
 		   left: 0;
 		   top: 0;
 		   width: 30%;
-		   padding: 20px 0px 17px 0px;
+		   padding: 16px 0px 16px 0px;
 		   background: #ccc;
 		}
 		
@@ -149,6 +149,26 @@
 			text-align: center; 
 		}
 	}
+	
+	<!-- 관리자 쪽 템블릿 가져와서 왼쪽에 메뉴 부분이 비어 있을 때 제거하는 css -->
+	.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content {
+	  margin-left: 0; }
+	.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content {
+	  margin-left: 0;
+	  }
+	
+	<!-- modal 관련 css -->
+	* {padding: 0;margin: 0;}
+	body, html {height: 100%;}
+	.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+	.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+	.mocdal{width: 500px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center; }
+	.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+	.menu_msg{font-size: 21px;font-weight: 500;}
+	.enroll_box p{padding-bottom: 56px;}
+	.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
+	.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+
 
 
 </style>
@@ -259,13 +279,24 @@
 										<div style="text-align: left;"><%= "수량 : " %>${buyInfo.b_amount }</div>
 										<hr>
 										<div style="font-size: 15pt; font-weight: bold; text-align: left;"><%= "결제 가격 : " %>
-			
+										<c:if test="${buyInfo.b_state eq '대여'}">
+										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+										</c:if>
 										<c:if test="${buyInfo.b_state eq '구매'}">
-										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
+										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
 										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 										</c:if>
 										<c:if test="${buyInfo.b_state eq '즉시 구매'}">
-										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
+										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+										</c:if>
+										<c:if test="${buyInfo.b_state eq '환불 요청'}">
+										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+										</c:if>
+										<c:if test="${buyInfo.b_state eq '환불'}">
+										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
 										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 										</c:if>
 										</div>
@@ -333,7 +364,6 @@
    
     </script>
    
-    <%@ include file="/WEB-INF/views/adminFooter.jsp" %>
     <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
     
 </body>

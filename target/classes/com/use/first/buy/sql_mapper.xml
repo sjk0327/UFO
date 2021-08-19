@@ -20,11 +20,15 @@
 	
 	<select id="buyInfo" resultType="com.use.first.buy.BuyVO">
 		<![CDATA[
-		select b_id, b_mid, b_pid, b_buydate, b_amount, b_how, b_state, b_purchase from buy where b_id=#{b_id}
+		select b_id, b_rid, b_mid, b_pid, b_buydate, b_amount, b_how, b_state, b_purchase from buy where b_id=#{b_id}
 		]]>
 	</select>
 	
-	
+	<update id="buyUpdate"	parameterType="com.use.first.buy.BuyVO">
+		<![CDATA[
+		update buy set b_state = #{b_state} where b_id = #{b_id}
+		]]>
+	</update>
 	
 	
 	
