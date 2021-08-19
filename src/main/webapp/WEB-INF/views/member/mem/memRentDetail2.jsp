@@ -162,61 +162,61 @@
 	.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
 	.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 
-	<!-- 관리자 쪽 템블릿 가져와서 왼쪽에 메뉴 부분이 비어 있을 때 제거하는 css -->
-	.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content {
-	  margin-left: 0; }
-	.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content {
-	  margin-left: 0;
-	 }
+	<!-- 이 페이지 적용하고 싶으면 memberController 의 744줄 을 고치면됩니다 -->
+	<!-- 옆에 메뉴 바의 시작 위치를 지정하는 top 여기서 top을 늘리면 밑으로 내려 가게 됩니다. -->
+	.pcoded[theme-layout="vertical"] .pcoded-navbar[pcoded-navbar-position="fixed"] {
+    	top: -13px;
+	}
+	
+	<!-- 이게 없으면 position이 fix 입니다. 그래서 옆에 고정이 됩니다. -->
+	.pcoded[theme-layout="vertical"] .pcoded-navbar[pcoded-navbar-position="fixed"] {
+ 		position: absolute !important; 
+ 	}
    
 }
-  body {
-    position: relative; 
-  }
-.affix {
-    top:0;
-    width: 100%;
-    z-index: 9999 !important;
-  }
-  .navbar {
-    margin-bottom: 0px;
-  }
 
-  .affix ~ .container-fluid {
-   position: relative;
-   top: 50px;
-  }
 </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 
 <body>
-<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="155">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">UFO</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">내정보</a></li>
-        <li><a href="#">대여 내역</a></li>
-        <li><a href="#">구매 내역</a></li>
-        <li><a href="#">메시지 함</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
 <div id="pcoded" class="pcoded">
 <div class="pcoded-overlay-box"></div>
 <div class="pcoded-container navbar-wrapper">
 <div class="pcoded-main-container">
 <div class="pcoded-wrapper">
+<nav class="pcoded-navbar" >
+    <div class="pcoded-inner-navbar main-menu">
+        <div class=""></div>
+        <div class="p-15 p-b-0"></div>
+        <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Menu</div>
+        <ul class="pcoded-item pcoded-left-item">
+        <li class="">
+            <a href="/adminIndex" class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                <span class="pcoded-mtext" data-i18n="nav.dash.main">내 정보</span>
+            </a>
+        </li>
+        <li class="">
+            <a href="/admin/mem/memList" class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="ti-user"></i></span>
+                <span class="pcoded-mtext" data-i18n="nav.basic-components.main">대여 내역</span>
+            </a>
+        </li>
+        <li class="">
+            <a href="/admin/pro/productList" class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="ti-tablet"></i></span>
+                <span class="pcoded-mtext" data-i18n="nav.basic-components.main">구매 내역</span>
+            </a>
+        </li>
+        <li class="">
+            <a href="/admin/rent/rentList" class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="ti-shopping-cart-full"></i></span>
+                <span class="pcoded-mtext" data-i18n="nav.basic-components.main">메시지함</span>
+            </a>
+        </li>
+        </ul>
+    </div>
+</nav>
 <div class="pcoded-content">
 <div class="pcoded-inner-content">
 	<div class="main-body">
@@ -296,9 +296,7 @@
 										<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
 										<c:set var="now" value="<%=new java.util.Date()%>" />
 										<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
-										<!-- 
-										<c:out  value="<script type='text/javascript'>alert(${sdate } + ':' +${today });</script>" escapeXml="fasle"/>
-										-->
+										
 										<c:if test="${sdate+3>=today}"><label class="btn btn-primary rent-state-btn-label">대 여  중</label></c:if>
 										<c:if test="${sdate+3<today}"><label class="btn btn-danger late-state-btn-label">연 체  중</label></c:if>
 									</c:if>
@@ -329,7 +327,7 @@
 										<div style="font-size: 15pt; font-weight: bold; text-align: left;"><%= "결제 가격 : " %>
 										
 										<c:if test="${buyInfo.b_state eq '대여'}">
-										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * buyInfo.b_amount}" integerOnly="true" />
 										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 										</c:if>
 										<c:if test="${buyInfo.b_state eq '환불 요청'}">
@@ -369,7 +367,7 @@
 					        <!-- alert 모달을 쓸 페이지에 추가 end-->
 							<div class="col-sm-12" style="float:right;">
 							<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
-									id="buyButton" style="margin-left:15px; float:right;">구매하기</button>	
+									id="buyButton" style="margin-left:15px; float:right;">구매하기</button>
 							<c:if test="${rentInfo.r_state eq '대여중'}">
 			        			<c:if test="${sdate+3>=today}">
 									<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
@@ -379,12 +377,11 @@
 									<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
 									 id="lateFeeButton" style="margin-left:15px; float:right;">연체료 납부 후 반납</button>
 								</c:if>
-								<c:if test="${sdate>=today}">
+								<c:if test="${sdate+1>=today}">
 									<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
 									 id="refundButton" style="margin-left:15px; float:right;">환불하기</button>
 				     			</c:if>
 							</c:if>
-							
 							</div>
 						</div>    
 			    	</main>
@@ -418,7 +415,7 @@ $(document).on("click", "#returnButton", function () {
 	$(".btn_ok").text("반납");
     action_popup.confirm("대여하신 상품을 반납 하시겠습니까?", function (res) {
         if (res) {
-        	window.location.replace("/member/mem/memRentReturn/"+rid);
+        	window.location.replace("/member/mem/memRentReturn/"+id);
 
         }
     });
@@ -427,7 +424,7 @@ $(document).on("click", "#returnButton", function () {
 $(document).on("click", "#lateFeeButton", function () {
 	console.log("연체료 납부 스크립트 진입");
 	$(".btn_ok").text("납부");
-    action_popup.confirm("연체료를 납부 후 반납 가능합니다.연체료를 납부해주십시오.", function (res) {
+    action_popup.confirm("연체료를 납부 후 반납 가능합니다./t/n연체료를 납부해주십시오.", function (res) {
         if (res) {
 
         }

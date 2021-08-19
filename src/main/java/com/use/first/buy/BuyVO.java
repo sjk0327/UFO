@@ -78,10 +78,10 @@ public class BuyVO {
 	}
 	@Override
 	public String toString() {
-
-		return "BuyVO [b_id=" + b_id + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_buydate=" + b_buydate
-				+ ", b_amount=" + b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase=" + b_purchase
-				+ ", b_message=" + b_message + "]";
+		return "BuyVO [b_id=" + b_id + ", b_rid=" + b_rid + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_buydate="
+				+ b_buydate + ", b_amount=" + b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase="
+				+ b_purchase + ", b_message=" + b_message + "]";
 	}
+	
 
 }
