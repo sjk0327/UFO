@@ -378,7 +378,7 @@ body, html {
 																<c:forEach var="list" items="${rentList }">
 																	<tbody>
 																		<tr
-																			onClick="location.href='/admin/rent/rentDetail/${list.r_id}'">
+																			onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
 																			<td>
 																				<div class="d-inline-block align-middle">
 																					<img src="/resources/Images/tempProductImage.jpg"
@@ -438,7 +438,7 @@ body, html {
 																	<tbody>
 																		<tr>
 																		<tr
-																			onClick="location.href='/admin/rent/rentDetail/${list.r_id}'">
+																			onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
 																			<td>
 																				<div class="d-inline-block align-middle">
 																					<img src="/resources/Images/tempProductImage.jpg"
