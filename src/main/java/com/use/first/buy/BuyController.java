@@ -18,10 +18,12 @@ public class BuyController {
    @Autowired
    private SqlSessionTemplate sqlSessionTemplate;
    @RequestMapping(value = "/customer/buyInsert", method = RequestMethod.POST)
-   public String buyInsert(Model model, BuyVO buyVO, @Param("m_id") String m_id, @Param("m_point") String m_point, @Param("m_tel") String m_tel, @Param("m_addr") String m_addr) throws Exception {
+   public String buyInsert(Model model, @Param("BuyVO") BuyVO buyVO, @Param("m_id") String m_id, @Param("m_point") String m_point, @Param("m_tel") String m_tel, @Param("m_addr") String m_addr) throws Exception {
       BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
       UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
       RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+      
+      System.out.println(buyVO.toString());
       
       String[] b_mid = buyVO.getB_mid().split(",");
       String[] b_pid = buyVO.getB_pid().split(",");
@@ -65,6 +67,7 @@ public class BuyController {
          buyDAO.buyInsert(buyVO);
          
       }
+      System.out.println(m_addr);
       userDAO.memUpdateBuy(m_id, m_point, m_tel, m_addr);
       
       

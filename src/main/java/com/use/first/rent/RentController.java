@@ -35,6 +35,8 @@ import com.use.first.product.ProductVO;
 public class RentController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	
+	private Date time = null;
 
 //	@RequestMapping(value ="/adminsite/adminRentDetail/{r_id}", method = RequestMethod.GET)
 //	public String getRental(Model model, @PathVariable String r_id) {
@@ -344,7 +346,7 @@ public class RentController {
 					String productId=buyInfoVO.getProductId();
 					String state=buyInfoVO.getBuyType();
 					int amount=buyInfoVO.getProamount();
-					Date sdate=buyInfoVO.getRentdate();
+					String sdate=buyInfoVO.getRentdate();
 				
 					CartVO cartVO = new CartVO();
 					cartVO.setC_mid(userId);
@@ -413,6 +415,7 @@ public class RentController {
 
 					ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
 					buyInfoList.add(buyInfoVO);
+					
 					//모델에 저장
 					model.addAttribute("buyInfoList", buyInfoList);
 					model.addAttribute("userVO", userVO);
@@ -421,58 +424,75 @@ public class RentController {
 				}
 				
 				//다중 결제폼
-				@RequestMapping(value = "/member/rent/buySelect")
-				public String customerBuyForm2(@RequestParam HashMap<String, Object> commandMap,Model model, HttpSession session) throws Exception {
-					
-					//세션에서 해당 회원의 아이디 받음
-					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
-					String userId=userInfo.getM_id();
-					
-					
-					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-					UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
-					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-					
-					
-					ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
-					
-					String[] productId_array = null;
-					String[] buyType_array = null;
-					String[] proamount_array = null;
-					String[] rentdate_array = null;
+	            @RequestMapping(value = "/member/rent/buySelect")
+	            public String customerBuyForm2(@RequestParam HashMap<String, Object> commandMap,Model model, HttpSession session) throws Exception {
+	               
+	               //세션에서 해당 회원의 아이디 받음
+	               UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+	               String userId=userInfo.getM_id();
+	               
+	               
+	               RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+	               UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
+	               ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+	               
+	               
+	               ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
+	               
+	               String[] productId_array = null;
+	               String[] buyType_array = null;
+	               String[] proamount_array = null;
+	               
+	               
+	               
+	               String code = commandMap.get("productIdArray").toString();
+	               productId_array = code.split(",");
+	               
+	               System.out.println(productId_array.length);
+	               code=commandMap.get("buyTypeArray").toString();
+	               buyType_array = code.split(",");
+	               code=commandMap.get("proamountArray").toString();
+	               proamount_array = code.split(",");
+	               code=commandMap.get("rentdateArray").toString();
+	               String[] rentdate_array = new String[productId_array.length];
+	               rentdate_array = code.split(",");
+	            
+	                  
+	               
+	               
+	               
+	               for (int i = 0; i < rentdate_array.length; i++) {
+	                  BuyInfoVO buyInfoVO=new BuyInfoVO();
+	                  String productId=productId_array[i];
+	                  
+	                  ProductVO productVO=productDAO.productInfo(productId);
+	                  
+	                  buyInfoVO.setProductId(productId_array[i]);
+	                  buyInfoVO.setProductPrice(productVO.getP_price());
+	                  buyInfoVO.setProductImg(productVO.getP_mainImg());
+	                  buyInfoVO.setProductName(productVO.getP_name());
+	                  buyInfoVO.setBuyType(buyType_array[i]);
+	                  buyInfoVO.setProamount(Integer.parseInt(proamount_array[i]));
+	                  buyInfoVO.setRentdate(rentdate_array[i]);
+	                  buyInfoList.add(buyInfoVO);
+	                  System.out.println(buyInfoVO.toString());
+	               }
+	               for(int i=rentdate_array.length;i<productId_array.length;i++) {
+	                  BuyInfoVO buyInfoVO=new BuyInfoVO();
+	                  String productId=productId_array[i];
+	                  
+	                  ProductVO productVO=productDAO.productInfo(productId);
+	                  buyInfoVO.setProductId(productId_array[i]);
+	                  buyInfoVO.setProductPrice(productVO.getP_price());
+	                  buyInfoVO.setProductImg(productVO.getP_mainImg());
+	                  buyInfoVO.setProductName(productVO.getP_name());
+	                  buyInfoVO.setBuyType(buyType_array[i]);
+	                  buyInfoVO.setProamount(Integer.parseInt(proamount_array[i]));
+	                  buyInfoVO.setRentdate(null);
+	                  buyInfoList.add(buyInfoVO);
+	                  System.out.println(buyInfoVO.toString());
+	               }
 
-					String code = commandMap.get("productIdArray").toString();
-					productId_array = code.split(",");
-					code=commandMap.get("buyTypeArray").toString();
-					buyType_array = code.split(",");
-					code=commandMap.get("proamountArray").toString();
-					proamount_array = code.split(",");
-					code=commandMap.get("rentdateArray").toString();
-					rentdate_array = code.split(",");
-					
-					
-					
-					for (int i = 0; i < productId_array.length; i++) {
-						BuyInfoVO buyInfoVO=new BuyInfoVO();
-						String productId=productId_array[i];
-						System.out.println(productId);
-						ProductVO productVO=productDAO.productInfo(productId);
-						System.out.println(productVO.toString());
-						buyInfoVO.setProductId(productId_array[i]);
-						buyInfoVO.setProductPrice(productVO.getP_price());
-						buyInfoVO.setProductImg(productVO.getP_mainImg());
-						buyInfoVO.setProductName(productVO.getP_name());
-						buyInfoVO.setBuyType(buyType_array[i]);
-						buyInfoVO.setProamount(Integer.parseInt(proamount_array[i]));
-						System.out.println(buyInfoVO.toString());
-						buyInfoList.add(buyInfoVO);
-						System.out.println(buyInfoList);
-						System.out.println("sj");
-					}
-
-					
-					System.out.println("되니");
-				
 				
 					//회원 정보 받아옴
 					UserVO userVO = userDAO.memInfo(userId);
