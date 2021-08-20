@@ -25,7 +25,7 @@ public class RecController {
 	@RequestMapping(value = "/admin/rec/recList", method = RequestMethod.GET)
 	public String adminRecList(Criteria cri, Model model) {
 		RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
-
+		System.out.println("recList오니?????????//");
 		// 현재 페이지에 해당하는 게시물을 조회해 옴
 		List<RecVO> list = recDAO.recList(cri);
 		// 모델에 추가
@@ -38,7 +38,8 @@ public class RecController {
 		pageMaker.setTotalCount(totalCount);
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
-		return "/admin/rec/adminRecList";
+		System.out.println("담음?");
+		return "admin/rec/adminRecList";
 	}
 	
 	@RequestMapping(value = "/admin/rec/recList", method = RequestMethod.POST)
@@ -57,7 +58,7 @@ public class RecController {
 		pageMaker.setTotalCount(totalCount);
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
-		return "/admin/rec/adminRecList";
+		return "admin/rec/adminRecList";
 	}
 	
 	@RequestMapping(value = "/admin/rec/recUpdate/{v_id}")

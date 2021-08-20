@@ -138,8 +138,8 @@ body, html {height: 100%;}
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="number" id="${list.p_id }" name="canbuy" size="10" value="${list.p_canBuy}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="number" id="${list.p_id }" name="canrent" size="10" value="${list.p_canRent}" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
 					<td onclick="event.cancelBubble=true"><input type="button" id="button"
@@ -203,19 +203,23 @@ body, html {height: 100%;}
 				 //return false;
 			 }
 		}
+		 
 		
 	   	//한줄 수정 갑자기 안됌.....................210819....
 		function productUpdateRow(p_id,p_canBuy,p_canRent) {
-			
+		
 			var p_id = p_id;
-			var p_canBuy = $("#" + p_id).val();
-			var p_canRent = $("#" + p_id).val() + 1; 
+			/* var p_canBuy = $('#canbuy').val();
+			var p_canRent = $('#canrent').val();  */
+			var p_canBuy = $('#' + p_id).val();
+			var p_canRent = $('#' + p_id).val();
 			
-			
+			alert('p_id::: ' + p_id );
 			alert('p_canBuy::: ' + p_canBuy );
-			alert('p_canRent::: ' + p_canRent ); */
+			alert('p_canRent::: ' + p_canRent ); 
 			
-						
+			var p_canBuy = $('#' + p_id).val();
+			var p_canRent = $('#' + p_id).val(); 		
 			
 			/* var p_canBuy = $('input[name=b1]').val();
 			var p_canRent = $('input[name=b2]').val(); */
@@ -225,7 +229,8 @@ body, html {height: 100%;}
 				location.href = '/admin/pro/productUpdate2/' + p_id +'/'+ p_canBuy +'/'+ p_canRent;
 			}
 		} 
-		
+	   
+			
 		function productDeleteSeperate() {
 			var p_id = p_id;
 			if (confirm('상품을 수정하시겠습니까?')) {	

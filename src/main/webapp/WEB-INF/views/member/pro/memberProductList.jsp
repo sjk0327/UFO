@@ -52,7 +52,7 @@
 .small1 { width: 100px; height: 100px; }
 .small2 { width: 80px; height: 80px; align:center;}
 .mb-1 { font-size : 18px; }
-
+.blackColoer { color : red;}
 #searchType {
    width: 85px;
    height: 38px;
@@ -68,20 +68,47 @@ body, html {height: 100%;}
 .modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
 .dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
 .modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
-.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);display: none;z-index: 9999;}
 .menu_msg{font-size: 21px;font-weight: 500;}
 .enroll_box p{padding-bottom: 56px;}
 .gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
 .pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+#mainMenuList {text-align: center; width:100%; height:220px; background-color:#f4f4f4;}
+#mainMenuList ul {text-align: center; width:1200px; margin:0 auto; padding:50px 0;}
+#mainMenuList ul:after {content:""; display:block; clear:both;}
+#mainMenuList ul li {float:left; height:120px; width:15%; text-align:center;}
+#mainMenuList ul li p {padding:10px 0 12px 0; text-align:center; font-weight:700;}
+#mainMenuList ul li a {display:block; font-size:18px; letter-spacing:-1px; font-weight:700;}
+#mainMenuList ul li a:hover {color:#8A2BE2; text-decoration:none;}
+#listClick:hover { border: solid 2px #4B0082; color:#f26617; }
+ul{ list-style:none;}
+.mb-1 {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.5s ease-in-out;  /* 서서히 확대 */
+}
+.mb-1:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
+.inp_division { font-weight:700; }
 </style>
   </head>
   <body>
   
 <ul id="tempList" style=" display:none"></ul>
 
-  <div class="site-wrap">
+  <div class="site-wrap" >
     <header class="site-navbar" role="banner">
-      <nav class="site-navigation text-right text-md-center" role="navigation">
+      <nav class="site-navigation text-right text-md-center" role="navigation" style="background-color:#f4f4f4;">
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li class="has-children">
@@ -94,16 +121,25 @@ body, html {height: 100%;}
                   </div>
                 </div>
                 <div class="container">
-  
+  <div id="mainMenuList" style="text-align:center;" >
+	<ul>		
+		<li class="mb-1"><a href="/member/pro/productList/" ><img src="/resources/common/images/total.png" /><p>전체리스트</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList/스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList/노트북" ><img src="/resources/common/images/laptop.png" /><p>노트북</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList/카메라" ><img src="/resources/common/images/camera.png" /><p>카메라</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList/스마트워치" ><img src="/resources/common/images/watch.png" /><p>스마트워치</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList/태블릿" ><img src="/resources/common/images/tablet.png" /><p>태블릿PC</p></a></li>  		
+  </ul>   
+</div>
      
 
-               <div class="row" id="picCategory" >
+           <%--   <div class="row" id="picCategory" >
                  <div class="col-md-2 " data-aos="fade" data-aos-delay="">
                    <a id="total" class="block-2-item" href="/member/pro/productList/" >
                      <figure class="image">
                     <img class="small2" src="/resources/common/images/total.jpg" alt="" class="img-fluid">
-                   <%--  <img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
-                alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub"> --%>
+                    <img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
+                alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub">
                 </figure>
                     
                    </a>
@@ -154,7 +190,7 @@ body, html {height: 100%;}
                     </a>
                   </div>
                   
-                </div>
+                </div>  --%>
              
             </div>
           </div>
@@ -222,22 +258,20 @@ body, html {height: 100%;}
                   <div class="dropdown mr-1 ml-md-auto">
                      <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
                         <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
-                  <input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
-                  <button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;                  
-                   </form>
+                  	<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
+                	<button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;  
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>                 	             
+                     </form>
                   </div>
                
                 </div>
               </div>
             </div>
+            <br>
             <div class="row mb-5" id="ulList" >
- 	 <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-         
-           
-         
+ 		 <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
              <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
                      
                 <div  class="block-4 text-center border">
@@ -246,8 +280,8 @@ body, html {height: 100%;}
                   </figure>
                   <div class="block-4-text p-4">
                     <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
-                    <p class="mb-0">${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="mb-0">상품명 : ${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
                     <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
@@ -261,48 +295,48 @@ body, html {height: 100%;}
             <c:if test="${productList eq list}"> 
             
             
-            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-         
-              <div class="col-sm-6 col-lg-4 mb-4" onClick="productReadUpdate('${list.p_id}')"data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
-                <div class="block-4 text-center border">
+            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
+             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
+                     
+                <div  class="block-4 text-center border">
                   <figure class="block-4-image">
                     <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
                     <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
-                    <p class="mb-0">${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="mb-0">상품명 : ${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
                     <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
                   </div>
                 </div>
               </div>
+              
              </c:forEach> 
              </c:if>
              
              
              
               <c:if test="${productList eq rlist}"> 
-            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">
-         
-              <div class="col-sm-6 col-lg-4 mb-4" onClick="productReadUpdate('${list.p_id}')"data-aos="fade-up"onclick="location.href='/member/pro/productDetail/${list.p_id}'">             
-                <div class="block-4 text-center border">
+           <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
+             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
+                     
+                <div  class="block-4 text-center border">
                   <figure class="block-4-image">
                     <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
                     <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
-                    <p class="mb-0">${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >${list.p_category }</p>
+                    <p class="mb-0">상품명 : ${list.p_name }</p>
+                    <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
                     <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                  	<button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
                     <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
                   </div>
                 </div>
               </div>
-                          
-
+              
              </c:forEach> 
              </c:if>
           
@@ -372,57 +406,59 @@ body, html {height: 100%;}
                       <option value="3000000">300만원</option>                  
                       <option value="4000000">400만원</option>                                      
                  </select>
-                   <span class="inp_division">~</span>
+                   <span class="inp_division">&nbsp;~&nbsp;</span>
                         <select name="maxPrice" id="maxPrice" class="line selectric">
-                          <option value="">최대</option>                    
+                          <option value="">최대</option>                   
                         <option value="1000000">100만원</option>                    
                         <option value="2000000">200만원</option>                    
                         <option value="3000000">300만원</option>                    
                         <option value="4000000">400만원</option>                      
                     </select>
                    
-                      </div>
-                    
-                       <button type="button" id="priceSearch" name="searchType" 
-                                class="btn waves-effect waves-light btn-primary btn-outline-primary">조회</button>
+              </div>   
+              <div>               
+          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
+              </div><br>
               <div class="">
                   <div class="container">
                       <div class="row">
                           <input type="text" name="selfminprice" id="selfminprice" class="" 
-                                placeholder="최소금액" maxlength="" size=5 style="text-align:right;">
-                                 <span class="inp_division">~</span>        
-                          <input type="text" name="selfmaxprice" id="selfmaxprice" class=""
+                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
+                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
+                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
                                   placeholder="최대금액" size=5  style="text-align:right;">
+                      </div> 
+                       </div>                     
+                      <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
+                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
                       </div>
-                      <div class="form_inner_fixed">
-                          <button type="button" id="selfSearch" name="searchType" 
-                           class="btn waves-effect waves-light btn-primary btn-outline-primary" >직접입력</button>
-                      </div>
-                  </div>
+                 
                </div>
-              
+               <br>
+               <div class="mb-4">
+            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Color</h3>
+            <a href="/member/pro/productList/black" class="d-flex color-item align-items-center">
+              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black (${totalCount})</span>
+            </a>
+            <a href="/member/pro/productList/white" class="d-flex color-item align-items-center" >
+              <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White (${totalCount})</span>
+            </a>
+            <a href="/member/pro/productList/silver" class="d-flex color-item align-items-center" >
+              <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver (${totalCount})</span>
+            </a>
+            <a href="/member/pro/productList/red" class="d-flex color-item align-items-center" >
+              <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red (${totalCount})</span>
+            </a>
+              </div>
              </div>
 
   
 </div>
   
+  
 </div>
 
-         <!--  <div class="mb-4">
-            <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-            <a href="#" class="d-flex color-item align-items-center" >
-              <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red (2,429)</span>
-            </a>
-            <a href="#" class="d-flex color-item align-items-center" >
-              <span class="bg-success color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Green (2,298)</span>
-            </a>
-            <a href="#" class="d-flex color-item align-items-center" >
-              <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Blue (1,075)</span>
-            </a>
-            <a href="#" class="d-flex color-item align-items-center" >
-              <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Purple (1,075)</span>
-            </a>
-              </div> -->
+         
 
             </div>
           </div>
@@ -437,36 +473,36 @@ body, html {height: 100%;}
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+                  <div class="col-md-4 " data-aos="fade" data-aos-delay="">
                     <a class="block-2-item" href="#">
                       <figure class="image">
-                        <img src="/resources/common/images/women.jpg" alt="" class="img-fluid">
+                        <img src="/resources/common/images/p_n001.jpg" alt="" class="img-fluid">
                       </figure>
                       <div class="text">
-                        <span class="text-uppercase">Collections</span>
-                        <h3>Women</h3>
+                        <span class="text-uppercase"></span>
+                        <h3></h3>
                       </div>
                     </a>
                   </div>
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
+                  <div class="col-md-4 " data-aos="fade" data-aos-delay="100">
                     <a class="block-2-item" href="#">
                       <figure class="image">
-                        <img src="/resources/common/images/children.jpg" alt="" class="img-fluid">
+                        <img src="/resources/common/images/p_n002.jpg" alt="" class="img-fluid">
                       </figure>
                       <div class="text">
-                        <span class="text-uppercase">Collections</span>
-                        <h3>Children</h3>
+                        <span class="text-uppercase"></span>
+                        <h3></h3>
                       </div>
                     </a>
                   </div>
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
+                  <div class="col-md-4 " data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="#">
                       <figure class="image">
-                        <img src="/resources/common/images/men.jpg" alt="" class="img-fluid">
+                        <img src="/resources/common/images/p_n001.jpg" alt="" class="img-fluid">
                       </figure>
                       <div class="text">
-                        <span class="text-uppercase">Collections</span>
-                        <h3>Men</h3>
+                        <span class="text-uppercase"></span>
+                        <h3></h3>
                       </div>
                     </a>
                   </div>
@@ -478,9 +514,7 @@ body, html {height: 100%;}
         
       </div>
      
-    </div>
-
-  </div> 
+   
  
   <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
   <script src="/resources/common/js/jquery-ui.js"></script>
@@ -491,7 +525,12 @@ body, html {height: 100%;}
   <script src="/resources/common/js/aos.js"></script>
 
   <script src="js/main.js"></script>
+ <script type="text/javascript">
 
+
+
+
+ </script>   
  
   </body>
    <%@ include file="/WEB-INF/views/customerFooter.jsp"%>

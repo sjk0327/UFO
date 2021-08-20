@@ -157,12 +157,8 @@ border-color: #4e5a72;
                 <div class="float-left">
                 	<img class="img-fluid" src="/resources/Images/${cartInfo.p_subimg}.jpg">
                 </div>
-                
-               
-            </div>
-        
-               
-            </div>
+             </div>
+          </div>
        
         <a class="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
