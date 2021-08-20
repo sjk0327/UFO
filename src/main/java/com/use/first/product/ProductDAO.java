@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.use.first.member.ReviewVO;
 import com.use.first.paging.Criteria;
 import com.use.first.rent.CartVO;
 import com.use.first.rent.WishListVO;

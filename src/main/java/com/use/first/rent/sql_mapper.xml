@@ -179,7 +179,7 @@
       <![CDATA[
       select rental.r_id, product.p_name, product.p_category, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
       where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state not like concat('%',#{r_state},'%') 
-      order by r_id desc
+      order by r_id desc limit 2
       ]]>
    </select>
    
@@ -187,7 +187,7 @@
       <![CDATA[
       select rental.r_id, product.p_name, product.p_category, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
       where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state like concat('%',#{r_state},'%') 
-      order by r_id desc
+      order by r_id desc limit 2
       ]]>
    </select>
    <!-- 성훈 끝 -->

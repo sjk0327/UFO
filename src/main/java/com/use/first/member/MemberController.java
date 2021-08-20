@@ -43,9 +43,8 @@ import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
 /**
- *  8.12일  성훈 수정 - 성훈 start 밑에는 이걸 우선으로 통합
- *  승빈 start 부분은 로그인 로그아웃 쪽은 성훈이 수정했음
- *  아마 승빈은 고객쪽 내정보 보기 userInfo 쪽을 오늘 했었음
+ * 8.12일 성훈 수정 - 성훈 start 밑에는 이걸 우선으로 통합 승빈 start 부분은 로그인 로그아웃 쪽은 성훈이 수정했음 아마
+ * 승빈은 고객쪽 내정보 보기 userInfo 쪽을 오늘 했었음
  */
 @Controller
 public class MemberController {
@@ -54,7 +53,7 @@ public class MemberController {
 
 	@Autowired
 	private KakaoAPI kakao;
-	
+
 	// 승빈 start
 
 	// 고객
@@ -80,8 +79,8 @@ public class MemberController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
-		
-		//08월 13일 김수정 : 회원로그인 부분은 반환요청리스트, 연체 리스트 필요없어서 일단 주석처리. 확인할 것
+
+		// 08월 13일 김수정 : 회원로그인 부분은 반환요청리스트, 연체 리스트 필요없어서 일단 주석처리. 확인할 것
 //		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 //		List<RentVO> returnList = rentDAO.returnList();
 //		List<RentVO> lateList = rentDAO.lateList();
@@ -95,30 +94,31 @@ public class MemberController {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		UserVO user = dao.memInfo(vo.getM_id());
 
-		if (user != null ) {
+		if (user != null) {
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
 				session.setAttribute("loginPl", "ufo");
 				UserInfoVO infoVO = new UserInfoVO(user.getM_id(), user.getM_name());
 				session.setAttribute("userInfo", infoVO);
-				//session.setAttribute("userId", user.getM_id());
-				//session.setAttribute("userName", user.getM_name());
+				// session.setAttribute("userId", user.getM_id());
+				// session.setAttribute("userName", user.getM_name());
 //				session.setAttribute("returnList", returnList);
 //				session.setAttribute("lateList", lateList);
-				
+
 				return "redirect:/";
 			} else {
 				return "redirect:/login";
 			}
 
 		} else {
-			
+
 			return "redirect:/login";
 		}
 	}
 
 	// 카카오로그인
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
-	public String kakaoLoginG(UserVO user, Model model, HttpSession session, @RequestParam("code") String code, HttpServletResponse response) throws IOException{
+	public String kakaoLoginG(UserVO user, Model model, HttpSession session, @RequestParam("code") String code,
+			HttpServletResponse response) throws IOException {
 		model.addAttribute("user", user);
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		String access_Token = kakao.getAccessToken(code);
@@ -138,17 +138,17 @@ public class MemberController {
 			session.setAttribute("userInfo", infoVO);
 			int b = email.indexOf("@");
 			int e = email.indexOf(".");
-			if(b > 0 && e > 0)
-				email = email.substring(b+1, e);
+			if (b > 0 && e > 0)
+				email = email.substring(b + 1, e);
 			System.out.println("email cutting : " + email);
 			String gender = userInfo.get("gender").toString();
-		
+
 			if (dao.duplicateCheckId(id) > 0) {
 				return "redirect:/";
 			} else {
-				return "redirect:/kakaoJoin/"+email+"/"+gender;
+				return "redirect:/kakaoJoin/" + email + "/" + gender;
 			}
-		}else {
+		} else {
 			System.out.println("kakaoLoginG else문 in!!!!");
 			response.setContentType("text/html; charset=euc-kr");
 			PrintWriter out = response.getWriter();
@@ -158,25 +158,43 @@ public class MemberController {
 		}
 	}
 
-	
-	
+
+	@RequestMapping(value = "/kakaoReject", method = RequestMethod.GET)
+	public String kakaoRejectG(HttpServletResponse response) throws IOException {
+		return "";
+	}
+
+	@RequestMapping(value = "/kakaoReject", method = RequestMethod.POST)
+	public String kakaoRejectP(HttpServletResponse response) throws IOException {
+		return "";
+	}
+
 	// 카카오 회원가입
 	@RequestMapping(value = "/kakaoJoin/{email}/{gender}", method = RequestMethod.GET)
-	public String kakaoJoin(UserVO user, Model model, HttpSession session,@PathVariable String email, @PathVariable String gender) {
+	public String kakaoJoin(UserVO user, Model model, HttpSession session, @PathVariable String email,
+			@PathVariable String gender) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 		user.setM_id(infoVO.getM_id());
 		user.setM_name(infoVO.getM_name());
-		if(email.equals("naver")) email = infoVO.getM_id().split(" ")[1] +"@naver.com";
-		else if(email.equals("daum")) email = infoVO.getM_id().split(" ")[1] +"@daum.net";
-		else if(email.equals("hanmail")) email = infoVO.getM_id().split(" ")[1] +"@hanmail.net";
-		else if(email.equals("gmail")) email = infoVO.getM_id().split(" ")[1] +"@gmail.net";
-		else email = "동의안함";
+		if (email.equals("naver"))
+			email = infoVO.getM_id().split(" ")[1] + "@naver.com";
+		else if (email.equals("daum"))
+			email = infoVO.getM_id().split(" ")[1] + "@daum.net";
+		else if (email.equals("hanmail"))
+			email = infoVO.getM_id().split(" ")[1] + "@hanmail.net";
+		else if (email.equals("gmail"))
+			email = infoVO.getM_id().split(" ")[1] + "@gmail.net";
+		else
+			email = "동의안함";
 		user.setM_email(email);
-		if(gender.equals("M") || gender.equals("male")) gender = "남자";
-		else if(gender.equals("F") || gender.equals("female")) gender = "여자";
-		else gender = "선택안함";
+		if (gender.equals("M") || gender.equals("male"))
+			gender = "남자";
+		else if (gender.equals("F") || gender.equals("female"))
+			gender = "여자";
+		else
+			gender = "선택안함";
 		user.setM_gender(gender);
 
 		int n = dao.kakaoJoin(user);
@@ -236,8 +254,8 @@ public class MemberController {
 			session.setAttribute("userInfo", infoVO);
 			int b = email.indexOf("@");
 			int e = email.indexOf(".");
-			if(b > 0 && e > 0)
-				email = email.substring(b+1, e);
+			if (b > 0 && e > 0)
+				email = email.substring(b + 1, e);
 			System.out.println("email cutting : " + email);
 
 			model.addAttribute("result", apiResult);
@@ -256,22 +274,31 @@ public class MemberController {
 
 	// 네이버회원가입
 	@RequestMapping(value = "/naverJoin/{email}/{gender}/{mobile}", method = RequestMethod.GET)
-	public String naverJoin(UserVO user, Model model, HttpSession session,@PathVariable String email, @PathVariable String gender, @PathVariable String mobile) {
+	public String naverJoin(UserVO user, Model model, HttpSession session, @PathVariable String email,
+			@PathVariable String gender, @PathVariable String mobile) {
 
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 		user.setM_id(infoVO.getM_id());
 		user.setM_name(infoVO.getM_name());
-		if(email.equals("naver")) email = infoVO.getM_id().split(" ")[1] +"@naver.com";
-		else if(email.equals("daum")) email = infoVO.getM_id().split(" ")[1] +"@daum.net";
-		else if(email.equals("hanmail")) email = infoVO.getM_id().split(" ")[1] +"@hanmail.net";
-		else if(email.equals("gmail")) email = infoVO.getM_id().split(" ")[1] +"@gmail.net";
-		else email = "동의안함";
+		if (email.equals("naver"))
+			email = infoVO.getM_id().split(" ")[1] + "@naver.com";
+		else if (email.equals("daum"))
+			email = infoVO.getM_id().split(" ")[1] + "@daum.net";
+		else if (email.equals("hanmail"))
+			email = infoVO.getM_id().split(" ")[1] + "@hanmail.net";
+		else if (email.equals("gmail"))
+			email = infoVO.getM_id().split(" ")[1] + "@gmail.net";
+		else
+			email = "동의안함";
 		user.setM_email(email);
-		if(gender.equals("M") || gender.equals("male")) gender = "남자";
-		else if(gender.equals("F") || gender.equals("female")) gender = "여자";
-		else gender = "선택안함";
+		if (gender.equals("M") || gender.equals("male"))
+			gender = "남자";
+		else if (gender.equals("F") || gender.equals("female"))
+			gender = "여자";
+		else
+			gender = "선택안함";
 		user.setM_gender(gender);
 		user.setM_tel(mobile);
 
@@ -302,148 +329,214 @@ public class MemberController {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
-		
+
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 		String userId = infoVO.getM_id();
-				
+
 		UserVO userInfo = dao.userInfo(userId);
-		
-		
+
 		model.addAttribute("userInfo", userInfo);
-	
-		
+
 		List<RentVO> rentList = rentDAO.rentListByMid(userId, "구매");
 		List<RentVO> purchaseList = rentDAO.purchaseListByMid(userId, "구매");
 		List<MessageVO> messageList = messageDAO.messageByMid(userId);
-		
+
 		model.addAttribute("rentList", rentList);
 		model.addAttribute("purchaseList", purchaseList);
 		model.addAttribute("messageList", messageList);
 
-
 		return "/member/mem/userInfo";
+	}
+
+	// 내 정보 수정
+
+	@RequestMapping(value = "/member/mem/userInfo/{userID}", method = RequestMethod.POST)
+	public String userInfoUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
+		System.out.println("시작 전" + userVO.toString());
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+
+		// 파일 업로드
+		MultipartFile uploadFile = userVO.getUploadFile();
+		if (!uploadFile.isEmpty()) {
+			userVO.setM_img(uploadFile.getOriginalFilename());
+			uploadFile.transferTo(new File(
+					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
+							+ userVO.getM_img()));
+		}
+
+		int n = dao.userUpdate(userVO);
+		System.out.println("시작 후" + userVO.toString());
+		if (n != 1) {
+			// 업데이트 실패 시
+			System.out.println("userInfoUpdateByPath // user 수정 실패 // " + userVO.toString());
+		}
+
+		return "redirect:/member/mem/userInfo";
+	}
+
+	
+	// 메시지 리스트
+	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.GET)
+	public String messageList(Model model, Criteria cri, HttpSession session) {
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+		
+
+		// 현재 페이지에 해당하는 게시물을 조회해 옴
+		List<MessageVO> messageList = messageDAO.messageList(userId, cri);
+		// 모델에 추가
+		model.addAttribute("messageList", messageList);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+
+		int totalCount = messageDAO.countMessageListTotal(userId, cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/mem/messageList";
+
+	}
+
+//	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.POST)
+//	public String messageListSearch(Model model, Criteria cri, HttpSession session) {
+//		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+//
+//		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+//		String userId = infoVO.getM_id();
+//
+//		// 현재 페이지에 해당하는 게시물을 조회해 옴
+//		List<MessageVO> messageList = messageDAO.messageList(userId, cri);
+//		System.out.println(messageList.toString());
+//		// 모델에 추가
+//		model.addAttribute("messageList", messageList);
+//		// PageMaker 객체 생성
+//		PageMaker pageMaker = new PageMaker(cri);
+//		// 전체 게시물 수를 구함
+//
+//		int totalCount = messageDAO.countMessageListTotal(userId, cri);
+//		// pageMaker로 전달
+//		pageMaker.setTotalCount(totalCount);
+//		// 모델에 추가
+//		model.addAttribute("pageMaker", pageMaker);
+//		return "/member/mem/messageList";
+//	}
+
+	
+	
+	//메시지 상세보기
+	@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
+	public String messageDetail(Model model, HttpSession session, @PathVariable String a_mid) {
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+		
+		MessageVO messageVO1 = messageDAO.messageInfo(userId);
+		int aId = messageVO1.getA_id();
+		
+		
+
+		System.out.println("a_mid " + a_mid);
+		// User 정보 가져오기
+		System.out.println("adminMenDetailByPath() // 들어가서 유저정보");
+		MessageVO messageVO = messageDAO.messageInfo2(aId);
+	
+		// 대여 정보 가져오기
+		
+		model.addAttribute("messageVO", messageVO);
+		
+
+		return "redirect:/admin/mem/memDetail/" + aId;
 	}
 	
 	
 	
 	
-	//사진 업로드
 	
-		@RequestMapping(value = "/member/mem/userInfo/{userID}", method = RequestMethod.POST)
-		public String userInfoUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
-			System.out.println("시작 전" + userVO.toString());
-			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-			
-			// 파일 업로드
-			MultipartFile uploadFile = userVO.getUploadFile();
-			if (!uploadFile.isEmpty()) {
-				userVO.setM_img(uploadFile.getOriginalFilename());
-				uploadFile.transferTo(new File(
-						"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
-								+ userVO.getM_img()));
-			}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 회원 탈퇴
+	
+	
 
-			int n = dao.userUpdate(userVO);
+	@RequestMapping(value = "/member/mem/userDelete/{userID}", method = RequestMethod.POST)
+	public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID)
+			throws IOException {
+		System.out.println("시작 전" + userVO.toString());
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+
+		int c = dao.userConfirm(userId);
+
+		if (c == 0) {
+			int n = dao.userDelete(userVO);
+
+			int n2 = dao.userDeleteUpdateAlert(userId);
+			int n3 = dao.userDeleteUpdateCart(userId);
+			int n4 = dao.userDeleteUpdateWish(userId);
+
+			int n5 = dao.userDeleteUpdateRental(userId);
+			int n6 = dao.userDeleteUpdateBuy(userId);
+			int n7 = dao.userDeleteUpdateReview(userId);
+
 			System.out.println("시작 후" + userVO.toString());
 			if (n != 1) {
-				// 업데이트 실패 시
-				System.out.println("userInfoUpdateByPath // user 수정 실패 // " + userVO.toString());
+				// 삭제 실패 시
+				System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
 			}
+			if (n2 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // alertmessage 삭제 실패 // " + userId.toString());
+			}
+			if (n3 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // cart 삭제 실패 // " + userId.toString());
+			}
+			if (n4 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // wish 삭제 실패 // " + userId.toString());
+			}
+			if (n5 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // rental 삭제 실패 // " + userId.toString());
+			}
+			if (n6 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // buy 삭제 실패 // " + userId.toString());
+			}
+			if (n7 != 1) {
+				// 삭제 실패 시
+				System.out.println("userDelete // review 삭제 실패 // " + userId.toString());
+			}
+
+			session.invalidate();
+
+			return "redirect:/";
+		} else {
+			// 탈퇴 실패
+			System.out.println("userConfirm // user 탈퇴 실패 // " + userId.toString());
 
 			return "redirect:/member/mem/userInfo";
 		}
-		
-		
-		
-	//회원 탈퇴
-		
-		@RequestMapping(value = "/member/mem/userDelete/{userID}", method = RequestMethod.POST)
-		public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID) throws IOException {
-			System.out.println("시작 전" + userVO.toString());
-			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		
-			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
-			String userId = infoVO.getM_id();
-			
-			int c = dao.userConfirm(userId);
-			
-			
-			if(c == 0) {
-				int n = dao.userDelete(userVO);
-				
-				int n2 = dao.userDeleteUpdateAlert(userId);
-				int n3 = dao.userDeleteUpdateCart(userId);
-				int n4 = dao.userDeleteUpdateWish(userId);
-				
-				int n5 = dao.userDeleteUpdateRental(userId);		
-				int n6 = dao.userDeleteUpdateBuy(userId);
-		        int n7 = dao.userDeleteUpdateReview(userId);
-				
-				
-				
-				System.out.println("시작 후" + userVO.toString());
-				if (n != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // user 삭제 실패 // " + userVO.toString());
-				}
-				if (n2 != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // alertmessage 삭제 실패 // " + userId.toString());
-				}
-				if (n3 != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // cart 삭제 실패 // " + userId.toString());
-				}
-				if (n4 != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // wish 삭제 실패 // " + userId.toString());
-				}
-				if (n5 != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // rental 삭제 실패 // " + userId.toString());
-				}
-				if (n6 != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // buy 삭제 실패 // " + userId.toString());
-				}
-				if (n7 != 1) {
-					// 삭제 실패 시
-					System.out.println("userDelete // review 삭제 실패 // " + userId.toString());
-				}
-			
-				
-			
-				session.invalidate();
 
-				return "redirect:/";
-			}
-			else {
-				//탈퇴 실패
-				System.out.println("userConfirm // user 탈퇴 실패 // " + userId.toString());
-				
-				return "redirect:/member/mem/userInfo";	
-			} 
-			
-			
-		}
-	
-			
-			
-
-
-		
-		
-		
-	
-
-
-	
-	
-	
-	
-	
-	
-	
+	}
 
 	// 관리자
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -549,11 +642,6 @@ public class MemberController {
 
 	// 승빈 end
 
-	
-	
-	
-	
-	
 	// 성훈 start
 	// 관리자 회원 상세 정보 보기
 //	@RequestMapping(value = "/admin/mem/memDetail", method = RequestMethod.GET)
@@ -593,6 +681,7 @@ public class MemberController {
 
 		return "/admin/mem/memDetail";
 	}
+
 	// 관리자 회원 상세 정보에서 수정 클릭
 	@RequestMapping(value = "/admin/mem/memDetail/{userID}", method = RequestMethod.POST)
 	public String adminMenUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
@@ -617,88 +706,84 @@ public class MemberController {
 		return "redirect:/admin/mem/memDetail/" + userID;
 	}
 
-	
-	
-	
 	// 회원 가입 폼
-    @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
-    public String menJoinForm(Model model){
-      
-       return "/member/mem/memJoin";
-    }
-	
-    // 회원 가입 - 아이디 중복 검사
-    @ResponseBody
-    @RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST , produces="application/json")
-    public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception{
-    	System.out.println("ajax 호출 / memIdCheck");
-    	UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-    	Map<Object, Object> map = new HashMap<Object, Object>();
-    	int result = dao.duplicateCheckId(m_id);
-    	
-    	map.put("check", result);
-    	
-    	return map;
-    }
-	
+	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
+	public String menJoinForm(Model model) {
+
+		return "/member/mem/memJoin";
+	}
+
+	// 회원 가입 - 아이디 중복 검사
+	@ResponseBody
+	@RequestMapping(value = "/member/mem/idCheck", method = RequestMethod.POST, produces = "application/json")
+	public Map<Object, Object> menIdCheck(Model model, @RequestBody String m_id) throws Exception {
+		System.out.println("ajax 호출 / memIdCheck");
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		int result = dao.duplicateCheckId(m_id);
+
+		map.put("check", result);
+
+		return map;
+	}
+
 	// 회원 가입 - 이메일 인증
-    @Autowired
-    private JavaMailSender javaMailSender;
-    
-    @ResponseBody
-    @RequestMapping(value = "/member/mem/memEmailCheck", method = RequestMethod.POST , produces="application/json")
-    public String menEmailCheck(Model model, @RequestBody String m_email){
-    	System.out.println("ajax 호출 / menEmailCheck");
+	@Autowired
+	private JavaMailSender javaMailSender;
 
-    	//인증 번호 생성기
-        StringBuffer temp =new StringBuffer();
-        Random rnd = new Random();
-        for(int i=0;i<10;i++)
-        {
-            int rIndex = rnd.nextInt(3);
-            switch (rIndex) {
-            case 0:
-                // a-z
-                temp.append((char) ((int) (rnd.nextInt(26)) + 97));
-                break;
-            case 1:
-                // A-Z
-                temp.append((char) ((int) (rnd.nextInt(26)) + 65));
-                break;
-            case 2:
-                // 0-9
-                temp.append((rnd.nextInt(10)));
-                break;
-            }
-        }
-        String AuthenticationKey = temp.toString();
-        System.out.println(AuthenticationKey);
-    	
-        try {
-            
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-            helper.setFrom("ufo@ufo.com");
-            helper.setTo(m_email);
-            helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다.");
-            helper.setText("인증번호 : " + AuthenticationKey,true);
-            javaMailSender.send(message);
-            
-        }catch(Exception e) {
-        	System.out.println("catch 안");
-            e.printStackTrace();
-        }
-    	
-        System.out.println("email send success");
-    	return AuthenticationKey;
-    	
-    }
+	@ResponseBody
+	@RequestMapping(value = "/member/mem/memEmailCheck", method = RequestMethod.POST, produces = "application/json")
+	public String menEmailCheck(Model model, @RequestBody String m_email) {
+		System.out.println("ajax 호출 / menEmailCheck");
 
-    // 회원 가입 submit
-    @RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
-    public String menJoinPro(Model model, UserVO userVO) throws IOException{
-    	
-    	System.out.println("시작 전" + userVO.toString());
+		// 인증 번호 생성기
+		StringBuffer temp = new StringBuffer();
+		Random rnd = new Random();
+		for (int i = 0; i < 10; i++) {
+			int rIndex = rnd.nextInt(3);
+			switch (rIndex) {
+			case 0:
+				// a-z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+				break;
+			case 1:
+				// A-Z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+				break;
+			case 2:
+				// 0-9
+				temp.append((rnd.nextInt(10)));
+				break;
+			}
+		}
+		String AuthenticationKey = temp.toString();
+		System.out.println(AuthenticationKey);
+
+		try {
+
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+			helper.setFrom("ufo@ufo.com");
+			helper.setTo(m_email);
+			helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다.");
+			helper.setText("인증번호 : " + AuthenticationKey, true);
+			javaMailSender.send(message);
+
+		} catch (Exception e) {
+			System.out.println("catch 안");
+			e.printStackTrace();
+		}
+
+		System.out.println("email send success");
+		return AuthenticationKey;
+
+	}
+
+	// 회원 가입 submit
+	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
+	public String menJoinPro(Model model, UserVO userVO) throws IOException {
+
+		System.out.println("시작 전" + userVO.toString());
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		// 파일 업로드
 		MultipartFile uploadFile = userVO.getUploadFile();
@@ -717,16 +802,18 @@ public class MemberController {
 		}
 
 		return "redirect:/";
-    	
-    }
-    
-    //회원 상세 정보 - 대여 상세 정보
-    @RequestMapping(value ="/member/mem/memRentDetail/{r_id}", method = RequestMethod.GET)
-	public String memRentDetail(Model model, @PathVariable int r_id) {
+
+	}
+
+	// 회원 상세 정보 - 대여 상세 정보
+	// method 를 Post 로 수정해야 한다.
+	@RequestMapping(value = "/member/mem/memRentDetail", method = RequestMethod.GET)
+	public String memRentDetail(Model model, @RequestParam int r_id) {
+
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-		
+
 		// 선택한 대여 정보 가져오기
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
@@ -734,22 +821,26 @@ public class MemberController {
 		ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
 		System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
 		// 선택한 대여의 결제 정보 가져오기
+
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		if(!buyList.isEmpty() && buyList.size() != 0) {
 			for(int i = 0; i < buyList.size(); i++) {
 				System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
 			}
 		}
+
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
 		return "/member/mem/memRentDetail";
 	}
+
     
     
   //회원 상세 정보 - 대여 상세 정보 - 반납
     @RequestMapping(value ="/member/mem/memRentReturn/{r_id}", method = RequestMethod.GET)
 	public String memRentReturn(Model model, @PathVariable int r_id) throws Exception{
+
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		System.out.println("memController - memRentReturn  :  반납 하기 클릭 컨트롤러");
 		// 선택한 대여 정보 가져오기
@@ -757,6 +848,7 @@ public class MemberController {
 		rentVO.setR_id(r_id);
 		rentVO.setR_state("반납 요청");
 		System.out.println("memController - memRentReturn new rentVO : " + rentVO.toString());
+
     	int result = rentDAO.rentUpdate(rentVO);
     	System.out.println("memController - memRentReturn result : " + result);
     	
@@ -793,28 +885,30 @@ public class MemberController {
     
     // 회원 상세 정보 - 대여 상세 정보 - 연체료 존재
     @RequestMapping(value ="/member/mem/memRentLate", method = RequestMethod.GET)
+
 	public String memRentLate(Model model, @RequestParam int r_id) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
-		
+
 		// 선택한 대여 정보 가져오기
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
-		
+
 		// 연체료 납부 후 반납
 		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
-		int late = Double.valueOf(Math.floor(gap / (1000*60*60*24)) * -1).intValue();
-		if( late > 3 ) {
-			
+		int late = Double.valueOf(Math.floor(gap / (1000 * 60 * 60 * 24)) * -1).intValue();
+		if (late > 3) {
+
 		}
 		// 선택한 대여의 결제 정보 가져오기
-		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
+		List<BuyVO> buyList = buyDAO.buyList(rentVO.getR_id());
 		System.out.println("memController - memRentDetail - buyList size : " + buyList.size());
-		
+
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("buyList", buyList);
 		return "/member/mem/memRentDetail";
 	}
+
     
     // 회원 상세 정보 - 구매 상세 정보
     @RequestMapping(value ="/member/mem/memBuyDetail/{r_id}", method = RequestMethod.GET)
@@ -824,23 +918,26 @@ public class MemberController {
    		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		
    		// 선택한 구매 정보 가져오기
+
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
 		// 선택한 대여 상품 정보 가져오기
 				ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
 				System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
 		// 선택한 구매의 결제 정보 가져오기
+
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		if(!buyList.isEmpty() && buyList.size() != 0) {
 			for(int i = 0; i < buyList.size(); i++) {
 				System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
 			}
 		}
+
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-   		return "/member/mem/memBuyDetail";
-   	}
+		return "/member/mem/memBuyDetail";
+	}
 
 	// 성훈 end
 

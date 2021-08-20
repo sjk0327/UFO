@@ -1,6 +1,6 @@
 package com.use.first.message;
 
-import java.awt.TextArea;
+
 import java.util.Date;
 
 public class MessageVO {
