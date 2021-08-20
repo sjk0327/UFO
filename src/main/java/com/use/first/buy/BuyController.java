@@ -18,7 +18,9 @@ public class BuyController {
    @Autowired
    private SqlSessionTemplate sqlSessionTemplate;
    @RequestMapping(value = "/customer/buyInsert", method = RequestMethod.POST)
+
    public String buyInsert(Model model, @Param("BuyVO") BuyVO buyVO, @Param("m_id") String m_id, @Param("m_point") String m_point, @Param("m_tel") String m_tel, @Param("m_addr") String m_addr) throws Exception {
+
       BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
       UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
       RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);

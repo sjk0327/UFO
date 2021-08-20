@@ -5,7 +5,8 @@
     String email = "sjk0868@naver.com";
     String phone = "010-3135-3027";
     String address = "서울시 강남구 삼성동";
-    int totalPrice = 1;   
+    int totalPrice = (Integer)request.getAttribute("total");   
+    System.out.println("여기까지 찍힘2");
 %>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@
             pg : 'kakaopay',
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
-            name : 'KH Books 도서 결제',
+            name : 'UFO Corporation',
             amount : <%=totalPrice%>,
             buyer_email : '<%=email%>',
             buyer_name : '<%=name%>',
@@ -61,7 +62,7 @@
                     }
                 });
                 //성공시 이동할 페이지
-                location.href='/paysuccess';
+                location.href='/buysuccess';
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;

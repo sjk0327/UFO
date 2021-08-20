@@ -49,7 +49,7 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping(value = "/paytest", method = RequestMethod.GET)
+	@RequestMapping(value = "/paytest")
 	public String paytest(Locale locale, Model model, HttpSession session) {
 		
 			return "/member/rent/paytest";
@@ -57,10 +57,10 @@ public class HomeController {
 
 	}
 	
-	@RequestMapping(value = "/paysuccess")
+	@RequestMapping(value = "/buysuccess")
 	public String paysucess(Locale locale, Model model, HttpSession session) {
 		
-			return "/member/rent/paysuccess";
+			return "/member/rent/buysuccess";
 		
 
 	}
@@ -69,6 +69,14 @@ public class HomeController {
 	public String payfail(Locale locale, Model model, HttpSession session) {
 		
 			return "/member/rent/payfail";
+		
+
+	}
+	
+	@RequestMapping(value = "/modaltest")
+	public String modaltest(Locale locale, Model model, HttpSession session) {
+		
+			return "/member/rent/modaltestjsp";
 		
 
 	}
