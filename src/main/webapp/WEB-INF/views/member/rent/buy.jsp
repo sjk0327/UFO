@@ -373,7 +373,7 @@ td, th {
 				
 
 				<!-- 결제정보  start-->
-				<div class="col-md-6">
+				<div class="col-md-6"><form:form name="buyInsert" action="/member/rent/buyKakao" commandName="BuyVO" method="post" >
 					<div class="row mb-5">
 						<div class="col-md-12">
 							<h5 style="text-align: center; color: #666666;">결제상세</h5>
@@ -383,7 +383,7 @@ td, th {
 									<thead>
 										<tr>
 											<th style="color: #666666; font-size: 17px;">주문금액</th>
-											<th><input
+											<th><input 
 												id="price" name="price" type="text"
 												value="원" onload="total(${s });" class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-size: 19px; font-weight: bold;"
@@ -405,9 +405,11 @@ td, th {
 												style="background-color: white; border: none; height: 30px; text-align: right; color: #c47135; font-size: 14px;"
 												readonly /></td>
 										</tr>
+										
 										<tr>
 											<td style="color: #666666; font-size: 19px; font-weight: bold;">결제금액</td>
 											<td style="text-align: right;">
+											
 											<input id="total" name="total" type="text" value=""
 												class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-weight: bold; font-size: 19px;"
@@ -420,9 +422,9 @@ td, th {
 					</div>
 					<br>
 					<div class="form-group" style="text-align: center;">
-							<form name="buyInsert" action="/customer/buyInsert" method="post" >
 							<input type="hidden" id="m_id" name="m_id" value="${userVO.m_id }" />
-							<c:forEach var="buyInfo" items="${buyInfo}" >
+							
+							<c:forEach var="buyInfo" items="${buyInfoList}" >
 								<input type="hidden" id="b_mid" name="b_mid" value="${userVO.m_id }" />
 								<input type="hidden" id="b_pid" name="b_pid" value="${buyInfo.productId }" />
 								<input type="hidden" id="b_amount" name="b_amount" value="${buyInfo.proamount }" />
@@ -460,7 +462,7 @@ td, th {
 							<button id="buy">kakaopay</button>
 							</div>
 							</div>
-							</form>
+							</form:form>
 							</div>
 				</div>
 			</div>
@@ -518,7 +520,7 @@ td, th {
 		var price = Number(document.getElementById("price").value);
 		var total = Number(document.getElementById("price").value) + 2500;
 		document.getElementById("price").value = price.toLocaleString() + "원";
-		document.getElementById("total").value = total.toLocaleString() + "원";
+		document.getElementById("total").value = total;
 	}
 
 		// 포인트 사용
@@ -564,7 +566,7 @@ td, th {
 				
 				document.getElementById("usepoint").value = "";
 				
-				document.getElementById("total").value = p_price + "원";
+				document.getElementById("total").value = p_price;
 			} else {
 				
 				document.getElementById("usep").value = v_point;
@@ -573,7 +575,7 @@ td, th {
 				
 				document.getElementById("total").value = p_price - v_point;
 				var total = Number(document.getElementById("total").value);
-				document.getElementById("total").value = total.toLocaleString() + "원";
+				document.getElementById("total").value = total;
 				
 				document.getElementById("m_point").value = m_point - v_point + "P";
 			}
@@ -595,7 +597,7 @@ td, th {
 			document.getElementById("total").value = p_price;
 			var cancleTotal = Number(document.getElementById("total").value) + 2500;
 			
-			document.getElementById("total").value = cancleTotal.toLocaleString() + "원";
+			document.getElementById("total").value = cancleTotal;
 			
 			document.getElementById("usep").value = 
 				parseInt(document.getElementById("usep").value) - parseInt(document.getElementById("usep").value) + "원";
