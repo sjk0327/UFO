@@ -184,10 +184,20 @@
 	        }, this.timer);
 	    }
 	}
-	   
+	var newValue;
+    // 모든 텍스트의 변경에 반응합니다.
+    $("#keyword").on("keyup paste", function() {
+       
+       
+       newValue = $(this).val();
+      
 
-	
-	//승빈 탈퇴 막기 메시지 end
+   
+       location.href = '/member/pro/productList/' + newValue;
+       
+    }); 
+    
+    //승빈 탈퇴 막기 메시지 end
 	/*
 	$(function(){
 			$('#resign').click(function(){

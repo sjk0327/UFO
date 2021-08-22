@@ -28,11 +28,12 @@
 	</select>
 	<select id="countSmartPhone" resultType="int">
 		select count(*) from product
-		where p_category = '스마트폰'	
+		where p_category = '스마트폰'
+		<!-- where p_category = '스마트폰'	 -->
 	</select>
 	<select id="countLaptop" resultType="int">
 		select count(*) from product
-		where p_category = '노트북'	
+		where p_category = '노트북'
 	</select>
 	<select id="countCamera" resultType="int">
 		select count(*) from product
@@ -90,7 +91,7 @@
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_category = #{p_category}
+		where p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%')
 	</select>
 	<!--  상품 메뉴바 가격조회 -->
 	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
@@ -153,7 +154,7 @@
 		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
 	</insert>
 	
-    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">
 		<![CDATA[
 		select p_id, p_name, p_price, p_canBuy, p_canRent, p_soldCount, p_category, p_mainImg, p_subImg, 
@@ -233,16 +234,47 @@
 		]]>
 	</select>
 	
-	<!-- 리뷰 list,list숫자,-->
-	<select id="reviewList" resultType="com.use.first.product.ReviewVO">
-		select v_id, v_pid, v_mid, v_content, v_date from review WHERE v_pid = #{v_pid}	
+	
+	<select id="reviewList" resultType="com.use.first.rec.RecVO">
+		select review.v_id, member.m_img, review.v_pid, review.v_mid, review.v_content, review.v_date from review,member WHERE v_pid = #{v_pid}	and v_mid = m_id
 		ORDER BY v_id desc
-		
+
 	</select>
 	
 	<select id="countReviewListTotal" resultType="int">
 		select count(*) from review WHERE v_pid = #{v_pid}	
 	</select>
+	
+	<!--
+	<select id="reviewList" resultMap="reviewMap">
+	select v_id, v_pid, v_mid, v_content, v_date from review WHERE v_pid = #{v_pid}	
+		ORDER BY v_id desc
+	</select>
 
+<resultMap type="com.use.first.rec.RecVO" id="reviewMap">
+	<result property="v_id" column="v_id" />
+	<result property="v_pid" column="v_pid" />
+	<result property="v_mid" column="v_mid" />
+	<result property="v_content" column="v_content" />
+	<result property="v_date" column="v_date" />
+</resultMap>
+	-->
+	
+	
+	<select id="reviewPagingList" resultType="com.use.first.rec.RecVO">
+		select review.v_id, member.m_img, review.v_pid, review.v_mid, review.v_content, review.v_date from review,member WHERE v_pid = #{v_pid}	and v_mid = m_id
+		ORDER BY v_id desc
+
+	</select>
+	
+	<select id="countReviewListPagingTotal" resultType="int">
+		select count(*) from review WHERE v_pid = #{v_pid}	
+	</select>
+	
+	<!-- 리뷰작성 -->
+	<insert id="reviewInsert" parameterType="com.use.first.rec.RecVO">
+		insert into review (v_mid, v_pid, v_content, v_date)
+		values (#{v_mid},#{v_pid},#{v_content},now())
+	</insert>
 	
 </mapper>

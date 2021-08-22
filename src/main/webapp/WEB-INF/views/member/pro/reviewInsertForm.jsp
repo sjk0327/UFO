@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
    Cookie cookies1 = new Cookie("name","홍길동");
    Cookie cookies2 = new Cookie("age","20");
@@ -85,63 +88,35 @@ body, html {height: 100%;}
     
       <div class="container"> 
         <div class="row mb-5">
-          <div class="col-md-9 order-2">
+          <div class="col-md-12 order-2">
        
          
-            <c:forEach var="reviewList" items="${reviewList}" begin="0" end="10" step="1" varStatus="status">                             
-                <hr><br>
-                <div class="row" name="imgIdDate">
-                  <div class="col-lg-12 col-sm-12">
-                	<div class="col-lg-3 col-sm-3">
-                	<!-- <img src = /resources/images/member/	 -->
+           <form:form name= "reviewInsert" method="post" action="/member/pro/recommendInsert" modelAttribute="recVO">
+                <div class="row imgIdDate" name="imgIdDate">
+                 
+                	<div class="col-2 profile" align="center">  
+                	 <img src = /resources/Images/member/${userVO.m_img} alt="${userVO.m_img}" title="${userVO.m_img}" class="img-fluid img-circle">         
                 	</div> 
-                	<div class="col-lg-9 col-sm-9">
-                	 <div>${reviewList.v_mid}</div>
-                	 <div>${reviewList.v_date}</div>
-                	</div>           		
-                  </div> 	                      
+                	<div class="col-10">
+                	 <form:input type="hidden" path="v_mid" value="${userVO.m_id}"/>
+                	 <form:input type="hidden" path="v_pid" value="${p_id}"/>
+                	 
+                	 <div>${userVO.m_id}</div>
+                	 <div>
+                	 작성일
+                	 </div>
+               	 	<input type="submit" value="확인"/>
+                	</div>      		
+                	                      
                 </div>
  
                 <div class="row" name="content">
-                 <div class="col-lg-12 col-sm-12">
-                 ${reviewList.v_content}
+                 <div class="col-12 reviewContent">
+                 <br>
+                <textarea rows="4" cols="50" name="v_content"></textarea>
                  </div>
-                </div>
-                
-                <!--  
-                <div  class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${reviewList.v_pid}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${reviewList.v_id}">${reviewList.v_mid}</a></p>
-                    <p class="mb-0">${reviewList.v_pid}</p>
-                    <p class="text-primary font-weight-bold" >${reviewList.v_content}</p>
-                     </div>
-                </div>  
-                -->          
-             </c:forEach> 
-                <!-- 페이징 start -->
-										<div id = "paging-div">
-										<ul class="btn-group pagination">
-											<c:if test="${pageMaker.prev }">
-												<li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
-													<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
-											</c:if>
-											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageNum)}"/>'>
-												<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageNum)}"/>'>
-												<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
-												
-											</c:forEach>
-											<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-												<li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-													<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
-											</c:if>
-										</ul>
-										</div>
-										<!-- 페이징 end -->
+                </div>                   
+               </form:form>
             
         
 
