@@ -13,7 +13,6 @@
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 
-
 </head>
 
 <body themebg-pattern="theme1">
@@ -53,7 +52,7 @@
 								</div>
 								<div class="col-12">
 									<div class="forgot-phone text-right f-right">
-										<a href="#" class="text-right f-w-600"> 비밀번호를 잊어버렸나요?</a>
+										<a href="/member/mem/pw_auth" class="text-right f-w-600"> 비밀번호를 잊어버렸나요?</a>
 									</div>
 								</div>
 
@@ -110,8 +109,14 @@
 									<div class="col-md-10">
 										<p class="text-inverse text-left m-b-0"></p>
 										<p class="text-inverse text-left">
-											<a href="/member/mem/memJoin"><b>아이디 및 비밀번호 찾기</b></a>
+											<a href="/member/mem/id_auth" ><b>아이디 찾기</b></a>
 										</p>
+										
+										<p class="text-inverse text-left">
+											<a href="/member/mem/pw_auth" ><b>비밀번호 찾기</b></a>
+										</p>
+										
+										
 									</div>
 									<div class="col-md-2">
 										<img src="resources/assets/images/auth/Logo-small-bottom.png"

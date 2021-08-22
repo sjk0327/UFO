@@ -135,15 +135,7 @@ body, html {
 	border: none;
 }
 
-.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content
-	{
-	margin-left: 0;
-}
 
-.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content
-	{
-	margin-left: 0;
-}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -494,7 +486,7 @@ body, html {
 												<!-- 회원 메시지함 -->
 												<div class="card table-card">
 													<div class="card-header">
-														<h5>메시지함</h5>
+														<h5>메시지함</h5><a href="/member/mem/messageList" style="float: right;">더보기</a>
 													</div>
 													<div class="card-block">
 														<div class="table-responsive">
@@ -502,17 +494,22 @@ body, html {
 
 																<c:forEach var="messageList" items="${messageList }">
 																	<tbody>
-																		<tr>
-																		<tr>
+																		<tr onclick="location.href='/member/mem/messageList/${messageList.a_id }'"
+																	style="cursor: hand">
+																		    <td>
+																				<div>
+																					<p>UFO&nbsp;고객센터</p>
+																				</div>
+																			</td>
 																			<td>
 																				<div>
-
 																					<div>
-																						<h5>${messageList.a_mid }&nbsp;회원님</h5>
-																						<br>
+																						<h6>${messageList.a_title }</h6>
 																					</div>
-																					<h5>${messageList.a_title }</h5>
 																				</div>
+																			</td>
+																			<td>
+																				<fmt:formatDate value="${messageList.a_date }" pattern="yyyy-MM-dd hh:mm:ss" />
 																			</td>
 																		</tr>
 																	</tbody>
@@ -545,7 +542,7 @@ body, html {
 										<form:hidden path="m_id" value="${userInfo.m_id }"
 											class="form-control form-control-center form-control-round form-control-bold" />
 
-										<div style="float: right;">
+										<div style="float: right; padding-bottom: 100px">
 											<input type="button" id="confirm" value="회원탈퇴"
 												class="btn waves-effect waves-light btn-primary btn-outline-primary">
 										</div>
@@ -596,7 +593,8 @@ body, html {
 
 	<!--이 script 없으면 css 깨짐-->
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
 	<script>
 		/*사진 미리 보여주기 함수 memberDetail*/
 		$(document).ready(

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +23,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.use.first.buy.BuyDAO;
@@ -401,70 +405,65 @@ public class MemberController {
 
 	}
 
-//	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.POST)
-//	public String messageListSearch(Model model, Criteria cri, HttpSession session) {
-//		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
-//
-//		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
-//		String userId = infoVO.getM_id();
-//
-//		// 현재 페이지에 해당하는 게시물을 조회해 옴
-//		List<MessageVO> messageList = messageDAO.messageList(userId, cri);
-//		System.out.println(messageList.toString());
-//		// 모델에 추가
-//		model.addAttribute("messageList", messageList);
-//		// PageMaker 객체 생성
-//		PageMaker pageMaker = new PageMaker(cri);
-//		// 전체 게시물 수를 구함
-//
-//		int totalCount = messageDAO.countMessageListTotal(userId, cri);
-//		// pageMaker로 전달
-//		pageMaker.setTotalCount(totalCount);
-//		// 모델에 추가
-//		model.addAttribute("pageMaker", pageMaker);
-//		return "/member/mem/messageList";
-//	}
-
-	
-	
-	//메시지 상세보기
-	@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
-	public String messageDetail(Model model, HttpSession session, @PathVariable String a_mid) {
+	//메시지 검색
+	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.POST)
+	public String messageListSearch(Model model, Criteria cri, HttpSession session) {
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 		String userId = infoVO.getM_id();
-		
-		MessageVO messageVO1 = messageDAO.messageInfo(userId);
-		int aId = messageVO1.getA_id();
-		
-		
 
-		System.out.println("a_mid " + a_mid);
-		// User 정보 가져오기
-		System.out.println("adminMenDetailByPath() // 들어가서 유저정보");
-		MessageVO messageVO = messageDAO.messageInfo2(aId);
-	
-		// 대여 정보 가져오기
-		
-		model.addAttribute("messageVO", messageVO);
-		
+		// 현재 페이지에 해당하는 게시물을 조회해 옴
+		List<MessageVO> messageList = messageDAO.messageList(userId, cri);
+		System.out.println(messageList.toString());
+		// 모델에 추가
+		model.addAttribute("messageList", messageList);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
 
-		return "redirect:/admin/mem/memDetail/" + aId;
+		int totalCount = messageDAO.countMessageListTotal(userId, cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/mem/messageList";
 	}
+
 	
 	
+	//메시지 상세보기
+		@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
+		public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
+			MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+
+			MessageVO message = messageDAO.messageInfo(a_id);
+		
+			model.addAttribute("message", message);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+			return "/member/mem/messageDetail";
+		}
+		
+		
+		
+	//메시지 삭제
+		@RequestMapping(value = "/member/mem/messageDelete/{a_id}", method = RequestMethod.POST)
+		public String messageDelete(Model model, HttpSession session, @PathVariable int a_id) {
+			MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+
+			int n = messageDAO.messageDelete(a_id);
+			
+			if (n != 1) {
+				// 삭제 실패 시
+				System.out.println("messageDelete // message 삭제 실패 // ");
+			}
+
+			
+			return "redirect:/member/mem/messageList" ;
+			
+		}	
+			
+			
 	
 	
 	
@@ -537,6 +536,201 @@ public class MemberController {
 		}
 
 	}
+	
+	//아이디 찾기
+	
+	@RequestMapping(value = "/member/mem/id_auth")
+	public ModelAndView id_find(HttpSession session, HttpServletRequest request) throws IOException {
+		String name = (String)request.getParameter("name");
+		String email = (String)request.getParameter("email");
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+
+		UserVO vo = dao.selectMember(email);
+			
+		if(vo != null) {
+		Random r = new Random();
+		int num = r.nextInt(999999); // 랜덤난수설정
+		
+		if (vo.getM_name().equals(name)  ) {
+			session.setAttribute("email", vo.getM_email());
+
+			String setfrom = "usefirstown@gmail.com";
+			String tomail = email; //받는사람
+			String title = "[UFO] 아이디찾기 인증 이메일 입니다"; 
+			String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
+					+ "UFO 아이디찾기 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
+
+				messageHelper.setFrom(setfrom); 
+				messageHelper.setTo(tomail); 
+				messageHelper.setSubject(title);
+				messageHelper.setText(content); 
+			
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/member/mem/id_auth");
+			mv.addObject("num", num);
+			return mv;
+		}else {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/member/mem/id_find");
+			return mv;
+		}
+		}else {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/member/mem/id_find");
+			return mv;
+		}
+
+
+	}
+	
+		//이메일 인증번호 확인
+		@RequestMapping(value = "/member/mem/id_set", method = RequestMethod.POST)
+		public String id_set(@RequestParam(value="email_injeung") String email_injeung,
+					@RequestParam(value = "num") String num) throws IOException{
+				
+				if(email_injeung.equals(num)) {
+					return "/member/mem/id_info";
+				}
+				else {
+					return "/member/mem/id_find";
+				}
+		} 
+		
+		
+		
+		//아이디 확인
+		@RequestMapping(value = "/member/mem/id_info", method = RequestMethod.POST)
+		public String id_info(UserVO user, HttpSession session, HttpServletRequest request, Model model) throws IOException{
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			
+			user.setM_email((String) session.getAttribute("email"));
+
+			
+			System.out.println("user정보 " + user);
+			
+			
+			UserVO info = dao.selectId(user);
+			
+			model.addAttribute("info", info);
+			System.out.println("info정보 " + info);
+			
+			return "member/mem/id_info";
+		}
+			
+			
+			
+			
+			
+	
+	//비밀번호 찾기
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	@RequestMapping(value = "/member/mem/pw_auth")
+	public ModelAndView pw_auth(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String id = (String)request.getParameter("id");
+		String name = (String)request.getParameter("name");
+		String email = (String)request.getParameter("email");
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+
+		UserVO vo = dao.selectMember(email);
+			
+		if(vo != null) {
+		Random r = new Random();
+		int num = r.nextInt(999999); // 랜덤난수설정
+		
+		if (vo.getM_name().equals(name) && vo.getM_id().equals(id) ) {
+			session.setAttribute("email", vo.getM_email());
+
+			String setfrom = "usefirstown@gmail.com";
+			String tomail = email; //받는사람
+			String title = "[UFO] 비밀번호변경 인증 이메일 입니다"; 
+			String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
+					+ "UFO 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
+
+				messageHelper.setFrom(setfrom); 
+				messageHelper.setTo(tomail); 
+				messageHelper.setSubject(title);
+				messageHelper.setText(content); 
+			
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/member/mem/pw_auth");
+			mv.addObject("num", num);
+			return mv;
+		}else {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/member/mem/pw_find");
+			return mv;
+		}
+		}else {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/member/mem/pw_find");
+			return mv;
+		}
+
+
+	}
+	
+	
+	//이메일 인증번호 확인
+	@RequestMapping(value = "/member/mem/pw_set", method = RequestMethod.POST)
+	public String pw_set(@RequestParam(value="email_injeung") String email_injeung,
+				@RequestParam(value = "num") String num) throws IOException{
+			
+			if(email_injeung.equals(num)) {
+				return "/member/mem/pw_new";
+			}
+			else {
+				return "/member/mem/pw_find";
+			}
+	} 
+	
+	
+	//DB 비밀번호 업데이트
+	@RequestMapping(value = "/member/mem/pw_new", method = RequestMethod.POST)
+	public String pw_new(UserVO user, HttpSession session, HttpServletRequest request) throws IOException{
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		
+		user.setM_email((String) session.getAttribute("email"));
+		
+		
+		
+		System.out.println("user정보 " + user);
+		int result = dao.pwUpdate_M(user);
+		if(result == 1) {
+			return "redirect:/login";
+		}
+		else {
+			System.out.println("pw_update"+ result);
+			return "member/mem/pw_new";
+		}
+}
+	
+	
+	
+	
+	
+	
+	
 
 	// 관리자
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -761,13 +955,13 @@ public class MemberController {
 
 		try {
 
-			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 			helper.setFrom("ufo@ufo.com");
 			helper.setTo(m_email);
 			helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다.");
 			helper.setText("인증번호 : " + AuthenticationKey, true);
-			javaMailSender.send(message);
+			mailSender.send(message);
 
 		} catch (Exception e) {
 			System.out.println("catch 안");
@@ -807,8 +1001,8 @@ public class MemberController {
 
 	// 회원 상세 정보 - 대여 상세 정보
 	// method 를 Post 로 수정해야 한다.
-	@RequestMapping(value = "/member/mem/memRentDetail", method = RequestMethod.GET)
-	public String memRentDetail(Model model, @RequestParam int r_id) {
+	@RequestMapping(value = "/member/mem/memRentDetail/{r_id}", method = RequestMethod.GET)
+	public String memRentDetail(Model model, @PathVariable int r_id) {
 
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);

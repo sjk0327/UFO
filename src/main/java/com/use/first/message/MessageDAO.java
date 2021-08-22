@@ -16,8 +16,8 @@ public interface MessageDAO {
 	//승빈 추가
 	public List<MessageVO> messageByMid(@Param("a_mid") String a_mid);
 	public List<MessageVO> messageList(@Param("a_mid") String a_mid, Criteria cri);
-	public MessageVO messageInfo(@Param("a_mid") String a_mid);
-	public MessageVO messageInfo2(int aId);
+	public MessageVO messageInfo(int a_id);
+	public int messageDelete(int a_id);
 	public int countMessageListTotal(@Param("a_mid") String a_mid, Criteria cri);	
 	//승빈
 }
