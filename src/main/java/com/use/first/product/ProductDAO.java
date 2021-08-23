@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.use.first.member.ReviewVO;
 import com.use.first.paging.Criteria;
+import com.use.first.rec.RecVO;
 import com.use.first.rent.CartVO;
 import com.use.first.rent.WishListVO;
 
@@ -53,12 +53,11 @@ public interface ProductDAO {
 	public RecommendVO checkRecommend(String r_pid, String r_mid);
 	public int recommendCount(String r_pid);
 	
-	//리뷰 리스트조회
-	public List<ReviewVO> reviewList(@Param("v_pid") String v_pid);
-	public int countReviewListTotal(@Param("v_pid") String v_pid);
-	
-				
-		
-	
+	//리뷰 리스트
+			public List<RecVO> reviewList(@Param("v_pid") String v_pid);
+			public int countReviewListTotal(@Param("v_pid") String v_pid);
+		//리뷰 리스트조회 페이지 눌렀을 때꺼
+			public List<RecVO> reviewPagingList(@Param("v_pid") String v_pid);
+			public int countReviewListPagingTotal(@Param("v_pid") String v_pid);
 
-}
+	}			
