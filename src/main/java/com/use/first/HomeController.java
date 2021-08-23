@@ -56,14 +56,7 @@ public class HomeController {
 		
 
 	}
-	
-	@RequestMapping(value = "/buysuccess")
-	public String paysucess(Locale locale, Model model, HttpSession session) {
-		
-			return "/member/rent/buysuccess";
-		
 
-	}
 	
 	@RequestMapping(value = "/payfail")
 	public String payfail(Locale locale, Model model, HttpSession session) {

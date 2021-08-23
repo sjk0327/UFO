@@ -492,14 +492,17 @@ public class RentController {
 				
 				//데이터 전송 test
 				@RequestMapping(value ="/member/rent/buyKakao")
-				public String customerWishtoRent(@Param("BuyVO") BuyVO buyVO,@RequestParam("total") int total,Model model,HttpServletRequest request){
+				public String customerWishtoRent(@Param("BuyVO") BuyVO buyVO,@Param("m_id") String m_id, @Param("m_point") String m_point, @Param("m_tel") String m_tel, @Param("m_addr") String m_addr, @RequestParam("total") int total,Model model,HttpServletRequest request){
 
 					
 					
 					request.setAttribute("total", total);
-					System.out.println(buyVO.toString()+"1234");
-					System.out.println(total);
-					System.out.println("여기까지 찍힘");
+					request.setAttribute("m_id", m_id);
+					request.setAttribute("m_point", m_point);
+					request.setAttribute("m_tel", m_tel);
+					request.setAttribute("m_addr", m_addr);
+					model.addAttribute("buyVO", buyVO);
+				
 					
 					return "member/rent/paytest";
 				}

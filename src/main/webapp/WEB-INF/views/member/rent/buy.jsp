@@ -98,10 +98,10 @@ td, th {
   border:none;
   border-radius: 8px;
   position:relative;
-  height:85px;
+  height:60px;
   font-size:2.0em;
   font-family: fantasy;
-  width : 200px;
+  width: 200px;
   cursor:pointer;
   transition:800ms ease all;
   outline:none;
@@ -133,9 +133,70 @@ td, th {
 
 .picture{
 	border-radius: 8px;
-	width : 200px;
-	height: 85px;
+	width : 170px;
+	height: 60px;
 }
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+		-webkit-tap-highlight-color: transparent;
+}
+
+.button {
+	margin: 0 auto;
+    width: 200px;
+    height: 60px;
+    background: transparent;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 1s;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border: 2px solid #555555;
+}
+.button1,.button2{
+    color: #555555;
+}
+.button1:hover,.button2:hover{
+    color: #FEE500;
+}
+.button::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: #555555;
+    z-index: -1;
+    transition: 0.5s;
+}
+
+.button1::before,.button3::before{
+    top: 0;
+}
+.button2::before,.button4::before{
+    bottom: 0;
+    border-radius: 50% 50% 0 0;
+}
+.button3::before,.button4::before{
+    height: 180%;
+}
+
+.button1:hover::before,.button2:hover::before{
+    height: 150%;
+}
+.button3:hover::before,.button4:hover::before{
+    height: 0%;
+}
+
 
 * {padding: 0;margin: 0;}
 body, html {height: 100%;}
@@ -182,6 +243,8 @@ body, html {height: 100%;}
 									</thead>
 									<tbody class="tablebody">
 									<c:forEach var="buyInfo" items="${buyInfoList}">
+									<fmt:parseNumber var="rentpoint" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}" integerOnly="true" />
+									<fmt:parseNumber var="buypoint" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}" integerOnly="true" />
 									<c:if test="${buyInfo.buyType eq '대여' }">
 									<c:set var="i" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }"/>
 									</c:if>
@@ -204,11 +267,11 @@ body, html {height: 100%;}
 											<td>${buyInfo.buyType }</td>
 											<c:if test="${buyInfo.buyType eq '대여' }">
 											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
-											style="margin-bottom: 2px;" />${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01} </td>
+											style="margin-bottom: 2px;" /><fmt:formatNumber pattern="###,###,###">${rentpoint }</fmt:formatNumber></td>
 											</c:if>
 											<c:if test="${buyInfo.buyType eq '구매' }">
 											<td><img src="/resources/Images/icon_cash.gif" alt="적립금"
-											style="margin-bottom: 2px;" />${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01} </td>
+											style="margin-bottom: 2px;" /><fmt:formatNumber pattern="###,###,###">${buypoint }</fmt:formatNumber></td>
 											</c:if>
 											<td>${buyInfo.proamount }</td>
 											<c:if test="${buyInfo.buyType eq '대여' }">
@@ -335,8 +398,9 @@ body, html {height: 100%;}
 									<div class="col-sm-3 col-form-label"
 										style="color: #566963; font-weight: bold; line-height: 1;">보유포인트</div>
 									<div class="col-sm-9">
+									<fmt:formatNumber value="${userVO.m_point }" pattern="###,###,###" var="mmpoint"></fmt:formatNumber>
 										<input id="m_point" name="m_point" type="text"
-											value="${userVO.m_point }P"
+											value="${mmpoint }P"
 											class="form-control form-control-center form-control-round form-control-bold"
 											style="height: 30px; font-size: 14px; background-color: #ffffff; text-align: right;"
 											readonly />
@@ -384,7 +448,7 @@ body, html {height: 100%;}
 				
 
 				<!-- 결제정보  start-->
-				<div class="col-md-6"><form:form name="buyInsert" action="/member/rent/buyKakao" commandName="BuyVO" method="post" >
+				<div class="col-md-6">
 					<div class="row mb-5">
 						<div class="col-md-12">
 							<h5 style="text-align: center; color: #666666;">결제상세</h5>
@@ -433,10 +497,9 @@ body, html {height: 100%;}
 					</div>
 					<br>
 					<div class="form-group" style="text-align: center;">
-
-							
-							<input type="hidden" id="m_id" name="m_id" value="${userVO.m_id }" />
-
+					<form:form name="buyInsert" action="/member/rent/buyKakao" commandName="BuyVO" method="post" >
+							<input type="hidden" id="m_id2" name="m_id" value="${userVO.m_id }" />
+							<input type="hidden" id="hiddenTotal" name="total" value="" />
 							<c:forEach var="buyInfo" items="${buyInfoList}" >
 								<input type="hidden" id="b_mid" name="b_mid" value="${userVO.m_id }" />
 								<input type="hidden" id="b_pid" name="b_pid" value="${buyInfo.productId }" />
@@ -471,13 +534,62 @@ body, html {height: 100%;}
 											class="form-control form-control-center form-control-round form-control-bold"
 											id="extraAddress1" placeholder="참고사항" style="height: 30px; font-size: 14px;" required> 
 											
-							</div><br>
+							</div>
 							<div class="form-group row">
 							<div class="col-sm-6">
 							<img class="picture" src="/resources/img/image_readto.jpg" alt="카카오페이">
 							</div>
 							<div class="col-sm-6">
 							<button id="buy">kakaopay</button>
+							</div>
+							</div>
+							</form:form>
+							
+							<form:form name="buyInsert2" action="/customer/buyInsert" commandName="BuyVO" method="post" >
+								<input type="hidden" id="m_id" name="m_id" value="${userVO.m_id }" />
+
+							<c:forEach var="buyInfo" items="${buyInfoList}" >
+								<input type="hidden" id="b_mid2" name="b_mid" value="${userVO.m_id }" />
+								<input type="hidden" id="b_pid2" name="b_pid" value="${buyInfo.productId }" />
+								<input type="hidden" id="b_amount2" name="b_amount" value="${buyInfo.proamount }" />
+								<input type="hidden" id="b_how2" name="b_how" value="카카오페이" />
+								<input type="hidden" id="b_state2" name="b_state" value="${buyInfo.buyType }" />
+								<c:if test="${buyInfo.buyType eq '대여' }">
+								<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+								</c:if>
+								<c:if test="${buyInfo.buyType eq '구매' }">
+								<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+								</c:if>
+								<input type="hidden" id="b_message2" name="b_message" value="안전하게 배송해 주세요." />
+							</c:forEach>
+							<div>
+								<input type="hidden" id="sp" name="m_point" value="${p + userVO.m_point }" />
+								<input type="hidden" id="s_tel" name="m_tel" value="${userVO.m_tel }" />
+								<input type="hidden" id="hiddenTotal2" name="total" value="" />
+								
+								<input type="hidden" class="form-control form-control-round form-control-bold"
+													id="postcode0" name="m_addr" value="${fn:split(userVO.m_addr,',')[0]}" placeholder="우편번호"
+													style="height: 30px; font-size: 14px;" required>
+								
+								<input type="hidden" id="address12" name="m_addr" value="${fn:split(userVO.m_addr,',')[1]}"
+											class="form-control form-control-center form-control-round form-control-bold"
+											placeholder="주소" style="height: 30px; font-size: 14px;" required> 
+											
+								<input type="hidden" name="m_addr" value="${fn:split(userVO.m_addr,',')[2]}"
+											class="form-control form-control-center form-control-round form-control-bold"
+											id="detailAddress22" placeholder="상세주소" style="height: 30px; font-size: 14px;">
+											
+								<input type="hidden" name="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}"
+											class="form-control form-control-center form-control-round form-control-bold"
+											id="extraAddress12" placeholder="참고사항" style="height: 30px; font-size: 14px;" required> 
+											
+							</div>
+							<div class="form-group row">
+							<div class="col-sm-6">
+							<h6 style="font-weight: bold; line-height: 30px">※ 100만원이 넘는 금액은 일반결제로 결제해 주시기 바랍니다.</h6>
+							</div>
+							<div class="col-sm-6">
+							<button class="button button1">일 반 결 제</button>
 							</div>
 							</div>
 							</form:form>
@@ -539,6 +651,8 @@ body, html {height: 100%;}
 		var total = Number(document.getElementById("price").value) + 2500;
 		document.getElementById("price").value = price.toLocaleString() + "원";
 		document.getElementById("total").value = total;
+		document.getElementById("hiddenTotal").value = total;
+		document.getElementById("hiddenTotal2").value = total;
 	}
 
 		// 포인트 사용
@@ -585,13 +699,16 @@ body, html {height: 100%;}
 				
 				document.getElementById("usep").value = v_point;
 				var usep = Number(document.getElementById("usep").value);
+				console.log(usep);
 				document.getElementById("usep").value = usep.toLocaleString() + "원";
 				
 				document.getElementById("total").value = p_price - v_point;
 				var total = Number(document.getElementById("total").value);
 				document.getElementById("total").value = total;
 				
-				document.getElementById("m_point").value = m_point - v_point + "P";
+				var mpoint = m_point - v_point;
+				console.log(mpoint.toLocaleString());
+				document.getElementById("m_point").value = mpoint.toLocaleString() + "P";
 			}
 
 		}
@@ -599,12 +716,12 @@ body, html {height: 100%;}
 		function cancelPoint(m_point, p_price, p) {
 			
 			var c_point = 
-				parseInt(document.getElementById("usep").value.replace(/,/g,"")) + parseInt(document.getElementById("m_point").value);
+				parseInt(document.getElementById("usep").value.replace(/,/g,"")) + parseInt(document.getElementById("m_point").value.replace(/,/g,""));
 			var sp = c_point + Number(p);
 			
 			document.getElementById("sp").value = sp;
 			
-			document.getElementById("m_point").value = c_point + "P";
+			document.getElementById("m_point").value = c_point.toLocaleString() + "P";
 			
 			document.getElementById("usepoint").value = 0;
 			
@@ -659,17 +776,21 @@ body, html {height: 100%;}
 								// 조합된 참고항목을 해당 필드에 넣는다.
 								document.getElementById("extraAddress").value = extraAddr;
 								document.getElementById("extraAddress1").value = extraAddr;
+								document.getElementById("extraAddress12").value = extraAddr;
 
 							} else {
 								document.getElementById("extraAddress").value = '';
 								document.getElementById("extraAddress1").value = '';
+								document.getElementById("extraAddress12").value = '';
 							}
 
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
 							document.getElementById('postcode').value = data.zonecode;
 							document.getElementById('postcode0').value = data.zonecode;
+							document.getElementById('postcode02').value = data.zonecode;
 							document.getElementById("address").value = addr;
 							document.getElementById("address1").value = addr;
+							document.getElementById("address12").value = addr;
 							// 커서를 상세주소 필드로 이동한다.
 							document.getElementById("detailAddress").focus();
 						}
