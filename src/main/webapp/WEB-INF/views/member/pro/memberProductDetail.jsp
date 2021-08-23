@@ -282,15 +282,82 @@ body, html {height: 100%;}
       <a class="nav-link" href="#">최신순</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">추천높은순</a>
+      <a class="nav-link" href="#">추천글</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">추천낮은순</a>
+      <a class="nav-link" href="#">비추천글</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/member/recommendForm/${productVO.p_id}">추천글작성</a>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+  </button>
     </li>
   </ul>
 </nav>
     	</div>
-    	
+    	<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">추천글작성</h4>
+          <button onclick='location.href="/member/recommendForm/${productVO.p_id}"' type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+           <div class="container"> 
+        <div class="row mb-5">
+          <div class="col-md-12 order-2">
+       
+         
+           <form name= "reviewInsert" method="post" action="/member/pro/recommendInsert">
+                <div class="row imgIdDate" name="imgIdDate">
+                 
+                	<div class="col-2 profile" align="center">  
+                	 <img src = /resources/Images/member/${userVO.m_img} alt="${userVO.m_img}" title="${userVO.m_img}" class="img-fluid img-circle">         
+                	</div> 
+                	<div class="col-10">
+                	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
+                	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
+                	 
+                	 <div>${userVO.m_id}</div>
+                	 <div>
+                	 작성일
+                	 </div>
+               	 	<input type="submit" value="확인"/>
+                	</div>      		
+                	                      
+                </div>
+ 
+                <div class="row" name="content">
+                 <div class="col-12 reviewContent">
+                 <br>
+                <textarea rows="4" cols="50" name="v_content"></textarea>
+                 </div>
+                </div>                   
+               </form>
+            
+        
+
+       
+
+
+            </div>
+          </div>
+        </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
       <div class="container" id="reviewTop"> 
         <div class="row mb-5">
           <div class="col-md-12 order-2">
@@ -410,7 +477,7 @@ window.onload = function() {
 	        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
 	        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
 	        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-	        ,maxDate: "-1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+	        ,maxDate: "+3y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
 	 		,showButtonPanel: true
 	 		,currentText: '오늘 날짜'
 	 		,closeText: '닫기'

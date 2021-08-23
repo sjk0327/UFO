@@ -28,11 +28,12 @@
 	</select>
 	<select id="countSmartPhone" resultType="int">
 		select count(*) from product
-		where p_category = '스마트폰'	
+		where p_category = '스마트폰'
+		<!-- where p_category = '스마트폰'	 -->
 	</select>
 	<select id="countLaptop" resultType="int">
 		select count(*) from product
-		where p_category = '노트북'	
+		where p_category = '노트북'
 	</select>
 	<select id="countCamera" resultType="int">
 		select count(*) from product
@@ -90,7 +91,7 @@
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_category = #{p_category}
+		where p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%')
 	</select>
 	<!--  상품 메뉴바 가격조회 -->
 	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
@@ -153,7 +154,7 @@
 		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
 	</insert>
 	
-    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">
 		<![CDATA[
 		select p_id, p_name, p_price, p_canBuy, p_canRent, p_soldCount, p_category, p_mainImg, p_subImg, 
@@ -269,6 +270,11 @@
 	<select id="countReviewListPagingTotal" resultType="int">
 		select count(*) from review WHERE v_pid = #{v_pid}	
 	</select>
-
+	
+	<!-- 리뷰작성 -->
+	<insert id="reviewInsert" parameterType="com.use.first.rec.RecVO">
+		insert into review (v_mid, v_pid, v_content, v_date)
+		values (#{v_mid},#{v_pid},#{v_content},now())
+	</insert>
 	
 </mapper>

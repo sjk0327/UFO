@@ -138,12 +138,12 @@ body, html {height: 100%;}
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="p_canBuy_${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="p_canRent_${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
-					<td onclick="event.cancelBubble=true"><input type="button" id="button"
-											onClick="productUpdateRow('${list.p_id}','${list.p_canBuy}','${list.p_canRent}');"
+					<td onclick="event.cancelBubble=true">
+					<input type="button" id="button" onClick="productUpdateRow('${list.p_id}','${list.p_canBuy}','${list.p_canRent}');"
 											<%-- onClick="productUpdate('${list.p_id}','${list.p_canBuy}','${list.p_canRent}');" --%>
 											value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">
 					<td onclick="event.cancelBubble=true"><button type="button" id="button"
@@ -204,25 +204,22 @@ body, html {height: 100%;}
 			 }
 		}
 		
-	   	//한줄 수정 갑자기 안됌.....................210819....
+	   	//한줄 수정 다시 됌>_<
 		function productUpdateRow(p_id,p_canBuy,p_canRent) {
+	   		
+			/* alert('p_id:::' + p_id);
+			alert('p_canBuy::' + p_canBuy); 
+			alert('p_canRent::' + p_canRent);  */
 			
 			var p_id = p_id;
-			var p_canBuy = $("#" + p_id).val();
-			var p_canRent = $("#" + p_id).val() + 1; 
-			
-			
-			alert('p_canBuy::: ' + p_canBuy );
-			alert('p_canRent::: ' + p_canRent ); */
+			var p_canBuy2 = $("#p_canBuy_" + p_id).val();
+			var p_canRent2 = $("#p_canRent_" + p_id).val(); 
+			/* alert('p_canBuy2::' + p_canBuy2); 
+			alert('p_canRent2::' + p_canRent2);  */
 			
 						
-			
-			/* var p_canBuy = $('input[name=b1]').val();
-			var p_canRent = $('input[name=b2]').val(); */
-			
-			
 			if (confirm('상품을 수정하시겠습니까?')) {	
-				location.href = '/admin/pro/productUpdate2/' + p_id +'/'+ p_canBuy +'/'+ p_canRent;
+				location.href = '/admin/pro/productUpdate2/' + p_id +'/'+ p_canBuy2 +'/'+ p_canRent2;
 			}
 		} 
 		
