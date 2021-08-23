@@ -2,31 +2,43 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	
-	
+
+
 	<!-- 8/12 : 성훈 추가 9~30줄 -->
-	 <!-- navermail설정 -->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
-     <property name="host" value="smtp.gmail.com"/> <!-- 메이서버 호스트 -->
-     <property name="port" value="587"/> <!-- 메이서버 포트번호 -->
-     <property name="username" value="자신의 G메일 넣기 이떄  g메일 보안 내려놔야함 밑의 주석 사이트 들어가서 보안 내려아함"/> <!-- 자신의 이메일 아이디 -->
-     <!-- https://compogetters.tistory.com/54 여기 사이트 들어가서 참고해서 보안을 내리도록 -->
-     <property name="password" value="비밀번호 넣기"/> <!-- 자신의 비밀번호 -->
-       <!-- 보안연결 SSL과 관련된 설정 -->
-     <property name="javaMailProperties">
-      <props>
-      <prop key="mail.smtp.auth">true</prop>
-      <prop key="mail.smtp.starttls.enable">true</prop>
-      <prop key="mail.transport.protocol">smtp</prop>
-      <prop key="mail.smtp.starttls.required">true</prop>
-      <prop key="mail.debug">true</prop>
-      <!-- <prop key="mail.smtps.checkserveridentity">true</prop>
-      <prop key="mail.smtps.ssl.trust">*</prop>
-      <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> -->
-      </props>
-     </property>
-    </bean>
-		
+	<!-- navermail설정 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" /> <!-- 메이서버 호스트 -->
+		<property name="port" value="587" /> <!-- 메이서버 포트번호 -->
+		<property name="username"
+			value="usefirstown@gmail.com" /> <!-- 자신의 이메일 아이디 -->
+		<!-- https://compogetters.tistory.com/54 여기 사이트 들어가서 참고해서 보안을 내리도록 -->
+		<property name="password" value="tmdqls10" /> <!-- 자신의 비밀번호 -->
+		<!-- 보안연결 SSL과 관련된 설정 -->
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.starttls.required">true</prop>
+				<prop key="mail.debug">true</prop>
+				<!-- <prop key="mail.smtps.checkserveridentity">true</prop> <prop key="mail.smtps.ssl.trust">*</prop> 
+					<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> -->
+			</props>
+		</property>
+	</bean>
+
+
+	
+
+
+
+
+
+
+
+
+
 </beans>

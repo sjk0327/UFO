@@ -1,18 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.net.URLEncoder"%>
+<%@ page import="java.security.SecureRandom"%>
+<%@ page import="java.math.BigInteger"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-<title>메시지 페이지 - UF&#38;O</title>
+<meta charset="UTF-8">
+<title>인증번호 확인</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
-<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
 <style>
 .filebox input[type="file"] {
@@ -137,111 +135,83 @@ body, html {
 	border: none;
 }
 
-
-</style>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+</style>
 
 
 
 
 </head>
+<body themebg-pattern="theme1">
+	
+	<section class="login-block">
+		<!-- Container-fluid starts -->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<!-- Authentication card start -->
 
-<body>
-
-	<div id="pcoded" class="pcoded">
-		<div class="pcoded-overlay-box"></div>
-		<div class="pcoded-container navbar-wrapper">
-
-			<div class="pcoded-main-container">
-				<div class="pcoded-wrapper">
-
-					<div class="pcoded-content">
-						<div class="pcoded-inner-content">
-							<!-- Main-body start -->
-							<div class="main-body">
-								<div class="page-wrapper">
-									<!-- Page-body start -->
-									<div class="page-body">
-
-
-										<!-- 뉴 메시지함 시작 -->
-
-										<div class="pcoded-inner-content">
-											<div class="main-body">
-												<div class="page-wrapper">
-													<div class="page-body">
-														<div class="row">
-															<div class="col-sm-6">
-																<div class="card">
-																	<div class="card-header">
-																		<h5>메시지</h5>
-																	</div>
-																	<div>
-																		<h5>&nbsp;&nbsp;${message.a_mid }&nbsp;회원님</h5>
-																		<br>
-																		<h4>&nbsp;&nbsp;${message.a_title }</h4>
-																	</div>
-																	<div class="card-block">
-																		<pre>${message.a_content }</pre>
-																	</div>
-																	<br>
-																	<div>
-																		<div>
-																			<p>&nbsp;&nbsp;UFO&nbsp;고객센터</p>
-																		</div>
-																		<div>
-																			&nbsp;&nbsp;발신일
-																			<p>
-																				&nbsp;&nbsp;<fmt:formatDate value="${message.a_date }"
-																					pattern="yyyy-MM-dd hh:mm:ss" />
-																			</p>
-																		</div>
-																	</div>
-																	<br>
-																	<br>
-																	
-																	<h4><a href="/member/mem/messageList" style="float: right; padding-right: 50px;" >메시지함</a>
-																	</h4>
-																	<br>
-																	<form:form class="form-material" name="delete"
-																		action="/member/mem/messageDelete/${message.a_id }"
-																		method="post" enctype="multipart/form-data"
-																		modelAttribute="message">
-																		<form:hidden path="a_id" value="${message.a_id }"
-																			class="form-control form-control-center form-control-round form-control-bold" />
-
-																		<div style="float: right; padding-right: 50px" >
-																			<input type="button" id="confirm" value="메시지 삭제"
-																				class="btn waves-effect waves-light btn-primary btn-outline-primary">
-																		</div>
-																	</form:form>
-																	
-																	<br>
-																	
-
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											
-												
-											</div>
-										</div>
+					<form class="md-float-material form-material" name="mach"
+						action="/member/mem/id_info" method="post" >
+						<div class="text-center">
+							<img src="resources/assets/images/logo.png" alt="logo.png">
+						</div>
+						<div class="auth-box card">
+							<div class="card-block">
+								<div class="row m-b-20">
+									<div class="col-md-12">
+										<h3 class="text-center">인증번호 확인</h3>
 									</div>
-									<!-- 뉴 메시지함 끝 -->
+								</div>
+								<input type="hidden" name="num" value="${num }">
 
+								<div class="form-group form-primary">
+									<input id="text" required="required" type="text" name="email_injeung" placeholder="인증번호를 입력하세요" class="form-control" />
+									 <span class="form-bar"></span> <label class="float-label"></label>
+								</div>
+							
+								<div class="row m-t-25 text-left">
+									<div class="col-12"></div>
+								</div>
+								<div class="row m-t-30">
+									<div class="col-md-12">
+										<input type="submit" id="confirm" value="확인"
+											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+									</div>
+								</div>
+								<hr />
+								<div class="row">
+									<div class="col-md-10">
+										<p class="text-inverse text-left m-b-0"></p>
+										<p class="text-inverse text-left">
+											<a href="/"><b>처음으로</b></a>
+										</p>
+									</div>
 
+									<div class="col-md-2">
+										<img src="resources/assets/images/auth/Logo-small-bottom.png"
+											alt="small-logo.png">
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>
+					<!-- end of form -->
 				</div>
+				<!-- end of col-sm-12 -->
 			</div>
+			<!-- end of row -->
 		</div>
-	</div>
-	<!-- confirm 모달을 쓸 페이지에 추가 start-->
+		<!-- end of container-fluid -->
+	</section>
+	
+	
+	
+	
+	
+		<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="modal modal-section type-confirm">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
@@ -263,27 +233,34 @@ body, html {
 			<button class="btn pink_btn modal_close">확인</button>
 		</div>
 	</section>
-	
 	<!-- alert 모달을 쓸 페이지에 추가 end-->
-	<!-- 승빈-->
-	<script>
+	
+	
+	
+	
+	
+<script>
 		$(function() {
 			//사용 예시 **************************
+			
+			
 			$(document).on("click", "#confirm", function() {
-				action_popup.confirm("삭제 하시겠습니까?", function(res) {
+				action_popup.confirm("확인 되었습니다.", function(res) {
 					if (res) {
-						action_popup.alert("삭제가 되었습니다.");
-						document.delete.submit();
+						action_popup.alert("발송 되었습니다.");
+						document.mach.submit();
 					} else {
-						action_popup.alert("삭제에 실패하였습니다.");
+						action_popup.alert("발송에 실패하였습니다.");
 					}
 				})
 			});
-
-		
+			
+			
+			
+			
 
 			$(document).on("click", "#alert", function() {
-				action_popup.alert("경고창 테스트!!!");
+				action_popup.alert("인증번호를 이메일로 발송 했습니다");
 			});
 
 			$(".modal_close").on("click", function() {
@@ -355,9 +332,36 @@ body, html {
 			}
 		}
 		 
+		 
+		 
+		 
+		 
+		 
+		 
+		//인증 번호 확인
+			function authKeyCompared(){
+				var inputCode = $("#checkKey").val();
+				var result = $("#check_authKey");
+				
+				if(inputCode == authKey ){
+					result.text("인증번호가 일치합니다.");
+					result.css("color","blue");
+					emailCheck = true;
+				} else{
+					result.text("인증번호를 다시 확인해주세요.");
+					result.css("color","red");
+					emailCheck = false;
+				}
+			};
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 	</script>
 
-
-
-	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<%@ include file="/WEB-INF/views/adminFooter.jsp"%>
+</body>
 </html>

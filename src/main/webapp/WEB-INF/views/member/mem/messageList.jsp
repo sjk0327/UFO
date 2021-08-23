@@ -13,6 +13,7 @@
 
 
 
+
 </style>
 
 
@@ -67,6 +68,7 @@
 
 										<!-- Basic table card start -->
 										<div class="card">
+											
 											<div class="card-header">
 												<h5>메시지함</h5>
 											</div>
@@ -75,6 +77,7 @@
 													<table class="table table-hover">
 														<thead>
 															<tr>
+																<th width="100">보낸사람</th>
 																<th width="100">제목</th>
 																<th width="100">날짜</th>
 															</tr>
@@ -87,6 +90,7 @@
 																<tr
 																	onclick="location.href='/member/mem/messageList/${list.a_id }'"
 																	style="cursor: hand">
+																	<td><p>UFO&nbsp;고객센터</p></td>
 																	<td scope="row">${list.a_title }</td> 
 																	<td><fmt:formatDate value="${list.a_date }" pattern="yyyy-MM-dd hh:mm:ss" /></td>
 																</tr>
@@ -104,6 +108,7 @@
 								<!-- 페이징 start -->
 								
                               <div id = "paging-div" >
+                              <div class="col-sm-3">
                               <ul class="btn-group pagination" >
                                  <c:if test="${pageMaker.prev }">
                                     <li><a href='<c:url value="/member/mem/messageList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
@@ -121,6 +126,7 @@
                                        <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
                                  </c:if>
                               </ul>
+                              </div>
                               </div>
                               <!-- 페이징 end -->
                            
