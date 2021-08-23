@@ -115,9 +115,26 @@
 	
 	<select id="getWishList" resultType="com.use.first.rent.WishListVO">
 		<![CDATA[
+		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{keyword} and w_pid=p_id limit #{pageStart}, #{perPageNum}
+		]]>
+	</select>
+
+
+	<select id="getWishTotalCount" resultType="int">
+		select count(*) from
+		wishlist,product
+		where w_mid=#{keyword} and w_pid=p_id
+		<include refid="searchCondition"></include>
+	</select>
+	
+	<select id="getWishListAll" resultType="com.use.first.rent.WishListVO">
+		<![CDATA[
 		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{userId} and w_pid=p_id
 		]]>
 	</select>
+	
+	
+	
 	
 	<update id="updateCart"
 		parameterType="com.use.first.rent.BuyInfoVO">
@@ -172,6 +189,12 @@
 		delete from cart where c_mid=#{userID}
 		]]>
 	</delete>
+	
+	<select id="rentListNow" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_sdate>=now() and r_state="대여중"
+		]]>
+	</select>
 
 	<!-- 08/10 : 성훈 추가 product.p_category -->
 	<!-- 성훈 시작 -->

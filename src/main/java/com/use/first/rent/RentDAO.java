@@ -20,7 +20,8 @@ public interface RentDAO {
 	public void rentReturn(int r_id);
 	public List<RentVO> rentList(Criteria cri);
 	public int getRentTotalCount(Criteria cri);
-	public List<WishListVO> getWishList(String userId);
+	public List<WishListVO> getWishList(Criteria cri);
+	public List<WishListVO> getWishListAll(String userId);
 	//public int getWishTotalCount(Criteria cri);
 	public void deleteWishList(String w_id);
 	public void deleteWishAll(String userId);
@@ -30,7 +31,8 @@ public interface RentDAO {
 	public void deleteCartAll(String userId);
 	public void updateCart(BuyInfoVO buyInfoVo);
 	public int rentSelect();
-	
+	public int getWishTotalCount(Criteria cri);
+	public List<RentVO> rentListNow();
 	
 	
 	// 성훈 시작
