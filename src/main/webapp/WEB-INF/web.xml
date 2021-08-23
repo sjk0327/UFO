@@ -19,6 +19,22 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   
+  <!-- user login filter -->
+ <filter>
+    <filter-name>loginCheckFilter</filter-name>
+    <filter-class>com.use.first.filter.LoginCheckFilter</filter-class>
+     <init-param>
+    	<param-name>FilterParam</param-name>
+		<param-value>param value</param-value>
+	</init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginCheckFilter</filter-name>
+    <url-pattern>/member/*</url-pattern>
+  </filter-mapping>
+  
+  
+  
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

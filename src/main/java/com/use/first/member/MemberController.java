@@ -1026,7 +1026,7 @@ public class MemberController {
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "/member/mem/memRentDetail";
+		return "/member/mem/memRentDetail2";
 	}
 
     
@@ -1052,8 +1052,8 @@ public class MemberController {
     
     
     // 회원 상세 정보 - 대여 상세 정보 - 환불
-    @RequestMapping(value ="/member/mem/memRentRefund/{b_id}/{r_id}", method = RequestMethod.GET)
-   	public String memRentRefund(Model model, @PathVariable int b_id, @PathVariable int r_id) throws Exception{
+    @RequestMapping(value ="/member/mem/memRentRefund/{r_id}", method = RequestMethod.GET)
+   	public String memRentRefund(Model model, @PathVariable int r_id) throws Exception{
    		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
    		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
    		System.out.println("memController - memRentRefund  :  환불 하기 클릭 컨트롤러");
@@ -1065,15 +1065,6 @@ public class MemberController {
     	int result = rentDAO.rentUpdate(rentVO);
    		System.out.println("memController - memRentRefund 1result : " + result);
     	
-    	BuyVO buyVO = buyDAO.buyInfo(b_id);
-   		buyVO.setB_id(b_id);
-   		buyVO.setB_state("환불 요청");
-   		buyVO.setB_purchase("-"+buyVO.getB_purchase());
-   		System.out.println("memController - memRentRefund - buyVO : " + buyVO.toString());
-   		
-   		result += buyDAO.buyInsert(buyVO);
-   		System.out.println("memController - memRentRefund 2result : " + result);
-   		
    		return "redirect:/member/mem/memRentDetail/" + r_id ;
    	}
     
@@ -1130,9 +1121,33 @@ public class MemberController {
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "/member/mem/memBuyDetail";
+		return "/member/mem/memBuyDetail2";
 	}
+    //회원 내정보 - 대여 내역
+    @RequestMapping(value = "/member/mem/memRentList", method = RequestMethod.GET)
+	public String memRentList(Criteria cri, Model model,HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+		
+		// 대여 정보 가져오기
+		List<RentVO> rentList = rentDAO.rentListByMidAndSearch(cri, userId, "구매");
+		System.out.println("rentList size : " + rentList.size());
+	
+		// 모델에 추가
+		model.addAttribute("rentList", rentList);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentDAO.getRentTotalCount(cri);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/mem/memRentList";
+	}
+    
 	// 성훈 end
 
 }

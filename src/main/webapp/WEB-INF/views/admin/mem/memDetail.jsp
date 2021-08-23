@@ -270,7 +270,8 @@
 						</c:if>
 						<c:if test="${list.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
 						<c:if test="${list.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
-                                                               
+                        <c:if test="${list.r_state eq '환불 요청'}"><label class="btn btn-warning">환불 요청</label></c:if>
+						<c:if test="${list.r_state eq '환불 완료'}"><label class="btn btn-success">환불 완료</label></c:if>                                       
                                                        
                                                                
                                                             </td>
@@ -312,6 +313,7 @@
                                                             <td class="text-right">
                                                                	<c:if test="${list.r_state eq '즉시 구매'}"><label class="btn btn-info">즉시 구매</label></c:if>
 																<c:if test="${list.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
+																<c:if test="${list.r_state eq '환불'}"><label class="btn btn-info2">환 불</label></c:if>
                                                             </td>
                                                                </tr>
                                                             </tbody>
