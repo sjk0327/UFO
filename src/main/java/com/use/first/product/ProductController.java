@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.use.first.member.ReviewVO;
+import com.use.first.member.UserDAO;
 import com.use.first.member.UserInfoVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
+import com.use.first.rec.RecVO;
 import com.use.first.rent.BuyInfoVO;
 import com.use.first.rent.CartVO;
 import com.use.first.rent.WishListVO;
@@ -344,43 +345,7 @@ public class ProductController {
 				return "redirect:/admin/pro/productDetail/"+ product_id;
 			}
 	
-			  /*
-				//고객 상품상세보기 
-				  @RequestMapping(value = "/member/pro/productDetail/{p_id}", method = RequestMethod.GET)
-					public String memberProductDetail(@ModelAttribute BuyInfoVO buyInfoVO, HttpSession session, Model model, @PathVariable String p_id) {
-					    if (session.getAttribute("userInfo") != null) {
-					    	UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
-							String userId=userInfo.getM_id();						  
-						  	String w_mid = userId;
-							String w_pid = p_id;
-							String r_mid = userId;
-							String r_pid = p_id; 
-							ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-							ProductVO productVO = productDAO.productInfo(p_id);
-							WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
-							RecommendVO recommendVO = productDAO.checkRecommend(r_pid,r_mid);
-							int recommendCount = productDAO.recommendCount(r_pid);
-							model.addAttribute("productVO", productVO);
-							model.addAttribute("wishListVO", wishListVO);
-							model.addAttribute("buyInfoVO", buyInfoVO);
-							model.addAttribute("recommendVO", recommendVO);
-							model.addAttribute("recommendCount", recommendCount);
-					    } else {
-
-							String w_pid = p_id;
-					
-							String r_pid = p_id; 
-							ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-							ProductVO productVO = productDAO.productInfo(p_id);
-
-							int recommendCount = productDAO.recommendCount(r_pid);
-							model.addAttribute("productVO", productVO);
-							model.addAttribute("recommendCount", recommendCount);
-							model.addAttribute("buyInfoVO", buyInfoVO);
-					    }	
-						return "/member/pro/memberProductDetail";					
-					}		
-					*/
+			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬 고객 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			
 			//ajax 위시리스트 추가
 			@ResponseBody
@@ -492,52 +457,121 @@ public class ProductController {
 			*/
 			
 			//고객 상품상세보기 
-			@RequestMapping(value = "/member/pro/productDetail/{p_id}", method = RequestMethod.GET)
-			public String memberProductDetail(@ModelAttribute BuyInfoVO buyInfoVO, HttpSession session, Model model, @PathVariable String p_id, Criteria cri) {
-		    if (session.getAttribute("userInfo") != null) {
-		    	UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
-				String userId=userInfo.getM_id();						  
-			  	String w_mid = userId;
-				String w_pid = p_id;
-				String r_mid = userId;
-				String r_pid = p_id; 
-			
-				ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-				ProductVO productVO = productDAO.productInfo(p_id);
-				WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
-				RecommendVO recommendVO = productDAO.checkRecommend(r_pid,r_mid);
-				int recommendCount = productDAO.recommendCount(r_pid);
-				//리뷰용 추가	
-				System.out.println("2");
-				String v_pid =  p_id;
-				List<ReviewVO> reviewList = productDAO.reviewList(v_pid);		
-				PageMaker pageMaker = new PageMaker(cri);
-				int totalCount = productDAO.countReviewListTotal(v_pid);
-				pageMaker.setTotalCount(totalCount);
-				
-				model.addAttribute("productVO", productVO);
-				model.addAttribute("wishListVO", wishListVO);
-				model.addAttribute("buyInfoVO", buyInfoVO);
-				model.addAttribute("recommendVO", recommendVO);
-				model.addAttribute("recommendCount", recommendCount);
-				//추가
-				model.addAttribute("reviewList", reviewList);
-				model.addAttribute("pageMaker", pageMaker);
-				
-		    } else {
+			  @RequestMapping(value = "/member/pro/productDetail/{p_id}", method = RequestMethod.GET)
+				public String memberProductDetail(@ModelAttribute BuyInfoVO buyInfoVO, HttpSession session, Model model, @PathVariable String p_id, Criteria cri) {
+				    if (session.getAttribute("userInfo") != null) {
+				    	UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+						String userId=userInfo.getM_id();						  
+					  	String w_mid = userId;
+						String w_pid = p_id;
+						String r_mid = userId;
+						String r_pid = p_id; 
+										cri.setV_pid(p_id);
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+						UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
 
-				String w_pid = p_id;
+						WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
+						RecommendVO recommendVO = productDAO.checkRecommend(r_pid,r_mid);
+						int recommendCount = productDAO.recommendCount(r_pid);
+						//리뷰용 추가
+						String v_pid =  p_id;
+						List<RecVO> recVO = productDAO.reviewList(v_pid);	
+						System.out.println("1");
+						model.addAttribute("recVO", recVO);
+						PageMaker pageMaker = new PageMaker(cri);
+						int totalCount = productDAO.countReviewListTotal(v_pid);
+						pageMaker.setTotalCount(totalCount);
+						model.addAttribute("pageMaker", pageMaker);
+						
+						
+						
+						model.addAttribute("wishListVO", wishListVO);
+						model.addAttribute("buyInfoVO", buyInfoVO);
+						model.addAttribute("recommendVO", recommendVO);
+						model.addAttribute("recommendCount", recommendCount);
+
+						
+						
+						
+				    } else {
+				    	cri.setV_pid(p_id);
+						String w_pid = p_id;			
+						String r_pid = p_id; 
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+						ProductVO productVO = productDAO.productInfo(p_id);
+						int recommendCount = productDAO.recommendCount(r_pid);
+						
+						String v_pid =  p_id;
+						List<RecVO> recVO = productDAO.reviewList(v_pid);	
+						model.addAttribute("recVO", recVO);
+						PageMaker pageMaker = new PageMaker(cri);
+						int totalCount = productDAO.countReviewListTotal(v_pid);
+						pageMaker.setTotalCount(totalCount);
+						model.addAttribute("pageMaker", pageMaker);
+						
+						
+						model.addAttribute("productVO", productVO);
+						model.addAttribute("recommendCount", recommendCount);
+						model.addAttribute("buyInfoVO", buyInfoVO);
+				    }
+				    return "/member/pro/memberProductDetail";					
+				}	
+			  //페이지 눌렀을때
+			  @RequestMapping(value = "/member/pro/productDetail", method = RequestMethod.GET)
+				public String memberProductDetailReviewPage(@ModelAttribute BuyInfoVO buyInfoVO, HttpSession session, Model model, @RequestParam String v_pid,@RequestParam String page,@RequestParam String perPageNum,Criteria cri) {
+				    if (session.getAttribute("userInfo") != null) {
+				    	UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+						String userId=userInfo.getM_id();						  
+					  	String w_mid = userId;
+						String w_pid = v_pid;
+						String r_mid = userId;
+						String r_pid = v_pid; 
+						
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+						ProductVO productVO = productDAO.productInfo(v_pid);
+						WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
+						RecommendVO recommendVO = productDAO.checkRecommend(r_pid,r_mid);
+						int recommendCount = productDAO.recommendCount(r_pid);
+						//리뷰용 추가
+
+						List<RecVO> recVO = productDAO.reviewPagingList(v_pid);	
+						model.addAttribute("recVO", recVO);
+						PageMaker pageMaker = new PageMaker(cri);
+						int totalCount = productDAO.countReviewListPagingTotal(v_pid);
+						pageMaker.setTotalCount(totalCount);
+						model.addAttribute("pageMaker", pageMaker);
+						
+						
+						model.addAttribute("productVO", productVO);
+						model.addAttribute("wishListVO", wishListVO);
+						model.addAttribute("buyInfoVO", buyInfoVO);
+						model.addAttribute("recommendVO", recommendVO);
+						model.addAttribute("recommendCount", recommendCount);
+
+						
+						
+						
+				    } else {
+
+						String w_pid = v_pid;			
+						String r_pid = v_pid; 
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+						ProductVO productVO = productDAO.productInfo(v_pid);
+						int recommendCount = productDAO.recommendCount(r_pid);
+						
 		
-				String r_pid = p_id; 
-				ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-				ProductVO productVO = productDAO.productInfo(p_id);
-
-				int recommendCount = productDAO.recommendCount(r_pid);
-				model.addAttribute("productVO", productVO);
-				model.addAttribute("recommendCount", recommendCount);
-				model.addAttribute("buyInfoVO", buyInfoVO);
-		    }
-		    return "/member/pro/memberProductDetail";					
-		}		
+						List<RecVO> recVO = productDAO.reviewPagingList(v_pid);	
+						model.addAttribute("recVO", recVO);
+						PageMaker pageMaker = new PageMaker(cri);
+						int totalCount = productDAO.countReviewListPagingTotal(v_pid);
+						pageMaker.setTotalCount(totalCount);
+						model.addAttribute("pageMaker", pageMaker);
+						
+						model.addAttribute("productVO", productVO);
+						model.addAttribute("recommendCount", recommendCount);
+						model.addAttribute("buyInfoVO", buyInfoVO);
+				    }
+				    return "/member/pro/memberProductDetail";					
+				}	
 									
 	}
