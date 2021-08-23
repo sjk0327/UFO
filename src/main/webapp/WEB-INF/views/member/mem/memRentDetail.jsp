@@ -169,49 +169,16 @@
 	  margin-left: 0;
 	 }
    
+   
+   .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+    display: table-cell;
+	}
 }
-  body {
-    position: relative; 
-  }
-.affix {
-    top:0;
-    width: 100%;
-    z-index: 9999 !important;
-  }
-  .navbar {
-    margin-bottom: 0px;
-  }
-
-  .affix ~ .container-fluid {
-   position: relative;
-   top: 50px;
-  }
 </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 </head>
 
 <body>
-<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="155">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">UFO</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">내정보</a></li>
-        <li><a href="#">대여 내역</a></li>
-        <li><a href="#">구매 내역</a></li>
-        <li><a href="#">메시지 함</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
 <div id="pcoded" class="pcoded">
 <div class="pcoded-overlay-box"></div>
 <div class="pcoded-container navbar-wrapper">
@@ -222,10 +189,41 @@
 	<div class="main-body">
 		<div class="page-wrapper">
 			<div class="page-body">
-				
 				<div class="row">
-				<!--  project and team member start -->
-					<div class="col-xl-12 col-md-12">
+					<div class="col-xl-2 col-sm-12">
+						<div class="card">
+							<div class="card-block">
+							    <!-- Row start -->
+							    <div class="row">
+							        <div class="col-sm-12">
+							            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
+							            <!-- Nav tabs -->
+							            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
+							                <li class="nav-item">
+							                    <a class="nav-link active" href="/member/mem/userInfo" role="tab">내 정보</a>
+							                    <div class="slide"></div>
+							                </li>
+							                <li class="nav-item">
+							                    <a class="nav-link" href="#RentInfo" role="tab">대역 내역</a>
+							                    <div class="slide"></div>
+							                </li>
+							                <li class="nav-item">
+							                    <a class="nav-link" href="#ButInfo" role="tab">구매 내역</a>
+							                    <div class="slide"></div>
+							                </li>
+							                <li class="nav-item">
+							                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
+							                    <div class="slide"></div>
+							                </li>
+							            </ul>
+							        </div>
+							    </div>
+							    <!-- Row end -->
+						    </div>
+					  	</div>
+					</div>
+					<!--  project and team member start -->
+					<div class="col-xl-10 col-sm-12">
 					<div class="card table-card">
 					<div class="card-header">
 						<h5>${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여 현황</h5>
@@ -410,9 +408,27 @@
 </div>
 <script>
 
+window.onload = function () {
+	var size =$(window)[0].innerWidth;
+	if(size > 1200) {
+		$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+	} else {
+		$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+	}
+};
+
+
+$(window).resize(function() {
+	var size =$(window)[0].innerWidth;
+	if(size > 1200) {
+		$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+	} else {
+		$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+	}
+});
+
 var rid = ${r_id};
-var index = ${buyList.size()};
-var bid = ${buyList.get(index).getB_id()};
+
 $(document).on("click", "#returnButton", function () {
 	console.log("반납 요청 스크립트 진입");
 	$(".btn_ok").text("반납");
@@ -439,7 +455,7 @@ $(document).on("click", "#refundButton", function () {
 	 $(".btn_ok").text("환불");
     action_popup.confirm("대여하신 상품을 환불 하시겠습니까?", function (res) {
         if (res) {
-        	window.location.replace("/member/mem/memRentRefund/" + bid + "/" + rid);
+        	window.location.replace("/member/mem/memRentRefund/" + rid);
         }
     });
    

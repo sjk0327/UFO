@@ -170,6 +170,11 @@
 	.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 
 
+   
+   
+   .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+    display: table-cell;
+	}
 
 </style>
 </head>
@@ -186,8 +191,40 @@
 		<div class="page-wrapper">
 			<div class="page-body">
 				<div class="row">
+				<div class="col-xl-2 col-sm-12">
+					<div class="card">
+					<div class="card-block">
+					    <!-- Row start -->
+					    <div class="row">
+				        <div class="col-sm-12">
+				            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
+				            <!-- Nav tabs -->
+				            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
+				                <li class="nav-item">
+				                    <a class="nav-link active" data-toggle="tab" href="#MyInfo" role="tab">내 정보</a>
+				                    <div class="slide"></div>
+				                </li>
+				                <li class="nav-item">
+				                    <a class="nav-link" data-toggle="tab" href="#RentInfo" role="tab">대역 내역</a>
+				                    <div class="slide"></div>
+				                </li>
+				                <li class="nav-item">
+				                    <a class="nav-link" data-toggle="tab" href="#ButInfo" role="tab">구매 내역</a>
+				                    <div class="slide"></div>
+				                </li>
+				                <li class="nav-item">
+				                    <a class="nav-link" data-toggle="tab" href="#MessageBox" role="tab">메시지 함</a>
+				                    <div class="slide"></div>
+				                </li>
+				            </ul>
+				        </div>
+					    </div>
+					    <!-- Row end -->
+				    </div>
+				  	</div>
+				</div>
 				<!--  project and team member start -->
-					<div class="col-xl-12 col-md-12">
+				<div class="col-xl-10 col-sm-12">
 					<div class="card table-card">
 					<div class="card-header">
 						<h5>${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 구매 현황</h5>
@@ -337,6 +374,25 @@
 </div>
 </div>
    <script>
+   window.onload = function () {
+		var size =$(window)[0].innerWidth;
+		if(size > 1200) {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+		} else {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+		}
+	};
+
+
+	$(window).resize(function() {
+		var size =$(window)[0].innerWidth;
+		if(size > 1200) {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+		} else {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+		}
+	});
+   
    	/*rentDetail function*/
     $('#returnbtn').click(function() {
       				

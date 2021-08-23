@@ -144,13 +144,17 @@ body, html {
 	{
 	margin-left: 0;
 }
+
+   .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+    display: table-cell;
+	}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-
+	<ul id="tempPage" style=" display:none"></ul>
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
@@ -165,6 +169,46 @@ body, html {
 								<div class="page-wrapper">
 									<!-- Page-body start -->
 									<div class="page-body">
+									<div class="row">
+									<!--  메뉴바 시작 -->
+									<div class="col-xl-2 col-sm-12">
+									<div class="card">
+										<div class="card-block">
+										    <!-- Row start -->
+										    <div class="row">
+										        <div class="col-sm-12">
+										            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
+										            <!-- Nav tabs -->
+										            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
+										                <li class="nav-item">
+										                    <a class="nav-link active" href="/member/mem/userInfo" role="tab">내 정보</a>
+										                    <div class="slide"></div>
+										                </li>
+										                <li class="nav-item">
+										                    <a class="nav-link " href="/member/mem/memRentList" role="tab">대역 내역</a>
+										                    <div class="slide"></div>
+										                </li>
+										                <li class="nav-item">
+										                    <a class="nav-link" href="/member/mem/memBuyList" role="tab">구매 내역</a>
+										                    <div class="slide"></div>
+										                </li>
+										                <li class="nav-item">
+										                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
+										                    <div class="slide"></div>
+										                </li>
+										            </ul>
+										        </div>
+										    </div>
+										    <!-- Row end -->
+									    </div>
+								  	</div>
+									</div>
+									<!-- 메뉴바 끝 -->
+									<!--  sale analytics start -->
+									<div class="col-xl-10 col-sm-12" id="changedPage">
+									<!-- 회원 개인 정보 수정 가능하게끔 -->
+									<div class="card">
+									<div class="card-block">
 										<div class="row">
 
 											<!--  sale analytics start -->
@@ -397,14 +441,14 @@ body, html {
 																<c:forEach var="list" items="${rentList }">
 																	<tbody>
 																		<tr
-																			onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
+																			onClick="goRentDetailPage(${list.r_id})">
 																			<td>
 																				<div class="d-inline-block align-middle">
 																					<img src="/resources/Images/tempProductImage.jpg"
 																						class="img-radius img-40 align-top m-r-15">
 																					<div class="d-inline-block">
 																						<h6>${list.p_name }</h6>
-																						<p class="text-muted m-b-0">상품 카테고리</p>
+																						<p class="text-muted m-b-0">${list.p_category }</p>
 																					</div>
 																				</div>
 																			</td>
@@ -457,14 +501,14 @@ body, html {
 																	<tbody>
 																		<tr>
 																		<tr
-																			onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+																			onClick="goBuyDetailPage(${list.r_id})">
 																			<td>
 																				<div class="d-inline-block align-middle">
 																					<img src="/resources/Images/tempProductImage.jpg"
 																						class="img-radius img-40 align-top m-r-15">
 																					<div class="d-inline-block">
 																						<h6>${list.p_name }</h6>
-																						<p class="text-muted m-b-0">상품 카테고리?</p>
+																						<p class="text-muted m-b-0">${list.p_category }</p>
 																					</div>
 																				</div>
 																			</td>
@@ -536,8 +580,9 @@ body, html {
 
 
 										</div>
-									</div>
-									<!-- Page-body end -->
+										</div>
+										</div>
+										<!-- Page-body end -->
 									<form:form class="form-material" name="delete2"
 										action="/member/mem/userDelete/${userInfo.m_id }"
 										method="post" enctype="multipart/form-data"
@@ -550,8 +595,12 @@ body, html {
 												class="btn waves-effect waves-light btn-primary btn-outline-primary">
 										</div>
 									</form:form>
+										</div>
+										</div>
+									
+									
 
-
+								</div>
 
 								</div>
 
@@ -598,6 +647,44 @@ body, html {
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
+	$(document).ready(function(){
+		var size =$(window)[0].innerWidth;
+		if(size > 1200) {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+		} else {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+		}
+	});
+
+
+	$(window).resize(function() {
+		var size =$(window)[0].innerWidth;
+		if(size > 1200) {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+		} else {
+			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+		}
+	});
+
+	function goRentDetailPage(r_id){
+	   	var url = '/member/mem/memRentDetail/'+r_id;
+    	 $("#tempPage").load(url, function(){
+      	 $("#changedPage").html($("#tempPage").html());
+      	 $("#tempPage").html("");
+     	});
+	}
+	
+	function goBuyDetailPage(r_id){
+	   	var url = '/member/mem/memBuyDetail/'+r_id;
+    	 $("#tempPage").load(url, function(){
+      	 $("#changedPage").html($("#tempPage").html());
+      	 $("#tempPage").html("");
+     	});
+	}
+	
+	
+	
+	
 		/*사진 미리 보여주기 함수 memberDetail*/
 		$(document).ready(
 				function() {
