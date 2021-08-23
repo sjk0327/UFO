@@ -366,7 +366,7 @@ window.onload = function() {
 	        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
 	        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
 	        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-	        ,maxDate: "+3y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+	        ,maxDate: "-1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
 	 		,showButtonPanel: true
 	 		,currentText: '오늘 날짜'
 	 		,closeText: '닫기'

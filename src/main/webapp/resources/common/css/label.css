@@ -1,0 +1,234 @@
+/**  =====================
+      Label-Badges css start
+==========================  **/
+.label {
+  border-radius: 4px;
+  font-size: 75%;
+  padding: 4px 7px;
+  margin-right: 5px;
+  font-weight: 400;
+  color: #fff !important; }
+
+.label-main {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 8px 5px; }
+
+.badge {
+  border-radius: 10px;
+  padding: 3px 7px; }
+
+.badge-top-left {
+  margin-right: -10px;
+  right: 100%;
+  top: -3px; }
+
+.badge-top-right {
+  margin-left: -10px;
+  top: -3px; }
+
+.badge-bottom-left {
+  margin-left: -33px;
+  bottom: -12px;
+  right: 97%; }
+
+.badge-bottom-right {
+  margin-left: -10px;
+  bottom: -12px; }
+
+.label.label-lg {
+  padding: 8px 21px; }
+
+.label.label-md {
+  padding: 6px 14px; }
+
+.badge-lg {
+  padding: 5px 9px;
+  font-size: 14px; }
+
+.badge-md {
+  padding: 4px 8px;
+  font-size: 14px; }
+
+span.badge {
+  display: inline-block !important; }
+
+.label-default {
+  background-color: #d6d6d6 !important;
+  border-color: #d6d6d6;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #fff; }
+
+.label-inverse-default {
+  border: 1px solid;
+  border-color: #d6d6d6;
+  color: #d6d6d6 !important; }
+
+.label-inverse-primary {
+  border: 1px solid;
+  border-color: #7971ea;
+  color: #7971ea !important; }
+
+.label-inverse-success {
+  border: 1px solid;
+  border-color: #11c15b;
+  color: #11c15b !important; }
+
+.label-inverse-warning {
+  border: 1px solid;
+  border-color: #ffe100;
+  color: #ffe100 !important; }
+
+.label-inverse-danger {
+  border: 1px solid;
+  border-color: #ff5252;
+  color: #ff5252 !important; }
+
+.label-inverse-info {
+  border: 1px solid;
+  border-color: #00bcd4;
+  color: #00bcd4 !important; }
+
+.label-inverse-info-border {
+  border: 1px solid;
+  border-color: #37474f;
+  color: #37474f !important; }
+
+.badge-inverse-default {
+  border: 1px solid;
+  border-color: #d6d6d6;
+  color: #d6d6d6 !important; }
+
+.badge-inverse-primary {
+  border: 1px solid;
+  border-color: #7971ea;
+  color: #7971ea !important; }
+
+.badge-inverse-success {
+  border: 1px solid;
+  border-color: #11c15b;
+  color: #11c15b !important; }
+
+.badge-inverse-warning {
+  border: 1px solid;
+  border-color: #ffe100;
+  color: #ffe100 !important; }
+
+.badge-inverse-danger {
+  border: 1px solid;
+  border-color: #ff5252;
+  color: #ff5252 !important; }
+
+.badge-inverse-info {
+  border: 1px solid;
+  border-color: #37474f;
+  color: #37474f !important; }
+
+.label-icon {
+  position: relative; }
+  .label-icon label {
+    position: absolute; }
+
+.icofont.icofont-envelope {
+  font-size: 20px; }
+
+/*===== Label and Badges css end =====*/
+.label {
+  border-radius: 2px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 0;
+  text-transform: capitalize; }
+
+.label-primary {
+  background: #7971ea; }
+
+.label-warning {
+  background: #ffe100; }
+
+.label-default {
+  background: #d6d6d6; }
+
+.label-danger {
+  background: #ff5252; }
+
+.label-success {
+  background: #11c15b; }
+
+.label-inverse {
+  background: #37474f; }
+
+.label-info {
+  background: #00bcd4; }
+
+.label-warning {
+  color: #fff; }
+
+/*======= Label-color css starts  ======= */
+/*======= Badge-color css starts  ======= */
+.badge-primary {
+  background: #7971ea; }
+
+.badge-warning {
+  background: #ffe100; }
+
+.badge-default {
+  background: #d6d6d6; }
+
+.badge-danger {
+  background: #ff5252; }
+
+.badge-success {
+  background: #11c15b; }
+
+.badge-inverse {
+  background: #37474f; }
+
+.badge-info {
+  background: #00bcd4; }
+
+/*======= Badge-color css end  ======= */
+/*======= Background-color css starts  ======= */
+.bg-color-box {
+  text-align: center;
+  display: inline-block;
+  padding: 10px 20px;
+  -webkit-box-shadow: 0 0 5px 0 rgba(128, 128, 128, 0.49);
+          box-shadow: 0 0 5px 0 rgba(128, 128, 128, 0.49);
+  font-weight: 600;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer; }
+
+.bg-color-box span {
+  color: #fff; }
+
+.bg-primary {
+  background-color: #7971ea !important;
+  color: #fff; }
+
+.bg-warning {
+  background-color: #ffe100 !important;
+  color: #fff; }
+
+.bg-default {
+  background-color: #d6d6d6 !important;
+  color: #fff; }
+
+.bg-danger {
+  background-color: #ff5252 !important;
+  color: #fff; }
+
+.bg-success {
+  background-color: #11c15b !important;
+  color: #fff; }
+
+.bg-inverse {
+  background-color: #37474f !important;
+  color: #fff; }
+
+.bg-info {
+  background-color: #00bcd4 !important;
+  color: #fff; }
