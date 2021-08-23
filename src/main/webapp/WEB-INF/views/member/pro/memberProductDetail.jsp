@@ -15,7 +15,9 @@
 
 
   <style>
-
+	img{
+	border-radius: 15px;
+	}
 	textarea {
 	border: none;
 	font-size: 1em;
@@ -80,7 +82,30 @@
 	font-size: 30pt;
 	text-align:left;
 	}
-	
+	.profile img{ 
+	height: 60px;
+	  max-width: 60px;
+	  min-width: 60px;
+	  display: block;
+	border-radius: 30px; 
+	}
+	.imgIdDate {
+	margin-bottom :20px;
+	}
+	.reviewContent textarea {
+	width:100%; 
+	resize: none; 
+	overflow-y: hidden;
+	}
+	.wrap textarea {
+      width: 100%;
+      height:auto;
+      resize: none;
+      overflow-y: hidden; /* prevents scroll bar flash */
+      padding: 1.1em; /* prevents text jump on Enter keypress */
+      padding-bottom: 0.2em;
+      line-height: 1.6;
+    }
 
 
 * {padding: 0;margin: 0;}
@@ -232,43 +257,62 @@ body, html {height: 100%;}
     <a class="nav-link active" href="#productInfo">상세정보</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/member/recList/${productVO.p_id}">리뷰게시판</a>
+    <a class="nav-link" href="#reviewTop">리뷰게시판</a>
   </li>
  
 </ul>
         <div class="row justify-content-center">
           <div class="col-lg-12 col-sm-12 subContainer" style="text-align:center;">
            <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%" 	 		
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	</div>
-		<pre><div style="text-align:center;">${ productVO.p_content }</div></pre>					  
+							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	
+		  <div class="wrap"><textarea disabled>${ productVO.p_content }</textarea></div>
+		  <!--  <pre><div style="text-align:center;">${ productVO.p_content }</div></pre>	-->
+		  </div>
+						  
           </div>
       
-     
+   
                 
          <div class="site-section">
-    
-      <div class="container"> 
+         
+    	<div name="sortReview" >
+    	<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="#">최신순</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">추천높은순</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">추천낮은순</a>
+    </li>
+  </ul>
+</nav>
+    	</div>
+    	
+      <div class="container" id="reviewTop"> 
         <div class="row mb-5">
-          <div class="col-md-9 order-2">
+          <div class="col-md-12 order-2">
        
          
-            <c:forEach var="reviewList" items="${reviewList}" begin="0" end="10" step="1" varStatus="status">                             
-                <hr><br>
-                <div class="row" name="imgIdDate">
-                  <div class="col-lg-12 col-sm-12">
-                	<div class="col-lg-3 col-sm-3">
-                	<!-- <img src = /resources/images/member/	 -->
+            <c:forEach var="recVO" items="${recVO}" begin="0" end="10" step="1" varStatus="status">                             
+                <hr>
+                <div class="row imgIdDate" name="imgIdDate">
+                 
+                	<div class="col-2 profile" align="center">  
+                	 <img src = /resources/Images/member/${recVO.m_img} alt="${recVO.m_img}" title="${recVO.m_img}" class="img-fluid img-circle">         
                 	</div> 
-                	<div class="col-lg-9 col-sm-9">
-                	 <div>${reviewList.v_mid}</div>
-                	 <div>${reviewList.v_date}</div>
-                	</div>           		
-                  </div> 	                      
+                	<div class="col-10">
+                	 <div>${recVO.v_mid}</div>
+                	 <div>${recVO.v_date}</div>
+                	</div>      		
+                	                      
                 </div>
  
                 <div class="row" name="content">
-                 <div class="col-lg-12 col-sm-12">
-                 ${reviewList.v_content}
+                 <div class="col-12 reviewContent">
+                <textarea disabled>${recVO.v_content}</textarea>
                  </div>
                 </div>
                 
@@ -289,18 +333,18 @@ body, html {height: 100%;}
 										<div id = "paging-div">
 										<ul class="btn-group pagination">
 											<c:if test="${pageMaker.prev }">
-												<li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
 													<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageNum)}"/>'>
+												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}"/>'>
 												<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageNum)}"/>'>
+												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}"/>'>
 												<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 												
 											</c:forEach>
 											<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-												<li><a href='<c:url value="/member/recList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
 													<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 										</ul>

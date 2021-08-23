@@ -125,7 +125,7 @@
                                  </c:forEach>
                                  <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
                                     <li><a href='<c:url value="/admin/mem/memList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-                                       <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
+                                       <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
                                  </c:if>
                               </ul>
                               </div>

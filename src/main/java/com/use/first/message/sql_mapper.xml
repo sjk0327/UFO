@@ -30,46 +30,57 @@
 		order by a_date desc;     
 		]]>
 	</select>
-	
-	<select id="messageInfo" parameterType="String" resultType="com.use.first.message.MessageVO">
+
+	<select id="messageInfo" parameterType="int"
+		resultType="com.use.first.message.MessageVO">
 	<![CDATA[
 		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
 		from alertmessage 
-		where a_mid = #{a_mid} and a_id = #{a_id}
+		where a_id = #{a_id}
 
 	]]>
 
 	</select>
-	
-	
-	
-	
-	
+
+
+
+	<delete id="messageDelete"
+		parameterType="com.use.first.message.MessageVO">
+	<![CDATA[
+		DELETE from alertmessage 
+		WHERE a_id =#{a_id}
+	]]>
+	</delete>
+
+
+
+
+
 	<select id="countMessageListTotal" resultType="int">
 		SELECT count(*)
-		FROM alertmessage 
+		FROM alertmessage
 		WHERE a_mid=#{a_mid};
 		<!-- <include refid="searchCondition"></include> -->
 	</select>
-	
+
 	<sql id="searchCondition">
 		<if test="searchType != null">
-			<if test="searchType == ''.toString()"> 
-				AND m_name LIKE CONCAT ('%', #{keyword},'%') 
+			<if test="searchType == ''.toString()">
+				AND m_name LIKE CONCAT ('%', #{keyword},'%')
 			</if>
-			<if test="searchType == 't'.toString()"> 
+			<if test="searchType == 't'.toString()">
 				AND m_id LIKE CONCAT ('%', #{keyword},'%')
 			</if>
-			<if test="searchType == 'c'.toString()"> 
+			<if test="searchType == 'c'.toString()">
 				AND m_name LIKE CONCAT ('%',
-				#{keyword},'%') 
+				#{keyword},'%')
 			</if>
-			<if test="searchType == 'w'.toString()"> 
+			<if test="searchType == 'w'.toString()">
 				AND m_point
-				LIKE CONCAT ('%', #{keyword},'%') 
+				LIKE CONCAT ('%', #{keyword},'%')
 			</if>
 			<if test="searchType == 'tc'.toString()">
-				AND m_regdate LIKE CONCAT ('%', #{keyword},'%') 
+				AND m_regdate LIKE CONCAT ('%', #{keyword},'%')
 			</if>
 		</if>
 	</sql>
@@ -85,6 +96,9 @@
 		order by a_date desc limit 2;   
 		]]>
 	</select>
+
+
+
 
 	<!-- 승빈 추가 끝 -->
 

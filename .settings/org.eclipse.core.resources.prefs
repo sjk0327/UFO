@@ -5,5 +5,7 @@ encoding//src/main/webapp/WEB-INF/views/adminFooter.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/customerFooter.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/customerHeader.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/member/mem/pw_auth.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/member/mem/pw_find.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/member/rent/memberWishList.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/member/rent/modaltestjsp.jsp=UTF-8

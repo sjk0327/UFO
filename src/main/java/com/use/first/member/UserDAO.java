@@ -7,10 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import com.use.first.paging.Criteria;
 
 
-
-
-
-
 public interface UserDAO {
 	public List<UserVO> memList(Criteria cri);
 	public UserVO memInfo(String m_id);
@@ -32,7 +28,12 @@ public interface UserDAO {
 	public int countMemListTotal(Criteria cri);	
 	public int kakaoJoin(UserVO user);
 	public int naverJoin(UserVO user);
+	
 
+	public UserVO selectMember(String m_id);
+	public int pwUpdate_M(UserVO user);
+	public UserVO selectId(UserVO user);
+	
 
 	
 	// 8/10 : 성훈 추가
@@ -42,5 +43,7 @@ public interface UserDAO {
 	
 	// 8/16 : 정노 추가
 	public void memUpdateBuy(String m_id, String m_point, String m_tel, String m_addr);
+	
+	
 
 }

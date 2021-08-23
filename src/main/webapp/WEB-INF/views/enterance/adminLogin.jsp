@@ -24,7 +24,7 @@
                     
                         <form:form class="md-float-material form-material" action="admin" method="post"  modelAttribute="user">
                             <div class="text-center">
-                                <img src="resources/assets/images/logo.png" alt="logo.png">
+                                <img src="/resources/assets/images/logo.png" alt="logo.png">
                             </div>
                             <div class="auth-box card">
                                 <div class="card-block">
@@ -46,9 +46,7 @@
                                     
                                     
                                     <div class="row m-t-25 text-left">
-                                        <div class="col-12">
-                                           
-                                        </div>
+                                        <div class="col-12"></div>
                                     </div>
                                     
                                     
@@ -64,7 +62,7 @@
                                             <p class="text-inverse text-left"><a href="/"><b>고객 페이지로</b></a></p>
                                         </div>
                                         <div class="col-md-2">
-                                            <img src="resources/assets/images/auth/Logo-small-bottom.png" alt="small-logo.png">
+                                            <img src="/resources/assets/images/auth/Logo-small-bottom.png" alt="small-logo.png">
                                         </div>
                                     </div>
                                 </div>
