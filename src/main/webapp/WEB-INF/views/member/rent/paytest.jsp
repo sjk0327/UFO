@@ -1,13 +1,25 @@
+
 <%@page import="org.springframework.ui.Model"%>
+
+<%@page import="org.springframework.web.servlet.ModelAndView"%>
+<%@page import="com.use.first.buy.BuyVO"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
     String name = "수정";
     String email = "sjk0868@naver.com";
     String phone = "010-3135-3027";
     String address = "서울시 강남구 삼성동";
-    int totalPrice = (Integer)request.getAttribute("total");   
-    System.out.println("여기까지 찍힘2");
+    int totalPrice = (Integer)request.getAttribute("total");
+    
+    BuyVO buyVO = (BuyVO)request.getAttribute("buyVO");
+    String id = (String) request.getAttribute("m_id");
+    String point = (String) request.getAttribute("m_point");
+    String tel = (String) request.getAttribute("m_tel");
+    String addr = (String) request.getAttribute("m_addr");
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +30,20 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
+	<form id="bInsert" action="/customer/buyInsert" method="post" >
+		<input type="hidden" name="m_id" value="<%=id %>"/>
+		<input type="hidden" name="m_point" value="<%=point %>"/>
+		<input type="hidden" name="m_tel" value="<%=tel %>"/>
+		<input type="hidden" name="m_addr" value="<%=addr %>"/>
+		<input type="hidden" name="total" value="<%=totalPrice %>"/>
+		<input type="hidden" name="b_mid" value="${buyVO.b_mid }" />
+		<input type="hidden" name="b_pid" value="${buyVO.b_pid }" />
+		<input type="hidden" name="b_amount" value="${buyVO.b_amount }" />
+		<input type="hidden" name="b_how" value="${buyVO.b_how }" />
+		<input type="hidden" name="b_state" value="${buyVO.b_state }" />
+		<input type="hidden" name="b_purchase" value="${buyVO.b_purchase }" />
+		<input type="hidden" name="b_message" value="${buyVO.b_message }" />
+		</form>
     <script>
     $(function(){
         var IMP = window.IMP; // 생략가능
@@ -56,14 +82,16 @@
                         msg += '\결제 금액 : ' + rsp.paid_amount;
                         msg += '카드 승인번호 : ' + rsp.apply_num;
                         
+                       
                         alert(msg);
+                        
                     } else {
                         //[3] 아직 제대로 결제가 되지 않았습니다.
                         //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
                     }
                 });
-                //성공시 이동할 페이지
-                location.href='/buysuccess';
+                
+                document.getElementById('bInsert').submit();
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;

@@ -55,8 +55,6 @@ public class HomeController {
 			return "/member/rent/paytest";
 		
 	}
-
-	
 	
 	@RequestMapping(value = "/payfail")
 	public String payfail(Locale locale, Model model, HttpSession session) {
