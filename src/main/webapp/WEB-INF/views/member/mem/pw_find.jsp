@@ -208,7 +208,7 @@ body, html {
 									<div class="col-md-10">
 										<p class="text-inverse text-left m-b-0"></p>
 										<p class="text-inverse text-left">
-											<a href="/member/mem/id_find"><b>아이디 찾기</b></a>
+											<a href="/member/mem/id_auth"><b>아이디 찾기</b></a>
 										</p>
 									</div>
 									

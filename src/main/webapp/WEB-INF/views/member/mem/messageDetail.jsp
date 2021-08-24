@@ -14,6 +14,10 @@
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
+
+
+
+
 <style>
 .filebox input[type="file"] {
 	position: absolute;
@@ -137,18 +141,26 @@ body, html {
 	border: none;
 }
 
+.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content
+	{
+	margin-left: 0;
+}
 
+.tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+	display: table-cell;
+}
 </style>
+
+
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
 
 
 </head>
 
 <body>
-
+	<ul id="tempPage" style="display: none"></ul>
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
@@ -163,76 +175,119 @@ body, html {
 								<div class="page-wrapper">
 									<!-- Page-body start -->
 									<div class="page-body">
-
-
-										<!-- 뉴 메시지함 시작 -->
-
-										<div class="pcoded-inner-content">
-											<div class="main-body">
-												<div class="page-wrapper">
-													<div class="page-body">
+										<div class="row">
+											<!--  메뉴바 시작 -->
+											<div class="col-xl-2 col-sm-12">
+												<div class="card">
+													<div class="card-block">
+														<!-- Row start -->
 														<div class="row">
-															<div class="col-sm-6">
-																<div class="card">
-																	<div class="card-header">
-																		<h5>메시지</h5>
-																	</div>
-																	<div>
-																		<h5>&nbsp;&nbsp;${message.a_mid }&nbsp;회원님</h5>
-																		<br>
-																		<h4>&nbsp;&nbsp;${message.a_title }</h4>
-																	</div>
-																	<div class="card-block">
-																		<pre>${message.a_content }</pre>
-																	</div>
-																	<br>
-																	<div>
-																		<div>
-																			<p>&nbsp;&nbsp;UFO&nbsp;고객센터</p>
-																		</div>
-																		<div>
-																			&nbsp;&nbsp;발신일
-																			<p>
-																				&nbsp;&nbsp;<fmt:formatDate value="${message.a_date }"
-																					pattern="yyyy-MM-dd hh:mm:ss" />
-																			</p>
-																		</div>
-																	</div>
-																	<br>
-																	<br>
-																	
-																	<h4><a href="/member/mem/messageList" style="float: right; padding-right: 50px;" >메시지함</a>
-																	</h4>
-																	<br>
-																	<form:form class="form-material" name="delete"
-																		action="/member/mem/messageDelete/${message.a_id }"
-																		method="post" enctype="multipart/form-data"
-																		modelAttribute="message">
-																		<form:hidden path="a_id" value="${message.a_id }"
-																			class="form-control form-control-center form-control-round form-control-bold" />
+															<div class="col-sm-12">
+																<div class="sub-title" style="margin-bottom: 0px;">Menu</div>
+																<!-- Nav tabs -->
+																<ul id="menuBar" class="nav nav-tabs md-tabs"
+																	role="tablist">
+																	<li class="nav-item"><a class="nav-link "
+																		href="/member/mem/userInfo" role="tab">내 정보</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link "
+																		href="/member/mem/memRentList" role="tab">대역 내역</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link active"
+																		href="/member/mem/messageList" role="tab">메시지 함</a>
+																		<div class="slide"></div></li>
+																</ul>
+															</div>
+														</div>
+														<!-- Row end -->
+													</div>
+												</div>
+											</div>
+											<!-- 메뉴바 끝 -->
 
-																		<div style="float: right; padding-right: 50px" >
-																			<input type="button" id="confirm" value="메시지 삭제"
-																				class="btn waves-effect waves-light btn-primary btn-outline-primary">
+
+
+
+
+
+											<!-- 뉴 메시지함 시작 -->
+											<div class="col-xl-10 col-md-12">
+												<div class="card">
+
+													<div class="pcoded-inner-content">
+														<div class="main-body">
+															<div class="page-wrapper">
+																<div class="page-body">
+																	<div class="row">
+																		<div class="col-sm-6">
+																			<div class="card">
+																				<div class="card-header">
+																					<h5>메시지</h5>
+																				</div>
+
+																				<div class="card">
+
+																					<div>
+																						<br>
+																						<h6>&nbsp;&nbsp;${message.a_mid }&nbsp;회원님</h6>
+																						<br>
+																						<h5>&nbsp;&nbsp;${message.a_title }</h5>
+																					</div>
+																					<div class="card-block">
+																						<pre>${message.a_content }</pre>
+																					</div>
+																					<br>
+																					<div>
+																						<div>
+																							<p>&nbsp;&nbsp;UFO&nbsp;고객센터</p>
+																						</div>
+																						<div>
+																							&nbsp;&nbsp;발신일
+																							<p>
+																								&nbsp;&nbsp;
+																								<fmt:formatDate value="${message.a_date }"
+																									pattern="yyyy-MM-dd hh:mm:ss" />
+																							</p>
+																						</div>
+																					</div>
+																					<br> <br> <br>
+																					<form:form class="form-material" name="delete2"
+																						action="/member/mem/messageDelete/${message.a_id }"
+																						method="post" enctype="multipart/form-data"
+																						modelAttribute="message">
+																						<form:hidden path="a_id" value="${message.a_id }"
+																							class="form-control form-control-center form-control-round form-control-bold" />
+
+																						<div style="float: right; padding-right: 50px">
+																							<input type="button" id="confirm" value="메시지 삭제"
+																								class="btn waves-effect waves-light btn-primary btn-outline-primary">
+																						</div>
+																					</form:form>
+
+																					<br>
+
+
+																				</div>
+																			</div>
 																		</div>
-																	</form:form>
-																	
-																	<br>
-																	
+
+																	</div>
+
 
 																</div>
 															</div>
 														</div>
+														<!-- 뉴 메시지함 끝 -->
+
+
 													</div>
 												</div>
-											
-												
 											</div>
 										</div>
 									</div>
-									<!-- 뉴 메시지함 끝 -->
-
-
 								</div>
 							</div>
 						</div>
@@ -241,6 +296,7 @@ body, html {
 			</div>
 		</div>
 	</div>
+
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="modal modal-section type-confirm">
 		<div class="enroll_box">
@@ -263,7 +319,7 @@ body, html {
 			<button class="btn pink_btn modal_close">확인</button>
 		</div>
 	</section>
-	
+
 	<!-- alert 모달을 쓸 페이지에 추가 end-->
 	<!-- 승빈-->
 	<script>
@@ -273,14 +329,12 @@ body, html {
 				action_popup.confirm("삭제 하시겠습니까?", function(res) {
 					if (res) {
 						action_popup.alert("삭제가 되었습니다.");
-						document.delete.submit();
+						document.delete2.submit();
 					} else {
 						action_popup.alert("삭제에 실패하였습니다.");
 					}
 				})
 			});
-
-		
 
 			$(document).on("click", "#alert", function() {
 				action_popup.alert("경고창 테스트!!!");
@@ -354,10 +408,32 @@ body, html {
 				}, this.timer);
 			}
 		}
-		 
+
+		$(document).ready(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
+				});
+
+		$(window).resize(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
+				});
 	</script>
 
 
 
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+</body>
 </html>

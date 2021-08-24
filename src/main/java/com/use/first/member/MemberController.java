@@ -380,6 +380,7 @@ public class MemberController {
 
 	
 	// 메시지 리스트
+	
 	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.GET)
 	public String messageList(Model model, Criteria cri, HttpSession session) {
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
@@ -406,6 +407,7 @@ public class MemberController {
 	}
 
 	//메시지 검색
+	
 	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.POST)
 	public String messageListSearch(Model model, Criteria cri, HttpSession session) {
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
@@ -433,16 +435,17 @@ public class MemberController {
 	
 	
 	//메시지 상세보기
-		@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
-		public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
-			MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
-
-			MessageVO message = messageDAO.messageInfo(a_id);
-		
-			model.addAttribute("message", message);
 	
-			return "/member/mem/messageDetail";
-		}
+	@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
+	public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+
+		MessageVO message = messageDAO.messageInfo(a_id);
+		
+		model.addAttribute("message", message);
+	
+		return "/member/mem/messageDetail";
+	}
 		
 		
 		
@@ -625,6 +628,11 @@ public class MemberController {
 			
 			return "member/mem/id_info";
 		}
+		
+		
+		
+
+	
 			
 			
 			
