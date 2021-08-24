@@ -463,10 +463,12 @@ public class ProductController {
 					    	UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
 							String userId=userInfo.getM_id();						  
 						  	String w_mid = userId;
-							String w_pid = p_id;
-							String r_mid = userId;
-							String r_pid = p_id; 
-											cri.setV_pid(p_id);
+						  	String r_mid = userId;
+							String w_pid = p_id;						
+							String r_pid = p_id;
+							String v_pid =  p_id;
+							cri.setV_pid(p_id);
+							
 							ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 							UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 							UserVO userVO = dao.userInfo(userId);
@@ -475,35 +477,38 @@ public class ProductController {
 							WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
 							RecommendVO recommendVO = productDAO.checkRecommend(r_pid,r_mid);
 							int recommendCount = productDAO.recommendCount(r_pid);
+							
 							//리뷰용 추가
-							String v_pid =  p_id;
+							
+							int reviewCount = productDAO.reviewCount(v_pid);
 							List<RecVO> recVO = productDAO.reviewList(v_pid);	
-							System.out.println("1");
 							model.addAttribute("recVO", recVO);
+							RecVO oneReview = productDAO.oneReview(v_pid,userId);
 							PageMaker pageMaker = new PageMaker(cri);
 							int totalCount = productDAO.countReviewListTotal(v_pid);
 							pageMaker.setTotalCount(totalCount);
 							model.addAttribute("pageMaker", pageMaker);
 							
-							
+							model.addAttribute("userId", userId);
 							model.addAttribute("productVO", productVO);
 							model.addAttribute("wishListVO", wishListVO);
 							model.addAttribute("buyInfoVO", buyInfoVO);
 							model.addAttribute("recommendVO", recommendVO);
 							model.addAttribute("recommendCount", recommendCount);
-
+							model.addAttribute("reviewCount", reviewCount);
+							model.addAttribute("oneReview", oneReview);
 							
 							
 							
 					    } else {
 					    	cri.setV_pid(p_id);
-							String w_pid = p_id;			
-							String r_pid = p_id; 
+					    	String w_pid = p_id;						
+							String r_pid = p_id;
+							String v_pid =  p_id;
 							ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 							ProductVO productVO = productDAO.productInfo(p_id);
 							int recommendCount = productDAO.recommendCount(r_pid);
-							
-							String v_pid =  p_id;
+							int reviewCount = productDAO.reviewCount(v_pid);
 							List<RecVO> recVO = productDAO.reviewList(v_pid);	
 							model.addAttribute("recVO", recVO);
 							PageMaker pageMaker = new PageMaker(cri);
@@ -511,12 +516,12 @@ public class ProductController {
 							pageMaker.setTotalCount(totalCount);
 							model.addAttribute("pageMaker", pageMaker);
 							
-							
+							model.addAttribute("reviewCount", reviewCount);
 							model.addAttribute("productVO", productVO);
 							model.addAttribute("recommendCount", recommendCount);
 							model.addAttribute("buyInfoVO", buyInfoVO);
 					    }
-					    return "/member/pro/memberProductDetail";					
+					    return "/member/pro/memberProductDetail2";					
 					}	
 				  //페이지 눌렀을때
 				  @RequestMapping(value = "/member/pro/productDetail", method = RequestMethod.GET)
@@ -534,6 +539,7 @@ public class ProductController {
 							WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
 							RecommendVO recommendVO = productDAO.checkRecommend(r_pid,r_mid);
 							int recommendCount = productDAO.recommendCount(r_pid);
+							int reviewCount = productDAO.reviewCount(v_pid);
 							//리뷰용 추가
 
 							List<RecVO> recVO = productDAO.reviewPagingList(v_pid);	
@@ -551,7 +557,7 @@ public class ProductController {
 							model.addAttribute("buyInfoVO", buyInfoVO);
 							model.addAttribute("recommendVO", recommendVO);
 							model.addAttribute("recommendCount", recommendCount);
-
+							model.addAttribute("reviewCount", reviewCount);
 							
 							
 							
@@ -562,6 +568,7 @@ public class ProductController {
 							ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 							ProductVO productVO = productDAO.productInfo(v_pid);
 							int recommendCount = productDAO.recommendCount(r_pid);
+							int reviewCount = productDAO.reviewCount(v_pid);
 							
 			
 							List<RecVO> recVO = productDAO.reviewPagingList(v_pid);	
@@ -573,9 +580,10 @@ public class ProductController {
 							
 							model.addAttribute("productVO", productVO);
 							model.addAttribute("recommendCount", recommendCount);
+							model.addAttribute("reviewCount", reviewCount);
 							model.addAttribute("buyInfoVO", buyInfoVO);
 					    }
-					    return "/member/pro/memberProductDetail";					
+					    return "/member/pro/memberProductDetail2";					
 					}	
 				 //리뷰 폼
 				    @RequestMapping(value = "/member/recommendForm/{p_id}", method = RequestMethod.GET)
@@ -590,15 +598,34 @@ public class ProductController {
 					}
 				  
 				  //리뷰(추천글) 작성
-				  @RequestMapping(value = "/member/pro/recommendInsert", method = RequestMethod.POST)
-					public String reviewInsert(@ModelAttribute RecVO recVO) {				
-						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-						
+				  @RequestMapping(value = "/member/pro/reviewInsert", method = RequestMethod.POST)
+					public String reviewInsert(@ModelAttribute RecVO recVO) {
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
 						int n = productDAO.reviewInsert(recVO);
 						if (n == 0) {
 							System.out.println("등록 실패");
 						}
 						return "redirect:/member/pro/productDetail/"+recVO.getV_pid();
 					}
-										
+				  //리뷰 업데이트
+				  @RequestMapping(value = "/member/pro/reviewUpdate", method = RequestMethod.POST)
+					public String reviewUpdate(@ModelAttribute RecVO recVO) {
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+						int n = productDAO.reviewUpdate(recVO);
+						if (n == 0) {
+							System.out.println("등록 실패");
+						}
+						return "redirect:/member/pro/productDetail/"+recVO.getV_pid();
+					}
+				  
+				  @RequestMapping(value = "/member/pro/reviewDelete/{v_mid}/{v_pid}", method = RequestMethod.POST)
+					public String reviewDelete(@PathVariable String v_mid , @PathVariable String v_pid) {
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+						int n = productDAO.reviewDelete(v_mid,v_pid);
+						if (n == 0) {
+							System.out.println("등록 실패");
+						}
+						return "redirect:/member/pro/productDetail/"+v_pid;
+					}
+				  								
 		}

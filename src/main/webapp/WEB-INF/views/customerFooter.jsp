@@ -68,14 +68,28 @@
 
 	//신영-메뉴bar 가격조회
 	   $('#priceSearch').on('click', function(){
-	     /*  action_popup.confirm("hello world confirm test !!!", function (res) {
-	            if (res) {
-	                action_popup.alert("확인창을 눌렀습니다.");
-	            }
-	        }) */
 	        var minPrice = $('#minPrice option:selected').val();
 	        var maxPrice = $('#maxPrice option:selected').val();       
-	        /* alert('최소금액' + minPrice + '최대금액' + maxPrice); */
+	     	
+	        if(minPrice != "" && maxPrice != ""){
+	        	if(minPrice )
+	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
+	        
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       });
+	        }
+	        else{
+	        	 action_popup.confirm("조회하실 가격을 선택해 주세요.", function (res) {
+	        	 document.getElementsByName("minPrice")[0].focus();
+	 	        })
+	        }
+	   });
+	   $('#priceSearchBuy').on('click', function(){
+	        var minPrice = $('#minPriceBuy option:selected').val();
+	        var maxPrice = $('#maxPriceBuy option:selected').val();       
+	     
 	        if(minPrice != "" && maxPrice != ""){
 	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
 	        
@@ -186,17 +200,23 @@
 	}
 	var newValue;
     // 모든 텍스트의 변경에 반응합니다.
-    $("#keyword").on("keyup paste", function() {
-       
-       
-       newValue = $(this).val();
-      
-
-   
-       location.href = '/member/pro/productList/' + newValue;
-       
+    $("#keyword").on("change paste", function() {      
+    
+       newValue = $(this).val();  
+       location.href = '/member/pro/productList/' + newValue;       
     }); 
     
+    $(function() {
+		$('ul.tab li').click(function() {
+			var activeTab = $(this).attr('data-tab');
+			$('ul.tab li').removeClass('current');
+			$('.tabcontent').removeClass('current');
+			$(this).addClass('current');
+			$('#' + activeTab).addClass('current');
+		})
+	});
+	
+
     //승빈 탈퇴 막기 메시지 end
 	/*
 	$(function(){

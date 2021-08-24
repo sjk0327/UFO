@@ -33,14 +33,14 @@ public interface ProductDAO {
 	public List<ProductVO> productMenubarPriceSearch(String minPrice, String maxPrice);
 	public List<ProductVO> pictogramSearch(String p_category);
 	//조회수 증가
-	public int productReadUpdate(String p_id);
-	
-	public List<ProductVO> productKeywordList(Criteria cri);
-	public List<ProductVO> productKeywordSearchTypeList(Criteria cri);
-	public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
-	public List<ProductVO> productSearchTypeList(Criteria cri);
+		public int productReadUpdate(String p_id);
 		
-	//위시리스트추가,삭제
+		public List<ProductVO> productKeywordList(Criteria cri);
+		public List<ProductVO> productKeywordSearchTypeList(Criteria cri);
+		public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
+		public List<ProductVO> productSearchTypeList(Criteria cri);
+			
+		//위시리스트추가,삭제
 		public int wishListInsert(WishListVO wishListVO);
 		public int wishListDelete(WishListVO wishListVO);
 		//장바구니추가
@@ -61,4 +61,12 @@ public interface ProductDAO {
 				public int countReviewListPagingTotal(@Param("v_pid") String v_pid);
 			//리뷰 등록
 				public int reviewInsert(RecVO recVO);
+			//리뷰 개수
+				public int reviewCount(String v_pid);
+			//특정 리뷰
+				public RecVO oneReview(@Param("v_pid") String v_pid, @Param("userId") String userId);
+			//리뷰 등록
+				public int reviewUpdate(RecVO recVO);
+			//리뷰 삭제
+				public int reviewDelete(String v_mid, String v_pid);
 		}			
