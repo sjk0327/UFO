@@ -439,7 +439,7 @@ body, html {
 																<c:forEach var="list" items="${rentList }">
 																	<tbody>
 																		<tr
-																			onClick="goRentDetailPage(${list.r_id})">
+																			onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
 																			<td>
 																				<div class="d-inline-block align-middle">
 																					<img src="/resources/Images/tempProductImage.jpg"

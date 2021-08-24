@@ -8,7 +8,7 @@
 <html lang="en">
 
 <head>
-<title>내 정보 페이지 - UF&#38;O</title>
+<title>내 대여 내역 페이지 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
@@ -212,7 +212,6 @@ body, html {
 	
 						<select id="searchType" name="searchType">
 	                               <option value="">검색조건</option>
-	                               <option value="t" <c:if test="${pageMaker.cri.searchType eq 't'}">selected </c:if>>회원ID</option>
 	                               <option value="c" <c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>제품ID</option>
 	                               <option value="w" <c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
 	                               <option value="tc" <c:if test="${pageMaker.cri.searchType eq 'tc'}"> selected </c:if>>상태</option>
@@ -225,10 +224,10 @@ body, html {
 						</form>
 						<div class="row">
 							<!--  sale analytics start -->
-							<div class="col-xl-6 col-md-12">
+							<div class="col-xl-12 col-md-12">
 								<div class="card">
 								<div class="card-header">
-									<h5>대여 목록</h5>
+									<h5>대여 내역</h5>
 									<div class="card-header-right">
 										<ul class="list-unstyled card-option">
 											<li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -242,7 +241,7 @@ body, html {
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th>번호</th>
+													<th style="width: 50px">번호</th>
 													<th>회원 ID</th>
 													<th>제품ID</th>
 													<th>제품명</th>
@@ -250,9 +249,10 @@ body, html {
 													<th>상태</th>
 												</tr>
 											</thead>
+											<tbody>
 											<c:forEach var="list" items="${rentList}">
-												<tbody>
-													<tr onClick="location.href='/admin/rent/rentDetail/${list.r_id}'">
+												
+													<tr onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
 														<td>${list.r_id }</td>
 														<td>${list.r_mid }</td>
 														<td>${list.r_pid }</td>
@@ -276,8 +276,9 @@ body, html {
 															<td><label class="label label-success" style="font-size: 10pt;">반납 완료</label></td>
 														</c:if>
 													</tr>
-												</tbody>
+												
 											</c:forEach>
+											</tbody>
 										</table>
 									</div>
 								</div>
@@ -285,24 +286,26 @@ body, html {
 							</div>
 						</div>
 						<!-- 페이징 start -->
+						<div class="row">
 						<div id = "paging-div">
 						<ul class="btn-group pagination">
 							<c:if test="${pageMaker.prev }">
-								<li><a href='<c:url value="/admin/rent/rentList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+								<li><a href='<c:url value="/member/mem/memRentList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
 									<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
 							</c:if>
 							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-								<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/admin/rent/rentList${pageMaker.makeQuery(pageNum)}"/>'>
+								<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/mem/memRentList${pageMaker.makeQuery(pageNum)}"/>'>
 								<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-								<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/admin/rent/rentList${pageMaker.makeQuery(pageNum)}"/>'>
+								<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/mem/memRentList${pageMaker.makeQuery(pageNum)}"/>'>
 								<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 								
 							</c:forEach>
 							<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-								<li><a href='<c:url value="/admin/rent/rentList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+								<li><a href='<c:url value="/member/mem/memRentList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
 									<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
 							</c:if>
 						</ul>
+						</div>
 						</div>
 						<!-- 페이징 end -->
 					</div>
