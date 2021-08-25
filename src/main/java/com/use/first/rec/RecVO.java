@@ -5,6 +5,7 @@ import java.sql.Date;
 public class RecVO {
 	private int v_id;
 	private String m_img;
+	private String p_mainimg;
 	private String v_mid;
 	private String v_pid;
 	private String p_name;
@@ -22,6 +23,12 @@ public class RecVO {
 	}
 	public void setM_img(String m_img) {
 		this.m_img = m_img;
+	}
+	public String getP_mainimg() {
+		return p_mainimg;
+	}
+	public void setP_mainimg(String p_mainimg) {
+		this.p_mainimg = p_mainimg;
 	}
 	public String getV_mid() {
 		return v_mid;
@@ -61,9 +68,11 @@ public class RecVO {
 	}
 	@Override
 	public String toString() {
-		return "RecVO [v_id=" + v_id + ", m_img=" + m_img + ", v_mid=" + v_mid + ", v_pid=" + v_pid + ", p_name="
-				+ p_name + ", v_content=" + v_content + ", v_like=" + v_like + ", v_date=" + v_date + "]";
+		return "RecVO [v_id=" + v_id + ", m_img=" + m_img + ", p_mainimg=" + p_mainimg + ", v_mid=" + v_mid + ", v_pid="
+				+ v_pid + ", p_name=" + p_name + ", v_content=" + v_content + ", v_like=" + v_like + ", v_date="
+				+ v_date + "]";
 	}
+	
 	
 }	
 	

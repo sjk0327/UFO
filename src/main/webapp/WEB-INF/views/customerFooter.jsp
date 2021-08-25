@@ -73,7 +73,7 @@
 	     	
 	        if(minPrice != "" && maxPrice != ""){
 	        	if(minPrice )
-	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
+	        var url = '/member/pro/productList/priceSearchRent/' + minPrice +'/'+ maxPrice;
 	        
 	          $("#tempList").load(url, function(){
 	          $("#ulList").html($("#tempList").html());
@@ -87,36 +87,38 @@
 	        }
 	   });
 	   $('#priceSearchBuy').on('click', function(){
-	        var minPrice = $('#minPriceBuy option:selected').val();
-	        var maxPrice = $('#maxPriceBuy option:selected').val();       
+	        var minPriceBuy = $('#minPriceBuy option:selected').val();
+	        var maxPriceBuy = $('#maxPriceBuy option:selected').val();       
 	     
-	        if(minPrice != "" && maxPrice != ""){
-	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
+	        if(minPriceBuy != "" && maxPriceBuy != ""){
+	        var url = '/member/pro/productList/priceSearchBuy/' + minPriceBuy +'/'+ maxPriceBuy;
 	        
 	          $("#tempList").load(url, function(){
 	          $("#ulList").html($("#tempList").html());
-	           $("#tempList").html(""); 
+	          $("#tempList").html(""); 
 	       });
 	        }
 	        else{
 	        	 action_popup.confirm("조회하실 가격을 선택해 주세요.", function (res) {
-	        	 document.getElementsByName("minPrice")[0].focus();
+	        	 document.getElementsByName("minPriceBuy")[0].focus();
 	 	        })
 	        }
 	   });
+	   
+	   
 	    $(".modal_close").on("click", function () {
 	           action_popup.close(this);
 	       });
 	    
 	    
 	   //신영-가격 직접입력 조회
-	   $('#selfSearch').on('click', function(p_price){
+	   $('#selfSearchRent').on('click', function(){
 	      
 	      var selfminprice = $('input[name=selfminprice]').val();
 	      var selfmaxprice = $('input[name=selfmaxprice]').val();
 	       
 	        if(selfminprice != "" && selfmaxprice != ""){
-	        var url = '/member/pro/productList/priceSearch/' + selfminprice +'/'+ selfmaxprice;
+	        var url = '/member/pro/productList/priceSearchRent/' + selfminprice +'/'+ selfmaxprice;
 	          $("#tempList").load(url, function(){
 	          $("#ulList").html($("#tempList").html());
 	           $("#tempList").html(""); 
@@ -129,7 +131,25 @@
 	        }
 	        
 	   });
-
+	   $('#selfSearchBuy').on('click', function(){
+		      
+	      var selfminprice = $('input[name=selfminpriceBuy]').val();
+	      var selfmaxprice = $('input[name=selfmaxpriceBuy]').val();
+	      
+	        if(selfminprice != "" && selfmaxprice != ""){
+	        var url = '/member/pro/productList/priceSearchBuy/' + selfminprice +'/'+ selfmaxprice;
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       });
+		        }
+		        else{
+		        	action_popup.confirm("조회하실 가격을 입력해 주세요.", function (res) {
+			        document.getElementsByName("selfminprice")[0].focus();
+		        	})
+		        }
+		        
+		   });
 	//신영-최근본상품 퀵메뉴bar
 	 /* $(document).ready(function(){
         var currentPosition = parseInt($("#slidemenu").css("top"));
@@ -215,8 +235,15 @@
 			$('#' + activeTab).addClass('current');
 		})
 	});
-	
-
+  //공통 둥둥이 배너 실행
+	$('.main_moving_banner').length && common.bann.init();
+ 
+	var parser = new UserAgentUtil(navigator.userAgent);
+	// alert(parser.getBrowser().name + " : " + parser.getBrowser().version);
+ 	if (parser.getBrowser().name.indexOf("msie") >= 0 && (parser.getBrowser().version.startWith("8") || parser.getBrowser().version.startWith("7"))) {
+		$(".infoUpgr").show();
+	}
+ 	
     //승빈 탈퇴 막기 메시지 end
 	/*
 	$(function(){

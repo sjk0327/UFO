@@ -367,26 +367,26 @@ body, html {height: 100%;}
                 	<div class="col-2 profile" align="center">  
                 	 <img src = /resources/Images/member/${recVO.m_img} alt="${recVO.m_img}" title="${recVO.m_img}" class="img-fluid img-circle">         
                 	</div> 
-                	<div class="col-10">
+                	<div class="col-4">
                 	 <div>${recVO.v_mid}</div>
-                	 <div>${recVO.v_date}</div>
-          <c:choose>
-          <c:when test = "${recVO.v_like eq 'none'}">   
-        <a title="noselected"><img src=/resources/Images/product/like1.jpg  width="50" height="50" alt="likes" /></a>
-          </c:when>
-            <c:when test = "${recVO.v_like ne 'none'}">  	 
-		 <a title="likes"><img src=/resources/Images/product/like2.jpg  width="50" height="50" alt="noselected" /></a>      
-		  </c:when>	
-		  </c:choose>	  		 
-		  <c:if test = "${recVO.v_mid eq userId}">
-		       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
-		       <form method="post" name="reviewDeleteForm" action="/member/pro/reviewDelete/${oneReview.v_mid}/${oneReview.v_pid}">
-		       <input type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
-		       </form>  	  
-		  </c:if>
-		   
+                	 <div>${recVO.v_date}</div> 
+                	 <c:choose>
+         				 <c:when test = "${recVO.v_like eq 'none'}">   
+       						 <a title="noselected"><img src=/resources/Images/product/like1.jpg style="cursor:auto;" width="50" height="50" alt="likes" /></a>
+      				     </c:when>
+          			     <c:when test = "${recVO.v_like ne 'none'}">  	 
+							 <a title="likes"><img src=/resources/Images/product/like2.jpg style="cursor:auto;" width="50" height="50" alt="noselected" /></a>      
+						 </c:when>	
+					  </c:choose>	       
                 	</div>      		
-                	                      
+          				 <div class="col-6">        		 
+		 				 <c:if test = "${recVO.v_mid eq userId}">
+		  				     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
+		   				    <form method="post" name="reviewDeleteForm" action="/member/pro/reviewDelete/${oneReview.v_mid}/${oneReview.v_pid}">
+		    				   <input type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
+		     				</form>  	  
+		 				 </c:if>
+					    </div>             
                 </div>
  
                 <div class="row" name="content">
@@ -412,18 +412,18 @@ body, html {height: 100%;}
 										<div id = "paging-div">
 										<ul class="btn-group pagination">
 											<c:if test="${pageMaker.prev }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}#paging-div"/>'>
 													<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}"/>'>
+												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#paging-div"/>'>
 												<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}"/>'>
+												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#paging-div"/>'>
 												<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 												
 											</c:forEach>
 											<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}#paging-div"/>'>
 													<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 										</ul>
@@ -513,7 +513,7 @@ body, html {height: 100%;}
       </div>
     </div>
      						
-				<a href="#" id="locateTop" style="display:scroll;"><img src="/resources/Images/product/화살표.png" width="20px" height="20px"/>맨 위로</a>
+				<a href="#" id="locateTop" style="display:scroll;">맨 위로<img src="/resources/Images/product/화살표.png" width="20px" height="20px"/></a>
 			
 		
 
@@ -675,6 +675,7 @@ function reviewDelete() {
 	action_popup.confirm('리뷰를 삭제하시겠습니까?', function (res) {
 		if (res) {			
 			document.reviewDeleteForm.submit();
+	
 		 } 
 	})	
 }
@@ -860,9 +861,8 @@ var action_popup = {
     }
 }
 
-//스크롤하면 맨위로 링크 나오게
+//스크롤하면 '맨위로' 링크 나오게
 	$(window).scroll(function() {
-  
     if($(this).scrollTop() > 2000) {
       $("#locateTop").css('position','fixed');
      
@@ -872,7 +872,7 @@ var action_popup = {
 
     }
   });
-  
+
 
 
 </script>

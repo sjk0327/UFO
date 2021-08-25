@@ -137,13 +137,18 @@ ul{ list-style:none;}
 #selfminprice{ height: 32px; width: 81px; }
 #selfmaxprice{ height: 32px; width: 81px; }
 #priceSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearchRent { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
 #priceSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
 #selfSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
 #textdeco {text-decoration: line-through;}
 </style>
   </head>
   <body>
-  
+  <div class="main_moving_banner" style="display:none;">
+		<a href="" data-attr=""><img src="" alt="" data-ref-compareKey=""/></a>
+		<button type="button" class="moving_banner_close">배너 하루동안 보지 않기</button>
+	</div>
 <ul id="tempList" style=" display:none"></ul>
 
   <div class="site-wrap" >
@@ -322,9 +327,9 @@ ul{ list-style:none;}
                    
                     <p class="mb-0">상품명 : ${list.p_name }</p>
                     <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" id="textdeco" >상품 가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >대여 가격  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >즉시 구매 가격  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
@@ -346,9 +351,9 @@ ul{ list-style:none;}
                   <!--   <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p> -->
                     <p class="mb-0">상품명 : ${list.p_name }</p>
                     <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                     <p class="text-primary font-weight-bold"id="textdeco" >상품 가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >대여 가격  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >즉시 구매 가격  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
@@ -369,9 +374,9 @@ ul{ list-style:none;}
                   <div class="block-4-text p-4">                    
                     <p class="mb-0">상품명 : ${list.p_name }</p>
                     <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                     <p class="text-primary font-weight-bold"id="textdeco" >상품 가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >대여 가격  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >즉시 구매 가격  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
@@ -448,19 +453,21 @@ ul{ list-style:none;}
               <option value="50000">5만원</option>                    
               <option value="100000">10만원</option>                    
               <option value="200000">20만원</option>                    
-              <option value="800000">80만원</option>                      
+              <option value="300000">30만원</option>                      
              </select>
              <div>               
-          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button>
+          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
           <br>
            <input type="text" name="selfminprice" id="selfminprice" class="" 
                                 placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
                                  <span class="inp_division" >&nbsp;~&nbsp;</span>        
                           &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
                                   placeholder="최대금액" size=5  style="text-align:right;">
-                                  <button type="button" id="selfSearch" name="searchType" 
+                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearchRent" name="searchType" 
                       					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-              </div>
+                      			   </div>
+             </div>
+		
 		</div>
 		<!-- 구매가격조회 -->
 		<div id="tab2" class="tabcontent">
@@ -481,17 +488,17 @@ ul{ list-style:none;}
               <option value="4000000">400만원</option>                      
              </select>		
 			<div>               
-          <br><button type="button" id="priceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button>
+          <br><button type="button" id="priceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
           <br>
-           <input type="text" name="selfminprice" id="selfminprice" class="" 
+           <input type="text" name="selfminpriceBuy" id="selfminprice" class="" 
                                 placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
                                  <span class="inp_division" >&nbsp;~&nbsp;</span>        
-                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
+                          &nbsp;<input type="text" name="selfmaxpriceBuy" id="selfmaxprice" class="" 
                                   placeholder="최대금액" size=5  style="text-align:right;">
-                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
+                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearchBuy" name="searchType" 
                       					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-                      </div>
-              </div>
+                      			   </div>
+             </div>
 		
 
 		</div>
@@ -619,17 +626,17 @@ ul{ list-style:none;}
                <br> -->
                <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Color</h3>
-            <a href="/member/pro/productList/black" class="d-flex color-item align-items-center">
-              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black (${totalCount})</span>
+            <a href="/member/pro/productList/black" class="d-flex color-item align-items-center" >
+              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black</span>
             </a>
             <a href="/member/pro/productList/white" class="d-flex color-item align-items-center" >
-              <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White (${totalCount})</span>
+              <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White</span>
             </a>
             <a href="/member/pro/productList/silver" class="d-flex color-item align-items-center" >
-              <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver (${totalCount})</span>
+              <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver</span>
             </a>
             <a href="/member/pro/productList/red" class="d-flex color-item align-items-center" >
-              <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red (${totalCount})</span>
+              <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red</span>
             </a>
               </div>
              </div>

@@ -28,8 +28,7 @@
 	</select>
 	<select id="countSmartPhone" resultType="int">
 		select count(*) from product
-		where p_category = '스마트폰'
-		<!-- where p_category = '스마트폰'	 -->
+		where p_category = '스마트폰'		
 	</select>
 	<select id="countLaptop" resultType="int">
 		select count(*) from product
@@ -87,20 +86,55 @@
 		</if>
 	</sql>
 	<!-- 상품카테고리 select -->
-	 <select id="productSmartPhoneList"  parameterType ="String" resultType="com.use.first.product.ProductVO">
+	 <select id="productSmartPhoneList" parameterType ="String" resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		where p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%')
+		<!-- or p_name LIKE CONCAT('%', 블랙,'%') -->
+	</select>
+	 <select id="productSelectColor" resultType="com.use.first.product.ProductVO">
+		select 
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product 		
+		where p_name LIKE CONCAT('%', #{p_category}, '%')
+		<!-- ORDER BY p_id desc		
+		LIMIT #{param1.pageStart}, #{param1.perPageNum} -->
 	</select>
 	<!--  상품 메뉴바 가격조회 -->
 	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
+		
+		select 		
+		p_price,p_price*0.95 from product
+		<![CDATA[
+		where p_price*0.95 >= #{0}
+		and p_price*0.95 <= #{1} 
+		]]>
+		order by p_price asc
+		
+	</select>	
+	<!-- <select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
 		select 
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		where p_price between #{0} and #{1}
 		order by p_price asc
-	</select>	
+	</select>	 -->
+	
+	
+	<select id="productMenubarPriceSearchRent" parameterType="String" resultType="com.use.first.product.ProductVO">
+		select 
+		p_price,p_price*0.05 from product
+		where p_price*0.05 between #{0} and #{1}
+		order by p_price asc
+	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	<select id="productKeywordList"
 		resultType="com.use.first.product.ProductVO">
@@ -153,6 +187,7 @@
 		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg,p_regdate,p_content)
 		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
 	</insert>
+
 	
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">

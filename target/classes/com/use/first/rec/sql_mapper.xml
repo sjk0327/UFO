@@ -51,7 +51,47 @@
 		WHERE v_id = #{param1}
 	]]>
 	</update>
+	
+	<!-- 내정보에서 추천글 리스트 -->
+    <select id="memberRecList" resultType="com.use.first.rec.RecVO">
+		select review.v_id, review.v_mid, review.v_pid, review.v_content, review.v_like,
+		product.p_name,product.p_mainimg,review.v_date from
+		review, product
+		where review.v_pid = product.p_id and v_mid = #{param2}
+		<if test="param1.searchType == 't'.toString()">
+			AND v_mid LIKE CONCAT('%', #{param1.keyword},'%')
+		</if>
+		<if test="param1.searchType == 'c'.toString()">
+			AND v_pid LIKE CONCAT('%', #{param1.keyword},'%')
+		</if>
+		<if test="param1.searchType == 'w'.toString()">
+			AND product.p_name LIKE CONCAT('%', #{param1.keyword},'%')
+		</if>
+		ORDER BY v_id desc
+		limit #{param1.pageStart}, #{param1.perPageNum}
+	</select>
 
+	<select id="memberRecTotalCount" resultType="int">
+		select count(*) from
+		review, product
+		where review.v_mid = #{param2} and review.v_pid = product.p_id
+		<include refid="searchMemberReviewCondition"></include>
+	</select>
+	
+	<sql id="searchMemberReviewCondition">
+		<if test="param1.searchType != null">
+			<if test="param1.searchType == 't'.toString()">
+				AND v_mid LIKE CONCAT('%', #{param1.keyword},'%')
+			</if>
+			<if test="param1.searchType == 'c'.toString()">
+				AND v_pid LIKE CONCAT('%', #{param1.keyword},'%')
+			</if>
+			<if test="param1.searchType == 'w'.toString()">
+				AND product.p_name LIKE CONCAT('%', #{param1.keyword},'%')
+			</if>
+		</if>
+	</sql>
+	
 </mapper>
 
 

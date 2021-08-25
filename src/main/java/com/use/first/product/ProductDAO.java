@@ -11,6 +11,7 @@ import com.use.first.rent.WishListVO;
 
 public interface ProductDAO {
 	
+
 	public List<ProductVO> productList(Criteria cri);
 	public ProductVO productInfo(String p_id);
 	public int productInsert(ProductVO productVO);
@@ -33,12 +34,17 @@ public interface ProductDAO {
 	public List<ProductVO> productMenubarPriceSearch(String minPrice, String maxPrice);
 	public List<ProductVO> pictogramSearch(String p_category);
 	//조회수 증가
-		public int productReadUpdate(String p_id);
-		
-		public List<ProductVO> productKeywordList(Criteria cri);
-		public List<ProductVO> productKeywordSearchTypeList(Criteria cri);
-		public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
-		public List<ProductVO> productSearchTypeList(Criteria cri);
+	public int productReadUpdate(String p_id);
+	
+	public List<ProductVO> productKeywordList(Criteria cri);
+	public List<ProductVO> productKeywordSearchTypeList(Criteria cri);
+	public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
+	public List<ProductVO> productSearchTypeList(Criteria cri);
+	public List<ProductVO> productMenubarPriceSearchRent(String minPrice, String maxPrice);
+	public List<ProductVO> productSelectColor(String p_category);
+	
+	
+	
 			
 		//위시리스트추가,삭제
 		public int wishListInsert(WishListVO wishListVO);
