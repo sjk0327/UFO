@@ -49,7 +49,7 @@
               
               <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
                 <span class="icon icon-search2"></span>  
-                <input type="text" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
+                <input type="text" id="keyword" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
               	<button type="submit" id="firstSearchId" value="검색" >검색</button>
               </form>
               
@@ -99,8 +99,19 @@
           </div>
        
       </div> 
-     
-     
+   <!--   <script>
+     var newValue;
+     // 모든 텍스트의 변경에 반응합니다.
+     $("#keyword").on("change paste", function() {      
+        
+        newValue = $(this).val();     
+
+    
+        location.href = '/member/pro/productList/' + newValue;
+        
+     }); 
+     </script>
+     -->
   <!-- <script>
 
 	$('#firstSearchId').on('click', function(){

@@ -194,6 +194,10 @@ body, html {
 										                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
 										                    <div class="slide"></div>
 										                </li>
+										                <li class="nav-item">
+										                    <a class="nav-link" href="/member/rec/recommendList" role="tab">내 리뷰</a>
+										                    <div class="slide"></div>
+										                </li>
 										            </ul>
 										        </div>
 										    </div>
