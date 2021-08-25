@@ -51,6 +51,38 @@
             border-radius: .25em; 
         }
 
+    input[type=radio]{
+	  width: 0;
+	  height: 0;
+	  position: absolute;
+	  left: -9999px;
+	}
+	input[type=radio] + label{
+	  margin: 0;
+	  padding: .75em 28%;
+	  box-sizing: border-box;
+	  position: relative;
+	  display: inline-block;
+	  border: solid 1px #DDD;
+	  background-color: #FFF;
+	  line-height: 140%;
+	  text-align: center;
+	  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+	  transition: border-color .15s ease-out,  color .25s ease-out,  background-color .15s ease-out, box-shadow .15s ease-out;
+	  cursor: pointer;
+	}
+	input[type=radio]:checked + label{
+		background-color: #4B9DEA;
+	  color: #FFF;
+	  box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+	  border-color: #4B9DEA;
+	  z-index: 1;
+	}
+	.noChoice_raido{
+		padding-left:1.5px;
+		padding-right:1.5px;
+	}
+
     </style>
     
 </head>
@@ -98,25 +130,59 @@
                                                          </div>
                                                          <div class="col-sm-7">
                                                             <div class="form-group row">
-                                                               <div class="col-sm-5 col-form-label">아이디</div>
-                                                               <div class="form-group form-primary form-static-label col-sm-7">
+                                                               <div class="col-sm-4 col-form-label">아이디</div>
+                                                               <div class="form-group form-primary form-static-label col-sm-8">
                                                                   <form:hidden path="m_id" class="form-control form-control-center form-control-round form-control-bold" />
                                                                   <input id="id" value="${userVO.m_id }" disabled="disabled" class="form-control form-control-center form-control-round form-control-bold" />
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                               <div class="col-sm-5 col-form-label">이 름</div>
-                                                               <div class="form-group form-primary form-static-label col-sm-7">
+                                                               <div class="col-sm-4 col-form-label">이 름</div>
+                                                               <div class="form-group form-primary form-static-label col-sm-8">
                                                                   <form:input type="text" path="m_name" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                               <div class="col-sm-5 col-form-label">성별</div>
-                                                               <div class="form-group form-primary form-static-label col-sm-7">
-                                                                  <form:input type="text" path="m_gender" class="form-control form-control-center form-control-round form-control-bold" readonly="readonly"/>
-                                                                  <span class="form-bar"></span>
+                                                               <div class="col-sm-4 col-form-label">성별</div>
+                                                               <div class="form-group form-primary form-static-label col-sm-8">
+                                                               	    <div class="form-group form-primary form-static-label row">
+									                                	<div class="col-sm-12" style="text-align:center;">
+									                                		<c:choose>									                                		
+									                                		<c:when test="${userVO.m_gender eq '남자'}">
+									                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자" checked>
+									                                		</c:when>
+									                                		<c:otherwise>
+									                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자">
+									                                		</c:otherwise>
+									                                		</c:choose>
+									                                    	<label for="male_raido"> 남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+									                                    </div>
+									                                    <div class="col-sm-12" style="text-align:center;">
+									                                    	<c:choose>
+									                                    	<c:when test="${userVO.m_gender eq '여자'}">
+									                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자" checked>
+									                                    	</c:when>
+									                                    	<c:otherwise>
+									                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자">
+									                                    	</c:otherwise>
+									                                    	</c:choose>				
+									                                    	<label for="female_raido"> 여&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+									                                    </div>
+									                                    <div class="col-sm-12" style="text-align:center;">
+									                                    	<c:choose>
+									                                    	<c:when test="${userVO.m_gender eq '선택안함'}">
+									                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함" checked>
+									                                    	</c:when>
+									                                    	<c:otherwise>
+									                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함">
+									                                    	</c:otherwise>
+									                                    	</c:choose>
+									                                    	
+									                                    	<label for="noChoice_raido">선택안함</label>
+									                                    </div>
+									                                </div>                                                               
                                                                </div>
                                                             </div>
                                                          </div>
@@ -125,24 +191,25 @@
                                                          <div class="col-sm-3 col-form-label">주소</div>
                                                          <div class="form-group form-primary form-static-label col-sm-8">
                                                          <!-- 주소 split 으로 나눠서 token 화 하기 -->
+                                                          <form:input type="hidden" id="realAddress" path="m_addr"/>
                                                             <div class="row">
                                                                <div class="col-sm-6">
-                                                                  <form:input type="text" id="postcode" path="m_addr" value="${fn:split(userVO.m_addr,',')[0]}" class="form-control" placeholder="우편번호" required="required" readonly="readonly"/>
+                                                                  <input type="text" id="postcode" name="addr" value="${fn:split(userVO.m_addr,'|')[0]}" class="form-control" placeholder="우편번호 " required="required" readonly="readonly"/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
                                                                   <input type="button" onclick="daumPostcode()" value="우편번호 찾기" class="btn btn-mat waves-effect waves-light btn-info " style="background-color: #7971ea;"/>
                                                                </div>
                                                             </div>
-                                                            <form:input type="text" id="address" path="m_addr" value="${fn:split(userVO.m_addr,',')[1]}" class="form-control" placeholder="주소" required="required" readonly="readonly"/>
+                                                            <input type="text" id="address" name="addr" value="${fn:split(userVO.m_addr,'|')[1]}" class="form-control" placeholder="주소" required="required" readonly="readonly">
                                                             <span class="form-bar"></span>
                                                             <div class="row">
                                                                <div class="col-sm-6">
-                                                                  <form:input type="text" id="detailAddress" path="m_addr" value="${fn:split(userVO.m_addr,',')[2]}" class="form-control" placeholder="상세주소" required="required"/>
+                                                                  <input type="text" id="detailAddress" value="${fn:split(userVO.m_addr,'|')[2]}" class="form-control" placeholder="상세주소" required="required">
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
-                                                                  <form:input type="text" id="extraAddress" path="m_addr" value="(${fn:split(userVO.m_addr,'(')[1]}" class="form-control" placeholder="참고항목" readonly="readonly"/>
+                                                                  <input type="text" id="extraAddress" name="addr" value="${fn:split(userVO.m_addr,'|')[3]}" class="form-control" placeholder="참고항목" readonly="readonly">
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>      
@@ -151,7 +218,7 @@
                                                       <div class="form-group row">
                                                          <div class="col-sm-3 col-form-label">전화번호</div>
                                                          <div class="form-group form-primary form-static-label col-sm-8">
-                                                            <form:input type="text" path="m_tel" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
+                                                            <form:input type="text" id="phoneNum" path="m_tel" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                       </div>
@@ -342,7 +409,46 @@
   <!--이 script 없으면 css 깨짐-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       
-      <script>
+      <script>  
+     
+      
+      // 전화번호 자동 - 추가
+      var autoHypenPhone = function(str){
+          str = str.replace(/[^0-9]/g, '');
+          var tmp = '';
+          if( str.length < 4){
+              return str;
+          }else if(str.length < 7){
+              tmp += str.substr(0, 3);
+              tmp += '-';
+              tmp += str.substr(3);
+              return tmp;
+          }else if(str.length < 11){
+              tmp += str.substr(0, 3);
+              tmp += '-';
+              tmp += str.substr(3, 3);
+              tmp += '-';
+              tmp += str.substr(6);
+              return tmp;
+          }else{              
+              tmp += str.substr(0, 3);
+              tmp += '-';
+              tmp += str.substr(3, 4);
+              tmp += '-';
+              tmp += str.substr(7);
+              return tmp;
+          }
+      
+          return str;
+    }
+
+    var phoneNum = document.getElementById('phoneNum');
+
+    phoneNum.onkeyup = function(){
+      console.log(this.value);
+      this.value = autoHypenPhone( this.value ) ;  
+    }
+      
       
       
         /*다음 우편번호 찾기 javaScript */
@@ -390,11 +496,19 @@
                 document.getElementById('postcode').value = data.zonecode;
                 document.getElementById("address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddress").value = '';
                 document.getElementById("detailAddress").focus();
             }
         }).open();
     }
- 
+        
+	$('#detailAddress').focusout(function(){
+		var realAddr = $('input[name=addr]').eq(0).val() 
+					+ "|" + $('input[name=addr]').eq(1).val()
+					+ "|" + $('#detailAddress').val()
+					+ "|" + $('input[name=addr]').eq(2).val();
+		$('#realAddress').val(realAddr);
+	});
  
  
  

@@ -135,24 +135,21 @@ body, html {
 	border: none;
 }
 
-
-
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content
 	{
 	margin-left: 0;
 }
 
-   .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
-    display: table-cell;
-	}
-
+.tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+	display: table-cell;
+}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-	<ul id="tempPage" style=" display:none"></ul>
+	<ul id="tempPage" style="display: none"></ul>
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
@@ -167,217 +164,215 @@ body, html {
 								<div class="page-wrapper">
 									<!-- Page-body start -->
 									<div class="page-body">
-									<div class="row">
-									<!--  메뉴바 시작 -->
-									<div class="col-xl-2 col-sm-12">
-									<div class="card">
-										<div class="card-block">
-										    <!-- Row start -->
-										    <div class="row">
-										        <div class="col-sm-12">
-										            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
-										            <!-- Nav tabs -->
-										            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
-										                <li class="nav-item">
-										                    <a class="nav-link active" href="/member/mem/userInfo" role="tab">내 정보</a>
-										                    <div class="slide"></div>
-										                </li>
-										                <li class="nav-item">
-										                    <a class="nav-link " href="/member/mem/memRentList" role="tab">대역 내역</a>
-										                    <div class="slide"></div>
-										                </li>
-										                <li class="nav-item">
-										                    <a class="nav-link" href="/member/mem/memBuyList" role="tab">구매 내역</a>
-										                    <div class="slide"></div>
-										                </li>
-										                <li class="nav-item">
-										                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
-										                    <div class="slide"></div>
-										                </li>
-										                <li class="nav-item">
-										                    <a class="nav-link" href="/member/rec/recommendList" role="tab">내 리뷰</a>
-										                    <div class="slide"></div>
-										                </li>
-										            </ul>
-										        </div>
-										    </div>
-										    <!-- Row end -->
-									    </div>
-								  	</div>
-									</div>
-									<!-- 메뉴바 끝 -->
-									<!--  sale analytics start -->
-									<div class="col-xl-10 col-sm-12" id="changedPage">
-									<!-- 회원 개인 정보 수정 가능하게끔 -->
-									<div class="card">
-									<div class="card-block">
-										<div class="row">
 
+										<div class="row">
+											<!--  메뉴바 시작 -->
+											<div class="col-xl-2 col-sm-12">
+												<div class="card">
+													<div class="card-block">
+														<!-- Row start -->
+														<div class="row">
+															<div class="col-sm-12">
+																<div class="sub-title" style="margin-bottom: 0px;">Menu</div>
+																<!-- Nav tabs -->
+																<ul id="menuBar" class="nav nav-tabs md-tabs"
+																	role="tablist">
+																	<li class="nav-item"><a class="nav-link active"
+																		href="/member/mem/userInfo" role="tab">내 정보</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link "
+																		href="/member/mem/memRentList" role="tab">대역 내역</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="#MessageBox" role="tab">메시지 함</a>
+																		<div class="slide"></div></li>
+																</ul>
+															</div>
+														</div>
+														<!-- Row end -->
+													</div>
+												</div>
+											</div>
+											<!-- 메뉴바 끝 -->
 											<!--  sale analytics start -->
-											<div class="col-xl-6 col-md-12">
+											<div class="col-xl-10 col-sm-12" id="changedPage">
 												<!-- 회원 개인 정보 수정 가능하게끔 -->
 												<div class="card">
-													<div class="card-header">
-														<h5>개인 정보</h5>
-													</div>
 													<div class="card-block">
-														<form:form class="form-material" name="update"
-															action="/member/mem/userInfo/${userInfo.m_id }"
-															method="post" enctype="multipart/form-data"
-															modelAttribute="userVO">
-															<div class="row">
-																<div class="col-sm-4">
-																	<!-- 사진 나오게 하고 찾아보기 버튼 -->
-																	<div class="filebox">
-																		<div class="m_imgPreview">
-																			<img
-																				src="/resources/Images/member/${userInfo.m_img }"
-																				class="img-fluid img-circle">
-																		</div>
-																		<input class="upload-name" value="파일선택"
-																			disabled="disabled" /> <label for="input-file">업로드</label>
-																		<input type="file" name="uploadFile" id="input-file"
-																			class="upload-hidden" /> <input type="text"
-																			name="m_img" value="${userInfo.m_img }" hidden="true">
-																	</div>
+														<div class="row">
 
-																</div>
-																<div class="col-sm-8">
-																	<div class="form-group row">
-																		<div class="col-sm-3 col-form-label">아이디</div>
-																		<div
-																			class="form-group form-primary form-static-label col-sm-9 ">
-																			<form:hidden path="m_id" value="${userInfo.m_id }"
-																				class="form-control form-control-center form-control-round form-control-bold" />
-																			<input id="id" value="${userInfo.m_id }"
-																				disabled="disabled"
-																				class="form-control form-control-center form-control-round form-control-bold" />
+															<!--  sale analytics start -->
+															<div class="col-xl-6 col-md-12">
+																<!-- 회원 개인 정보 수정 가능하게끔 -->
+																<div class="card">
+																	<div class="card-header">
+																		<h5>개인 정보</h5>
+																	</div>
+																	<div class="card-block">
+																		<form:form class="form-material" name="update"
+																			action="/member/mem/userInfo/${userInfo.m_id }"
+																			method="post" enctype="multipart/form-data"
+																			modelAttribute="userVO">
+																			<div class="row">
+																				<div class="col-sm-4">
+																					<!-- 사진 나오게 하고 찾아보기 버튼 -->
+																					<div class="filebox">
+																						<div class="m_imgPreview">
+																							<img
+																								src="/resources/Images/member/${userInfo.m_img }"
+																								class="img-fluid img-circle">
+																						</div>
+																						<input class="upload-name" value="파일선택"
+																							disabled="disabled" /> <label for="input-file">업로드</label>
+																						<input type="file" name="uploadFile"
+																							id="input-file" class="upload-hidden" /> <input
+																							type="text" name="m_img"
+																							value="${userInfo.m_img }" hidden="true">
+																					</div>
 
-																			<span class="form-bar"></span>
-																		</div>
-																	</div>
-																	
-																	<div class="form-group row">
-																		<div class="col-sm-3 col-form-label">비밀번호</div>
-																		<div
-																			class="form-group form-primary form-static-label col-sm-9">
-																			<form:input type="text" value="${userInfo.m_pw }"
-																				path="m_pw"
-																				class="form-control form-control-center form-control-round form-control-bold"
-																				placeholder="필수 항목 입니다." required="required" />
-																			<span class="form-bar"></span>
-																		</div>
-																	</div>
-																	
-																	<div class="form-group row">
-																		<div class="col-sm-3 col-form-label">이 름</div>
-																		<div
-																			class="form-group form-primary form-static-label col-sm-9">
-																			<form:input type="text" value="${userInfo.m_name }"
-																				path="m_name"
-																				class="form-control form-control-center form-control-round form-control-bold"
-																				placeholder="필수 항목 입니다." required="required" />
-																			<span class="form-bar"></span>
-																		</div>
-																	</div>
-																	<div class="form-group row">
-																		<div class="col-sm-3 col-form-label">성별</div>
-																		<div
-																			class="form-group form-primary form-static-label col-sm-9">
-																			<form:input type="text" path="m_gender"
-																				value="${userInfo.m_gender }"
-																				class="form-control form-control-center form-control-round form-control-bold"
-																				readonly="readonly" />
-																			<span class="form-bar"></span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="form-group row">
-																<div class="col-sm-2 col-form-label">주소</div>
-																<div
-																	class="form-group form-primary form-static-label col-sm-10">
-																	<!-- 주소 split 으로 나눠서 token 화 하기 -->
-																	<div class="row">
-																		<div class="col-sm-6">
-																			<form:input type="text" id="postcode" path="m_addr"
-																				value="${fn:split(userInfo.m_addr,',')[0]}"
-																				class="form-control" placeholder="우편번호"
-																				required="required" />
-																			<span class="form-bar"></span>
-																		</div>
-																		<div class="col-sm-6">
-																			<input type="button" onclick="daumPostcode()"
-																				value="우편번호 찾기"
-																				class="btn btn-mat waves-effect waves-light btn-info "
-																				style="background-color: #7971ea;" />
-																		</div>
-																	</div>
-																	<form:input type="text" id="address" path="m_addr"
-																		value="${fn:split(userInfo.m_addr,',')[1]}"
-																		class="form-control" placeholder="주소"
-																		required="required" />
-																	<span class="form-bar"></span>
-																	<div class="row">
-																		<div class="col-sm-6">
-																			<form:input type="text" id="detailAddress"
-																				path="m_addr"
-																				value="${fn:split(userInfo.m_addr,',')[2]}"
-																				class="form-control" placeholder="상세주소"
-																				required="required" />
-																			<span class="form-bar"></span>
-																		</div>
-																		<div class="col-sm-6">
-																			<form:input type="text" id="extraAddress"
-																				path="m_addr"
-																				value="${fn:split(userInfo.m_addr,',')[3]}"
-																				class="form-control" placeholder="참고항목" />
-																			<span class="form-bar"></span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="form-group row">
-																<div class="col-sm-2 col-form-label">전화번호</div>
-																<div
-																	class="form-group form-primary form-static-label col-sm-10">
-																	<form:input type="text" path="m_tel"
-																		value="${userInfo.m_tel }"
-																		class="form-control form-control-center form-control-round form-control-bold"
-																		placeholder="필수 항목 입니다." required="required" />
-																	<span class="form-bar"></span>
-																</div>
-															</div>
-															<div class="form-group row">
-																<input type="hidden" name="m_email" id="realEmail"
-																	value="${userInfo.m_email }" />
-																<div class="col-sm-2 col-form-label">이메일</div>
-																<div
-																	class="form-group form-primary form-static-label col-sm-5">
-																	<input type="text" id="frontEmail"
-																		value="${fn:split(userInfo.m_email,'@')[0] }"
-																		onchange="emailSum()"
-																		class="form-control form-control-center form-control-round form-control-bold"
-																		placeholder="필수 항목 입니다." required="required" /> <span
-																		class="form-bar"></span>
-																</div>
-																@
-																<div class="col-sm-4">
-																	<select id="backEmail" onchange="emailSum()">
-																		<option value="">선택해주세요.</option>
-																		<c:forTokens var="email"
-																			items="naver.com,daum.net,hanmail.net,gmail.com"
-																			delims=",">
-																			<c:if
-																				test="${fn:split(userInfo.m_email,'@')[1] eq email}">
-																				<option value="${email }" selected>${email }</option>
-																			</c:if>
-																			<option value="${email }">${email }</option>
-																		</c:forTokens>
-																	</select>
-																</div>
-															</div>
-															<script>
+																				</div>
+																				<div class="col-sm-8">
+																					<div class="form-group row">
+																						<div class="col-sm-3 col-form-label">아이디</div>
+																						<div
+																							class="form-group form-primary form-static-label col-sm-9 ">
+																							<form:hidden path="m_id"
+																								value="${userInfo.m_id }"
+																								class="form-control form-control-center form-control-round form-control-bold" />
+																							<input id="id" value="${userInfo.m_id }"
+																								disabled="disabled"
+																								class="form-control form-control-center form-control-round form-control-bold" />
+
+																							<span class="form-bar"></span>
+																						</div>
+																					</div>
+
+																					<div class="form-group row">
+																						<div class="col-sm-3 col-form-label">비밀번호</div>
+																						<div
+																							class="form-group form-primary form-static-label col-sm-9">
+																							<form:input type="text" value="${userInfo.m_pw }"
+																								path="m_pw"
+																								class="form-control form-control-center form-control-round form-control-bold"
+																								placeholder="필수 항목 입니다." required="required" />
+																							<span class="form-bar"></span>
+																						</div>
+																					</div>
+
+																					<div class="form-group row">
+																						<div class="col-sm-3 col-form-label">이 름</div>
+																						<div
+																							class="form-group form-primary form-static-label col-sm-9">
+																							<form:input type="text"
+																								value="${userInfo.m_name }" path="m_name"
+																								class="form-control form-control-center form-control-round form-control-bold"
+																								placeholder="필수 항목 입니다." required="required" />
+																							<span class="form-bar"></span>
+																						</div>
+																					</div>
+																					<div class="form-group row">
+																						<div class="col-sm-3 col-form-label">성별</div>
+																						<div
+																							class="form-group form-primary form-static-label col-sm-9">
+																							<form:input type="text" path="m_gender"
+																								value="${userInfo.m_gender }"
+																								class="form-control form-control-center form-control-round form-control-bold"
+																								readonly="readonly" />
+																							<span class="form-bar"></span>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="form-group row">
+																				<div class="col-sm-2 col-form-label">주소</div>
+																				<div
+																					class="form-group form-primary form-static-label col-sm-10">
+																					<form:input type="hidden" id="realAddress"
+																						path="m_addr" />
+																					<!-- 주소 split 으로 나눠서 token 화 하기 -->
+																					<div class="row">
+																						<div class="col-sm-6">
+																							<input type="text" id="postcode" name="addr"
+																								value="${fn:split(userInfo.m_addr,'|')[0]}"
+																								class="form-control" placeholder="우편번호 "
+																								required="required" readonly="readonly" /> <span
+																								class="form-bar"></span>
+																						</div>
+																						<div class="col-sm-6">
+																							<input type="button" onclick="daumPostcode()"
+																								value="우편번호 찾기"
+																								class="btn btn-mat waves-effect waves-light btn-info "
+																								style="background-color: #7971ea;" />
+																						</div>
+																					</div>
+																					<input type="text" id="address" name="addr"
+																						value="${fn:split(userInfo.m_addr,'|')[1]}"
+																						class="form-control" placeholder="주소"
+																						required="required" readonly="readonly"> <span
+																						class="form-bar"></span>
+																					<div class="row">
+																						<div class="col-sm-6">
+																							<input type="text" id="detailAddress"
+																								value="${fn:split(userInfo.m_addr,'|')[2]}"
+																								class="form-control" placeholder="상세주소"
+																								required="required"> <span
+																								class="form-bar"></span>
+																						</div>
+																						<div class="col-sm-6">
+																							<input type="text" id="extraAddress" name="addr"
+																								value="${fn:split(userInfo.m_addr,'|')[3]}"
+																								class="form-control" placeholder="참고항목"
+																								readonly="readonly"> <span
+																								class="form-bar"></span>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="form-group row">
+																				<div class="col-sm-2 col-form-label">전화번호</div>
+																				<div
+																					class="form-group form-primary form-static-label col-sm-10">
+																					<form:input type="text" id="phoneNum" path="m_tel"
+																						value="${userInfo.m_tel }"
+																						class="form-control form-control-center form-control-round form-control-bold"
+																						placeholder="필수 항목 입니다.('-'을 빼고 적어주세요)"
+																						required="required" />
+																					<span class="form-bar"></span>
+																				</div>
+																			</div>
+																			<div class="form-group row">
+																				<input type="hidden" name="m_email" id="realEmail"
+																					value="${userInfo.m_email }" />
+																				<div class="col-sm-2 col-form-label">이메일</div>
+																				<div
+																					class="form-group form-primary form-static-label col-sm-5">
+																					<input type="text" id="frontEmail"
+																						value="${fn:split(userInfo.m_email,'@')[0] }"
+																						onchange="emailSum()"
+																						class="form-control form-control-center form-control-round form-control-bold"
+																						placeholder="필수 항목 입니다." required="required" /> <span
+																						class="form-bar"></span>
+																				</div>
+																				@
+																				<div class="col-sm-4">
+																					<select id="backEmail" onchange="emailSum()">
+																						<option value="">선택해주세요.</option>
+																						<c:forTokens var="email"
+																							items="naver.com,daum.net,hanmail.net,gmail.com"
+																							delims=",">
+																							<c:if
+																								test="${fn:split(userInfo.m_email,'@')[1] eq email}">
+																								<option value="${email }" selected>${email }</option>
+																							</c:if>
+																							<option value="${email }">${email }</option>
+																						</c:forTokens>
+																					</select>
+																				</div>
+																			</div>
+																			<script>
 																function emailSum() {
 																	var front = document
 																			.getElementById("frontEmail").value;
@@ -393,221 +388,226 @@ body, html {
 
 																}
 															</script>
-															<div class="form-group row">
-																<div class="col-sm-2 col-form-label">포인트</div>
-																<div
-																	class="form-group form-primary form-static-label col-sm-10">
-																	<form:input type="text" path="m_point"
-																		value="${userInfo.m_point }"
-																		class="form-control form-control-center form-control-round form-control-bold"
-																		disabled='true' placeholder="필수 항목 입니다."
-																		required="required" />
-																	<span class="form-bar"></span>
-																</div>
-															</div>
-															<div class="form-group row">
-																<div class="col-sm-2 col-form-label">가입날짜</div>
+																			<div class="form-group row">
+																				<div class="col-sm-2 col-form-label">포인트</div>
+																				<div
+																					class="form-group form-primary form-static-label col-sm-10">
+																					<form:input type="text" path="m_point"
+																						value="${userInfo.m_point }"
+																						class="form-control form-control-center form-control-round form-control-bold"
+																						disabled='true' placeholder="필수 항목 입니다."
+																						required="required" />
+																					<span class="form-bar"></span>
+																				</div>
+																			</div>
+																			<div class="form-group row">
+																				<div class="col-sm-2 col-form-label">가입날짜</div>
 
-																<!--<fmt:formatDate var="formatRegDate" value="${userVO.m_regdate}" pattern="yyyy년 MM월 dd일, HH시 MM분 SS초"/>
+																				<!--<fmt:formatDate var="formatRegDate" value="${userVO.m_regdate}" pattern="yyyy년 MM월 dd일, HH시 MM분 SS초"/>
                                                             <input value="${formatRegDate}" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." readonly="readonly"/>-->
-																<div class="form-group form-primary col-sm-10">
-																	<form:input type="date" name="m_regdate"
-																		path="m_regdate" value="${userInfo.m_regdate }"
-																		disabled='true' />
-																	<span class="form-bar"></span>
+																				<div class="form-group form-primary col-sm-10">
+																					<form:input type="date" name="m_regdate"
+																						path="m_regdate" value="${userInfo.m_regdate }"
+																						disabled='true' />
+																					<span class="form-bar"></span>
+																				</div>
+																			</div>
+																			<div class="row" style="float: right;">
+																				<div>
+																					<input type="button" id="update" value="수정"
+																						class="btn waves-effect waves-light btn-primary btn-outline-primary">
+																				</div>
+
+																			</div>
+																		</form:form>
+																	</div>
 																</div>
 															</div>
-															<div class="row" style="float: right;">
-																<div>
-																	<input type="button" id="update" value="수정"
-																		class="btn waves-effect waves-light btn-primary btn-outline-primary">
+															<div class="col-xl-6 col-md-12">
+																<!-- 여기 안에 두개를 넣어서 밑으로 두개 나오게 함 -->
+
+																<!-- 회원 대여 현황(간략) -->
+																<div class="card table-card">
+																	<div class="card-header">
+																		<h5>대여 현황</h5>
+																	</div>
+																	<div class="card-block">
+																		<div class="table-responsive">
+																			<table class="table table-hover">
+
+																				<c:forEach var="list" items="${rentList }">
+																					<tbody>
+																						<tr
+																							onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
+																							<td>
+																								<div class="d-inline-block align-middle">
+																									<img
+																										src="/resources/Images/tempProductImage.jpg"
+																										class="img-radius img-40 align-top m-r-15">
+																									<div class="d-inline-block">
+																										<h6>${list.p_name }</h6>
+																										<p class="text-muted m-b-0">${list.p_category }</p>
+																									</div>
+																								</div>
+																							</td>
+																							<td>
+																								<div>${list.r_sdate }</div>
+																							</td>
+																							<td>
+																								<div>D - ${list.r_sdate}</div>
+																							</td>
+																							<td class="text-right"><c:if
+																									test="${list.r_state eq '대여중'}">
+																									<fmt:parseDate var="tempToday"
+																										value="${list.r_sdate}" pattern="yyyy-MM-dd" />
+																									<fmt:parseNumber var="sdate"
+																										value="${tempToday.time / (1000*60*60*24)}"
+																										integerOnly="true" />
+																									<c:set var="now"
+																										value="<%=new java.util.Date()%>" />
+																									<fmt:parseNumber var="today"
+																										value="${now.time / (1000*60*60*24)}"
+																										integerOnly="true" />
+																									<c:if test="${sdate+3>=today}">
+																										<label class="btn btn-primary">대 여 중</label>
+																									</c:if>
+																									<c:if test="${sdate+3<today}">
+																										<label class="btn btn-danger">연 체 중</label>
+																									</c:if>
+																								</c:if> <c:if test="${list.r_state eq '반납 요청'}">
+																									<label class="btn btn-warning">반납 요청</label>
+																								</c:if> <c:if test="${list.r_state eq '반납 완료'}">
+																									<label class="btn btn-success">반납 완료</label>
+																								</c:if></td>
+																						</tr>
+																					</tbody>
+																				</c:forEach>
+
+																			</table>
+																		</div>
+																	</div>
+																</div>
+																<!-- 회원 구매 현황(간략) -->
+																<div class="card table-card">
+																	<div class="card-header">
+																		<h5>구매 현황</h5>
+																	</div>
+																	<div class="card-block">
+																		<div class="table-responsive">
+																			<table class="table table-hover">
+
+																				<c:forEach var="list" items="${purchaseList }">
+																					<tbody>
+																						<tr>
+																						<tr onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+																							<td>
+																								<div class="d-inline-block align-middle">
+																									<img
+																										src="/resources/Images/tempProductImage.jpg"
+																										class="img-radius img-40 align-top m-r-15">
+																									<div class="d-inline-block">
+																										<h6>${list.p_name }</h6>
+																										<p class="text-muted m-b-0">${list.p_category }</p>
+																									</div>
+																								</div>
+																							</td>
+																							<td>
+																								<div>${list.r_pdate }</div>
+																							</td>
+																							<td class="text-right"><c:if
+																									test="${list.r_state eq '즉시 구매'}">
+																									<label class="btn btn-info">즉시 구매</label>
+																								</c:if> <c:if test="${list.r_state eq '구매 확정'}">
+																									<label class="btn btn-info2">구매 확정</label>
+																								</c:if></td>
+																						</tr>
+																					</tbody>
+																				</c:forEach>
+
+
+																			</table>
+																		</div>
+																	</div>
 																</div>
 
+
+
+
+
+																<!-- 회원 메시지함 -->
+																<div class="card table-card">
+																	<div class="card-header">
+																		<h5>메시지함</h5>
+																		<a href="/member/mem/messageList"
+																			style="float: right;">더보기</a>
+																	</div>
+																	<div class="card-block">
+																		<div class="table-responsive">
+																			<table class="table table-hover">
+
+																				<c:forEach var="messageList" items="${messageList }">
+																					<tbody>
+																						<tr
+																							onclick="location.href='/member/mem/messageList/${messageList.a_id }'"
+																							style="cursor: hand">
+																							<td>
+																								<div>
+																									<p>UFO&nbsp;고객센터</p>
+																								</div>
+																							</td>
+																							<td>
+																								<div>
+																									<div>
+																										<h6>${messageList.a_title }</h6>
+																									</div>
+																								</div>
+																							</td>
+																							<td><fmt:formatDate
+																									value="${messageList.a_date }"
+																									pattern="yyyy-MM-dd hh:mm:ss" /></td>
+																						</tr>
+																					</tbody>
+																				</c:forEach>
+
+
+
+
+																			</table>
+
+
+
+																		</div>
+																	</div>
+																</div>
+																<!-- 회원 메시지함  끝-->
+
+
 															</div>
-														</form:form>
+
+
+
+														</div>
 													</div>
 												</div>
+												<!-- Page-body end -->
+												<form:form class="form-material" name="delete2"
+													action="/member/mem/userDelete/${userInfo.m_id }"
+													method="post" enctype="multipart/form-data"
+													modelAttribute="userVO">
+													<form:hidden path="m_id" value="${userInfo.m_id }"
+														class="form-control form-control-center form-control-round form-control-bold" />
+
+													<div style="float: right; padding-bottom: 100px">
+														<input type="button" id="confirm" value="회원탈퇴"
+															class="btn waves-effect waves-light btn-primary btn-outline-primary">
+													</div>
+												</form:form>
 											</div>
-											<div class="col-xl-6 col-md-12">
-												<!-- 여기 안에 두개를 넣어서 밑으로 두개 나오게 함 -->
-
-												<!-- 회원 대여 현황(간략) -->
-												<div class="card table-card">
-													<div class="card-header">
-														<h5>대여 현황</h5>
-													</div>
-													<div class="card-block">
-														<div class="table-responsive">
-															<table class="table table-hover">
-
-																<c:forEach var="list" items="${rentList }">
-																	<tbody>
-																		<tr
-																			onClick="goRentDetailPage(${list.r_id})">
-																			<td>
-																				<div class="d-inline-block align-middle">
-																					<img src="/resources/Images/tempProductImage.jpg"
-																						class="img-radius img-40 align-top m-r-15">
-																					<div class="d-inline-block">
-																						<h6>${list.p_name }</h6>
-																						<p class="text-muted m-b-0">${list.p_category }</p>
-																					</div>
-																				</div>
-																			</td>
-																			<td>
-																				<div>${list.r_sdate }</div>
-																			</td>
-																			<td>
-																				<div>D - ${list.r_sdate}</div>
-																			</td>
-																			<td class="text-right"><c:if
-																					test="${list.r_state eq '대여중'}">
-																					<fmt:parseDate var="tempToday"
-																						value="${list.r_sdate}" pattern="yyyy-MM-dd" />
-																					<fmt:parseNumber var="sdate"
-																						value="${tempToday.time / (1000*60*60*24)}"
-																						integerOnly="true" />
-																					<c:set var="now" value="<%=new java.util.Date()%>" />
-																					<fmt:parseNumber var="today"
-																						value="${now.time / (1000*60*60*24)}"
-																						integerOnly="true" />
-																					<c:if test="${sdate+3>=today}">
-																						<label class="btn btn-primary">대 여 중</label>
-																					</c:if>
-																					<c:if test="${sdate+3<today}">
-																						<label class="btn btn-danger">연 체 중</label>
-																					</c:if>
-																				</c:if> <c:if test="${list.r_state eq '반납 요청'}">
-																					<label class="btn btn-warning">반납 요청</label>
-																				</c:if> <c:if test="${list.r_state eq '반납 완료'}">
-																					<label class="btn btn-success">반납 완료</label>
-																				</c:if></td>
-																		</tr>
-																	</tbody>
-																</c:forEach>
-
-															</table>
-														</div>
-													</div>
-												</div>
-												<!-- 회원 구매 현황(간략) -->
-												<div class="card table-card">
-													<div class="card-header">
-														<h5>구매 현황</h5>
-													</div>
-													<div class="card-block">
-														<div class="table-responsive">
-															<table class="table table-hover">
-
-																<c:forEach var="list" items="${purchaseList }">
-																	<tbody>
-																		<tr>
-																		<tr
-																			onClick="goBuyDetailPage(${list.r_id})">
-																			<td>
-																				<div class="d-inline-block align-middle">
-																					<img src="/resources/Images/tempProductImage.jpg"
-																						class="img-radius img-40 align-top m-r-15">
-																					<div class="d-inline-block">
-																						<h6>${list.p_name }</h6>
-																						<p class="text-muted m-b-0">${list.p_category }</p>
-																					</div>
-																				</div>
-																			</td>
-																			<td>
-																				<div>${list.r_pdate }</div>
-																			</td>
-																			<td class="text-right"><c:if
-																					test="${list.r_state eq '즉시 구매'}">
-																					<label class="btn btn-info">즉시 구매</label>
-																				</c:if> <c:if test="${list.r_state eq '구매 확정'}">
-																					<label class="btn btn-info2">구매 확정</label>
-																				</c:if></td>
-																		</tr>
-																	</tbody>
-																</c:forEach>
-
-
-															</table>
-														</div>
-													</div>
-												</div>
-
-
-
-
-
-												<!-- 회원 메시지함 -->
-												<div class="card table-card">
-													<div class="card-header">
-														<h5>메시지함</h5><a href="/member/mem/messageList" style="float: right;">더보기</a>
-													</div>
-													<div class="card-block">
-														<div class="table-responsive">
-															<table class="table table-hover">
-
-																<c:forEach var="messageList" items="${messageList }">
-																	<tbody>
-																		<tr onclick="location.href='/member/mem/messageList/${messageList.a_id }'"
-																	style="cursor: hand">
-																		    <td>
-																				<div>
-																					<p>UFO&nbsp;고객센터</p>
-																				</div>
-																			</td>
-																			<td>
-																				<div>
-																					<div>
-																						<h6>${messageList.a_title }</h6>
-																					</div>
-																				</div>
-																			</td>
-																			<td>
-																				<fmt:formatDate value="${messageList.a_date }" pattern="yyyy-MM-dd hh:mm:ss" />
-																			</td>
-																		</tr>
-																	</tbody>
-																</c:forEach>
-
-
-
-
-															</table>
-
-
-
-														</div>
-													</div>
-												</div>
-												<!-- 회원 메시지함  끝-->
-
-
-											</div>
-
-
-
 										</div>
-										</div>
-										</div>
-										<!-- Page-body end -->
-									<form:form class="form-material" name="delete2"
-										action="/member/mem/userDelete/${userInfo.m_id }"
-										method="post" enctype="multipart/form-data"
-										modelAttribute="userVO">
-										<form:hidden path="m_id" value="${userInfo.m_id }"
-											class="form-control form-control-center form-control-round form-control-bold" />
 
-										<div style="float: right; padding-bottom: 100px">
-											<input type="button" id="confirm" value="회원탈퇴"
-												class="btn waves-effect waves-light btn-primary btn-outline-primary">
-										</div>
-									</form:form>
-										</div>
-										</div>
-									
-									
 
-								</div>
+
+									</div>
 
 								</div>
 
@@ -655,6 +655,45 @@ body, html {
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 	</script>
 	<script>
+	//전화번호 자동 - 추가
+	var autoHypenPhone = function(str){
+	    str = str.replace(/[^0-9]/g, '');
+	    var tmp = '';
+	    if( str.length < 4){
+	        return str;
+	    }else if(str.length < 7){
+	        tmp += str.substr(0, 3);
+	        tmp += '-';
+	        tmp += str.substr(3);
+	        return tmp;
+	    }else if(str.length < 11){
+	        tmp += str.substr(0, 3);
+	        tmp += '-';
+	        tmp += str.substr(3, 3);
+	        tmp += '-';
+	        tmp += str.substr(6);
+	        return tmp;
+	    }else{              
+	        tmp += str.substr(0, 3);
+	        tmp += '-';
+	        tmp += str.substr(3, 4);
+	        tmp += '-';
+	        tmp += str.substr(7);
+	        return tmp;
+	    }
+
+	    return str;
+	}
+
+	var phoneNum = document.getElementById('phoneNum');
+
+	phoneNum.onkeyup = function(){
+	console.log(this.value);
+	this.value = autoHypenPhone( this.value ) ;  
+	}
+	
+	
+	
 	$(document).ready(function(){
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
@@ -782,11 +821,21 @@ body, html {
 							document.getElementById('postcode').value = data.zonecode;
 							document.getElementById("address").value = addr;
 							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("detailAddress").value = '';
 							document.getElementById("detailAddress").focus();
 						}
 					}).open();
 		}
-
+		
+        
+		$('#detailAddress').focusout(function(){
+			var realAddr = $('input[name=addr]').eq(0).val() 
+						+ "|" + $('input[name=addr]').eq(1).val()
+						+ "|" + $('#detailAddress').val()
+						+ "|" + $('input[name=addr]').eq(2).val();
+			$('#realAddress').val(realAddr);
+		});
+			
 		//승빈
 
 		$(function() {
