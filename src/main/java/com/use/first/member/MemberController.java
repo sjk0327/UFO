@@ -1026,7 +1026,7 @@ public class MemberController {
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "/member/mem/memRentDetail2";
+		return "/member/mem/memRentDetail";
 	}
 
     
@@ -1121,7 +1121,7 @@ public class MemberController {
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "/member/mem/memBuyDetail2";
+		return "/member/mem/memBuyDetail";
 	}
     //회원 내정보 - 대여 내역
     @RequestMapping(value = "/member/mem/memRentList", method = RequestMethod.GET)

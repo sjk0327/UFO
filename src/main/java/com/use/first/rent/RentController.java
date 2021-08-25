@@ -27,6 +27,7 @@ import com.use.first.member.UserDAO;
 import com.use.first.member.UserInfoVO;
 import com.use.first.member.UserVO;
 import com.use.first.message.MessageDAO;
+import com.use.first.message.MessageVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
 import com.use.first.product.ProductDAO;
@@ -123,6 +124,9 @@ public class RentController {
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		Integer messageCount=messageDAO.findMessage(r_id);
 
+		
+		System.out.println(rentVO.toString());
+		
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("memInfo", userVO);
 		model.addAttribute("proInfo", productVO);
@@ -160,12 +164,19 @@ public class RentController {
 			throws Exception {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		System.out.println(r_id);
 		RentVO rentVO = rentDAO.rentInfo(r_id);
+		ProductVO productVO=productDAO.productInfo(rentVO.getR_pid());
 		String r_mid = rentVO.getR_mid();
-		messageDAO.sendMessage(r_id, r_mid);
+		MessageVO messageVO = new MessageVO();
+		messageVO.setA_rid(r_id);
+		messageVO.setA_mid(r_mid);
+		messageVO.setA_title("대여 연체 알림 및 추가 결제 주의 안내");
+		messageVO.setA_content(r_mid+"고객님!\n\r현재 대여 중인 상품 "+productVO.getP_name()+"이(가) 연체 중입니다.\n\r서둘러서 반납 요청을 통해 상품 반납 처리를 부탁드립니다.\n\r\n\r반납 요청 시 추가 연체 금액이 발생할 수 있으니 확인바랍니다.\n\r연체 금액은 대여 금액과 연체일을 통해 산정됩니다.\n\r문의사항이 있으시면 언제든지 연락바랍니다.\n\r감사합니다.");
+		messageDAO.sendMessage(messageVO);
 		response.setContentType("text/html; charset=UTF-8");
-
+		
 		PrintWriter out = response.getWriter();
 
 		out.println("<script language='javascript'>");
@@ -180,6 +191,7 @@ public class RentController {
 	@RequestMapping(value = "/member/rent/wishList")
 	public String customerwishList(HttpSession session, Model model,Criteria cri) {
 
+	
 		System.out.println(session.getAttribute("userInfo")+"aaa");
 		UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
 		String userId=userInfo.getM_id();
@@ -255,6 +267,8 @@ public class RentController {
 		List<ProductVO> wishProList = productDAO.productSmartPhoneList(maxcate);
 		System.out.println(wishProList.toString());
 		
+		List<RentVO> rentalListNow=rentDAO.rentListNow(); 	
+		
 		
 	
 		// 현재 페이지에 해당하는 게시물을 조회해 옴
@@ -269,6 +283,7 @@ public class RentController {
 				model.addAttribute("pageMaker", pageMaker);
 				model.addAttribute("wishList", wishList);
 				model.addAttribute("wishProList", wishProList);
+				model.addAttribute("rentalListNow", rentalListNow);
 				
 		return "/member/rent/memberWishList";
 	}
@@ -425,7 +440,7 @@ public class RentController {
 		}
 		//장바구니 insert
 				@RequestMapping(value ="/member/rent/wishToCart")
-				public String customerWishtoCart(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session){
+				public void customerWishtoCart(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session,HttpServletResponse response)throws Exception{
 					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
 					String userId=userInfo.getM_id();
@@ -433,7 +448,7 @@ public class RentController {
 					String state=buyInfoVO.getBuyType();
 					int amount=buyInfoVO.getProamount();
 					String sdate=buyInfoVO.getRentdate();
-				
+					
 					CartVO cartVO = new CartVO();
 					cartVO.setC_mid(userId);
 					cartVO.setC_pid(productId);
@@ -441,9 +456,33 @@ public class RentController {
 					cartVO.setC_amount(amount);
 					cartVO.setC_date(sdate);
 					
+					int check=rentDAO.checkCart(cartVO);
+					if(check>0) {
+						response.setContentType("text/html; charset=UTF-8");
+
+						PrintWriter out = response.getWriter();
+
+						out.println("<script language='javascript'>");
+						out.println("alert('해당 옵션의 해당 상품이 이미 존재합니다!')");
+						out.println("window.location='/member/rent/wishList'");
+						out.println("</script>");
+						out.flush();
+					}else {
 					rentDAO.insertCartList(cartVO);
+					response.setContentType("text/html; charset=UTF-8");
+
+					PrintWriter out = response.getWriter();
+
 					
-					return "redirect:/member/rent/cartList";
+					out.println("<script language='javascript'>");
+					out.println("if (confirm(\"장바구니를 확인해보시겠습니까?\") == true){");
+					out.println("window.location='/member/rent/cartList'}");
+					out.println("else{");
+					out.println("window.location='/member/rent/wishList'}");
+					out.println("</script>");
+					out.flush();
+					}
+					
 				}
 				
 				//장바구니 update
@@ -528,9 +567,6 @@ public class RentController {
 					rentdate_array = code.split(",");
 				
 						
-					
-					
-					
 					for (int i = 0; i < rentdate_array.length; i++) {
 						BuyInfoVO buyInfoVO=new BuyInfoVO();
 						String productId=productId_array[i];
@@ -591,5 +627,73 @@ public class RentController {
 					
 					return "member/rent/paytest";
 				}
+				
+				
+				// 환불 요청 처리
+				@RequestMapping(value = "/admin/rent/refundConfirm")
+				public void adminRentRefundConfirm(@RequestParam int r_id, Model model, HttpSession session, HttpServletResponse response) throws Exception{
+					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+					BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+					MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+					
+					RentVO rentVO = new RentVO();
+					RentVO rentbeforeVO=rentDAO.rentInfo(r_id);
+					String r_state=rentbeforeVO.getR_state();
+					String r_mid = rentbeforeVO.getR_mid();
+					ProductVO productVO=productDAO.productInfo(rentbeforeVO.getR_pid());
+					
+					rentVO.setR_id(r_id);
+					if(r_state.equals("환불 요청(대여)")) {
+						rentVO.setR_state("환불 완료(대여)");
+					}
+					else if(r_state.equals("환불 요청(구매 확정)")) {
+						rentVO.setR_state("반납 완료");
+					}
+					else if(r_state.equals("환불 요청(즉시 구매)")) {
+						rentVO.setR_state("환불 완료(즉시 구매)");
+					}
+					System.out.println(rentVO.getR_state()+"지금 상태");
+					rentDAO.rentRefund(rentVO);
+				
+					List<BuyVO> buyList=buyDAO.buyList(r_id);
+					int lastIndex=buyList.size()-1;
+					BuyVO buyVO=buyList.get(lastIndex);
+					buyVO.setB_how("관리자 승인 환불");
+					if(r_state.equals("환불 요청(대여)")) {
+						buyVO.setB_state("대여 환불");
+					}
+					else if(r_state.equals("환불 요청(구매 확정)")) {
+						buyVO.setB_state("구매 확정 환불");
+					}
+					else if(r_state.equals("환불 요청(즉시 구매)")) {
+						buyVO.setB_state("즉시 구매 환불");
+					}
+					buyVO.setB_message(null);
+					buyVO.setB_purchase("-"+buyVO.getB_purchase());
+					
+					buyDAO.purchaseRefund(buyVO);
+					
+					model.addAttribute("r_id", r_id);
+					
+					MessageVO messageVO = new MessageVO();
+					messageVO.setA_rid(r_id);
+					messageVO.setA_mid(r_mid);
+					messageVO.setA_title("환불 요청 건 승인 안내");
+					messageVO.setA_content(r_mid+"고객님!\n\r고객님께서 요청하신 상품 "+productVO.getP_name()+"에 대한 환불 요청이 정상적으로 승인 처리 되었습니다!\n\r확인 후 문의 사항이 있으시면 언제든지 연락바랍니다.\n\r\n\r감사합니다.");
+					messageDAO.sendMessage(messageVO);
+					response.setContentType("text/html; charset=UTF-8");
+					
+					PrintWriter out = response.getWriter();
+
+					out.println("<script language='javascript'>");
+					out.println("alert('환불 승인 처리 완료되었습니다!')");
+					out.println("window.location='/admin/rent/rentDetail/" + r_id + "'");
+					out.println("</script>");
+					out.flush();
+	
+				}
+				
+
 
 }

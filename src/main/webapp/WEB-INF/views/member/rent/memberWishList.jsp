@@ -16,6 +16,11 @@
 <link rel="stylesheet" type="text/css" href="/ind-script/optimizer.php?filename=rczLDcMgEEXRAsjWdTwpizThKvi8GBRgImZQ5O5t1-Bsr3QPsjSC0U3lUAT2YtK8Gge-M9QSXbZWoYkuUcvWoZ_Sny9EVcTsh63cfzLS4wwLbnFbD39QmqRZiep3mYa3yLld7AE&type=css&k=04827dcf247ed9d72d23c4e72d4402951c293c7b&t=1627969594" />
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <link rel="stylesheet" type="text/css" href="/resources/common/css/label.css">
+<!-- datepicker -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- datepicker 여기까지 -->
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="/resources/common/js/main.js"></script>
 <style type="text/css">
@@ -237,7 +242,13 @@ top:300px;
 </head>
 <body>
 
-
+<!-- 남은 수량 계산위한 rentalList -->
+	<c:forEach var="rentalList" items="${rentalListNow}">
+	<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
+	<input id="rentaldateNow" type="hidden" value="${rentalList.r_sdate}">
+	<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
+	</c:forEach>
+	<!-- 남은 수량 계산위한 rentalList end script로! -->
 
 
 
@@ -294,7 +305,7 @@ top:300px;
                   <!-- 이미지 -->
                   <figure class="block-4-image">
                    
-                                       <div class="imgbox" style="padding :0;"><a>  
+                                       <div class="imgbox" style="padding :0;"><a href="/member/pro/productDetail/${wishInfo.w_pid}">  
     <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             
@@ -335,7 +346,7 @@ top:300px;
                         </c:if>
                       </div>
 
-                        <div class="name"><a href="" class="product-name">    
+                        <div class="name"><a href="/member/pro/productDetail/${wishInfo.w_pid}" class="product-name">    
                         <span style="color: #505050; font-weight: bold;">[${wishInfo.p_category}]${wishInfo.p_name}</span>
                         </a></div>
 
@@ -460,7 +471,7 @@ top:300px;
       <div class="row" style="margin-top:8pt;">
        <div class="col-md-4" id="rdate">
        날짜</div><div class="col-md-8">
-        <input id="rentdate" name="rentdate" type="date" value="">            
+        <input id="rentdate" name="rentdate" type="text" value="">            
 			</div></div></div>
 			<div>
       <div class="row" style="margin-top:3pt;">
@@ -503,16 +514,13 @@ top:300px;
            	<span style="margin-left: 3pt;"><button id="deleteWish" href="" class="btn btn-outline-primary" onclick="wishcheckboxArr();">삭제하기</button></span>
            	<input type="hidden" id="arrayParam" name="arrayParam"/>
            	</form>
-            <span style="margin-left: 3pt;"><form id="form"><button id="cartbutton" href="" class="btn btn-outline-primary">장바구니 담기</button>
-            <input type="hidden" id="arrayParam2" name="arrayParam"/></form>
-            
-            </span>
+
         </div>
         </span>
       
 <span style="float: right;">
  <div class="row allpro">
-            <span><button id="button2" href="" class="btn btn-outline-primary">전체 상품 주문</button></span>
+    
             <span>
             <form id="form" action="/member/rent/deleteWishAll" method="post">
             <input type="hidden" id="userID" name="userID" value="crystal"/>
@@ -547,6 +555,39 @@ top:300px;
 
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
 <script type="text/javascript">
+
+
+$(function(){
+   $('#rentdate').datepicker();
+})
+ $('#rentdate').datepicker({
+	        dateFormat: 'yy-mm-dd' //달력 날짜 형태
+	        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+	        ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+	        ,changeYear: true //option값 년 선택 가능
+	        ,changeMonth: true //option값  월 선택 가능                
+	        ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+	        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+	        ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+	        ,buttonText: "선택" //버튼 호버 텍스트              
+	        ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+	        ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+	        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+	        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+	        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+	        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+	        ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+	 		,showButtonPanel: true
+	 		,currentText: '오늘 날짜'
+	 		,closeText: '닫기'
+	 		,nextText:"다음"
+	 		,prevText:"이전"
+	 	
+	    });      
+
+
+
+
 $(document).ready(function() {
 	$('#myCarousel').carousel('cycle');
 	$('#myCarousel2').carousel('cycle');
@@ -593,24 +634,6 @@ function wishcheckboxArr() {
 	  };	
 }
 
-cartbutton.addEventListener("click",open)
-function wishcheckArr() { 
-	var array = new Array(); // 배열 선언
-	$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.	    
-		array.push(this.value);
-	});
-				
-	$("#arrayParam2").val(array);
-	
-	if (confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?") == true){   
-		$("#form").attr("action", "/member/rent/deleteWishList2");  
-		$("#form").submit();
-	  }else{   
-		 event.preventDefault();
-     event.stopPropagation();
-
-	  };	
-}
 
 function allChk(obj){
     var chkObj = document.getElementsByName("RowCheck");
@@ -631,10 +654,6 @@ function allChk(obj){
 } 
 
 
-
-
-
-
 var btnrentList=document.querySelectorAll(".btnrent");
 var btnbuyList=document.querySelectorAll(".btnbuy");
 var btncartList=document.querySelectorAll(".btncart");
@@ -652,46 +671,136 @@ for(var i=0; i < btnrentLength; i++){
 	btnrentList[i].addEventListener("click",open)};
 for(var i=0; i < btnrentLength; i++){
 		btnbuyList[i].addEventListener("click",open)};
-		for(var i=0; i < btnrentLength; i++){
-			btncartList[i].addEventListener("click",open)};
-	
-	
+for(var i=0; i < btnrentLength; i++){
+		btncartList[i].addEventListener("click",open)};
 
 		function open(e) {
+			//rental table
+			var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+			var rentalIdNowListLength = rentalIdNowList.length;
+			var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+			var rentalamountNowList=document.querySelectorAll("#rentalamountNow");
 			for(var i=0; i< btnrentLength;i++){
 			//대여버튼
 			if(e.target==btnrentList[i]){
+						
+						
 			document.querySelector(".modal").classList.remove('hidden');
 			document.getElementById("productName").innerText='['+proCategoryList[i].value+']'+proNameList[i].value;
 			document.getElementById("productId").value=proIdList[i].value;
 				document.getElementById("buyType").value="대여";
 				document.getElementById("buyType").setAttribute('disabled','disabled');
-				document.getElementById("proamount").setAttribute('max',rentamountList[i].value);
-				document.getElementById("productPrice").value=proPriceList[i].value*0.05;
-				document.getElementById("proamount").addEventListener("input",changeprice);
 				document.getElementById("rentdate").value=new Date().toISOString().substring(0, 10);
 				document.getElementById("rentdate").setAttribute('min',new Date().toISOString().substring(0, 10));
-				document.getElementById("rentdate").setAttribute('type','date');
+				document.getElementById("rentdate").setAttribute('type','text');
 				document.getElementById("rdate").classList.remove('hidden');
+				var price=(proPriceList[i].value)*0.05;	
+				var canRental=0;
+				var count=0;
+					var rentd=new Date();
+					rentd.setDate(rentd.getDate() + 2);
+				for(var k=0;k<rentalIdNowListLength;k++){
+					var rentdatenow=new Date(rentaldateNowList[k].value);
+				if(document.getElementById("productId").value==rentalIdNowList[k].value && rentd<rentdatenow){
+					count+=rentalamountNowList[k].value*1
+					}
+				}
+				canRental=rentamountList[i].value*1+count;
+				document.getElementById("proamount").setAttribute('max',canRental);
+				document.getElementById("proamount").addEventListener("input",changeprice);
+				document.getElementById("proamount").addEventListener("change",checkDisabled);
+				document.getElementById("productPrice").value=proPriceList[i].value*0.05;
 				document.getElementById("keepgo").innerText="대여";
 				document.getElementById("keepgo").addEventListener("click",giveData);
-					var price=(proPriceList[i].value)*0.05;
+				var arrayDay= new Array();
+				
+				//남은 수량 구하기
+				var rentamount = rentamountList[i].value;
+				$("#rentdate").change(function (e){
+					var canRental=0;
+					if(e.target==document.getElementById("rentdate")){
+						var count=0;
+						for(var k=0;k<rentalIdNowListLength;k++){
+							var rentd=new Date(document.getElementById("rentdate").value);
+							rentd.setDate(rentd.getDate() + 2);
+							var rentdatenow=new Date(rentaldateNowList[k].value);
+						if(document.getElementById("productId").value==rentalIdNowList[k].value && rentd<rentdatenow){
+							count+=rentalamountNowList[k].value*1
+							}
+						}
+						canRental=rentamount*1+count;
+						document.getElementById("proamount").setAttribute('max',canRental);
+						document.getElementById("proamount").value=1;
+				}	
+		});	
+				//남은 수량 구하기 끝
+				
+				
+				
 				function changeprice(ev){
 					document.getElementById("productPrice").value=(document.getElementById("proamount").value)*price;
 				};	
+				
 				function giveData(){
 					if (confirm("대여 결제를 진행하시겠습니까?") == true){   
 						document.getElementById("buyType").removeAttribute('disabled');
 						$("#buyform").attr("action", "/member/rent/buy");  
 						$("#buyform").submit();
 					  }else{   
+						  return;
 						 event.preventDefault();
 				     event.stopPropagation();
 
 					  };	
 				};
 				
+				function checkDisabled(){
+					var amount=document.getElementById("proamount").value;
+					arrayDay=[];
+					var today=new Date();
+					var now = new Date();
+					var monthLater=new Date(now.setMonth(now.getMonth() + 1));
+					while(today<=monthLater){
+						var count=0;
+						var canRental=0;
+						var d=new Date(today);
+						d.setDate(d.getDate() + 2);
+				
+					for(var k=0;k<rentalIdNowListLength;k++){
+						var rentdatenow=new Date(rentaldateNowList[k].value);
+					if(document.getElementById("productId").value==rentalIdNowList[k].value && d<rentdatenow){
+						count+=rentalamountNowList[k].value*1
+						}
+					}
+				canRental=rentamount*1+count;
+					if(canRental<amount){
+						arrayDay.push(today);
+					}				
+					today.setDate(today.getDate() + 1);
+				}
+					return arrayDay;	
+				};
+				
+				
+				$("#rentdate").datepicker({
+					  beforeShowDay: function disableAllTheseDays(date) {
+
+						    var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+						    for (i = 0; i < arrayDay.length; i++) {
+						        if($.inArray(y + '-' +(m+1) + '-' + d,arrayDay) != -1) {
+						            return [false];
+						        }
+						    
+						    return [true];
+						}}
+					});
+				
+				
+				
 			}
+			
+			
+
 			//구매 버튼
 			if(e.target==btnbuyList[i]){
 				document.querySelector(".modal").classList.remove('hidden');
@@ -710,7 +819,7 @@ for(var i=0; i < btnrentLength; i++){
 					var price=proPriceList[i].value*0.95;
 				function changeprice(ev){
 					document.getElementById("productPrice").value=(document.getElementById("proamount").value)*price;
-				};			
+				}			
 				
 					function giveData(){
 						if (confirm("구매 결제를 진행하시겠습니까?") == true){   
@@ -718,31 +827,32 @@ for(var i=0; i < btnrentLength; i++){
 							$("#buyform").attr("action", "/member/rent/buy");  
 							$("#buyform").submit();
 						  }else{   
+							  return;
 							 event.preventDefault();
 					     event.stopPropagation();
 
-						  };	
-					};
+						  }	
+					}
 				
 				
 			}
+			
 			//장바구니 버튼
 			if(e.target==btncartList[i]){
 							var rentprice=(proPriceList[i].value)*0.05;
 							var buyprice=(proPriceList[i].value)*0.95;
 							var rentamount=rentamountList[i].value;
 							var buyamount=buyamountList[i].value;
+							
 				document.querySelector(".modal").classList.remove('hidden');
 				document.getElementById("productName").innerText='['+proCategoryList[i].value+']'+proNameList[i].value;
 				document.getElementById("productId").value=proIdList[i].value;
 				document.getElementById("buyType").addEventListener("input",changestate);
-				document.getElementById("rentdate").setAttribute('type','hidden');
-				document.getElementById("rdate").classList.add('hidden');
+				document.getElementById("rentdate").setAttribute('disabled',true);
 				document.getElementById("keepgo").innerText="장바구니";
 				document.getElementById("keepgo").addEventListener("click",giveData);
-				if(rentamount==0){
-					$("#buyType option[value*='대여']").prop('disabled',true);
-				}
+				$("#rentdate").datepicker("option","showOn","text");
+				
 				if(buyamount==0){
 					$("#buyType option[value*='구매']").prop('disabled',true);
 				}
@@ -755,7 +865,7 @@ for(var i=0; i < btnrentLength; i++){
 
 						}
 						else{
-					if (confirm("장바구니에 넣으시겠습니까?") == true){   
+					if (confirm("장바구니에 넣으시겠습니까?") == true){ 
 						$("#buyform").attr("action", "/member/rent/wishToCart");  
 						$("#buyform").submit();
 					  }else{   
@@ -773,14 +883,57 @@ for(var i=0; i < btnrentLength; i++){
 							document.getElementById("proamount").setAttribute('max',rentamount);
 							document.getElementById("productPrice").value=rentprice;
 							document.getElementById("proamount").addEventListener("input",changeprice);
-							document.getElementById("rentdate").setAttribute('type','date');
-							document.getElementById("rdate").classList.remove('hidden')
+							document.getElementById("rentdate").setAttribute('type','text');
+							document.getElementById("rentdate").removeAttribute('disabled');
 							document.getElementById("rentdate").value=new Date().toISOString().substring(0, 10);
-							document.getElementById("rentdate").setAttribute('min',new Date().toISOString().substring(0, 10));
+							$("#rentdate").datepicker("option","showOn","both");
 							
+							var canRental=0;
+							var count=0;
+								var rentd=new Date();
+								rentd.setDate(rentd.getDate() + 2);
+							for(var k=0;k<rentalIdNowListLength;k++){
+								var rentdatenow=new Date(rentaldateNowList[k].value);
+							if(document.getElementById("productId").value==rentalIdNowList[k].value && rentd<rentdatenow){
+								count+=rentalamountNowList[k].value*1
+								}
+							}
+							
+							canRental=rentamount*1+count;
+							document.getElementById("proamount").setAttribute('max',canRental);
+					
+		
 							function changeprice(){
 								document.getElementById("productPrice").value=(document.getElementById("proamount").value)*rentprice;
 							};	
+							
+							//남은 수량 구하기
+							
+							$("#rentdate").change(function (e){
+								
+								var canRental=0;
+								if(e.target==document.getElementById("rentdate")){
+									var count=0;
+									for(var k=0;k<rentalIdNowListLength;k++){
+										var rentd=new Date(document.getElementById("rentdate").value);
+										rentd.setDate(rentd.getDate() + 2);
+										var rentdatenow=new Date(rentaldateNowList[k].value);
+									if(document.getElementById("productId").value==rentalIdNowList[k].value && rentd<rentdatenow){
+										count+=rentalamountNowList[k].value*1
+										}
+									}
+
+									canRental=rentamount*1+count;
+									document.getElementById("proamount").setAttribute('max',canRental);
+									document.getElementById("proamount").value=1;
+							}	
+					});	
+							
+						
+							//남은 수량 구하기 끝
+							
+							
+							
 							
 						}
 						
@@ -788,8 +941,8 @@ for(var i=0; i < btnrentLength; i++){
 								
 							document.getElementById("proamount").setAttribute('max',buyamount);
 							document.getElementById("rentdate").value=new Date().toISOString().substring(0, 10);
-							document.getElementById("rentdate").setAttribute('type','hidden');
-							document.getElementById("rdate").classList.add('hidden');
+							document.getElementById("rentdate").setAttribute('disabled',true);
+							$("#rentdate").datepicker("option","showOn","text");
 							document.getElementById("productPrice").value=buyprice;
 							document.getElementById("proamount").addEventListener("input",changeprice);
 							
@@ -815,7 +968,10 @@ for(var i=0; i < btnrentLength; i++){
 			  document.getElementById("buyType").value="선택";
 			  document.getElementById("proamount").value="1";
 			  document.getElementById("productPrice").value=0;  
-			document.querySelector(".modal").classList.add('hidden');}
+			document.querySelector(".modal").classList.add('hidden');
+
+			event.stopImmediatePropagation();
+			}
 			else{
 				 event.preventDefault();
 		    	 event.stopPropagation();
@@ -823,7 +979,9 @@ for(var i=0; i < btnrentLength; i++){
 		};	
 
 
-
+		
+		
+		
 
 </script>
 </body>

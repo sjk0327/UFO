@@ -20,6 +20,7 @@
   </filter-mapping>
   
   <!-- user login filter -->
+  <!--  
  <filter>
     <filter-name>loginCheckFilter</filter-name>
     <filter-class>com.use.first.filter.LoginCheckFilter</filter-class>
@@ -31,8 +32,8 @@
   <filter-mapping>
     <filter-name>loginCheckFilter</filter-name>
     <url-pattern>/member/*</url-pattern>
-  </filter-mapping>
-  
+  </filter-mapping>-->
+
   
   
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->

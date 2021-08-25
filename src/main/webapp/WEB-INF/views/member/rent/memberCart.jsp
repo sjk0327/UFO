@@ -289,7 +289,7 @@ body, html {height: 100%;}
                 
                     </td>
                     
-                    <td class="imgbox thumb" style="padding : 0;"><a href="">
+                    <td class="imgbox thumb" style="padding : 0;"><a href="/member/pro/productDetail/${cartInfo.c_pid}">
                    
    
     <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
@@ -326,7 +326,7 @@ body, html {height: 100%;}
 </a></td>
                        
                     <td class="info left" style="text-align: left;">
-                        <div class="info name"><a href="" class="product-name">
+                        <div class="info name"><a href="/member/pro/productDetail/${cartInfo.c_pid}" class="product-name">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #505050; font-weight: bold;">[${cartInfo.p_category}] ${cartInfo.p_name}</span>
                      
                         </a></div>
@@ -700,6 +700,17 @@ function allChk(obj){
 		var proInfoList=document.querySelectorAll("#proInfo");
 		var checkBoxList=document.querySelectorAll("#checkBox");
 
+		//rental table
+		var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+		var rentalIdNowListLength = rentalIdNowList.length;
+		var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+		var rentalamountNowList=document.querySelectorAll("#rentalamountNow");
+		
+		
+		
+		
+		
+		
 		function AddComma(num)
 		{
 		var regexp = /\B(?=(\d{3})+(?!\d))/g;
@@ -760,12 +771,43 @@ function onStateCountHandler(ev) {
 				if(ev.target==stateList[i]){
 					
 						if(stateList[i].value=="대여"){
+							for(var k=0; k< i;k++){
+								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="대여"){
+									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									stateList[i].value="구매"
+									return;
+									ev.preventDefault();
+								     ev.stopPropagation();
+								}
+							}
+							for(var k=i+1;k<amountLength;k++){
+								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="대여"){
+									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									stateList[i].value="구매"
+										return;
+									ev.preventDefault();
+								     ev.stopPropagation();
+								}
+							}
 					rentdateList[i].removeAttribute('disabled');
-					amountList[i].setAttribute('max',rentamountList[i].value);
-					amountList[i].value=1;
-					priceList[i].value=originprice[i].value*amountList[i].value*0.05;
 					rentdateList[i].value=new Date().toISOString().substring(0, 10);
 					rentdateList[i].setAttribute('min',new Date().toISOString().substring(0, 10));
+							var canRental=0;
+							var count=0;
+							for(var k=0;k<rentalIdNowListLength;k++){
+								var rentdate=new Date(rentdateList[i].value);
+								rentdate.setDate(rentdate.getDate() + 2);
+								var rentdatenow=new Date(rentaldateNowList[k].value);
+							if(productIdList[i].value==rentalIdNowList[k].value && rentdate<rentdatenow){
+								count+=rentalamountNowList[k].value*1
+							}}
+							canRental=rentamountList[i].value*1+count;
+							
+							amountList[i].setAttribute('max',canRental);
+							amountList[i].value=1;
+					
+
+					priceList[i].value=originprice[i].value*amountList[i].value*0.05;
 					pointList[i].innerText=AddComma(priceList[i].value*0.01);
 					totalpriceList[i].innerText=AddComma(priceList[i].value*1+2500);
 					priceList[i].value=AddComma(priceList[i].value);
@@ -789,6 +831,27 @@ function onStateCountHandler(ev) {
 				}
 					
 						if(stateList[i].value=="구매"){
+							
+							for(var k=0; k< i;k++){
+								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="구매"){
+									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									stateList[i].value="대여"
+									return;
+									ev.preventDefault();
+								     ev.stopPropagation();
+								}
+							}
+							for(var k=i+1;k<amountLength;k++){
+								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="구매"){
+									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									stateList[i].value="대여"
+										return;
+									ev.preventDefault();
+								     ev.stopPropagation();
+								}
+							}
+							
+							
 							amountList[i].setAttribute('max',buyamountList[i].value);
 							amountList[i].value=1;
 							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
@@ -973,15 +1036,14 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 		}
 		};
 
+		
+		
 //남은 수량 계산
-	
-	
-	var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
-	var rentalIdNowListLength = rentalIdNowList.length;
-	var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
-	var rentalamountNowList=document.querySelectorAll("#rentalamountNow");
+
+
 	for(var i=0; i < amountLength; i++){
 		rentdateList[i].addEventListener('input',calCanRent)};
+		
 		
 	function calCanRent(e){
 		for(var i=0; i < amountLength; i++){
@@ -990,7 +1052,10 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 			if(e.target==rentdateList[i]){
 				var count=0;
 				for(var k=0;k<rentalIdNowListLength;k++){
-				if(productIdList[i].value==rentalIdNowList[k].value && rentdateList[i].value<=rentaldateNowList[k].value){
+					var rentdate=new Date(rentdateList[i].value);
+					rentdate.setDate(rentdate.getDate() + 2);
+					var rentdatenow=new Date(rentaldateNowList[k].value);
+				if(productIdList[i].value==rentalIdNowList[k].value && rentdate<rentdatenow){
 					count+=rentalamountNowList[k].value*1
 				}}
 				canRental=rentamountList[i].value*1+count;
@@ -1009,23 +1074,23 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 		if(stateList[i].value=="대여"){		
 				var count=0;
 				for(var k=0;k<rentalIdNowListLength;k++){
-				if(productIdList[i].value==rentalIdNowList[k].value && rentdateList[i].value<=rentaldateNowList[k].value){
+					var rentdate=new Date(rentdateList[i].value);
+					rentdate.setDate(rentdate.getDate() + 2);
+					var rentdatenow=new Date(rentaldateNowList[k].value);
+				if(productIdList[i].value==rentalIdNowList[k].value && rentdate<rentdatenow){
 					count+=rentalamountNowList[k].value*1
+					alert(productIdList[i].value);
+					alert(rentdate);
+					alert(rentdatenow);
+					alert(count);
 				}}
 				canRental=rentamountList[i].value*1+count;
-				
+
 				if(canRental<=0){
 					amountList[i].disabled=true;
 					updatecartList[i].disabled=true;
 					carttobuyList[i].disabled=true;
 					checkBoxList[i].disabled=true;
-					
-				}else if(canRental<=3){
-					
-					amountList[i].disabled=false;
-					updatecartList[i].disabled=false;
-					carttobuyList[i].disabled=false;
-					amountList[i].setAttribute('max',canRental);
 					
 				}else{
 					
@@ -1033,12 +1098,13 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 					updatecartList[i].disabled=false;
 					carttobuyList[i].disabled=false;
 					amountList[i].setAttribute('max',canRental);
+					
 				}
 		}
 	}		
 });	
 	
-	
+	//수량 구하기 끝
 	
 
 /**

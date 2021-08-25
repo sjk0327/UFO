@@ -33,7 +33,8 @@ public interface RentDAO {
 	public int rentSelect();
 	public int getWishTotalCount(Criteria cri);
 	public List<RentVO> rentListNow();
-	
+	public int checkCart(CartVO cartVO);
+	public int rentRefund(RentVO rentVO);
 	
 	// 성훈 시작
 	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);

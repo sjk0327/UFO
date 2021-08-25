@@ -182,10 +182,10 @@ text-decoration: underline;
 						<div style="font-size: 13pt; font-weight: bold;">
 						<div class="row" style="height: 50px; padding: 10px;">
 						<div class="col-md-5">
-						대여일자 &nbsp;&nbsp;: &nbsp;&nbsp;${rentInfo.r_sdate }</div>
+						대여일자 &nbsp;&nbsp;: &nbsp;&nbsp;${rentInfo.r_sdate}</div>
 						<div class="col-md-1">
 						|</div>
-						<div class="col-md-6">대여 번호&nbsp;&nbsp; :&nbsp;&nbsp;  ${rentInfo.r_id }</div>
+						<div class="col-md-6">대여 번호&nbsp;&nbsp; :&nbsp;&nbsp;  ${rentInfo.r_id}</div>
 						</div>
 						</div>
 </div>
@@ -215,27 +215,25 @@ text-decoration: underline;
 						<span class="col-md-2">${proInfo.p_id }</span>
 						<span class="col-md-3">${proInfo.p_name }</span>
 						<span class="col-md-2" style="font-weight: bold;">
-						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료'}">
+						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청(대여)' || rentInfo.r_state eq '환불 완료(대여)'}">
 						<%= "대여" %>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
+						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)' || rentInfo.r_state eq '환불 완료(즉시 구매)'}">
 						<%= "구매" %>
 						</c:if>
+						
 						</span>
 						<span class="col-md-3">
 						
-						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료'}">
-						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" />
+						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청(대여)' || rentInfo.r_state eq '환불 완료(대여)'}">
+						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" /> 
 						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
+						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)' || rentInfo.r_state eq '환불 완료(즉시 구매)'}">
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * rentInfo.r_rent}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
 						</c:if>
-
-						
-						
-						
+	
 						</span>
 						
 						<!-- 상태 색깔 변경 로직 부분  추가-->
@@ -253,6 +251,8 @@ text-decoration: underline;
 						<c:if test="${rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
 						<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
 						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 요청(대여)'||rentInfo.r_state eq '환불 요청(즉시 구매)'||rentInfo.r_state eq '환불 요청(구매 확정)'}"><label class="btn btn-inverse">환불 요청</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 완료(대여)'||rentInfo.r_state eq '환불 완료(즉시 구매)'}"><label class="btn btn-inverse">환불 완료</label></c:if>
 						</span>
 						<!-- 상태 색깔 변경 로직 부분  끝 -->
 						
@@ -287,6 +287,11 @@ text-decoration: underline;
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * buyInfo.b_amount}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 						</c:if>
+						<c:if test="${buyInfo.b_state eq '대여 환불' || buyInfo.b_state eq '구매 확정 환불' || buyInfo.b_state eq '즉시 구매 환불'}">
+						<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+						-${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+						</c:if>
+						
 						</div>
 						</span>
 						</div>
@@ -327,13 +332,14 @@ text-decoration: underline;
 							</c:choose>
 						</c:if>
 						</c:if>
-
-						
-	
-
-
 						</form:form>
-	
+						 <form:form method="post" action="/admin/rent/refundConfirm" modelAttribute="rentInfo">
+					<form:hidden path="r_id"/>
+						<c:if test="${rentInfo.r_state eq '환불 요청(대여)' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)'}">
+						<button type="submit" id="button"
+								class="btn waves-effect waves-light btn-primary btn-outline-primary refundbtn">환불 승인</button>
+	</c:if>
+	</form:form>
 </div>
                    </div>
                 
@@ -396,7 +402,17 @@ text-decoration: underline;
 	  	  };	
 		});
     
-   
+    $('.refundbtn').click(function() {
+		
+		if (confirm("환불 승인하시겠습니까?") == true){   
+
+  	  }else{   
+			 event.preventDefault();
+           event.stopPropagation();
+
+  	  };	
+	});
+    refundbtn
    
     </script>
    
