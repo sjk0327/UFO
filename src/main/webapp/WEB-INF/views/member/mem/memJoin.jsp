@@ -109,7 +109,7 @@
                             	</div>
 								<div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
 									<div class="col-sm-9" style="padding:0px;">
-	                                    <input type="text" id="id" name="m_id" class="form-control" required="required" onchange="check_id()">
+	                                    <input type="text" id="id" name="m_id" class="form-control" required="required" onkeyup="check_id()">
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">아이디</label>
 	                                   	<span id="check_id"></span>
@@ -119,19 +119,19 @@
 									</div>
 								</div>
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="password" id="pw" name="m_pw" class="form-control" onchange="check_pw()" required="required">
+                                    <input type="password" id="pw" name="m_pw" class="form-control" onkeyup="check_pw()" required="required">
                                     <span class="form-bar"></span>
                                     <label class="float-label">비밀번호</label>
                                     <span id="check_pw1"></span>
                                 </div>
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="password" id="pw_check" class="form-control" onchange="check_pw()" required="required">
+                                    <input type="password" id="pw_check" class="form-control" onkeyup="check_pw()" required="required">
                                     <span class="form-bar"></span>
                                     <label class="float-label">비밀번호 재확인</label>
                                     <span id="check_pw2"></span>
                                 </div>
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="text" name="m_name" class="form-control" required="required">
+                                    <input type="text" id="name" name="m_name" class="form-control" required="required">
                                     <span class="form-bar"></span>
                                     <label class="float-label">이름</label>
                                 </div>
@@ -177,16 +177,17 @@
 	                                    <span id="check_authKey"></span>
                                     </div>
                                     <div class="col-sm-3" style="padding:0px 0px 0px 11px;">
-                                   		<input type="button" value="인증번호 받기" onclick="authKeySend()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
+                                   		<input type="button" id="authBtn" value="인증번호 받기" onclick="authKeySend()" onmouseout="authBtnOut()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
+                                		<input type="button" id="timeBtn" value="" style="display:none;" onmouseover="timeBtnOver()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
                                 	</div>
                               	</div>
 
                                 
                                 <hr style="border-style:dotted;margin-bottom: 2.5em;"/>
-                                
+                                <input type="hidden" id="realAddress" name="m_addr"/>
                                	<div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
                                     <div class="col-sm-8" style="padding:0px;">
-	                                    <input type="text" id="postcode" name="m_addr" class="form-control" placeholder="우편번호 찾기를 해주세요." readonly="readonly">
+	                                    <input type="text" id="postcode" name="addr" class="form-control" placeholder="우편번호 찾기를 해주세요." readonly="readonly">
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">우편번호</label>
                                     </div>
@@ -195,24 +196,24 @@
                                 	</div>
                               	</div>
                              	<div class="form-group form-primary form-static-label">
-                                    <input type="text" id="address" name="m_addr" class="form-control" placeholder="우편번호 찾기를 해주세요." readonly="readonly">
+                                    <input type="text" id="address" name="addr" class="form-control" placeholder="우편번호 찾기를 해주세요." readonly="readonly">
                                     <span class="form-bar"></span>
                                     <label class="float-label">주소</label>
                                 </div>
                               	<div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
                                     <div class="col-sm-6" style="padding:0px;">
-	                                    <input type="text" id="detailAddress" name="m_addr" class="form-control">
+	                                    <input type="text" id="detailAddress" class="form-control" >
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">상세주소</label>
                                     </div>
                                     <div class="col-sm-6" style="padding:0px 0px 0px 15px;">
-                                   		<input type="text" id="extraAddress" name="m_addr" class="form-control" readonly="readonly">
+                                   		<input type="text" id="extraAddress" name="addr" class="form-control" readonly="readonly">
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label" style="padding-left: 15px;">참고항목</label>
                                 	</div>
                               	</div>
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="text" name="m_tel" class="form-control">
+                                    <input type="text" id="phoneNum" name="m_tel" class="form-control" placeholder="- 빼고 적어주세요">
                                     <span class="form-bar"></span>
                                     <label class="float-label">전화번호</label>
                                 </div>
@@ -243,6 +244,44 @@
         <!-- end of container-fluid -->
     </section>
 <script>
+
+//전화번호 자동 - 추가
+var autoHypenPhone = function(str){
+    str = str.replace(/[^0-9]/g, '');
+    var tmp = '';
+    if( str.length < 4){
+        return str;
+    }else if(str.length < 7){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+    }else if(str.length < 11){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 3);
+        tmp += '-';
+        tmp += str.substr(6);
+        return tmp;
+    }else{              
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7);
+        return tmp;
+    }
+
+    return str;
+}
+
+var phoneNum = document.getElementById('phoneNum');
+
+phoneNum.onkeyup = function(){
+console.log(this.value);
+this.value = autoHypenPhone( this.value ) ;  
+}
+
 	// 아이디 길이 체크
  	var idLength = false;
     function check_id(){
@@ -302,17 +341,21 @@
 		}
 	};
 	// 비밀번호 체크
+	var passCheck = false;
     function check_pw(){
        var pw = document.getElementById('pw').value;
                 
         if(pw.length == 0 || pw == ""){
         	document.getElementById('check_pw1').innerHTML = '필수 정보입니다.';
         	document.getElementById('check_pw1').style.color='red';
+        	passCheck = false;
         }else if(pw.length < 8 || pw.length > 17){
         	document.getElementById('check_pw1').innerHTML = '8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.';
         	document.getElementById('check_pw1').style.color='red';
+        	passCheck = false;
         }else{
         	document.getElementById('check_pw1').innerHTML = '';
+        	passCheck = false;
         }
 
 		
@@ -320,22 +363,35 @@
             if(document.getElementById('pw').value==document.getElementById('pw_check').value){
                 document.getElementById('check_pw2').innerHTML='비밀번호가 일치합니다.'
                 document.getElementById('check_pw2').style.color='blue';
+                passCheck = true;
             }
             else{
                 document.getElementById('check_pw2').innerHTML='비밀번호가 일치하지 않습니다.';
                 document.getElementById('check_pw2').style.color='red';
-                
+                passCheck = false;
             }
         }
     };
     
     //회원 가입 버튼 클릭시 중복검사, 이메일 인증 수행 여부 체크
     function signUp(){
-    	if(!idCheck){
-    		alert("아이디 중복확인을 해주세요.")
+    	var nameCheck = document.getElementById('name').value;
+    	if(!idLength){
+    		alert("아이디를 확인해주세요.");
+    		document.getElementById('id').focus();
+    	}else if(!idCheck){
+    		alert("아이디 중복확인을 해주세요.");
+    		document.getElementById('id').focus();
+    	}else if(!passCheck){
+    		alert("비밀번호를 확인해주세요.");
+    		document.getElementById('pw').focus();
+    	}else if(nameCheck == null || nameCheck == ""){
+    		alert("이름은 필수 사항 입니다.");
+    		document.getElementById('name').focus();
     	}else if(!emailCheck){
-    		alert("이메일 인증을 해주세요.")
-    	}else if(idCheck && emailCheck){
+    		alert("이메일 인증을 해주세요.");
+    		document.getElementById('frontEmail').focus();
+    	}else{
     		document.signIn_form.submit();
     	}
     	
@@ -345,7 +401,8 @@
 	var authKey = "";
 	var emailFormCheck = false;
 	var emailCheck = false;
-	
+	var isRunning = false;
+	var timer = null;
 	function authKeySend(){
 		var realEmail = $('input#realEmail');
 		var inputed = $('input#frontEmail').val();
@@ -371,24 +428,79 @@
 		
 		if(emailFormCheck && (inputed.length > 0 || inputed != "")) {
 			$("#check_email").text("");
-			$.ajax({
-				data : inputed + "@" + select,
-				url : "/member/mem/memEmailCheck",
-				type : "POST",
-				dataType : "text",
-				contentType: "application/json; charset=UTF-8",
-				success : function(data) {
-					alert('인증번호가 전송 되었습니다.');
-					
-					checkInput.attr("disabled", false);	
-					checkInput.attr("placeholder", "");
-					authKey = data;
-					realEmail.value = inputed + "@" + select;
-					console.log(authKey);
-				},
-			});
+			// timer가 없을 때 (처음 클릭)
+			if(!isRunning){
+				$.ajax({
+					data : inputed + "@" + select,
+					url : "/member/mem/memEmailCheck",
+					type : "POST",
+					dataType : "text",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						alert('인증번호가 전송 되었습니다.');
+						
+						checkInput.attr("disabled", false);	
+						checkInput.attr("placeholder", "");
+						authKey = data;
+						realEmail.val(inputed + "@" + select);
+						console.log(authKey);
+						$('input#authBtn').attr("style","display:none;");
+						$('input#timeBtn').attr("style","display:block;");
+						startTimer(180, $('#timeBtn'));
+					},
+				});
+			}else{
+	    		clearInterval(timer);
+	    		$('#timeBtn').val("03:00");
+	    		startTimer(180, $('#timeBtn'));
+		    }
+			
 		}
 	};
+	
+	    
+	function startTimer(count, display) {
+	            
+	    		var minutes, seconds;
+	            timer = setInterval(function () {
+	            minutes = parseInt(count / 60, 10);
+	            seconds = parseInt(count % 60, 10);
+	     
+	            minutes = minutes < 10 ? "0" + minutes : minutes;
+	            seconds = seconds < 10 ? "0" + seconds : seconds;
+	     
+	            display.val(minutes + ":" + seconds);
+	     
+	            // 타이머 끝
+	            if (--count < 0) {
+	    	     clearInterval(timer);
+	    	     alert("시간초과");
+	    	     display.val("시간초과");
+	    	     $('input#checkKey').attr("disabled", true);
+	    	     authKey="";
+	    	     isRunning = false;
+	            }
+	        }, 1000);
+	             isRunning = true;
+	}
+	
+	function timeBtnOver(){
+		if(isRunning){
+			$('input#authBtn').val("시간 연장")
+			$('input#authBtn').attr("style","display:block;");
+			$('input#timeBtn').attr("style","display:none;");
+		}else{
+			$('input#authBtn').val("인증번호 받기")
+			$('input#authBtn').attr("style","display:block;");
+			$('input#timeBtn').attr("style","display:none;");
+		}
+	}
+	function authBtnOut(){
+		if(isRunning){
+			$('input#authBtn').attr("style","display:none;");
+			$('input#timeBtn').attr("style","display:block;");
+		}
+	}
 	
 	//인증 번호 확인
 	function authKeyCompared(){
@@ -442,7 +554,7 @@
     
     
     /*다음 우편번호 찾기 javaScript */
-
+	
 	function daumPostcode() {
 		new daum.Postcode(
 				{
@@ -491,13 +603,22 @@
 						document.getElementById('postcode').value = data.zonecode;
 						document.getElementById("address").value = addr;
 						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById("detailAddress").value = '';
 						document.getElementById("detailAddress").focus();
 					}
 				}).open();
-	}
+	};
+	
+	$('#detailAddress').focusout(function(){
+		var realAddr = $('input[name=addr]').eq(0).val() 
+					+ "|" + $('input[name=addr]').eq(1).val()
+					+ "|" + $('#detailAddress').val()
+					+ "|" + $('input[name=addr]').eq(2).val();
+		$('#realAddress').val(realAddr);
+	});
     
     
-    
+	
     
     
 </script>

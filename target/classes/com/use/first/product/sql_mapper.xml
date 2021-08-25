@@ -28,8 +28,7 @@
 	</select>
 	<select id="countSmartPhone" resultType="int">
 		select count(*) from product
-		where p_category = '스마트폰'
-		<!-- where p_category = '스마트폰'	 -->
+		where p_category = '스마트폰'		
 	</select>
 	<select id="countLaptop" resultType="int">
 		select count(*) from product
@@ -87,20 +86,55 @@
 		</if>
 	</sql>
 	<!-- 상품카테고리 select -->
-	 <select id="productSmartPhoneList"  parameterType ="String" resultType="com.use.first.product.ProductVO">
+	 <select id="productSmartPhoneList" parameterType ="String" resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		where p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%')
+		<!-- or p_name LIKE CONCAT('%', 블랙,'%') -->
+	</select>
+	 <select id="productSelectColor" resultType="com.use.first.product.ProductVO">
+		select 
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product 		
+		where p_name LIKE CONCAT('%', #{p_category}, '%')
+		<!-- ORDER BY p_id desc		
+		LIMIT #{param1.pageStart}, #{param1.perPageNum} -->
 	</select>
 	<!--  상품 메뉴바 가격조회 -->
 	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
+		
+		select 		
+		p_price,p_price*0.95 from product
+		<![CDATA[
+		where p_price*0.95 >= #{0}
+		and p_price*0.95 <= #{1} 
+		]]>
+		order by p_price asc
+		
+	</select>	
+	<!-- <select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
 		select 
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		where p_price between #{0} and #{1}
 		order by p_price asc
-	</select>	
+	</select>	 -->
+	
+	
+	<select id="productMenubarPriceSearchRent" parameterType="String" resultType="com.use.first.product.ProductVO">
+		select 
+		p_price,p_price*0.05 from product
+		where p_price*0.05 between #{0} and #{1}
+		order by p_price asc
+	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	<select id="productKeywordList"
 		resultType="com.use.first.product.ProductVO">
@@ -153,8 +187,9 @@
 		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg,p_regdate,p_content)
 		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
 	</insert>
+
 	
-   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">
 		<![CDATA[
 		select p_id, p_name, p_price, p_canBuy, p_canRent, p_soldCount, p_category, p_mainImg, p_subImg, 
@@ -236,7 +271,7 @@
 	
 	
 	<select id="reviewList" resultType="com.use.first.rec.RecVO">
-		select review.v_id, member.m_img, review.v_pid, review.v_mid, review.v_content, review.v_date from review,member WHERE v_pid = #{v_pid}	and v_mid = m_id
+		select review.v_id, member.m_img, review.v_pid, review.v_mid, review.v_content, review.v_like, review.v_date from review,member WHERE v_pid = #{v_pid}	and v_mid = m_id
 		ORDER BY v_id desc
 
 	</select>
@@ -262,7 +297,7 @@
 	
 	
 	<select id="reviewPagingList" resultType="com.use.first.rec.RecVO">
-		select review.v_id, member.m_img, review.v_pid, review.v_mid, review.v_content, review.v_date from review,member WHERE v_pid = #{v_pid}	and v_mid = m_id
+		select review.v_id, member.m_img, review.v_pid, review.v_mid, review.v_content,review.v_like, review.v_date from review,member WHERE v_pid = #{v_pid}	and v_mid = m_id
 		ORDER BY v_id desc
 
 	</select>
@@ -273,8 +308,26 @@
 	
 	<!-- 리뷰작성 -->
 	<insert id="reviewInsert" parameterType="com.use.first.rec.RecVO">
-		insert into review (v_mid, v_pid, v_content, v_date)
-		values (#{v_mid},#{v_pid},#{v_content},now())
+		insert into review (v_mid, v_pid, v_content,v_like, v_date)
+		values (#{v_mid},#{v_pid},#{v_content},#{v_like},now())
 	</insert>
 	
+	<!-- 리뷰개수 -->
+	<select id="reviewCount" resultType="int">
+		<![CDATA[
+		select count(v_pid) from review where v_pid = #{param1}
+		]]>
+	</select>
+	<!-- 특정인의 리뷰 -->
+	<select id="oneReview" resultType="com.use.first.rec.RecVO">
+		select v_id, v_pid, v_mid, v_content, v_like, v_date from review WHERE v_pid = #{v_pid} and v_mid = #{userId}
+	</select>
+	<!-- 리뷰업데이트 -->
+	<update id="reviewUpdate" parameterType="com.use.first.rec.RecVO">
+		update review set v_content = #{v_content} , v_like = #{v_like} where v_mid = #{v_mid} and v_pid = #{v_pid}
+	</update>
+	<!-- 리뷰삭제 -->
+	<delete id="reviewDelete">
+		delete from review where v_mid = #{param1} and v_pid = #{param2}
+	</delete>
 </mapper>

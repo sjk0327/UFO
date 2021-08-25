@@ -82,9 +82,9 @@
 														<c:set var="now" value="<%=new java.util.Date()%>" />
 														<fmt:parseNumber var="today"
 															value="${now.time / (1000*60*60*24)}" integerOnly="true" />
-														<!-- 
+														 
 										<c:out  value="<script type='text/javascript'>alert(${sdate } + ':' +${today });</script>" escapeXml="fasle"/>
-										-->
+										
 														<c:if test="${sdate+3>=today}">
 															<label class="btn btn-primary rent-state-btn-label">대
 																여 중</label>

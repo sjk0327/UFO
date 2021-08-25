@@ -960,7 +960,10 @@ public class MemberController {
 			helper.setFrom("ufo@ufo.com");
 			helper.setTo(m_email);
 			helper.setSubject("[UFO]회원가입 이메일 인증 메일 입니다.");
-			helper.setText("인증번호 : " + AuthenticationKey, true);
+			String content = System.getProperty("line.separator") 
+					+ "안녕하세요 회원님" + System.getProperty("line.separator")
+					+ "UFO 이메일 인증번호는 " + AuthenticationKey + " 입니다." + System.getProperty("line.separator"); // 
+			helper.setText(content, true);
 			mailSender.send(message);
 
 		} catch (Exception e) {
@@ -1026,7 +1029,7 @@ public class MemberController {
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "/member/mem/memRentDetail2";
+		return "/member/mem/memRentDetail";
 	}
 
     
@@ -1058,9 +1061,14 @@ public class MemberController {
    		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
    		System.out.println("memController - memRentRefund  :  환불 하기 클릭 컨트롤러");
    		// 선택한 대여 정보 가져오기
-   		RentVO rentVO = new RentVO();
-		rentVO.setR_id(r_id);
-		rentVO.setR_state("환불 요청");
+   		RentVO rentVO = rentDAO.rentInfo(r_id);
+   		if(rentVO.getR_state().equals("대여중") || rentVO.getR_state() == "대여중") {
+   			rentVO.setR_state("환불 요청(대여)");
+   		} else if(rentVO.getR_state().equals("구매 확정") || rentVO.getR_state() == "구매 확정") {
+   			rentVO.setR_state("환불 요청(구매 확정)");
+   		} else if(rentVO.getR_state().equals("즉시 구매") || rentVO.getR_state() == "즉시 구매") {
+   			rentVO.setR_state("환불 요청(즉시 구매)");
+   		}
 		System.out.println("memController - memRentReturn new rentVO : " + rentVO.toString());
     	int result = rentDAO.rentUpdate(rentVO);
    		System.out.println("memController - memRentRefund 1result : " + result);
@@ -1121,8 +1129,9 @@ public class MemberController {
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);
-		return "/member/mem/memBuyDetail2";
+		return "/member/mem/memBuyDetail";
 	}
+    
     //회원 내정보 - 대여 내역
     @RequestMapping(value = "/member/mem/memRentList", method = RequestMethod.GET)
 	public String memRentList(Criteria cri, Model model,HttpSession session) {
@@ -1140,14 +1149,41 @@ public class MemberController {
 		// PageMaker 객체 생성
 		PageMaker pageMaker = new PageMaker(cri);
 		// 전체 게시물 수를 구함
-		int totalCount = rentDAO.getRentTotalCount(cri);
+		int totalCount = rentDAO.getMyRentTotalCount(cri, userId, "구매");
 		// pageMaker로 전달
 		pageMaker.setTotalCount(totalCount);
+		System.out.println("memRentList:: pageMaker : "+pageMaker);
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
 		return "/member/mem/memRentList";
 	}
     
+    //회원 내정보 - 구매 내역
+    @RequestMapping(value = "/member/mem/memBuyList", method = RequestMethod.GET)
+	public String memBuyList(Criteria cri, Model model,HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+		
+		// 대여 정보 가져오기
+		List<RentVO> rentList = rentDAO.purchaseListByMidAndSearch(cri, userId, "구매");
+		System.out.println("rentList size : " + rentList.size());
+	
+		// 모델에 추가
+		model.addAttribute("rentList", rentList);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentDAO.getMyBuyTotalCount(cri, userId, "구매");
+
+		System.out.println("memBuyList:: pageMaker : "+pageMaker);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/mem/memBuyList";
+	}
 	// 성훈 end
 
 }

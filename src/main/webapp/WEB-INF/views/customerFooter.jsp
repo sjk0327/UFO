@@ -68,16 +68,12 @@
 
 	//신영-메뉴bar 가격조회
 	   $('#priceSearch').on('click', function(){
-	     /*  action_popup.confirm("hello world confirm test !!!", function (res) {
-	            if (res) {
-	                action_popup.alert("확인창을 눌렀습니다.");
-	            }
-	        }) */
 	        var minPrice = $('#minPrice option:selected').val();
 	        var maxPrice = $('#maxPrice option:selected').val();       
-	        /* alert('최소금액' + minPrice + '최대금액' + maxPrice); */
+	     	
 	        if(minPrice != "" && maxPrice != ""){
-	        var url = '/member/pro/productList/priceSearch/' + minPrice +'/'+ maxPrice;
+	        	if(minPrice )
+	        var url = '/member/pro/productList/priceSearchRent/' + minPrice +'/'+ maxPrice;
 	        
 	          $("#tempList").load(url, function(){
 	          $("#ulList").html($("#tempList").html());
@@ -90,19 +86,39 @@
 	 	        })
 	        }
 	   });
+	   $('#priceSearchBuy').on('click', function(){
+	        var minPriceBuy = $('#minPriceBuy option:selected').val();
+	        var maxPriceBuy = $('#maxPriceBuy option:selected').val();       
+	     
+	        if(minPriceBuy != "" && maxPriceBuy != ""){
+	        var url = '/member/pro/productList/priceSearchBuy/' + minPriceBuy +'/'+ maxPriceBuy;
+	        
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	          $("#tempList").html(""); 
+	       });
+	        }
+	        else{
+	        	 action_popup.confirm("조회하실 가격을 선택해 주세요.", function (res) {
+	        	 document.getElementsByName("minPriceBuy")[0].focus();
+	 	        })
+	        }
+	   });
+	   
+	   
 	    $(".modal_close").on("click", function () {
 	           action_popup.close(this);
 	       });
 	    
 	    
 	   //신영-가격 직접입력 조회
-	   $('#selfSearch').on('click', function(p_price){
+	   $('#selfSearchRent').on('click', function(){
 	      
 	      var selfminprice = $('input[name=selfminprice]').val();
 	      var selfmaxprice = $('input[name=selfmaxprice]').val();
 	       
 	        if(selfminprice != "" && selfmaxprice != ""){
-	        var url = '/member/pro/productList/priceSearch/' + selfminprice +'/'+ selfmaxprice;
+	        var url = '/member/pro/productList/priceSearchRent/' + selfminprice +'/'+ selfmaxprice;
 	          $("#tempList").load(url, function(){
 	          $("#ulList").html($("#tempList").html());
 	           $("#tempList").html(""); 
@@ -115,7 +131,25 @@
 	        }
 	        
 	   });
-
+	   $('#selfSearchBuy').on('click', function(){
+		      
+	      var selfminprice = $('input[name=selfminpriceBuy]').val();
+	      var selfmaxprice = $('input[name=selfmaxpriceBuy]').val();
+	      
+	        if(selfminprice != "" && selfmaxprice != ""){
+	        var url = '/member/pro/productList/priceSearchBuy/' + selfminprice +'/'+ selfmaxprice;
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       });
+		        }
+		        else{
+		        	action_popup.confirm("조회하실 가격을 입력해 주세요.", function (res) {
+			        document.getElementsByName("selfminprice")[0].focus();
+		        	})
+		        }
+		        
+		   });
 	//신영-최근본상품 퀵메뉴bar
 	 /* $(document).ready(function(){
         var currentPosition = parseInt($("#slidemenu").css("top"));
@@ -186,17 +220,30 @@
 	}
 	var newValue;
     // 모든 텍스트의 변경에 반응합니다.
-    $("#keyword").on("keyup paste", function() {
-       
-       
-       newValue = $(this).val();
-      
-
-   
-       location.href = '/member/pro/productList/' + newValue;
-       
+    $("#keyword").on("change paste", function() {      
+    
+       newValue = $(this).val();  
+       location.href = '/member/pro/productList/' + newValue;       
     }); 
     
+    $(function() {
+		$('ul.tab li').click(function() {
+			var activeTab = $(this).attr('data-tab');
+			$('ul.tab li').removeClass('current');
+			$('.tabcontent').removeClass('current');
+			$(this).addClass('current');
+			$('#' + activeTab).addClass('current');
+		})
+	});
+  //공통 둥둥이 배너 실행
+	$('.main_moving_banner').length && common.bann.init();
+ 
+	var parser = new UserAgentUtil(navigator.userAgent);
+	// alert(parser.getBrowser().name + " : " + parser.getBrowser().version);
+ 	if (parser.getBrowser().name.indexOf("msie") >= 0 && (parser.getBrowser().version.startWith("8") || parser.getBrowser().version.startWith("7"))) {
+		$(".infoUpgr").show();
+	}
+ 	
     //승빈 탈퇴 막기 메시지 end
 	/*
 	$(function(){
