@@ -2,17 +2,22 @@ package com.use.first.rec;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.use.first.member.UserInfoVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
+import com.use.first.product.ProductDAO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
@@ -70,5 +75,75 @@ public class RecController {
 		
 		return "redirect:/admin/rec/recList";
 	}
+	/*
+	@RequestMapping(value = "/member/rec/recommendList", method = RequestMethod.GET)
+	public String getMemberRecommendList(Model model, Criteria cri,HttpSession session) {
+		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+		String userId=userInfo.getM_id();	
+		String v_mid = userId;
+		RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
+		List<RecVO> recommendList = recDAO.memberRecList(cri,v_mid);
+		model.addAttribute("recommendList", recommendList);
+		PageMaker pageMaker = new PageMaker(cri);
+		int totalCount = recDAO.memberRecTotalCount(cri,v_mid);
+		pageMaker.setTotalCount(totalCount);
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/review/memberRecommendList";
+	}
+	*/
+	// 회원에서 내 리뷰
+	@RequestMapping(value = "/member/rec/recommendList", method = RequestMethod.GET)
+	public String memberRecList(Criteria cri, Model model, HttpSession session) {
+		RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
+		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+		String userId=userInfo.getM_id();	
+		
+		
+		List<RecVO> recommendList = recDAO.memberRecList(cri,userId);
+		model.addAttribute("recommendList", recommendList);
+		PageMaker pageMaker = new PageMaker(cri);
+		int totalCount = recDAO.memberRecTotalCount(cri,userId);
+		pageMaker.setTotalCount(totalCount);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		
+		return "/member/review/memberRecommendList";
+	}
+	// 회원에서 내 리뷰 검색어 왔을 때?
+	@RequestMapping(value = "/member/rec/recommendList", method = RequestMethod.POST)
+	public String memberRecListSearch(Criteria cri, Model model, HttpSession session) {
+		RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
+		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+		String userId=userInfo.getM_id();	
+
+
+		List<RecVO> recommendList = recDAO.memberRecList(cri,userId);
+		model.addAttribute("recommendList", recommendList);
+		PageMaker pageMaker = new PageMaker(cri);
+		int totalCount = recDAO.memberRecTotalCount(cri,userId);
+		pageMaker.setTotalCount(totalCount);
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/review/memberRecommendList";
+	}
+	//리뷰 업데이트
+	  @RequestMapping(value = "/member/rec/recommendUpdate", method = RequestMethod.POST)
+		public String reviewUpdate(@ModelAttribute RecVO recVO) {
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+			int n = productDAO.reviewUpdate(recVO);
+			if (n == 0) {
+				System.out.println("등록 실패");
+			}
+			return "redirect:/member/review/memberRecommendList"+recVO.getV_pid();
+		}
+	  
+	  @RequestMapping(value = "/member/rec/recommendDelete/{v_mid}/{v_pid}", method = RequestMethod.POST)
+		public String reviewDelete(@PathVariable String v_mid , @PathVariable String v_pid) {
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+			int n = productDAO.reviewDelete(v_mid,v_pid);
+			if (n == 0) {
+				System.out.println("등록 실패");
+			}
+			return "redirect:/member/review/memberRecommendList"+v_pid;
+		}
 
 }

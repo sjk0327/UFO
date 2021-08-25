@@ -18,8 +18,12 @@
 	img{
 	border-radius: 15px;
 	}
+	.reviewContent{
+	border:5px;
+	}
 	textarea {
 	border: none;
+	outline:none;
 	font-size: 1em;
 	background-color:transparent;
 	}
@@ -106,6 +110,10 @@
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
+    #locateTop {
+ 	position: relative; bottom:75px; right:25px; 
+ 	 
+	}
 
 
 * {padding: 0;margin: 0;}
@@ -189,25 +197,7 @@ body, html {height: 100%;}
       
       
       
-      <div class="row">     
-       <div class="col-lg-6 sm-6" id="recommendation">     
-          <c:if test = "${recommendVO eq null}">   
-       <a id="like"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" onclick= 'like();'/></a>
-          </c:if>
-           <c:if test = "${recommendVO ne null}">  	 
-		<a id="like"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" onclick= 'like();'/></a>      
-		   </c:if>
-		   <input id='recommendCount' name='recommendCount' value="${recommendCount}" readonly size="1">
-	   </div>
-	<div class="col-lg-6 sm-6 id="wishList" align="right">     
- 	<c:if test = "${wishListVO eq null}">
-	<a id="wish"><span class="icon icon-heart-o"></span></a> 
-	</c:if>
- 	<c:if test = "${wishListVO ne null}">
- 	<a id="wish"><span class="icon icon-heart"></span></a>
-	</c:if> 
-	</div>
-	</div>
+<div class="row"><div class="col-3"><label>추천수:</label></div><div class="col-9">${recommendCount}개</div></div>	  
 <form:input type="text" path="productPrice" value="${productVO.p_price}" hidden="true"/> 
 <div class="row"><div class="col-lg-5"><label>제품가격</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
 <div class="row"><div class="col-lg-5"><label>대여금액</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
@@ -231,9 +221,19 @@ body, html {height: 100%;}
 <div class="row"><div class="col-lg-5"><label>대여가격</label></div><div class="col-lg-7" style="text-align:right;"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
   
                
-            <div id="buttonGroup" >
-             <input type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/>
-			<input type="button" value="결제" onclick="payment();" class="buy-now btn btn-sm btn-primary"/>			
+            <div id="buttonGroup" class="row">
+             <div class="col-2">
+             	<c:if test = "${wishListVO eq null}">
+				<a id="wish"><span class="icon icon-heart-o"></span></a> 
+				</c:if>
+ 				<c:if test = "${wishListVO ne null}">
+ 				<a id="wish"><span class="icon icon-heart"></span></a>
+				</c:if> 
+			</div>
+             <div class="col-10"><input style="width:100%" type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/></div>
+		
+			
+			<div class="col-12"><input style="width:100%" type="button" value="결제" onclick="payment();" class="buy-now btn btn-sm btn-primary"/></div>			
 			</div>
 			
 			
@@ -254,10 +254,10 @@ body, html {height: 100%;}
       <div class="container ">
       <ul class="nav nav-tabs centered">
   <li class="nav-item">
-    <a class="nav-link active" href="#productInfo">상세정보</a>
+    <a class="nav-link active" href="#productInfo" id="productInfo">상품정보</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#reviewTop">리뷰게시판</a>
+    <a class="nav-link" href="#reviewTop">리뷰게시판 [${reviewCount}]</a>
   </li>
  
 </ul>
@@ -265,8 +265,8 @@ body, html {height: 100%;}
           <div class="col-lg-12 col-sm-12 subContainer" style="text-align:center;">
            <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%" 	 		
 							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	
-		  <div class="wrap"><textarea disabled>${ productVO.p_content }</textarea></div>
-		  <!--  <pre><div style="text-align:center;">${ productVO.p_content }</div></pre>	-->
+		  <!-- <div class="wrap"><textarea disabled row="50">${ productVO.p_content }</textarea></div>-->
+		   <pre><div style="text-align:left;"><p>${ productVO.p_content }</p></div></pre>	
 		  </div>
 						  
           </div>
@@ -275,27 +275,22 @@ body, html {height: 100%;}
                 
          <div class="site-section">
          
-    	<div name="sortReview" >
-    	<nav class="navbar navbar-expand-sm bg-light navbar-light">
-  <ul class="navbar-nav">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">최신순</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">추천글</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">비추천글</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/member/recommendForm/${productVO.p_id}">추천글작성</a>
+    	<div name="sortReview">
+      <ul class="nav nav-tabs centered">
+  <li class="nav-item">
+    <a class="nav-link " href="#productInfo">상세정보</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="#reviewTop" id="reviewTop">리뷰게시판 [${reviewCount}]</a>
+  </li>
+ 
+</ul>
+     
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Open modal
+    추천글작성
   </button>
-    </li>
-  </ul>
-</nav>
-    	</div>
+
+    	</div>			<!-- 리뷰모달 위에 버튼 태그도 -->
     	<div class="modal fade" id="myModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -303,7 +298,7 @@ body, html {height: 100%;}
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">추천글작성</h4>
-          <button onclick='location.href="/member/recommendForm/${productVO.p_id}"' type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
@@ -313,7 +308,7 @@ body, html {height: 100%;}
           <div class="col-md-12 order-2">
        
          
-           <form name= "reviewInsert" method="post" action="/member/pro/recommendInsert">
+           <form name= "reviewInsert" method="post" action="/member/pro/reviewInsert">
                 <div class="row imgIdDate" name="imgIdDate">
                  
                 	<div class="col-2 profile" align="center">  
@@ -322,12 +317,16 @@ body, html {height: 100%;}
                 	<div class="col-10">
                 	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
                 	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
-                	 
-                	 <div>${userVO.m_id}</div>
-                	 <div>
-                	 작성일
-                	 </div>
-               	 	<input type="submit" value="확인"/>
+      	    	 <div>${userVO.m_id}</div>
+                	<div class="col-lg-6 sm-6" id="recommendation">     
+          <c:if test = "${recommendVO eq null}">   
+       <a id="like" title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like();'/></a>
+          </c:if>
+           <c:if test = "${recommendVO ne null}">  	 
+		<a id="like" title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'like();'/></a>      
+		   </c:if>
+	   </div>
+               	 	
                 	</div>      		
                 	                      
                 </div>
@@ -335,16 +334,10 @@ body, html {height: 100%;}
                 <div class="row" name="content">
                  <div class="col-12 reviewContent">
                  <br>
-                <textarea rows="4" cols="50" name="v_content"></textarea>
+                <textarea class="reviewContent" placeholder="텍스트를 입력하세요" rows="4" cols="50" name="v_content"></textarea>
                  </div>
                 </div>                   
-               </form>
-            
-        
-
-       
-
-
+    
             </div>
           </div>
         </div>
@@ -352,19 +345,22 @@ body, html {height: 100%;}
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-secondary" value="확인"/>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         </div>
-        
+         </form>
       </div>
     </div>
-  </div>
-      <div class="container" id="reviewTop"> 
+  </div>	
+   		   
+           
+      <div class="container"> 
         <div class="row mb-5">
           <div class="col-md-12 order-2">
        
          
-            <c:forEach var="recVO" items="${recVO}" begin="0" end="10" step="1" varStatus="status">                             
-                <hr>
+            <c:forEach var="recVO" items="${recVO}" begin="0" end="10" step="1" varStatus="status">           
+                <hr> 
                 <div class="row imgIdDate" name="imgIdDate">
                  
                 	<div class="col-2 profile" align="center">  
@@ -373,12 +369,24 @@ body, html {height: 100%;}
                 	<div class="col-10">
                 	 <div>${recVO.v_mid}</div>
                 	 <div>${recVO.v_date}</div>
+          <c:choose>
+          <c:when test = "${recVO.v_like eq 'none'}">   
+        <a id="like"  title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like();'/></a>
+          </c:when>
+            <c:when test = "${recVO.v_like ne 'none'}">  	 
+		 <a id="like"  title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'like();'/></a>      
+		  </c:when>	
+		  </c:choose>	  		 
+		  <c:if test = "${recVO.v_mid eq userId}">
+		       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button>   		  	  
+		  </c:if>
+		   
                 	</div>      		
                 	                      
                 </div>
  
                 <div class="row" name="content">
-                 <div class="col-12 reviewContent">
+                 <div class="col-12 reviewContent" id="reviewContent">
                 <textarea disabled>${recVO.v_content}</textarea>
                  </div>
                 </div>
@@ -417,8 +425,70 @@ body, html {height: 100%;}
 										</ul>
 										</div>
 										<!-- 페이징 end -->
-            
+      <!-- 리뷰 수정모달 -->      	
+  <div class="modal fade" id="reviewModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">리뷰수정</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
         
+        <!-- Modal body -->
+        <div class="modal-body">
+           <div class="container"> 
+        <div class="row mb-5">
+          <div class="col-md-12 order-2">
+       
+         
+           <form name= "reviewUpdate" method="post" action="/member/pro/reviewUpdate">
+                <div class="row imgIdDate" name="imgIdDate">
+                 
+                	<div class="col-2 profile" align="center">  
+                	 <img src = /resources/Images/member/${userVO.m_img} alt="${userVO.m_img}" title="${userVO.m_img}" class="img-fluid img-circle">         
+                	</div> 
+                	<div class="col-10">
+                	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
+                	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
+      	    	 <div>${userVO.m_id}</div>
+                	<div class="col-lg-6 sm-6" id="recommendation">     
+          <c:if test = "${recommendVO eq null}">   
+       <a id="like" title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like();'/></a>
+          </c:if>
+           <c:if test = "${recommendVO ne null}">  	 
+		<a id="like" title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'like();'/></a>      
+		   </c:if>
+		 
+	   </div>
+               	 	
+                	</div>      		
+                	                      
+                </div>
+ 
+                <div class="row" name="content">
+                 <div class="col-12 reviewContent">
+                 <br>
+                <textarea class="reviewContent" rows="4" cols="50" name="v_content">${oneReview.v_content}</textarea>
+                 </div>
+                </div>                   
+    
+            </div>
+          </div>
+        </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+        <input type="submit" class="btn btn-secondary" value="확인"/>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+         </form>
+      </div>
+    </div>
+  </div>	
+ <!-- 여기까지 -->
 
        
 
@@ -438,12 +508,18 @@ body, html {height: 100%;}
         <div style="text-align:center;"><button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
       </div>
     </div>
+     						
+				<a href="#" id="locateTop" style="display:scroll;"><img src="/resources/Images/product/화살표.png" width="20px" height="20px"/>맨 위로</a>
+			
+		
 
+		
+			
     <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
   </div>
 
 	<script language="JavaScript">
-
+	  
 //개수에 따라서 가격변동시키는거.
 var sell_price;
 var rent_price;
@@ -558,7 +634,7 @@ function payment() {
 }
 //조아요
 $('#like').on('click', function(){
-	recommend = document.form.recommendCount;
+	recommend = document.reviewInsert.recommendCount;
     var form = {
     		  p_id      : $("#p_id").val()         
     }    
@@ -568,15 +644,15 @@ $('#like').on('click', function(){
         type: "POST",
         data: form,
         success: function(data){  
+        	
         	$('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
         	$('.like-o').attr('class','like'); 
-        	recommend.value ++;
- 
-        	 action_popup.alert('구독&조아요');
+        	 action_popup.alert('추천하셨습니다');
+        	
         	
         },
         error: function(){
-            action_popup.alert("조아요 실패!");
+            action_popup.alert("추천실패!");
         }				
     });                } else { 
    
@@ -590,8 +666,7 @@ $('#like').on('click', function(){
           					
           					$('.like').attr('src','/resources/Images/product/like1.jpg');
           					$('.like').attr('class','like-o');  
-           				action_popup.alert("구독&좋아요 취소");
-           				recommend.value --;
+           				action_popup.alert("취소하셨습니다");
  	
           				 }
       					 });
@@ -780,6 +855,19 @@ var action_popup = {
     }
 }
 
+//스크롤하면 맨위로 링크 나오게
+	$(window).scroll(function() {
+  
+    if($(this).scrollTop() > 2000) {
+      $("#locateTop").css('position','fixed');
+     
+    }
+    else {
+      $("#locateTop").css('position','relative');
+
+    }
+  });
+  
 
 
 </script>

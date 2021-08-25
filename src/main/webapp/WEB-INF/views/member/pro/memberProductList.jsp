@@ -4,14 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
 
-Cookie cookie = new Cookie(URLEncoder.encode("이름","UTF-8"),URLEncoder.encode("홍길동","UTF-8"));
-response.addCookie(cookie);
-System.out.println(URLDecoder.decode(cookie.getName()));
-System.out.println(URLDecoder.decode(cookie.getValue()));
-
-%>
 <!DOCTYPE html>
 <html lang="en" >
   <head>
@@ -45,6 +38,48 @@ System.out.println(URLDecoder.decode(cookie.getValue()));
     <script src="/resources/common/js/aos.js"></script>
     <script src="/resources/common/js/main.js"></script>
     <style>
+  
+#container {
+	width:210px;
+	margin:0 auto;
+	text-align:left;
+}
+.tab {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+/* Float the list items side by side */
+.tab li {
+	float: left;
+}
+/* Style the links inside the list items */
+.tab li a {
+	display: inline-block;
+	color: #000;
+	text-align: center;
+	text-decoration: none;
+	padding: 9px 13px;
+	font-size: 12px;
+	transition:0.3s;
+}
+/* Style the tab content */
+.tabcontent {
+	display: none;
+	background-color: rgb(246,246,246);
+	padding: 6px -20px;
+	color:#F6F6F6;
+	text-align:left;
+}
+ul.tab li.current{
+	background-color: rgb(246,246,246);
+	color: #F6F6F6;
+}
+.tabcontent.current {
+	display: block;
+}
+
 .small1 { width: 100px; height: 100px; }
 .small2 { width: 80px; height: 80px; align:center;}
 .mb-1 { font-size : 18px; }
@@ -102,11 +137,18 @@ ul{ list-style:none;}
 #selfminprice{ height: 32px; width: 81px; }
 #selfmaxprice{ height: 32px; width: 81px; }
 #priceSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearchRent { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#priceSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
 #selfSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#textdeco {text-decoration: line-through;}
 </style>
   </head>
   <body>
-  
+  <div class="main_moving_banner" style="display:none;">
+		<a href="" data-attr=""><img src="" alt="" data-ref-compareKey=""/></a>
+		<button type="button" class="moving_banner_close">배너 하루동안 보지 않기</button>
+	</div>
 <ul id="tempList" style=" display:none"></ul>
 
   <div class="site-wrap" >
@@ -273,7 +315,7 @@ ul{ list-style:none;}
               </div>
             </div>
             <br>
-            <div class="row mb-5" id="ulList" >
+            <div class="row mb-5 " id="ulList" >
  		 <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
              <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
                      
@@ -282,12 +324,12 @@ ul{ list-style:none;}
                     <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                   
                     <p class="mb-0">상품명 : ${list.p_name }</p>
                     <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
+                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
@@ -306,12 +348,12 @@ ul{ list-style:none;}
                     <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                  <!--   <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p> -->
                     <p class="mb-0">상품명 : ${list.p_name }</p>
                     <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
+                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
@@ -329,13 +371,12 @@ ul{ list-style:none;}
                   <figure class="block-4-image">
                     <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
                   </figure>
-                  <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p>
+                  <div class="block-4-text p-4">                    
                     <p class="mb-0">상품명 : ${list.p_name }</p>
                     <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" >상품가격  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">대여</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh" aria-haspopup="true" aria-expanded="false">구매</button>
+                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
+                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
                   </div>
                 </div>
               </div>
@@ -344,12 +385,7 @@ ul{ list-style:none;}
              </c:if>
           
             </div>
-            
-            
-     
-            
-            
-            
+       
              <!-- 페이징 start -->
                 <div id = "paging-div text-center">
                 <ul class="btn-group pagination text-center">
@@ -392,14 +428,164 @@ ul{ list-style:none;}
             </div>
 
             <div class="border p-4 rounded mb-4">
-              <div class="mb-4">
+              <div class="mb-4" style="margin: -24px;">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block"></h3>
                 
-                <!-- <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" />   -->             
               </div>
+        <div id="container">
+		<ul class="tab">
+			<li class="current" data-tab="tab1"><a href="#">대여가격 조회</a></li>
+			<li data-tab="tab2"><a href="#">구매가격 조회</a></li>
+		</ul>
+		<!-- 대여가격조회 -->
+		<div id="tab1" class="tabcontent current">
+			<select name="minPrice" id="minPrice" class="line selectric">
+                      <option value="" >최소</option>      
+                      <option value="10000">1만원</option>                
+                      <option value="50000">5만원</option>                  
+                      <option value="100000">10만원</option>                  
+                      <option value="150000">15만원</option>                  
+                      <option value="200000">20만원</option>                                      
+                 </select>
+         <span class="inp_division" >&nbsp;~&nbsp;</span>
+             <select name="maxPrice" id="maxPrice" class="line selectric">
+                <option value="">최대</option>                   
+              <option value="50000">5만원</option>                    
+              <option value="100000">10만원</option>                    
+              <option value="200000">20만원</option>                    
+              <option value="300000">30만원</option>                      
+             </select>
+             <div>               
+          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
+          <br>
+           <input type="text" name="selfminprice" id="selfminprice" class="" 
+                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
+                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
+                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
+                                  placeholder="최대금액" size=5  style="text-align:right;">
+                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearchRent" name="searchType" 
+                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
+                      			   </div>
+             </div>
+		
+		</div>
+		<!-- 구매가격조회 -->
+		<div id="tab2" class="tabcontent">
+			<select name="minPriceBuy" id="minPriceBuy" class="line selectric">
+                      <option value="" >최소</option>      
+                      <option value="500000">50만원</option>                
+                      <option value="1000000">100만원</option>                  
+                      <option value="2000000">200만원</option>                  
+                      <option value="3000000">300만원</option>                  
+                      <option value="4000000">400만원</option>                                      
+                 </select>
+         <span class="inp_division" >&nbsp;~&nbsp;</span>
+             <select name="maxPriceBuy" id="maxPriceBuy" class="line selectric">
+                <option value="">최대</option>                   
+              <option value="1000000">100만원</option>                    
+              <option value="2000000">200만원</option>                    
+              <option value="3000000">300만원</option>                    
+              <option value="4000000">400만원</option>                      
+             </select>		
+			<div>               
+          <br><button type="button" id="priceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
+          <br>
+           <input type="text" name="selfminpriceBuy" id="selfminprice" class="" 
+                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
+                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
+                          &nbsp;<input type="text" name="selfmaxpriceBuy" id="selfmaxprice" class="" 
+                                  placeholder="최대금액" size=5  style="text-align:right;">
+                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearchBuy" name="searchType" 
+                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
+                      			   </div>
+             </div>
+		
 
-          <div class="mb-4" id="mymodal">
-              <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+		</div>
+	<!-- <div id="container" style="text-align:left;">		
+		<ul class="tab">
+			<li class="current" data-tab="tab1"><a href="">대여가격 조회</a></li>
+			<li data-tab="tab2"><a href="">구매가격 조회</a></li>			
+		</ul>
+		<div id="tab1" class="tabcontent current" id="mymodal">
+			   <div>
+                 <select name="minPrice" id="minPrice" class="line selectric">
+                      <option value="" >최소</option>      
+                      <option value="500000">50만원</option>                
+                      <option value="1000000">100만원</option>                  
+                      <option value="2000000">200만원</option>                  
+                      <option value="3000000">300만원</option>                  
+                      <option value="4000000">400만원</option>                                      
+                 </select>
+                   <span class="inp_division" >&nbsp;~&nbsp;</span>
+                        <select name="maxPrice" id="maxPrice" class="line selectric">
+                          <option value="">최대</option>                   
+                        <option value="1000000">100만원</option>                    
+                        <option value="2000000">200만원</option>                    
+                        <option value="3000000">300만원</option>                    
+                        <option value="4000000">400만원</option>                      
+                    </select>
+                   
+              </div> 
+                  <div>               
+          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button>
+          <br>
+              </div>
+               <div class="">
+                      <div class="row">
+                          <input type="text" name="selfminprice" id="selfminprice" class="" 
+                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
+                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
+                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
+                                  placeholder="최대금액" size=5  style="text-align:right;">
+                      </div> 
+                       </div>                     
+                      <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
+                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
+                      </div>
+		</div>
+		<div id="tab2" class="tabcontent" id="mymodal">
+			   <div>
+                 <select name="minPrice" id="minPrice" class="line selectric">
+                      <option value="" >최소</option>      
+                      <option value="500000">50만원</option>                
+                      <option value="1000000">100만원</option>                  
+                      <option value="2000000">200만원</option>                  
+                      <option value="3000000">300만원</option>                  
+                      <option value="4000000">400만원</option>                                      
+                 </select>
+                   <span class="inp_division" >&nbsp;~&nbsp;</span>
+                        <select name="maxPrice" id="maxPrice" class="line selectric">
+                          <option value="">최대</option>                   
+                        <option value="1000000">100만원</option>                    
+                        <option value="2000000">200만원</option>                    
+                        <option value="3000000">300만원</option>                    
+                        <option value="4000000">400만원</option>                      
+                    </select>
+                   
+              </div> 
+                  <div>               
+          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
+              </div>
+               <div class="container">
+                      <div class="row">
+                          <input type="text" name="selfminprice" id="selfminprice" class="" 
+                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
+                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
+                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
+                                  placeholder="최대금액" size=5  style="text-align:right;">
+                      </div> 
+                       </div>                     
+                      <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
+                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
+                      </div>
+		</div>
+	</div> -->
+
+	
+         <!--  <div class="mb-4" id="mymodal"> -->
+          
+            <!--   <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
               <div>
                  <select name="minPrice" id="minPrice" class="line selectric">
                       <option value="" >최소</option>      
@@ -437,20 +623,20 @@ ul{ list-style:none;}
                       </div>
                  
                </div>
-               <br>
+               <br> -->
                <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Color</h3>
-            <a href="/member/pro/productList/black" class="d-flex color-item align-items-center">
-              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black (${totalCount})</span>
+            <a href="/member/pro/productList/black" class="d-flex color-item align-items-center" >
+              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black</span>
             </a>
             <a href="/member/pro/productList/white" class="d-flex color-item align-items-center" >
-              <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White (${totalCount})</span>
+              <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White</span>
             </a>
             <a href="/member/pro/productList/silver" class="d-flex color-item align-items-center" >
-              <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver (${totalCount})</span>
+              <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver</span>
             </a>
             <a href="/member/pro/productList/red" class="d-flex color-item align-items-center" >
-              <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red (${totalCount})</span>
+              <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red</span>
             </a>
               </div>
              </div>
@@ -516,7 +702,15 @@ ul{ list-style:none;}
         </div>
         
       </div>
+     <script>
+     var newValue;
+     // 모든 텍스트의 변경에 반응합니다.
+     $("#keyword").on("change paste", function() {      
      
+        newValue = $(this).val();  
+        location.href = '/member/pro/productList/' + newValue;       
+     }); 
+     </script>
    
  
   <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
@@ -528,7 +722,7 @@ ul{ list-style:none;}
   <script src="/resources/common/js/aos.js"></script>
 
   <script src="js/main.js"></script>
- 
+
  
   </body>
    <%@ include file="/WEB-INF/views/customerFooter.jsp"%>

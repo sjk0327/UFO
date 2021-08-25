@@ -164,6 +164,7 @@ body, html {
 								<div class="page-wrapper">
 									<!-- Page-body start -->
 									<div class="page-body">
+
 										<div class="row">
 											<!--  메뉴바 시작 -->
 											<div class="col-xl-2 col-sm-12">
