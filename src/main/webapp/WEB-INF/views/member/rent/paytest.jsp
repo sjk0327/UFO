@@ -17,8 +17,6 @@
     BuyVO buyVO = (BuyVO)request.getAttribute("buyVO");
     String id = (String) request.getAttribute("m_id");
     String point = (String) request.getAttribute("m_point");
-    String tel = (String) request.getAttribute("m_tel");
-    String addr = (String) request.getAttribute("m_addr");
     
 %>
 <!DOCTYPE html>
@@ -33,11 +31,12 @@
 	<form id="bInsert" action="/customer/buyInsert" method="post" >
 		<input type="hidden" name="m_id" value="<%=id %>"/>
 		<input type="hidden" name="m_point" value="<%=point %>"/>
-		<input type="hidden" name="m_tel" value="<%=tel %>"/>
-		<input type="hidden" name="m_addr" value="<%=addr %>"/>
 		<input type="hidden" name="total" value="<%=totalPrice %>"/>
 		<input type="hidden" name="b_mid" value="${buyVO.b_mid }" />
 		<input type="hidden" name="b_pid" value="${buyVO.b_pid }" />
+		<input type="hidden" name="b_mname" value="${buyVO.b_mname }" />
+		<input type="hidden" name="b_maddr" value="${buyVO.b_maddr }" />
+		<input type="hidden" name="b_mtel" value="${buyVO.b_mtel }" />
 		<input type="hidden" name="b_amount" value="${buyVO.b_amount }" />
 		<input type="hidden" name="b_how" value="${buyVO.b_how }" />
 		<input type="hidden" name="b_state" value="${buyVO.b_state }" />

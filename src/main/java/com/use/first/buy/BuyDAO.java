@@ -11,6 +11,7 @@ public interface BuyDAO {
 
 	
 	public List<BuyVO> buyList(int b_rid);
+	public List<BuyVO> addrList(String userId);
 	public BuyVO buyInfo(int b_id);
 	public int buyInsert(BuyVO buyVO) throws SQLException;
 	public int buyUpdate(BuyVO buyVO);

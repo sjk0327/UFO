@@ -9,6 +9,9 @@ public class BuyVO {
 	private int b_rid;
 	private String b_mid;
 	private String b_pid;
+	private String b_mname;
+	private String b_maddr;
+	private String b_mtel;
 	private Date b_buydate;
 	private String b_amount;
 	private String b_how;
@@ -39,6 +42,24 @@ public class BuyVO {
 	}
 	public void setB_pid(String b_pid) {
 		this.b_pid = b_pid;
+	}
+	public String getB_mname() {
+		return b_mname;
+	}
+	public void setB_mname(String b_mname) {
+		this.b_mname = b_mname;
+	}
+	public String getB_maddr() {
+		return b_maddr;
+	}
+	public void setB_maddr(String b_maddr) {
+		this.b_maddr = b_maddr;
+	}
+	public String getB_mtel() {
+		return b_mtel;
+	}
+	public void setB_mtel(String b_mtel) {
+		this.b_mtel = b_mtel;
 	}
 	public Date getB_buydate() {
 		return b_buydate;
@@ -78,10 +99,10 @@ public class BuyVO {
 	}
 	@Override
 	public String toString() {
-		return "BuyVO [b_id=" + b_id + ", b_rid=" + b_rid + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_buydate="
-				+ b_buydate + ", b_amount=" + b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase="
-				+ b_purchase + ", b_message=" + b_message + "]";
+		return "BuyVO [b_id=" + b_id + ", b_rid=" + b_rid + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_mname="
+				+ b_mname + ", b_maddr=" + b_maddr + ", b_mtel=" + b_mtel + ", b_buydate=" + b_buydate + ", b_amount="
+				+ b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase=" + b_purchase + ", b_message="
+				+ b_message + "]";
 	}
-	
 
 }
