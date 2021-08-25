@@ -177,7 +177,8 @@
 	                                    <span id="check_authKey"></span>
                                     </div>
                                     <div class="col-sm-3" style="padding:0px 0px 0px 11px;">
-                                   		<input type="button" value="인증번호 받기" onclick="authKeySend()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
+                                   		<input type="button" id="authBtn" value="인증번호 받기" onclick="authKeySend()" onmouseout="authBtnOut()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
+                                		<input type="button" id="timeBtn" value="" style="display:none;" onmouseover="timeBtnOver()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
                                 	</div>
                               	</div>
 
@@ -212,7 +213,7 @@
                                 	</div>
                               	</div>
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="text" name="m_tel" class="form-control">
+                                    <input type="text" id="phoneNum" name="m_tel" class="form-control" placeholder="- 빼고 적어주세요">
                                     <span class="form-bar"></span>
                                     <label class="float-label">전화번호</label>
                                 </div>
@@ -243,6 +244,44 @@
         <!-- end of container-fluid -->
     </section>
 <script>
+
+//전화번호 자동 - 추가
+var autoHypenPhone = function(str){
+    str = str.replace(/[^0-9]/g, '');
+    var tmp = '';
+    if( str.length < 4){
+        return str;
+    }else if(str.length < 7){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+    }else if(str.length < 11){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 3);
+        tmp += '-';
+        tmp += str.substr(6);
+        return tmp;
+    }else{              
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7);
+        return tmp;
+    }
+
+    return str;
+}
+
+var phoneNum = document.getElementById('phoneNum');
+
+phoneNum.onkeyup = function(){
+console.log(this.value);
+this.value = autoHypenPhone( this.value ) ;  
+}
+
 	// 아이디 길이 체크
  	var idLength = false;
     function check_id(){
@@ -362,7 +401,8 @@
 	var authKey = "";
 	var emailFormCheck = false;
 	var emailCheck = false;
-	
+	var isRunning = false;
+	var timer = null;
 	function authKeySend(){
 		var realEmail = $('input#realEmail');
 		var inputed = $('input#frontEmail').val();
@@ -388,24 +428,79 @@
 		
 		if(emailFormCheck && (inputed.length > 0 || inputed != "")) {
 			$("#check_email").text("");
-			$.ajax({
-				data : inputed + "@" + select,
-				url : "/member/mem/memEmailCheck",
-				type : "POST",
-				dataType : "text",
-				contentType: "application/json; charset=UTF-8",
-				success : function(data) {
-					alert('인증번호가 전송 되었습니다.');
-					
-					checkInput.attr("disabled", false);	
-					checkInput.attr("placeholder", "");
-					authKey = data;
-					realEmail.val(inputed + "@" + select);
-					console.log(authKey);
-				},
-			});
+			// timer가 없을 때 (처음 클릭)
+			if(!isRunning){
+				$.ajax({
+					data : inputed + "@" + select,
+					url : "/member/mem/memEmailCheck",
+					type : "POST",
+					dataType : "text",
+					contentType: "application/json; charset=UTF-8",
+					success : function(data) {
+						alert('인증번호가 전송 되었습니다.');
+						
+						checkInput.attr("disabled", false);	
+						checkInput.attr("placeholder", "");
+						authKey = data;
+						realEmail.val(inputed + "@" + select);
+						console.log(authKey);
+						$('input#authBtn').attr("style","display:none;");
+						$('input#timeBtn').attr("style","display:block;");
+						startTimer(180, $('#timeBtn'));
+					},
+				});
+			}else{
+	    		clearInterval(timer);
+	    		$('#timeBtn').val("03:00");
+	    		startTimer(180, $('#timeBtn'));
+		    }
+			
 		}
 	};
+	
+	    
+	function startTimer(count, display) {
+	            
+	    		var minutes, seconds;
+	            timer = setInterval(function () {
+	            minutes = parseInt(count / 60, 10);
+	            seconds = parseInt(count % 60, 10);
+	     
+	            minutes = minutes < 10 ? "0" + minutes : minutes;
+	            seconds = seconds < 10 ? "0" + seconds : seconds;
+	     
+	            display.val(minutes + ":" + seconds);
+	     
+	            // 타이머 끝
+	            if (--count < 0) {
+	    	     clearInterval(timer);
+	    	     alert("시간초과");
+	    	     display.val("시간초과");
+	    	     $('input#checkKey').attr("disabled", true);
+	    	     authKey="";
+	    	     isRunning = false;
+	            }
+	        }, 1000);
+	             isRunning = true;
+	}
+	
+	function timeBtnOver(){
+		if(isRunning){
+			$('input#authBtn').val("시간 연장")
+			$('input#authBtn').attr("style","display:block;");
+			$('input#timeBtn').attr("style","display:none;");
+		}else{
+			$('input#authBtn').val("인증번호 받기")
+			$('input#authBtn').attr("style","display:block;");
+			$('input#timeBtn').attr("style","display:none;");
+		}
+	}
+	function authBtnOut(){
+		if(isRunning){
+			$('input#authBtn').attr("style","display:none;");
+			$('input#timeBtn').attr("style","display:block;");
+		}
+	}
 	
 	//인증 번호 확인
 	function authKeyCompared(){
@@ -508,6 +603,7 @@
 						document.getElementById('postcode').value = data.zonecode;
 						document.getElementById("address").value = addr;
 						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById("detailAddress").value = '';
 						document.getElementById("detailAddress").focus();
 					}
 				}).open();
@@ -522,7 +618,7 @@
 	});
     
     
-    
+	
     
     
 </script>

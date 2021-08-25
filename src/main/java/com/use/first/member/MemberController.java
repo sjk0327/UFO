@@ -1061,9 +1061,14 @@ public class MemberController {
    		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
    		System.out.println("memController - memRentRefund  :  환불 하기 클릭 컨트롤러");
    		// 선택한 대여 정보 가져오기
-   		RentVO rentVO = new RentVO();
-		rentVO.setR_id(r_id);
-		rentVO.setR_state("환불 요청");
+   		RentVO rentVO = rentDAO.rentInfo(r_id);
+   		if(rentVO.getR_state().equals("대여중") || rentVO.getR_state() == "대여중") {
+   			rentVO.setR_state("환불 요청(대여)");
+   		} else if(rentVO.getR_state().equals("구매 확정") || rentVO.getR_state() == "구매 확정") {
+   			rentVO.setR_state("환불 요청(구매 확정)");
+   		} else if(rentVO.getR_state().equals("즉시 구매") || rentVO.getR_state() == "즉시 구매") {
+   			rentVO.setR_state("환불 요청(즉시 구매)");
+   		}
 		System.out.println("memController - memRentReturn new rentVO : " + rentVO.toString());
     	int result = rentDAO.rentUpdate(rentVO);
    		System.out.println("memController - memRentRefund 1result : " + result);
