@@ -251,7 +251,7 @@
 	<!-- 정노추가 -->
 	<update id="memUpdateBuy"  parameterType="map">
 	<![CDATA[
-		UPDATE member SET m_point = #{param2}, m_tel=#{param3}, m_addr=#{param4}
+		UPDATE member SET m_point = #{param2}
 		WHERE m_id = #{param1}
 	]]>
 	</update>
