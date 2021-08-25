@@ -21,66 +21,23 @@
 
 	<!-- 승빈 추가 시작 -->
 
-	<select id="messageList" parameterType="String"
+	<select id="messageList" 
 		resultType="com.use.first.message.MessageVO">
 		<![CDATA[
 		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
 		from alertmessage 
-		where a_mid = #{a_mid}
-		order by a_date desc;     
+		where a_mid = #{param1} 
+		order by a_date desc
+		limit #{param2.pageStart}, #{param2.perPageNum}  
 		]]>
 	</select>
 	
 	
-	<select id="messageListSearch" resultType="com.use.first.message.MessageVO">
-		<![CDATA[
-		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
-		from alertmessage 
-		where a_mid = #{a_mid}
-		<if test="cri.searchType == 't'.toString()">
-				AND a_mid LIKE CONCAT('%', #{cri.keyword},'%')
-			</if>
-			<if test="cri.searchType == 'w'.toString()">
-				AND a_mid LIKE CONCAT('%', #{cri.keyword},'%')
-			</if>
-			<if test="cri.searchType == 'tc'.toString()">
-				AND a_mid LIKE CONCAT('%', #{cri.keyword},'%')
-			</if>
-		
-		order by a_date desc;
-		limit #{param1.pageStart}, #{param1.perPageNum}     
-		]]>
-	</select>
-	
-	
-
-	<select id="messageInfo" parameterType="int"
-		resultType="com.use.first.message.MessageVO">
-	<![CDATA[
-		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
-		from alertmessage 
-		where a_id = #{a_id}
-
-	]]>
-
-	</select>
-
-
-
-	<delete id="messageDelete"
-		parameterType="com.use.first.message.MessageVO">
-	<![CDATA[
-		DELETE from alertmessage 
-		WHERE a_id =#{a_id}
-	]]>
-	</delete>
-
-
 	<select id="countMessageListTotal" resultType="int">
 		SELECT count(*)
 		FROM alertmessage
-		WHERE a_mid=#{a_mid};
-		<!-- <include refid="searchCondition"></include> -->
+		WHERE a_mid = #{param1} 
+	
 	</select>
 
 	
@@ -95,10 +52,65 @@
 		order by a_date desc limit 2;   
 		]]>
 	</select>
+	
+	
+	
+	
+	
+
+	<select id="messageInfo" parameterType="int"
+		resultType="com.use.first.message.MessageVO">
+	<![CDATA[
+		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
+		from alertmessage 
+		where a_id = #{a_id}
+
+	]]>
+
+	</select>
+	
+	
+	<select id="rentInfo" parameterType="int"
+		resultType="com.use.first.message.MessageVO">
+	<![CDATA[
+		select  a_id, a_rid, a_mid, a_title, a_content, a_date 
+		from alertmessage 
+		where a_rid = #{a_rid}
+
+	]]>
+
+	</select>
+	
 
 
+	<delete id="messageDelete"
+		parameterType="com.use.first.message.MessageVO">
+	<![CDATA[
+		DELETE from alertmessage 
+		WHERE a_id =#{a_id}
+	]]>
+	</delete>
+	
+	
+	
+	<delete id="selectMessageDelete"
+		parameterType="com.use.first.message.MessageVO">
+	<![CDATA[
+		DELETE from alertmessage 
+		WHERE a_id =#{a_id}
+	]]>
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-
+	
 	<!-- 승빈 추가 끝 -->
 
 

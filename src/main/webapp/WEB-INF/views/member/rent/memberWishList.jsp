@@ -379,7 +379,7 @@ top:300px;
                         <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;">구매</button></div>
                         </c:if>
                
-                       <div class="col-md-4" style="padding-left: 1px; padding-right: 0;"><button id="button" class="btn btn-outline-primary btn-sm btncart" style="margin-left: 2pt; height: 43px;"><i class="fas fa-shopping-cart" style="font-size: 15pt;"></i></button>
+                       <div class="col-md-4" style="padding-left: 1px; padding-right: 0;"><button id="button" class="btn btn-outline-primary btn-sm btncart" style="margin-left: 2pt; height: 43px;"><span class="fas fa-shopping-cart" style="font-size: 15pt;"></span></button>
                         </div>
                         </div>
                         

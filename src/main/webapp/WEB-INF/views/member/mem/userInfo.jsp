@@ -793,8 +793,8 @@ body, html {
 			$(document).on("click", "#confirm", function() {
 				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
 					if (res) {
-						action_popup.alert("탈퇴가 되었습니다.");
 						document.delete2.submit();
+						action_popup.alert("탈퇴가 되었습니다.");
 					} else {
 						action_popup.alert("탈퇴에 실패하였습니다.");
 					}
