@@ -144,10 +144,6 @@ body, html {
 
 </head>
 <body themebg-pattern="theme1">
-
-
-
-
 	<section class="login-block">
 		<!-- Container-fluid starts -->
 		<div class="container">
@@ -156,7 +152,7 @@ body, html {
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="find"
-						action="/member/mem/id_find" method="post">
+						action="/member/mem/id_auth" method="post">
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
 						</div>

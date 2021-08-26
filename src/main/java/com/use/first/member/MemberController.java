@@ -380,6 +380,7 @@ public class MemberController {
 
 	
 	// 메시지 리스트
+	
 	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.GET)
 	public String messageList(Model model, Criteria cri, HttpSession session) {
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
@@ -390,6 +391,7 @@ public class MemberController {
 
 		// 현재 페이지에 해당하는 게시물을 조회해 옴
 		List<MessageVO> messageList = messageDAO.messageList(userId, cri);
+		
 		// 모델에 추가
 		model.addAttribute("messageList", messageList);
 		// PageMaker 객체 생성
@@ -399,51 +401,56 @@ public class MemberController {
 		int totalCount = messageDAO.countMessageListTotal(userId, cri);
 		// pageMaker로 전달
 		pageMaker.setTotalCount(totalCount);
+		System.out.println(pageMaker.toString());
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
 		return "/member/mem/messageList";
 
 	}
 
-	//메시지 검색
-	@RequestMapping(value = "/member/mem/messageList", method = RequestMethod.POST)
-	public String messageListSearch(Model model, Criteria cri, HttpSession session) {
-		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 
-		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
-		String userId = infoVO.getM_id();
-
-		// 현재 페이지에 해당하는 게시물을 조회해 옴
-		List<MessageVO> messageList = messageDAO.messageList(userId, cri);
-		System.out.println(messageList.toString());
-		// 모델에 추가
-		model.addAttribute("messageList", messageList);
-		// PageMaker 객체 생성
-		PageMaker pageMaker = new PageMaker(cri);
-		// 전체 게시물 수를 구함
-
-		int totalCount = messageDAO.countMessageListTotal(userId, cri);
-		// pageMaker로 전달
-		pageMaker.setTotalCount(totalCount);
-		// 모델에 추가
-		model.addAttribute("pageMaker", pageMaker);
-		return "/member/mem/messageList";
-	}
 
 	
 	
 	//메시지 상세보기
-		@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
-		public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
-			MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
-
-			MessageVO message = messageDAO.messageInfo(a_id);
-		
-			model.addAttribute("message", message);
 	
-			return "/member/mem/messageDetail";
-		}
+	@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
+	public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 		
+
+		MessageVO message = messageDAO.messageInfo(a_id);
+		
+		
+		model.addAttribute("message", message);
+	
+	
+		return "/member/mem/messageDetail";
+	}
+	
+	
+	//메시지리스트-다중선택삭제
+	@RequestMapping(value = "/member/mem/messageDelete2", method = RequestMethod.GET)
+	public String messageSelectDelete(@RequestParam HashMap<String, Object> commandMap) {
+		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+		String[] code_array = null;
+		String code = commandMap.get("arrayParam").toString();
+		code_array = code.split(",");
+		for (int i = 0; i < code_array.length; i++) {
+			System.out.println("code_array[]::::" + code_array[i]);
+			messageDAO.selectMessageDelete(code_array[i]);
+		}
+		return "redirect:/member/mem/messageList";
+	}
+		
+	
+	
+	
+	
+	
+	
+
+	
 		
 		
 	//메시지 삭제
@@ -625,6 +632,11 @@ public class MemberController {
 			
 			return "member/mem/id_info";
 		}
+		
+		
+		
+
+	
 			
 			
 			

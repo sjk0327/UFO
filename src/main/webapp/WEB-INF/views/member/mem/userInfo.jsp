@@ -187,7 +187,9 @@ body, html {
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="#MessageBox" role="tab">메시지 함</a>
+
+																		href="/member/mem/messageList" role="tab">메시지 함</a>
+
 																		<div class="slide"></div></li>
 																</ul>
 															</div>
@@ -290,6 +292,7 @@ body, html {
 																				<div class="col-sm-2 col-form-label">주소</div>
 																				<div
 																					class="form-group form-primary form-static-label col-sm-10">
+
 																					<form:input type="hidden" id="realAddress"
 																						path="m_addr" />
 																					<!-- 주소 split 으로 나눠서 token 화 하기 -->
@@ -300,6 +303,7 @@ body, html {
 																								class="form-control" placeholder="우편번호 "
 																								required="required" readonly="readonly" /> <span
 																								class="form-bar"></span>
+
 																						</div>
 																						<div class="col-sm-6">
 																							<input type="button" onclick="daumPostcode()"
@@ -308,6 +312,7 @@ body, html {
 																								style="background-color: #7971ea;" />
 																						</div>
 																					</div>
+
 																					<input type="text" id="address" name="addr"
 																						value="${fn:split(userInfo.m_addr,'|')[1]}"
 																						class="form-control" placeholder="주소"
@@ -327,6 +332,7 @@ body, html {
 																								class="form-control" placeholder="참고항목"
 																								readonly="readonly"> <span
 																								class="form-bar"></span>
+
 																						</div>
 																					</div>
 																				</div>
@@ -335,11 +341,13 @@ body, html {
 																				<div class="col-sm-2 col-form-label">전화번호</div>
 																				<div
 																					class="form-group form-primary form-static-label col-sm-10">
+
 																					<form:input type="text" id="phoneNum" path="m_tel"
 																						value="${userInfo.m_tel }"
 																						class="form-control form-control-center form-control-round form-control-bold"
 																						placeholder="필수 항목 입니다.('-'을 빼고 적어주세요)"
 																						required="required" />
+
 																					<span class="form-bar"></span>
 																				</div>
 																			</div>
@@ -437,8 +445,10 @@ body, html {
 
 																				<c:forEach var="list" items="${rentList }">
 																					<tbody>
+
 																						<tr
 																							onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
+
 																							<td>
 																								<div class="d-inline-block align-middle">
 																									<img
@@ -498,8 +508,10 @@ body, html {
 
 																				<c:forEach var="list" items="${purchaseList }">
 																					<tbody>
-																						<tr>
+																						
+
 																						<tr onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+
 																							<td>
 																								<div class="d-inline-block align-middle">
 																									<img
@@ -558,7 +570,9 @@ body, html {
 																							<td>
 																								<div>
 																									<div>
-																										<h6>${messageList.a_title }</h6>
+
+																										<p>${messageList.a_title }</p>
+
 																									</div>
 																								</div>
 																							</td>
@@ -574,12 +588,14 @@ body, html {
 
 																			</table>
 
+																		
 
 
 																		</div>
 																	</div>
 																</div>
 																<!-- 회원 메시지함  끝-->
+
 
 
 															</div>
@@ -607,22 +623,31 @@ body, html {
 
 
 
+
 									</div>
 
+									</div>
 								</div>
-
-
-
-
-
 							</div>
-
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="modal modal-section type-confirm">
 		<div class="enroll_box">
@@ -843,8 +868,8 @@ body, html {
 			$(document).on("click", "#confirm", function() {
 				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
 					if (res) {
-						action_popup.alert("탈퇴가 되었습니다.");
 						document.delete2.submit();
+						action_popup.alert("탈퇴가 되었습니다.");
 					} else {
 						action_popup.alert("탈퇴에 실패하였습니다.");
 					}

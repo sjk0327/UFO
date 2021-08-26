@@ -15,9 +15,12 @@ public interface MessageDAO {
 	public Integer findMessage(int r_id);
 	//승빈 추가
 	public List<MessageVO> messageByMid(@Param("a_mid") String a_mid);
-	public List<MessageVO> messageList(@Param("a_mid") String a_mid, Criteria cri);
+	public List<MessageVO> messageList(String a_mid, Criteria cri);
+	
 	public MessageVO messageInfo(int a_id);
+	public MessageVO rentInfo(int a_rid);
 	public int messageDelete(int a_id);
-	public int countMessageListTotal(@Param("a_mid") String a_mid, Criteria cri);	
+	public int selectMessageDelete(String a_id);
+	public Integer countMessageListTotal(String a_mid, Criteria cri);	
 	//승빈
 }

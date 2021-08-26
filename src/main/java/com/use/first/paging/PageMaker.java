@@ -5,7 +5,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMaker {
 
-	private int displayPageCnt = 2; // 화면에 보여질 페이지 번호 수
+	private int displayPageCnt = 5; // 화면에 보여질 페이지 번호 수
 	private int totalDataCount; // 실제 게시물 수
 	private int startPage; // 현재 페이지 기준 시작 페이지 번호
 	private int endPage; // 현재 페이지 기준 끝 페이지 번호

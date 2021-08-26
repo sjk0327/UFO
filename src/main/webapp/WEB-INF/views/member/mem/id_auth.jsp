@@ -154,7 +154,7 @@ body, html {
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="mach"
-						action="/member/mem/id_info" method="post" >
+						action="/member/mem/id_set" method="post" >
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
 						</div>
