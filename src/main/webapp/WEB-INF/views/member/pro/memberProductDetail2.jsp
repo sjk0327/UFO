@@ -354,7 +354,9 @@ body, html {height: 100%;}
     </div>
   </div>	
    		   
-           
+     									<c:choose>				
+										<c:when test="${recVO[0].v_id eq null}"><h1>등록된 추천글이 없어요</h1></c:when>
+										<c:when test="${recVO[0].v_id ne null}">   </c:when></c:choose>
       <div class="container"> 
         <div class="row mb-5">
           <div class="col-md-12 order-2">

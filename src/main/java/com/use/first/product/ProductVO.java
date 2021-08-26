@@ -13,6 +13,7 @@ public class ProductVO {
 	private int p_canRent;
 	private int p_soldCount;
 	private String p_category;
+	private String p_categoryColor;	//신영-추가
 	private String p_mainImg;
 	private String p_subImg;
 	private Date p_regdate;
@@ -22,6 +23,13 @@ public class ProductVO {
 	private MultipartFile subFile;
 	private String searchCondition;
 	private String searchKeyword;
+	
+	public String getP_categoryColor() {
+		return p_categoryColor;
+	}
+	public String setP_categoryColor(String p_categoryColor) {
+		return this.p_categoryColor = p_categoryColor;
+	}
 	public String getP_id() {
 		return p_id;
 	}

@@ -390,17 +390,20 @@ ul{ list-style:none;}
                 <div id = "paging-div text-center">
                 <ul class="btn-group pagination text-center">
                    <c:if test="${pageMaker.prev }">
-                      <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+                      <li><a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
                          <span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
                    </c:if>
                    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-                      <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url 
-                                        value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                      <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
-                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+                      <c:if test="${pageNum eq pageMaker.cri.page}"><li>
+                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
+                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li>
+                       <span class="col-md-1"></span>
+                      </c:if>
                       <c:if test="${pageNum ne pageMaker.cri.page}"><li>
-                                  <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                      <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                       <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span>
+                      </c:if>
                       
                    </c:forEach>
                    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
@@ -626,16 +629,16 @@ ul{ list-style:none;}
                <br> -->
                <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Color</h3>
-            <a href="/member/pro/productList/black" class="d-flex color-item align-items-center" >
+            <a href="/member/pro/productList/color/black" class="d-flex color-item align-items-center" >
               <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black</span>
             </a>
-            <a href="/member/pro/productList/white" class="d-flex color-item align-items-center" >
+            <a href="/member/pro/productList/color/white" class="d-flex color-item align-items-center" >
               <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White</span>
             </a>
-            <a href="/member/pro/productList/silver" class="d-flex color-item align-items-center" >
+            <a href="/member/pro/productList/color/silver" class="d-flex color-item align-items-center" >
               <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver</span>
             </a>
-            <a href="/member/pro/productList/red" class="d-flex color-item align-items-center" >
+            <a href="/member/pro/productList/color/red" class="d-flex color-item align-items-center" >
               <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red</span>
             </a>
               </div>

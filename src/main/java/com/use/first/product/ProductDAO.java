@@ -26,8 +26,7 @@ public interface ProductDAO {
 	public List<ProductVO> productSmartPhoneList(String p_category);
 	public ProductVO productSmartPhoneList();
 	public int countSmartPhone();public int countLaptop();
-	public int countCamera();public int countWatch();
-	public int countTablet();
+	public int countCamera();public int countWatch();public int countTablet();
 	public List<ProductVO> productSortLow(Criteria cri);
 	public List<ProductVO> productSortHigh(Criteria cri);
 	public List<ProductVO> productRecommand(Criteria cri);
@@ -41,38 +40,39 @@ public interface ProductDAO {
 	public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
 	public List<ProductVO> productSearchTypeList(Criteria cri);
 	public List<ProductVO> productMenubarPriceSearchRent(String minPrice, String maxPrice);
-	public List<ProductVO> productSelectColor(String p_category);
+	public List<ProductVO> productSelectColor(Criteria cri, String p_categoryColor);
+	public int colorTotal(Criteria cri, String p_categoryColor);
 	
 	
 	
 			
-		//위시리스트추가,삭제
-		public int wishListInsert(WishListVO wishListVO);
-		public int wishListDelete(WishListVO wishListVO);
-		//장바구니추가
-		public int cartListInsert(CartVO cartVO);
-		//위시리스트 체크
-		public WishListVO checkWishList(String w_pid, String w_mid);
-		//조아요 추가,삭제,체크
-		public int recommendInsert(RecommendVO recommendVO);
-		public int recommendDelete(RecommendVO recommendVO);
-		public RecommendVO checkRecommend(String r_pid, String r_mid);
-		public int recommendCount(String r_pid);
-		
-		//리뷰 리스트
-				public List<RecVO> reviewList(@Param("v_pid") String v_pid);
-				public int countReviewListTotal(@Param("v_pid") String v_pid);
-			//리뷰 리스트조회 페이지 눌렀을 때꺼
-				public List<RecVO> reviewPagingList(@Param("v_pid") String v_pid);
-				public int countReviewListPagingTotal(@Param("v_pid") String v_pid);
-			//리뷰 등록
-				public int reviewInsert(RecVO recVO);
-			//리뷰 개수
-				public int reviewCount(String v_pid);
-			//특정 리뷰
-				public RecVO oneReview(@Param("v_pid") String v_pid, @Param("userId") String userId);
-			//리뷰 등록
-				public int reviewUpdate(RecVO recVO);
-			//리뷰 삭제
-				public int reviewDelete(String v_mid, String v_pid);
-		}			
+	//위시리스트추가,삭제
+			public int wishListInsert(WishListVO wishListVO);
+			public int wishListDelete(WishListVO wishListVO);
+			//장바구니추가
+			public int cartListInsert(CartVO cartVO);
+			//위시리스트 체크
+			public WishListVO checkWishList(String w_pid, String w_mid);
+			//조아요 추가,삭제,체크
+			public int recommendInsert(RecommendVO recommendVO);
+			public int recommendDelete(RecommendVO recommendVO);
+			public RecommendVO checkRecommend(String r_pid, String r_mid);
+			public int recommendCount(String r_pid);
+			
+			//리뷰 리스트
+					public List<RecVO> reviewList(@Param("v_pid") String v_pid);
+					public int countReviewListTotal(@Param("v_pid") String v_pid);
+				//리뷰 리스트조회 페이지 눌렀을 때꺼
+					public List<RecVO> reviewPagingList(@Param("v_pid") String v_pid);
+					public int countReviewListPagingTotal(@Param("v_pid") String v_pid);
+				//리뷰 등록
+					public int reviewInsert(RecVO recVO);
+				//리뷰 개수
+					public int reviewCount(String v_pid);
+				//특정 리뷰
+					public RecVO oneReview(@Param("v_pid") String v_pid, @Param("userId") String userId);
+				//리뷰 등록
+					public int reviewUpdate(RecVO recVO);
+				//리뷰 삭제
+					public int reviewDelete(String v_mid, String v_pid);
+			}			

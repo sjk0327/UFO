@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -33,20 +34,15 @@ import com.use.first.rent.WishListVO;
 public class ProductController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
-
-	
 	// 신영-관리자 상품리스트
 		@RequestMapping(value = "/admin/pro/productList", method = RequestMethod.GET)
 		public String getProductList(Model model, Criteria cri) {
 			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			// 현재 페이지에 해당하는 게시물을 조회해 옴
 			List<ProductVO> list = productDAO.productList(cri);
 			model.addAttribute("productList", list);
 			PageMaker pageMaker = new PageMaker(cri);
 			int totalCount = productDAO.countProductListTotal(cri);
-			pageMaker.setTotalCount(totalCount);
-			// pageMaker.setTotalCount(productDAO.countProductListTotal());
+			pageMaker.setTotalCount(totalCount);			
 			model.addAttribute("pageMaker", pageMaker);
 
 			return "admin/pro/adminProductList";
@@ -55,15 +51,12 @@ public class ProductController {
 		// 신영-관리자 상품리스트(검색조건들어옴post)
 		@RequestMapping(value = "/admin/pro/productList", method = RequestMethod.POST)
 		public String getProductSearch(Model model, Criteria cri) {
-			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			// 현재 페이지에 해당하는 게시물을 조회해 옴
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);			
 			List<ProductVO> list = productDAO.productList(cri);
-			model.addAttribute("productList", list);
-			
+			model.addAttribute("productList", list);			
 			PageMaker pageMaker = new PageMaker(cri);
 			int totalCount = productDAO.countProductListTotal(cri);
 			pageMaker.setTotalCount(totalCount);
-			// pageMaker.setTotalCount(productDAO.countProductListTotal());
 			model.addAttribute("pageMaker", pageMaker);
 
 			return "admin/pro/adminProductList";
@@ -118,7 +111,7 @@ public class ProductController {
 		}
 
 		// 신영 관리자상품리스트에서 한줄 수량관련 수정
-		@RequestMapping(value = "/admin/pro/productUpdate2/{p_id}/{p_canBuy}/{p_canRent}", method = RequestMethod.GET)
+		@RequestMapping(value = "/admin/pro/productUpdateRow/{p_id}/{p_canBuy}/{p_canRent}", method = RequestMethod.GET)
 		public String adminProductUpdate2(ProductVO productVO, @PathVariable String p_id,@PathVariable String p_canBuy,@PathVariable String p_canRent) {
 			System.out.println("adminProductUpdate2 왔니?");
 			System.out.println(p_canBuy + p_canRent);
@@ -126,7 +119,7 @@ public class ProductController {
 			int n = productDAO.productUpdate2(productVO);
 			if (n != 1) {
 				// 업데이트 실패 시
-				System.out.println("adminProductUpdate2 // 상품 수정 실패 // " + productVO.toString());
+				System.out.println("상품 수정 실패");
 			}
 			return "redirect:/admin/pro/productList/";
 		}
@@ -136,52 +129,55 @@ public class ProductController {
 		/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~신영 회원 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 	
 		// 신영-고객쪽 상품리스트
-		@RequestMapping(value = "/member/pro/productList", method = RequestMethod.GET)
-		public String getMemberProductList( 
-				Model model, Criteria cri) {
-		//@RequestMapping(value = "/member/pro/productList/{p_id}", method = RequestMethod.GET)
-		//public String getMemberProductList(HttpServletRequest request, HttpServletResponse response, 
-		//												@Param("p_id") String p_id, Model model, Criteria cri) {
-			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			List<ProductVO> list = productDAO.productList(cri);
-			
-			/* 쿠키 도전중  start 
-			Cookie recentCookie = new Cookie(p_id, null);
-			recentCookie.setPath("/");
-			recentCookie.setMaxAge(0);
-			response.addCookie(recentCookie);
-			recentCookie = new Cookie(p_id, p_id);
-			recentCookie.setPath("/");
-			recentCookie.setMaxAge(60*60*24*3);
-			response.addCookie(recentCookie);
-			
-			Cookie[] recentArray = request.getCookies();
-			int recentCount = productDAO.recentCookie(recentArray, (page-1)*limit, listCount));
-			
-			List<ProductVO> list = productDAO.productList(cri);
-			
-			 쿠키 도전중  end */
-			
-			model.addAttribute("productList", list);
-			PageMaker pageMaker = new PageMaker(cri);
-			int totalCount = productDAO.countProductListTotal(cri);
-			int countSmartPhone = productDAO.countSmartPhone();
-			int countLaptop = productDAO.countLaptop();
-			int countCamera = productDAO.countCamera();
-			int countWatch = productDAO.countWatch();
-			int countTablet = productDAO.countTablet();
-			pageMaker.setTotalCount(totalCount);
+				@RequestMapping(value = "/member/pro/productList", method = RequestMethod.GET)
+				public String getMemberProductList( 
+						Model model, Criteria cri) {
+				//@RequestMapping(value = "/member/pro/productList/{p_id}", method = RequestMethod.GET)
+				//public String getMemberProductList(HttpServletRequest request, HttpServletResponse response, 
+				//												@Param("p_id") String p_id, Model model, Criteria cri) {
+					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+					List<ProductVO> list = productDAO.productList(cri);
+					
+					/* 쿠키 도전중  start 
+					Cookie recentCookie = new Cookie(p_id, null);
+					recentCookie.setPath("/");
+					recentCookie.setMaxAge(0);
+					response.addCookie(recentCookie);
+					recentCookie = new Cookie(p_id, p_id);
+					recentCookie.setPath("/");
+					recentCookie.setMaxAge(60*60*24*3);
+					response.addCookie(recentCookie);
+					
+					Cookie[] recentArray = request.getCookies();
+					int recentCount = productDAO.recentCookie(recentArray, (page-1)*limit, listCount));
+					
+					List<ProductVO> list = productDAO.productList(cri);
+					
+					 쿠키 도전중  end */
+					
+					model.addAttribute("productList", list);
+					PageMaker pageMaker = new PageMaker(cri);
+					int totalCount = productDAO.countProductListTotal(cri);
+					int countSmartPhone = productDAO.countSmartPhone();
+					int countLaptop = productDAO.countLaptop();
+					int countCamera = productDAO.countCamera();
+					int countWatch = productDAO.countWatch();
+					int countTablet = productDAO.countTablet();
+					pageMaker.setTotalCount(totalCount);
 
-			model.addAttribute("pageMaker", pageMaker);
-			model.addAttribute("totalCount", totalCount);
-			model.addAttribute("countSmartPhone", countSmartPhone);
-			model.addAttribute("countLaptop", countLaptop);
-			model.addAttribute("countCamera", countCamera);
-			model.addAttribute("countWatch", countWatch);
-			model.addAttribute("countTablet", countTablet);
+					model.addAttribute("pageMaker", pageMaker);
+					model.addAttribute("totalCount", totalCount);
+					model.addAttribute("countSmartPhone", countSmartPhone);
+					model.addAttribute("countLaptop", countLaptop);
+					model.addAttribute("countCamera", countCamera);
+					model.addAttribute("countWatch", countWatch);
+					model.addAttribute("countTablet", countTablet);
 
-			return "member/pro/memberProductList";
-		}
+					return "member/pro/memberProductList";
+				}
+				
+				
+				
 		@RequestMapping(value = "/member/pro/productList", method = RequestMethod.POST)
 		public String getMemberPostProductList(Model model, Criteria cri) {
 			
@@ -241,43 +237,10 @@ public class ProductController {
 		// 신영-고객쪽 상품리스트(카테고리별)
 
 		@RequestMapping(value = "/member/pro/productList/{p_category}", method = RequestMethod.GET)
-		public String getMemberProductCateList(Model model, Criteria cri, @PathVariable String p_category) {
+		public String getProductCateList(Model model, Criteria cri, @PathVariable String p_category) {		
 			
-			ProductVO productVO = new ProductVO();
-			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			//카테고리가 블랙/레드/화이트/실버면,
-		/*
-		 * if((p_category.equals("black")) || (p_category.equals("red")) ||
-		 * (p_category.equals("white")) || (p_category.equals("silver"))){
-		 * if(p_category.equals("black")) { p_category = productVO.setP_category("블랙");
-		 * System.out.println(p_category); } else if(p_category.equals("red")) {
-		 * p_category = productVO.setP_category("레드"); System.out.println(p_category);
-		 * }else if(p_category.equals("white")) { p_category =
-		 * productVO.setP_category("화이트"); System.out.println(p_category); }else
-		 * if(p_category.equals("silver")) { p_category = productVO.setP_category("실버");
-		 * System.out.println(p_category); }
-		 * 
-		 * List<ProductVO> list = productDAO.productSelectColor(p_category);
-		 * model.addAttribute("productList", list); System.out.println("list.toString()"
-		 * + list.toString()); PageMaker pageMaker = new PageMaker(cri); int totalCount
-		 * = productDAO.countProductListTotal(cri); int countSmartPhone =
-		 * productDAO.countSmartPhone(); int countLaptop = productDAO.countLaptop(); int
-		 * countCamera = productDAO.countCamera(); int countWatch =
-		 * productDAO.countWatch(); int countTablet = productDAO.countTablet();
-		 * pageMaker.setTotalCount(totalCount);
-		 * 
-		 * model.addAttribute("pageMaker", pageMaker); model.addAttribute("totalCount",
-		 * totalCount); model.addAttribute("countSmartPhone", countSmartPhone);
-		 * model.addAttribute("countLaptop", countLaptop);
-		 * model.addAttribute("countCamera", countCamera);
-		 * model.addAttribute("countWatch", countWatch);
-		 * model.addAttribute("countTablet", countTablet); System.out.println("4");
-		 * return "member/pro/memberProductList";
-		 * 
-		 * } else {
-		 */
-			List<ProductVO> list = productDAO.productSmartPhoneList(p_category);
-				
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);			
+			List<ProductVO> list = productDAO.productSmartPhoneList(p_category);				
 			model.addAttribute("productList", list);
 			PageMaker pageMaker = new PageMaker(cri);
 			int totalCount = productDAO.countProductListTotal(cri);
@@ -298,6 +261,53 @@ public class ProductController {
 			return "member/pro/memberProductList";
 			}
 		
+		// 신영-고객쪽 상품리스트(색상 별)
+		@RequestMapping(value = "/member/pro/productList/color/{p_categoryColor}", method = RequestMethod.GET)
+		public String getProductCateColor(Model model, Criteria cri, @PathVariable String p_categoryColor) {
+			
+			ProductVO productVO = new ProductVO();
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+			//카테고리가 블랙/레드/화이트/실버면,
+			if((p_categoryColor.equals("black")) || (p_categoryColor.equals("red"))  || (p_categoryColor.equals("white")) || (p_categoryColor.equals("silver"))){
+				if(p_categoryColor.equals("black")) {
+					p_categoryColor = productVO.setP_categoryColor("블랙");
+					System.out.println(p_categoryColor);
+				}
+				else if(p_categoryColor.equals("red")) {
+					p_categoryColor = productVO.setP_categoryColor("레드");
+					System.out.println(p_categoryColor);
+				}else if(p_categoryColor.equals("white")) {
+					p_categoryColor = productVO.setP_categoryColor("화이트");
+					System.out.println(p_categoryColor);
+				}else if(p_categoryColor.equals("silver")) {
+					p_categoryColor = productVO.setP_categoryColor("실버");
+					System.out.println(p_categoryColor);
+					}	
+				List<ProductVO> list = productDAO.productSelectColor(cri,p_categoryColor);				
+				model.addAttribute("productList", list);
+				System.out.println("list.toString()" + list.toString());
+				PageMaker pageMaker = new PageMaker(cri);
+				System.out.println(cri.toString());
+				int totalCount = productDAO.colorTotal(cri,p_categoryColor);
+				System.out.println("totalCount::" + totalCount);
+				int countSmartPhone = productDAO.countSmartPhone();
+				int countLaptop = productDAO.countLaptop();
+				int countCamera = productDAO.countCamera();
+				int countWatch = productDAO.countWatch();
+				int countTablet = productDAO.countTablet();
+				pageMaker.setTotalCount(totalCount);
+				System.out.println(pageMaker.toString());
+				model.addAttribute("pageMaker", pageMaker);
+				model.addAttribute("totalCount", totalCount);
+				model.addAttribute("countSmartPhone", countSmartPhone);
+				model.addAttribute("countLaptop", countLaptop);
+				model.addAttribute("countCamera", countCamera);
+				model.addAttribute("countWatch", countWatch);
+				model.addAttribute("countTablet", countTablet);				
+				
+				}
+			return "member/pro/memberProductList";
+			}
 			
 		
 		// 신영-상품정렬
@@ -372,7 +382,6 @@ public class ProductController {
 		}
 			
 		 
-			
 		  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬 관리자 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			//상품상세보기
 				@RequestMapping(value = "/admin/pro/productDetail/{p_id}", method = RequestMethod.GET)
