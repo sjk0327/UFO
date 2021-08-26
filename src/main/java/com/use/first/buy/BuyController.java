@@ -14,13 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.use.first.member.UserDAO;
 import com.use.first.member.UserInfoVO;
-import com.use.first.paging.Criteria;
-import com.use.first.paging.PageMaker;
-import com.use.first.rent.BuyInfoVO;
+import com.use.first.product.ProductDAO;
+import com.use.first.product.ProductVO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
@@ -35,6 +33,7 @@ public class BuyController {
       BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
       UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
       RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+      ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
       
       System.out.println(buyVO.toString());
       
@@ -43,11 +42,21 @@ public class BuyController {
       String[] b_mname = buyVO.getB_mname().split(",");
       String[] b_maddr = buyVO.getB_maddr().split("@@,|@@");
       String[] b_mtel = buyVO.getB_mtel().split(",");
-      String[] b_amount = buyVO.getB_amount().split(",");
+      String[] b_amountArray = buyVO.getB_amount().split(",");
       String[] b_how = buyVO.getB_how().split(",");
       String[] b_state = buyVO.getB_state().split(",");
       String[] b_purchase = buyVO.getB_purchase().split(",");
       String[] b_message = buyVO.getB_message().split(",");
+      int[] b_amount=new int[b_amountArray.length];
+      
+      for(int i=0;i<b_amountArray.length;i++) {
+    	  int amount=Integer.parseInt(b_amountArray[i]);
+    	  
+    	  b_amount[i]=amount;
+    
+      }
+      
+      
       
       for(int i = 0; i < b_mid.length; i++) {
          
@@ -57,12 +66,14 @@ public class BuyController {
             
             rentVO.setR_mid(b_mid[i]);
             rentVO.setR_pid(b_pid[i]);
+            rentVO.setR_rent(b_amount[i]);
             rentVO.setR_state("대여중");
             
          } else if(b_state[i].equals("구매")) {
             
             rentVO.setR_mid(b_mid[i]);
             rentVO.setR_pid(b_pid[i]);
+            rentVO.setR_rent(b_amount[i]);
             rentVO.setR_state("즉시 구매");
             
          }
@@ -77,7 +88,7 @@ public class BuyController {
          buyVO.setB_mname(b_mname[i]);
          buyVO.setB_maddr(b_maddr[i]);
          buyVO.setB_mtel(b_mtel[i]);
-         buyVO.setB_amount(b_amount[i]);
+         buyVO.setB_amount(Integer.toString(b_amount[i]));
          buyVO.setB_how(b_how[i]);
          buyVO.setB_state(b_state[i]);
          buyVO.setB_purchase(b_purchase[i]);
@@ -86,8 +97,30 @@ public class BuyController {
          buyDAO.buyInsert(buyVO);
          
       }
+      
+      for(int i = 0; i < b_pid.length; i++) {
+    	  if(b_state[i].equals("대여")) {
+    		  
+    		  ProductVO productVO = productDAO.productInfo(b_pid[i]);
+    		  
+    		  int b_amount1 = (productVO.getP_canRent() - b_amount[i]);
+    		  int b_amount2 = (productVO.getP_canBuy() - 0);
+    		  
+    		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
+    		  
+    	  } else if(b_state[i].equals("구매")) {
+    		  
+    		  ProductVO productVO = productDAO.productInfo(b_pid[i]);
+    		  int b_amount1 = (productVO.getP_canRent() - 0);
+    		  int b_amount2 = (productVO.getP_canBuy() - b_amount[i]);
+    		  
+    		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
+    		  
+    	  }
+      }
    
       userDAO.memUpdateBuy(m_id, m_point);
+      
       model.addAttribute("total", total);
       
       return "/member/rent/buysuccess";

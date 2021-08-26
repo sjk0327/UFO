@@ -513,7 +513,7 @@ public class RentController {
 					//파라미터로 받은 BuyInfo Bean에서 제품 아이디 getter로 받아옴
 					String productId=buyInfoVO.getProductId();
 					// 제품 아이디로 해당 제품 정보 끌어옴
-					ProductVO productVO=productDAO.productInfo(productId);
+					ProductVO productVO = productDAO.productInfo(productId);
 					//나머지 필요한 제품 정보들 BuyInfoBean에 setter로 넣어줌 
 					buyInfoVO.setProductPrice(productVO.getP_price());
 					buyInfoVO.setProductImg(productVO.getP_mainImg());
