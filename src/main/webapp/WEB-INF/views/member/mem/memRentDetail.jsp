@@ -204,15 +204,15 @@
 							                    <div class="slide"></div>
 							                </li>
 							                <li class="nav-item">
-							                    <a class="nav-link" href="#RentInfo" role="tab">대역 내역</a>
+							                    <a class="nav-link" href="/member/mem/memRentList" role="tab">대역 내역</a>
 							                    <div class="slide"></div>
 							                </li>
 							                <li class="nav-item">
-							                    <a class="nav-link" href="#ButInfo" role="tab">구매 내역</a>
+							                    <a class="nav-link" href="/member/mem/memBuyList" role="tab">구매 내역</a>
 							                    <div class="slide"></div>
 							                </li>
 							                <li class="nav-item">
-							                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
+							                    <a class="nav-link" href="/member/mem/messageList" role="tab">메시지 함</a>
 							                    <div class="slide"></div>
 							                </li>
 							            </ul>

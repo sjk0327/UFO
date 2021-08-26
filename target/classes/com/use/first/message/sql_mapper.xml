@@ -83,8 +83,7 @@
 	
 
 
-	<delete id="messageDelete"
-		parameterType="com.use.first.message.MessageVO">
+	<delete id="messageDelete" parameterType="com.use.first.message.MessageVO">
 	<![CDATA[
 		DELETE from alertmessage 
 		WHERE a_id =#{a_id}
@@ -93,8 +92,7 @@
 	
 	
 	
-	<delete id="selectMessageDelete"
-		parameterType="com.use.first.message.MessageVO">
+	<delete id="selectMessageDelete" parameterType="com.use.first.message.MessageVO">
 	<![CDATA[
 		DELETE from alertmessage 
 		WHERE a_id =#{a_id}

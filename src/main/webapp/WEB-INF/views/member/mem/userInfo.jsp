@@ -497,6 +497,7 @@ body, html {
 																		</div>
 																	</div>
 																</div>
+																
 																<!-- 회원 구매 현황(간략) -->
 																<div class="card table-card">
 																	<div class="card-header">

@@ -19,42 +19,116 @@
 
 
 <style>
-.filebox input[type="file"] {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
 
-.filebox label {
-	display: inline-block;
-	padding: .5em .75em;
-	color: #999;
-	font-size: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #fdfdfd;
-	cursor: pointer;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-} /* named upload */
-.filebox .upload-name {
-	display: inline-block;
-	padding: .5em .75em; /* label의 패딩값과 일치 */
-	font-size: inherit;
-	font-family: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #f5f5f5;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-}
+@media screen and (min-width: 768px) {
+		.division_line { 
+			border-right: solid;
+			color: gray;
+		} 
+	}
+
+	@media screen and (max-width:768px) {
+		.table {
+			table-layout: fixed;
+			width: 100%;
+			text-align: center;
+			font-size: 15px;
+		}
+		
+		.table th {
+			background: #ccc;
+		}
+		
+		.table td, .table th {
+			padding: 10px 20px;
+			border-top: 1px solid #ccc;
+			word-break: break-all;
+		}
+		/*block*/
+		.table--block thead {
+			display: none;
+		}
+		.table--block tr {
+			display: block;
+			margin-bottom: 14px;
+			border-top: none;
+			padding-bottom: 0px !important; 
+		}
+		.table--block th, .table--block tbody td {
+			display: block;
+			position: relative;
+			padding: 10px 0;
+			padding-left: 30%;
+			border-width: 0 0 1px 0;
+			text-align: left;
+		}
+		.table--block tbody td:before {
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 30%;
+			padding: 10px 0;
+			background: #ccc;
+		}
+		.table--block th, .table--block tbody td {
+		    display: block;
+		    position: relative;
+		    padding: 10px 0;
+		    padding-left: 30%;
+		    border-width: 0 0 1px 0;
+		    text-align: center; 
+
+		}
+		.table--block tbody td.content {
+		    display: block;
+		    position: relative;
+		    padding: 10px 0;
+		    padding-left: 30%;
+		    border-width: 0 0 1px 0;
+		    text-align: left; 
+		    margin-right: 50px
+
+		}
+		.table--block tbody td {
+			text-align:right;
+			padding-right:100px;
+		}
+		.table--block tbody td:nth-child(5):before {
+		   display: block;
+		   position: absolute;
+		   left: 0;
+		   top: 0;
+		   width: 30%;
+		   padding: 16px 0px 16px 0px;
+		   background: #ccc;
+		}
+		
+		
+		.table--block td:nth-child(1):before {
+			content: '상품 번호';
+			text-align: center; 
+		}
+		.table--block td:nth-child(2):before {
+			content: '상품 정보';
+			text-align: center;
+		}
+		.table--block td:nth-child(3):before {
+			content: '금 액';
+			text-align: center;
+		}
+		.table--block td:nth-child(4):before {
+			content: '수 량';
+			text-align: center;
+		}
+		.table--block td:nth-child(5):before {
+			content: '진행 상태';
+			text-align: center; 
+		}
+	}
+
+
+
 
 * {
 	padding: 0;
@@ -218,7 +292,7 @@ body, html {
 															<div class="page-wrapper">
 																<div class="page-body">
 																	<div class="row">
-																		<div class="col-sm-6">
+																		<div class="col-sm-5">
 																			<div class="card">
 																				<div class="card-header">
 																					<h5>메시지</h5>
@@ -269,21 +343,16 @@ body, html {
 																				</div>
 																			</div>
 																		</div>
-
-																	</div>
-
-
-																</div>
-															</div>
-														</div>
-														<!-- 메시지함 끝 -->
-
-														<!-- 대여 내역-->
-													
+																		
+																		
+																		
+																		
+																		
+																		<!-- 대여 내역-->
+															<div class="col-sm-7">
 																<div class="card table-card">
 																	<div class="card-header">
 																		<h5>${rentInfo.r_mid }님의${rentInfo.r_pid }대여현황</h5>
-																		
 																	</div>
 																	<div class="card-block">
 																		<div class="table-responsive col-xl-12">
@@ -296,7 +365,7 @@ body, html {
 																						class="col-1 col-lg-1   flex-column flex-shrink-0 p-3 bg-light "
 																						style="width: 250px;"></div>
 
-																					<main class="col-6  ms-sm-auto col-lg-6">
+																					<main class="col-12  ms-sm-auto col-lg-12">
 																						<div class="row" id="topmarin">
 																							<div class="col-sm-12"
 																								style="padding: 0px 0px 15px 0px;">
@@ -310,15 +379,15 @@ body, html {
 																									style="font-size: 13pt; font-weight: bold; height: 50px; padding: 10px; border: solid; color: gray; height: fit-content;">
 																									<div class="col-md-6 division_line">
 																										<div class="row">
-																											<div class="col-md-6 division_line">대여일자</div>
-																											<div class="col-md-6">${rentInfo.r_sdate }</div>
+																											<div class="col-md-8 division_line">대여일자</div>
+																											<div class="col-md-8">${rentInfo.r_sdate }</div>
 																										</div>
 																									</div>
 																									<div class="col-md-6">
 																										<div class="row">
-																											<div class="col-md-6 division_line">대여
+																											<div class="col-md-8 division_line">대여
 																												번호</div>
-																											<div class="col-md-6">${rentInfo.r_id }</div>
+																											<div class="col-md-8">${rentInfo.r_id }</div>
 																										</div>
 																									</div>
 																								</div>
@@ -407,101 +476,13 @@ body, html {
 																							<div class="col-sm-12"
 																								style="padding: 0px 0px 15px 0px;">
 																								<div
-																									style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;">결제
-																									정보 확인</div>
+																									style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;"></div>
 																							</div>
 																							<hr>
-																							<c:forEach var="buyInfo" items="${buyList}">
-																								<div class="col-sm-12"
-																									style="padding-bottom: 15px;">
-																									<div class="row">
-																										<div class="col-md-6"
-																											style="height: 150px; padding: 50px;">${buyInfo.b_how }</div>
-																										<div class="col-md-6"
-																											style="font-size: 13pt; color: white; padding: 5px; background-color: #7971ea">
-																											<div style="text-align: left;"><%="상품 가격 : "%>${proInfo.p_price }<%="원"%></div>
-																											<div style="text-align: left;"><%="대여 구매 정보 : "%>${buyInfo.b_state }</div>
-																											<div style="text-align: left;"><%="수량 : "%>${buyInfo.b_amount }</div>
-																											<hr>
-																											<div
-																												style="font-size: 15pt; font-weight: bold; text-align: left;"><%="결제 가격 : "%>
-
-																												<c:if test="${buyInfo.b_state eq '대여'}">
-																													<fmt:parseNumber var="totalprice"
-																														value="${buyInfo.b_purchase}"
-																														integerOnly="true" />
-										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
-																												</c:if>
-																												<c:if test="${buyInfo.b_state eq '환불 요청'}">
-																													<fmt:parseNumber var="totalprice"
-																														value="${buyInfo.b_purchase}"
-																														integerOnly="true" />
-										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
-																												</c:if>
-																												<c:if test="${buyInfo.b_state eq '환불 완료'}">
-																													<fmt:parseNumber var="totalprice"
-																														value="${buyInfo.b_purchase}"
-																														integerOnly="true" />
-										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
-																												</c:if>
-																											</div>
-																										</div>
-																									</div>
-																								</div>
-																								<hr>
-																							</c:forEach>
-																							<!-- confirm 모달을 쓸 페이지에 추가 start-->
-																							<section
-																								class="mocdal modal-section type-confirm">
-																								<div class="enroll_box">
-																									<p class="menu_msg"></p>
-																								</div>
-																								<div class="enroll_btn">
-																									<button class="btn pink_btn btn_ok">확인</button>
-																									<button class="btn gray_btn modal_close">취소</button>
-																								</div>
-																							</section>
-																							<!-- confirm 모달을 쓸 페이지에 추가 end-->
-																							<!-- alert 모달을 쓸 페이지에 추가 start-->
-																							<section class="mocdal modal-section type-alert">
-																								<div class="enroll_box">
-																									<p class="menu_msg"></p>
-																								</div>
-																								<div class="enroll_btn">
-																									<button class="btn pink_btn modal_close">확인</button>
-																								</div>
-																							</section>
-																							<!-- alert 모달을 쓸 페이지에 추가 end-->
-																							<div class="col-sm-12" style="float: right;">
-																								<button
-																									class="btn waves-effect waves-light btn-primary btn-outline-primary"
-																									id="buyButton"
-																									style="margin-left: 15px; float: right;">구매하기</button>
-																								<c:if test="${rentInfo.r_state eq '대여중'}">
-																									<c:if test="${sdate+3>=today}">
-																										<button
-																											class="btn waves-effect waves-light btn-primary btn-outline-primary"
-																											id="returnButton"
-																											style="margin-left: 15px; float: right;">반납하기</button>
-																									</c:if>
-																									<c:if test="${sdate+3<today}">
-																										<button
-																											class="btn waves-effect waves-light btn-primary btn-outline-primary"
-																											id="lateFeeButton"
-																											style="margin-left: 15px; float: right;">연체료
-																											납부 후 반납</button>
-																									</c:if>
-																									<c:if test="${sdate>=today}">
-																										<button
-																											class="btn waves-effect waves-light btn-primary btn-outline-primary"
-																											id="refundButton"
-																											style="margin-left: 15px; float: right;">환불하기</button>
-																									</c:if>
-																								</c:if>
-
+																							<div>
+																								<a href="/member/mem/memRentDetail/${rentInfo.r_id}" >상세보기</a>
 																							</div>
-																						</div>
-																					</main>
+																						
 																					<main
 																						class="col-12 col-lg-1 ms-sm-auto  px-md-4 bg-light"></main>
 																				</div>
@@ -509,15 +490,19 @@ body, html {
 																		</div>
 																	</div>
 																</div>
+																		
+																	
+																		
+
+																	</div>
 
 
+																</div>
+															</div>
+														</div>
+														<!-- 메시지함 끝 -->
 
-
-
-
-
-
-
+														
 
 															</div>
 														</div>
@@ -673,6 +658,19 @@ body, html {
 												"nav nav-tabs md-tabs");
 									}
 								});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			</script>
 
 

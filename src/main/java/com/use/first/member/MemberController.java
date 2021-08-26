@@ -411,7 +411,7 @@ public class MemberController {
 
 
 	
-	
+/*임시
 	//메시지 상세보기
 	
 	@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
@@ -427,31 +427,65 @@ public class MemberController {
 	
 		return "/member/mem/messageDetail";
 	}
+*/
+	
+	//메시지 상세보기 해당 대여 구매 정보 가져오기 
+	
+		@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
+		public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
+			MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+			
+            //대여 구매내역 얻기
+			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+			BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+			
+			MessageVO message = messageDAO.messageInfo(a_id);
+			System.out.println("message :  " + message.getA_rid());
+			int r_id = message.getA_rid();
+			RentVO rentVO = rentDAO.rentMessageInfo(r_id);
+			ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
+			
+			
+			List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
+			if(!buyList.isEmpty() && buyList.size() != 0) {
+				for(int i = 0; i < buyList.size(); i++) {
+					System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
+				}
+			}
+			
+			
+			model.addAttribute("message", message);
+			model.addAttribute("rentInfo", rentVO);
+			model.addAttribute("proInfo", productVO);
+			model.addAttribute("buyList", buyList);
+		
+		
+			return "/member/mem/messageDetail";
+		}
+	
+	
+	
+	
 	
 	
 	//메시지리스트-다중선택삭제
-	@RequestMapping(value = "/member/mem/messageDelete2", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/mem/selectMessageDelete", method = RequestMethod.GET)
 	public String messageSelectDelete(@RequestParam HashMap<String, Object> commandMap) {
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 		String[] code_array = null;
 		String code = commandMap.get("arrayParam").toString();
+		System.out.println("code:  " +  code);
 		code_array = code.split(",");
 		for (int i = 0; i < code_array.length; i++) {
 			System.out.println("code_array[]::::" + code_array[i]);
-			messageDAO.selectMessageDelete(code_array[i]);
+			messageDAO.selectMessageDelete(Integer.parseInt(code_array[i]));
+		
 		}
 		return "redirect:/member/mem/messageList";
 	}
 		
 	
-	
-	
-	
-	
-	
-
-	
-		
 		
 	//메시지 삭제
 		@RequestMapping(value = "/member/mem/messageDelete/{a_id}", method = RequestMethod.POST)
