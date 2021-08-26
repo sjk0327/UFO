@@ -8,10 +8,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-    String name = "수정";
+    String name = (String) request.getAttribute("m_id");
     String email = "sjk0868@naver.com";
-    String phone = "010-3135-3027";
-    String address = "서울시 강남구 삼성동";
+    String phone = (String) request.getAttribute("m_tel");
+    String address = (String) request.getAttribute("m_addr");
     int totalPrice = (Integer)request.getAttribute("total");
     
     BuyVO buyVO = (BuyVO)request.getAttribute("buyVO");
@@ -59,7 +59,7 @@
             buyer_name : '<%=name%>',
             buyer_tel : '<%=phone%>',
             buyer_addr : '<%=address%>',
-            buyer_postcode : '123-456',
+           // buyer_postcode : '123-456',
             //m_redirect_url : 'http://www.naver.com'
         }, function(rsp) {
             if ( rsp.success ) {
@@ -92,15 +92,17 @@
                 
                 document.getElementById('bInsert').submit();
             } else {
-                msg = '결제에 실패하였습니다.';
+                msg = '결제에 실패하였습니다.다시 시도해주시기 바랍니다.\n';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="/payfail";
                 alert(msg);
+                window.history.back();
             }
         });
         
     });
+    
+    
     </script>
  
 </body>

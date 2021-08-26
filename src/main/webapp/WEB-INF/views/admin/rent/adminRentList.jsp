@@ -108,6 +108,8 @@ color: white;
 																				<c:if test="${list.r_state eq '반납 완료'}">
 																					<td><label class="label label-success" style="font-size: 10pt;">반납 완료</label></td>
 																				</c:if>
+																				<c:if test="${list.r_state eq '환불 요청(대여)'||list.r_state eq '환불 요청(즉시 구매)'||list.r_state eq '환불 요청(구매 확정)'}"><td><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td></c:if>
+																				<c:if test="${list.r_state eq '환불 완료(대여)'||list.r_state eq '환불 완료(즉시 구매)'}"><td><label class="label label-default" style="font-size: 10pt;">환불 완료</label></td></c:if>
 																			</tr>
 																		</tbody>
 																	</c:forEach>

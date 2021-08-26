@@ -143,6 +143,15 @@
 		]]>
 	</update>
 	
+	 
+	<select id="checkCart" resultType="int" parameterType="com.use.first.rent.CartVO">
+	<![CDATA[
+		select count(*) from cart where c_mid=#{c_mid} and c_pid=#{c_pid} and c_state=#{c_state}
+		]]>
+	</select>
+
+	
+	
 	<!--  
 	<select id="getWishTotalCount" resultType="int">
 	<![CDATA[
@@ -195,6 +204,12 @@
 		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_sdate>=now() and r_state="대여중"
 		]]>
 	</select>
+	
+	<update id="rentRefund" parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		update rental set r_state = #{r_state} where r_id = #{r_id}
+		]]>
+	</update>
 
 	<!-- 08/10 : 성훈 추가 product.p_category -->
 	<!-- 성훈 시작 -->

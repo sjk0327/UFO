@@ -24,7 +24,7 @@
                 <a href="#!" class="waves-effect waves-light">
 
                     <i class="ti-bell"></i>
-                    <c:if test="${!empty returnList}">
+                    <c:if test="${!empty returnList or !empty lateList}">
                     <span class="badge bg-c-red"></span>
                     </c:if>
                 </a>
