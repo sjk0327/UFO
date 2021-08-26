@@ -31,14 +31,13 @@ public interface UserDAO {
 
 	public UserVO selectMember(String m_id);
 	public int pwUpdate_M(UserVO user);
+	public int pwUpdateId(String id, String pw);
 	public UserVO selectId(UserVO user);
-	
-
-	
-	// 8/10 : 성훈 추가
 
 	public int duplicateCheckId(String m_id);
 	public int memJoin(UserVO user);
+	
+	public int loginCheck(String id, String pw);
 	
 	// 8/16 : 정노 추가
 	public void memUpdateBuy(String m_id, String m_point);

@@ -78,7 +78,21 @@ public class MemberController {
 			return "/enterance/login";
 		}
 	}
+	
+	// UFO 회원 로그인 체크
+		@ResponseBody
+		@RequestMapping(value = "/member/mem/loginCheck", method = RequestMethod.POST, produces = "application/json")
+		public Map<Object, Object> loginCheck(Model model, @RequestBody String data) throws Exception {
+			String datas[] = data.split(",");
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			Map<Object, Object> map = new HashMap<Object, Object>();
+			int result = dao.loginCheck(datas[0], datas[1]);
+			System.out.println("loginCheck :: result : " + result);
 
+			map.put("check", result);
+			return map;
+		}
+	
 	// UFO 회원 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(UserVO vo, Model model, HttpSession session) {
@@ -739,8 +753,46 @@ public class MemberController {
 	
 	
 	
+	@RequestMapping(value="/member/mem/pw_change/{count}", method= RequestMethod.GET)
+	public String pw_changeFrom(HttpSession session, @PathVariable int count, Model model) {
+		UserDAO userDao = sqlSessionTemplate.getMapper(UserDAO.class);
+		
+		UserVO user = userDao.memInfo(((UserInfoVO) session.getAttribute("userInfo")).getM_id());
+		if(count == 1)
+		{
+			model.addAttribute("count", 1);
+		}else if(count == 2) {
+			model.addAttribute("count", 2);
+		}else if(count == 3) {
+			model.addAttribute("count", 3);
+		}
+		return "/member/mem/pw_change";
+	}
+	@RequestMapping(value="/member/mem/pw_change", method= RequestMethod.POST)
+	public String pw_changePro(HttpSession session, @RequestParam String pwd, Model model) {
+		UserDAO userDao = sqlSessionTemplate.getMapper(UserDAO.class);
+		String id =((UserInfoVO) session.getAttribute("userInfo")).getM_id();
+		UserVO user = userDao.memInfo(id);
+		System.out.println("pw_changePro :: pwd : " + pwd);
+		String[] pass = pwd.split(",");
+		if(pass[0].equals(user.getM_pw()) || pass[0] == user.getM_pw()) {
+			System.out.println("pw_changePro :: pass[0] : " + pass[0]);
+			System.out.println("pw_changePro :: pass[1] : " + pass[1]);
+			System.out.println("pw_changePro :: pass[2] : " + pass[2]);
+			System.out.println("pw_changePro :: compare : " +pass[1] == pass[2] );
+			System.out.println("pw_changePro :: compare : " +pass[1].equals(pass[2]));
+			if(pass[1] == pass[2] || pass[1].equals(pass[2])) {
+				System.out.println("pw_changePro :: commit");
+				userDao.pwUpdateId(id, pass[1]);
+				return "redirect:/member/mem/pw_change/3";
+			}else {
+				return "redirect:/member/mem/pw_change/2";
+			}
+		}else {
+			return "redirect:/member/mem/pw_change/2";
+		}
 	
-	
+	}
 	
 	
 
@@ -758,6 +810,26 @@ public class MemberController {
 		}
 	}
 
+	// 관리자 로그인 체크
+	@ResponseBody
+	@RequestMapping(value = "/admin/adminLoginCheck", method = RequestMethod.POST, produces = "application/json")
+	public Map<Object, Object> adminLoginCheck(Model model, @RequestBody String data) throws Exception {
+		int result = 0;
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		String datas[] = data.split(",");
+	
+		if(datas[0].equals("admin") || datas[0] == "admin") {
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			
+			result = dao.loginCheck(datas[0], datas[1]);
+			System.out.println("adminLoginCheck :: result : " + result);
+		}
+		
+		map.put("check", result);
+		return map;
+	}
+
+	
 	@RequestMapping(value = "/admin", method = RequestMethod.POST)
 	public String adminLogin(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
@@ -1010,7 +1082,7 @@ public class MemberController {
 			System.out.println("menJoinPro // member 회원가입 // " + userVO.toString());
 		}
 
-		return "redirect:/";
+		return "member/mem/join_complete";
 
 	}
 

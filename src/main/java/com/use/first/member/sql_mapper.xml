@@ -189,6 +189,12 @@
 		where m_email = #{m_email}
 	</update>
 	
+	<!-- 패스워드변경 -->
+	<update id="pwUpdateId" parameterType="String">
+		update member set m_pw = #{param2} 
+		where m_id = #{param1}
+	</update>
+	
 	<!-- 회원정보조회 -->
 	<select id="selectId" parameterType="String"
 		resultType="com.use.first.member.UserVO">
@@ -247,6 +253,19 @@
 		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now())
 		]]> 
 	</insert>
+	
+	
+	<select id="loginCheck" resultType="int">
+		select count(*) from member  
+		where m_id = #{param1} and m_pw=#{param2}
+	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- 정노추가 -->
 	<update id="memUpdateBuy"  parameterType="map">
