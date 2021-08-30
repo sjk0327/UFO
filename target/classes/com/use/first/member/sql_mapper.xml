@@ -174,21 +174,22 @@
 	
 	
 	
-	<!-- 회원정보조회 -->
+	<!-- 아이디, 비밀번호찾기 회원정보조회 -->
 	<select id="selectMember" parameterType="String"
 		resultType="com.use.first.member.UserVO">
 		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point,
 		m_img, m_regdate, m_regtype 
 		from member 
-		where m_email = #{m_email}
+		where m_email = #{m_email} and m_regtype="유에프오"
 	</select>
 
 	<!-- 패스워드변경 -->
 	<update id="pwUpdate_M" parameterType="com.use.first.member.UserVO">
 		update member set m_pw = #{m_pw} 
-		where m_email = #{m_email}
+		where m_email = #{m_email} and m_regtype="유에프오"
 	</update>
 	
+
 	<!-- 패스워드변경 -->
 	<update id="pwUpdateId" parameterType="String">
 		update member set m_pw = #{param2} 
@@ -196,12 +197,14 @@
 	</update>
 	
 	<!-- 회원정보조회 -->
+
+	<!-- 아이디 찾기 회원정보조회 -->
+
 	<select id="selectId" parameterType="String"
-		resultType="com.use.first.member.UserVO">
-		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point,
-		m_img, m_regdate, m_regtype 
+		resultType="String">
+		select m_id
 		from member 
-		where m_email = #{m_email}
+		where m_email = #{m_email} and m_regtype="유에프오"  
 	</select>
 	
 	
@@ -249,8 +252,8 @@
 
 	<insert id="memJoin" parameterType="com.use.first.member.UserVO">
 		<![CDATA[
-		INSERT INTO MEMBER (m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_img, m_regdate)
-		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now())
+		INSERT INTO MEMBER (m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_img, m_regdate, m_regtype)
+		VALUES (#{m_id}, #{m_name}, #{m_pw}, #{m_gender}, #{m_addr}, #{m_tel}, #{m_email}, #{m_img}, now(), #{m_regtype})
 		]]> 
 	</insert>
 	

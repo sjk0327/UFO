@@ -13,43 +13,6 @@
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 <style>
-.filebox input[type="file"] {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
-
-.filebox label {
-	display: inline-block;
-	padding: .5em .75em;
-	color: #999;
-	font-size: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #fdfdfd;
-	cursor: pointer;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-} /* named upload */
-.filebox .upload-name {
-	display: inline-block;
-	padding: .5em .75em; /* label의 패딩값과 일치 */
-	font-size: inherit;
-	font-family: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #f5f5f5;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-}
-
 * {
 	padding: 0;
 	margin: 0;
@@ -135,9 +98,35 @@ body, html {
 	border: none;
 }
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-</script>
+#menuBar {
+	width: 400px;
+	align: "center";
+}
+
+.card {
+	width: 450px;
+}
+<
+script
+
+	
+src
+="https
+:
+//ajax
+.googleapis
+.com
+/ajax/libs/jquery/3
+.5
+.1
+/jquery
+.min
+.js
+"
+>
+</
+script
+>
 </style>
 
 
@@ -145,7 +134,7 @@ body, html {
 
 </head>
 <body themebg-pattern="theme1">
-	
+
 	<section class="login-block">
 		<!-- Container-fluid starts -->
 		<div class="container">
@@ -154,13 +143,37 @@ body, html {
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="mach"
-						action="/member/mem/id_set" method="post" >
+						action="/member/mem/id_set" method="post">
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
 								<div class="row m-b-20">
+									<!--  메뉴바 시작 -->
+									<div class="card-block">
+										<!-- Row start -->
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- Nav tabs -->
+												<ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
+													<li class="nav-item"><a class="nav-link active"
+														href="/member/mem/id_auth" role="tab">아이디 찾기</a>
+														<div class="slide"></div></li>
+													<li class="nav-item"><a class="nav-link "
+														href="/member/mem/pw_auth" role="tab">비밀번호 찾기</a>
+														<div class="slide"></div></li>
+												</ul>
+											</div>
+										</div>
+										<!-- Row end -->
+									</div>
+									<!-- 메뉴바 끝 -->
+
+
+
+
+
 									<div class="col-md-12">
 										<h3 class="text-center">인증번호 확인</h3>
 									</div>
@@ -168,10 +181,12 @@ body, html {
 								<input type="hidden" name="num" value="${num }">
 
 								<div class="form-group form-primary">
-									<input id="text" required="required" type="text" name="email_injeung" placeholder="인증번호를 입력하세요" class="form-control" />
-									 <span class="form-bar"></span> <label class="float-label"></label>
+									<input id="text" required="required" type="text"
+										name="email_injeung" placeholder="인증번호를 입력하세요"
+										class="form-control" /> <span class="form-bar"></span> <label
+										class="float-label"></label>
 								</div>
-							
+
 								<div class="row m-t-25 text-left">
 									<div class="col-12"></div>
 								</div>
@@ -187,6 +202,12 @@ body, html {
 										<p class="text-inverse text-left m-b-0"></p>
 										<p class="text-inverse text-left">
 											<a href="/"><b>처음으로</b></a>
+										</p>
+										<p class="text-inverse text-left">
+											<a href="/member/mem/memJoin"><b>회원가입</b></a>
+										</p>
+										<p class="text-inverse text-left">
+											<a href="/login"><b>로그인</b></a>
 										</p>
 									</div>
 
@@ -206,12 +227,12 @@ body, html {
 		</div>
 		<!-- end of container-fluid -->
 	</section>
-	
-	
-	
-	
-	
-		<!-- confirm 모달을 쓸 페이지에 추가 start-->
+
+
+
+
+
+	<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="modal modal-section type-confirm">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
@@ -234,16 +255,15 @@ body, html {
 		</div>
 	</section>
 	<!-- alert 모달을 쓸 페이지에 추가 end-->
-	
-	
-	
-	
-	
-<script>
+
+
+
+
+
+	<script>
 		$(function() {
 			//사용 예시 **************************
-			
-			
+
 			$(document).on("click", "#confirm", function() {
 				action_popup.confirm("확인 되었습니다.", function(res) {
 					if (res) {
@@ -254,10 +274,6 @@ body, html {
 					}
 				})
 			});
-			
-			
-			
-			
 
 			$(document).on("click", "#alert", function() {
 				action_popup.alert("인증번호를 이메일로 발송 했습니다");
@@ -331,35 +347,22 @@ body, html {
 				}, this.timer);
 			}
 		}
-		 
-		 
-		 
-		 
-		 
-		 
-		 
+
 		//인증 번호 확인
-			function authKeyCompared(){
-				var inputCode = $("#checkKey").val();
-				var result = $("#check_authKey");
-				
-				if(inputCode == authKey ){
-					result.text("인증번호가 일치합니다.");
-					result.css("color","blue");
-					emailCheck = true;
-				} else{
-					result.text("인증번호를 다시 확인해주세요.");
-					result.css("color","red");
-					emailCheck = false;
-				}
-			};
-		 
-		 
-		 
-		 
-		 
-		 
-		 
+		function authKeyCompared() {
+			var inputCode = $("#checkKey").val();
+			var result = $("#check_authKey");
+
+			if (inputCode == authKey) {
+				result.text("인증번호가 일치합니다.");
+				result.css("color", "blue");
+				emailCheck = true;
+			} else {
+				result.text("인증번호를 다시 확인해주세요.");
+				result.css("color", "red");
+				emailCheck = false;
+			}
+		};
 	</script>
 
 	<%@ include file="/WEB-INF/views/adminFooter.jsp"%>

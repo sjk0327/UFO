@@ -297,6 +297,21 @@
 	</sql>
    <!-- 성훈 끝 -->
    
+   <!-- 승빈 시작 -->
+   
+   
+   <select id="rentMessageInfo" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate 
+		from rental 
+		where r_id=#{a_rid}
+		]]>
+	</select>
+   
+   
+   
+   <!-- 승빈 끝 -->
+   
    
 
 </mapper>

@@ -20,7 +20,7 @@ public interface MessageDAO {
 	public MessageVO messageInfo(int a_id);
 	public MessageVO rentInfo(int a_rid);
 	public int messageDelete(int a_id);
-	public int selectMessageDelete(String a_id);
+	public void selectMessageDelete(int a_id);
 	public Integer countMessageListTotal(String a_mid, Criteria cri);	
 	//승빈
 }

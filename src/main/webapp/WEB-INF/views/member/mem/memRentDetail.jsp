@@ -199,6 +199,7 @@
 							            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
 							            <!-- Nav tabs -->
 							            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
+
 											<li class="nav-item"><a class="nav-link active"
 												href="/member/mem/userInfo" role="tab">내 정보</a>
 												<div class="slide"></div></li>
@@ -214,6 +215,7 @@
 				
 												<div class="slide"></div></li>
 										</ul>
+
 							        </div>
 							    </div>
 							    <!-- Row end -->

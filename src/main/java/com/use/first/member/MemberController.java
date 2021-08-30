@@ -429,7 +429,7 @@ public class MemberController {
 
 
 	
-	
+/*임시
 	//메시지 상세보기
 	
 	@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
@@ -445,31 +445,65 @@ public class MemberController {
 	
 		return "/member/mem/messageDetail";
 	}
+*/
+	
+	//메시지 상세보기 해당 대여 구매 정보 가져오기 
+	
+		@RequestMapping(value = "/member/mem/messageList/{a_id}", method = RequestMethod.GET)
+		public String messageDetail(Model model, HttpSession session, @PathVariable int a_id) {
+			MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
+			
+            //대여 구매내역 얻기
+			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+			BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+			
+			MessageVO message = messageDAO.messageInfo(a_id);
+			System.out.println("message :  " + message.getA_rid());
+			int r_id = message.getA_rid();
+			RentVO rentVO = rentDAO.rentMessageInfo(r_id);
+			ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
+			
+			
+			List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
+			if(!buyList.isEmpty() && buyList.size() != 0) {
+				for(int i = 0; i < buyList.size(); i++) {
+					System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
+				}
+			}
+			
+			
+			model.addAttribute("message", message);
+			model.addAttribute("rentInfo", rentVO);
+			model.addAttribute("proInfo", productVO);
+			model.addAttribute("buyList", buyList);
+		
+		
+			return "/member/mem/messageDetail";
+		}
+	
+	
+	
+	
 	
 	
 	//메시지리스트-다중선택삭제
-	@RequestMapping(value = "/member/mem/messageDelete2", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/mem/selectMessageDelete", method = RequestMethod.GET)
 	public String messageSelectDelete(@RequestParam HashMap<String, Object> commandMap) {
 		MessageDAO messageDAO = sqlSessionTemplate.getMapper(MessageDAO.class);
 		String[] code_array = null;
 		String code = commandMap.get("arrayParam").toString();
+		System.out.println("code:  " +  code);
 		code_array = code.split(",");
 		for (int i = 0; i < code_array.length; i++) {
 			System.out.println("code_array[]::::" + code_array[i]);
-			messageDAO.selectMessageDelete(code_array[i]);
+			messageDAO.selectMessageDelete(Integer.parseInt(code_array[i]));
+		
 		}
 		return "redirect:/member/mem/messageList";
 	}
 		
 	
-	
-	
-	
-	
-	
-
-	
-		
 		
 	//메시지 삭제
 		@RequestMapping(value = "/member/mem/messageDelete/{a_id}", method = RequestMethod.POST)
@@ -497,7 +531,6 @@ public class MemberController {
 	// 회원 탈퇴
 	
 	
-
 	@RequestMapping(value = "/member/mem/userDelete/{userID}", method = RequestMethod.POST)
 	public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID)
 			throws IOException {
@@ -569,14 +602,17 @@ public class MemberController {
 		String name = (String)request.getParameter("name");
 		String email = (String)request.getParameter("email");
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-
+		
 		UserVO vo = dao.selectMember(email);
-			
+		System.out.println("email : " +  email);
+		System.out.println("name : " +  name);
+		System.out.println("vo : " +  vo);
+		
 		if(vo != null) {
 		Random r = new Random();
 		int num = r.nextInt(999999); // 랜덤난수설정
 		
-		if (vo.getM_name().equals(name)  ) {
+		if (vo.getM_name().equals(name) && vo.getM_email().equals(email) && vo.getM_regtype().equals("유에프오")  ) {
 			session.setAttribute("email", vo.getM_email());
 
 			String setfrom = "usefirstown@gmail.com";
@@ -620,9 +656,22 @@ public class MemberController {
 		//이메일 인증번호 확인
 		@RequestMapping(value = "/member/mem/id_set", method = RequestMethod.POST)
 		public String id_set(@RequestParam(value="email_injeung") String email_injeung,
-					@RequestParam(value = "num") String num) throws IOException{
+					@RequestParam(value = "num") String num, UserVO user, HttpSession session, Model model) throws IOException{
 				
 				if(email_injeung.equals(num)) {
+					UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+					
+					user.setM_email((String) session.getAttribute("email"));
+
+					
+					System.out.println("user정보 " + user);
+					
+					
+					String info = dao.selectId(user);
+					
+					model.addAttribute("info", info);
+					
+					
 					return "/member/mem/id_info";
 				}
 				else {
@@ -632,26 +681,7 @@ public class MemberController {
 		
 		
 		
-		//아이디 확인
-		@RequestMapping(value = "/member/mem/id_info", method = RequestMethod.POST)
-		public String id_info(UserVO user, HttpSession session, HttpServletRequest request, Model model) throws IOException{
-			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-			
-			user.setM_email((String) session.getAttribute("email"));
-
-			
-			System.out.println("user정보 " + user);
-			
-			
-			UserVO info = dao.selectId(user);
-			
-			model.addAttribute("info", info);
-			System.out.println("info정보 " + info);
-			
-			return "member/mem/id_info";
-		}
-		
-		
+	
 		
 
 	
@@ -674,12 +704,12 @@ public class MemberController {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
 		UserVO vo = dao.selectMember(email);
-			
+		
 		if(vo != null) {
 		Random r = new Random();
 		int num = r.nextInt(999999); // 랜덤난수설정
 		
-		if (vo.getM_name().equals(name) && vo.getM_id().equals(id) ) {
+		if (vo.getM_name().equals(name) && vo.getM_id().equals(id)  && vo.getM_email().equals(email) && vo.getM_regtype().equals("유에프오")  ) {
 			session.setAttribute("email", vo.getM_email());
 
 			String setfrom = "usefirstown@gmail.com";
@@ -755,6 +785,7 @@ public class MemberController {
 		}
 }
 	
+
 	
 	
 	@RequestMapping(value="/member/mem/pw_change/{count}", method= RequestMethod.GET)
@@ -799,6 +830,7 @@ public class MemberController {
 	}
 	
 	
+
 
 	// 관리자
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.GET)
@@ -1078,7 +1110,7 @@ public class MemberController {
 					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
 							+ userVO.getM_img()));
 		}
-
+		userVO.setM_regtype("유에프오");
 		int n = dao.memJoin(userVO);
 		System.out.println("시작 후" + userVO.toString());
 		if (n != 1) {

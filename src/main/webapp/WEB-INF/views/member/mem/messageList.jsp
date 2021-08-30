@@ -208,21 +208,16 @@ body, html {
 
 
 															<form name="delList" id="form">
-																<input type="button" id="button"
+																&nbsp;&nbsp;&nbsp;<input type="button" id="button"
 																	class="btn waves-effect waves-light btn-primary btn-outline-primary"
 																	value="선택삭제" onclick="checkboxArr();" />
-																<div>
-																	<br>
-																</div>
-
-
-
-																<div class="card-block table-border-style">
-																	<div class="table-responsive">
+																	<input type="hidden" id="arrayParam" name="arrayParam" />
+																	<input type="hidden" id="a_id" name="a_id"  />
+																	<input type="hidden" id="a_rid" name="a_rid"  />
 																		<table class="table table-hover">
 																			<thead>
 																				<tr>
-																					<th width="100"><input id="allCheck" type="checkbox" onclick="allChk(this);"/></th>
+																					<th width="1"><input id="allCheck" type="checkbox" onclick="allChk(this);" /></th>
 																					<th width="100">보낸사람</th>
 																					<th width="100">제목</th>
 																					<th width="100">날짜</th>
@@ -231,29 +226,34 @@ body, html {
 
 																			<c:forEach var="list" items="${messageList}"
 																				begin="0" end="8" step="1" varStatus="status">
+																				<input type="hidden" id="id" value="${list.a_id}">	
 
 																				<tbody>
-																					<tr
+																					<tr 
 																						onclick="location.href='/member/mem/messageList/${list.a_id }'"
 																						style="cursor: hand">
-																						<td onclick="event.cancelBubble=true">
-																						<input type="checkbox" id="checkboxup" name="RowCheck" value="${list.a_id }"></td>
-																						<td onclick="event.cancelBubble=true"><p>UFO&nbsp;고객센터</p></td>
-																						<td onclick="event.cancelBubble=true">${list.a_title }</td>
-																						<td onclick="event.cancelBubble=true"><fmt:formatDate value="${list.a_date }"
+																						<td onclick="event.cancelBubble=true"><input
+																							type="checkbox" id="checkboxup" name="RowCheck"
+																							value="${list.a_id }"></td>
+																						<td><p>UFO&nbsp;고객센터</p></td>
+																						<td>${list.a_title }</td>
+																						<td><fmt:formatDate
+																								value="${list.a_date }"
 																								pattern="yyyy-MM-dd hh:mm:ss" /></td>
+																							
 																					</tr>
 																				</tbody>
 																			</c:forEach>
 
 																		</table>
+																		</form>
 																	</div>
 																</div>
-															</form>
+															
 														</div>
-														
+
 													</div>
-																		
+
 
 													<!-- Page-body end -->
 
@@ -311,12 +311,12 @@ body, html {
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+		
+
+
+
+<script type="text/javascript">
 	
-
-
-	<script>
 		$(document).ready(
 				function() {
 					var size = $(window)[0].innerWidth;
@@ -338,49 +338,45 @@ body, html {
 						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
 					}
 				});
-		
-		$(function(){
-		    if($('input').is(":checked") == true){
-		        $('b').text('체크된 상태');
-		    }
-		    if($('input').is(":checked") == false){
-		        console.log('체크 안 된 상태');
-		    }
-		});
-		function allChk(obj){
-		    var chkObj = document.getElementsByName("RowCheck");
-		    var rowCnt = chkObj.length - 1;
-		    var check = obj.checked;
-		    if (check) {﻿
-		        for (var i=0; i<=rowCnt; i++){
-		         if(chkObj[i].type == "checkbox")
-		             chkObj[i].checked = true;
-		       	 }
-		    	} else {
-		        	for (var i=0; i<=rowCnt; i++) {
-		        	 if(chkObj[i].type == "checkbox"){
-		             chkObj[i].checked = false;
-		         	}
-		        }
-		     }
-		 } 
-		 
-		 function checkboxArr() {
-			if (confirm('선택한 상품을 삭제하시겠습니까?')) {	
-			var array = new Array(); // 배열 선언		
-			$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.			    
-				array.push(this.value);
-			});
-						
-			$("#arrayParam").val(array);				
-			$("#form").attr("action", "/admin/pro/productDelete2");  
-			$("#form").submit();
+
+		$(function() {
+			if ($('input').is(":checked") == true) {
+				$('b').text('체크된 상태');
 			}
-		 }
+			if ($('input').is(":checked") == false) {
+				console.log('체크 안 된 상태');
+			}
+		});
 		
-		
-		
-		
+		function allChk(obj) {
+			var chkObj = document.getElementsByName("RowCheck");
+			var rowCnt = chkObj.length - 1;
+			var check = obj.checked;
+			if (check) {
+				for (var i = 0; i <= rowCnt; i++) {
+					if (chkObj[i].type == "checkbox")
+						chkObj[i].checked = true;
+				}
+			} else {
+				for (var i = 0; i <= rowCnt; i++) {
+					if (chkObj[i].type == "checkbox") {
+						chkObj[i].checked = false;
+					}
+				}
+			}
+		}
+
+		function checkboxArr() {
+			if (confirm('선택한 메시지를 삭제하시겠습니까?')) {
+				var array = new Array(); // 배열 선언		
+				$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.			    
+					array.push(this.value);
+				});
+				$("#arrayParam").val(array);
+				$("#form").attr("action", "/member/mem/selectMessageDelete");
+				$("#form").submit();
+			}
+		}
 	</script>
 
 

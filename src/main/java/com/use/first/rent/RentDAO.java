@@ -44,5 +44,9 @@ public interface RentDAO {
 	   public int getMyRentTotalCount(Criteria cri, String r_mid, String r_state);
 	   public int getMyBuyTotalCount(Criteria cri, String r_mid, String r_state);
 	   // 성훈 끝
+	   
+	   //승빈
+	   public RentVO rentMessageInfo(@Param("a_rid") int a_rid);
+	   //승빈끝
 
 }
