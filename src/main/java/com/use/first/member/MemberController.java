@@ -1198,62 +1198,62 @@ public class MemberController {
     
     // 회원 상세 정보 - 대여 상세 정보 - 연체료 존재
     @RequestMapping(value ="/member/mem/memRentLate/{r_id}", method = RequestMethod.GET)
-   public String memRentLate(Model model, @PathVariable int r_id, HttpSession session) {
-      RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-      BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
-      BuyInfoVO buyInfoVO = new BuyInfoVO();
-      
-      // 선택한 대여 정보 가져오기
-      RentVO rentVO = rentDAO.rentInfo(r_id);
-      System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
+	public String memRentLate(Model model, @PathVariable int r_id, HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		BuyInfoVO buyInfoVO = new BuyInfoVO();
+		
+		// 선택한 대여 정보 가져오기
+		RentVO rentVO = rentDAO.rentInfo(r_id);
+		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
 
-      // 연체료 납부 후 반납
-      long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
-      int late = Double.valueOf(Math.floor(gap / (1000 * 60 * 60 * 24))).intValue();
-      System.out.println(late+"late");
-      int realLate=late-2;
-      
-      // 선택한 대여의 결제 정보 가져오기
-      List<BuyVO> buyList = buyDAO.buyList(rentVO.getR_id());
-      int lateFee=Double.valueOf(Double.parseDouble(buyList.get(0).getB_purchase())*0.3).intValue();
-      System.out.println(lateFee);
-      
-      
-      //세션에서 해당 회원의 아이디 받음
-      UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
-      String userId=userInfo.getM_id();
-      
-         
-      UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
-      ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-      
-      //제품 아이디 getter로 받아옴
-      String productId=rentVO.getR_pid();
-      // 제품 아이디로 해당 제품 정보 끌어옴
-      ProductVO productVO=productDAO.productInfo(productId);
-      //나머지 필요한 제품 정보들 BuyInfoBean에 setter로 넣어줌 
-      buyInfoVO.setProductId(productId);
-      buyInfoVO.setProductPrice(lateFee);
-      buyInfoVO.setProductImg(productVO.getP_mainImg());
-      buyInfoVO.setProductName(productVO.getP_name());
-      buyInfoVO.setBuyType("연체료 납부");
-      buyInfoVO.setProamount(rentVO.getR_rent());
-      DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      buyInfoVO.setRentdate(dateFormat.format(rentVO.getR_sdate()));
-      //회원 정보 받아옴
-      UserVO userVO = userDAO.memInfo(userId);
+		// 연체료 납부 후 반납
+		long gap = new Date().getTime() - rentVO.getR_sdate().getTime();
+		int late = Double.valueOf(Math.floor(gap / (1000 * 60 * 60 * 24))).intValue();
+		System.out.println(late+"late");
+		int realLate=late-2;
+		
+		// 선택한 대여의 결제 정보 가져오기
+		List<BuyVO> buyList = buyDAO.buyList(rentVO.getR_id());
+		int lateFee=Double.valueOf(Double.parseDouble(buyList.get(0).getB_purchase())*0.3).intValue();
+		System.out.println(lateFee);
+		
+		
+		//세션에서 해당 회원의 아이디 받음
+		UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+		String userId=userInfo.getM_id();
+		
+			
+		UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		
+		//제품 아이디 getter로 받아옴
+		String productId=rentVO.getR_pid();
+		// 제품 아이디로 해당 제품 정보 끌어옴
+		ProductVO productVO=productDAO.productInfo(productId);
+		//나머지 필요한 제품 정보들 BuyInfoBean에 setter로 넣어줌 
+		buyInfoVO.setProductId(productId);
+		buyInfoVO.setProductPrice(lateFee);
+		buyInfoVO.setProductImg(productVO.getP_mainImg());
+		buyInfoVO.setProductName(productVO.getP_name());
+		buyInfoVO.setBuyType("연체료 납부");
+		buyInfoVO.setProamount(rentVO.getR_rent());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		buyInfoVO.setRentdate(dateFormat.format(rentVO.getR_sdate()));
+		//회원 정보 받아옴
+		UserVO userVO = userDAO.memInfo(userId);
 
-      ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
-      buyInfoList.add(buyInfoVO);
-      
-      //모델에 저장
-      model.addAttribute("buyInfoList", buyInfoList);
-      model.addAttribute("userVO", userVO);
-      
-      return "member/rent/buy";
-   }
+		ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
+		buyInfoList.add(buyInfoVO);
+		
+		//모델에 저장
+		model.addAttribute("buyInfoList", buyInfoList);
+		model.addAttribute("userVO", userVO);
+		
+		return "member/rent/buy";
+	}
+		
 
-    
     // 회원 상세 정보 - 구매 상세 정보
     @RequestMapping(value ="/member/mem/memBuyDetail/{r_id}", method = RequestMethod.GET)
    	public String memBuyDetail(Model model, @PathVariable int r_id) {

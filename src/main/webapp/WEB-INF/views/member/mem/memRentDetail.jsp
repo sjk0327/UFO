@@ -441,6 +441,8 @@ $(document).on("click", "#returnButton", function () {
     
 });
 
+
+
 $(document).on("click", "#lateFeeButton", function () {
 	   console.log("연체료 납부 스크립트 진입");
 	   $(".btn_ok").text("납부");
@@ -449,6 +451,7 @@ $(document).on("click", "#lateFeeButton", function () {
 	           window.location.replace("/member/mem/memRentLate/"+ rid); 
 	        }
 	    });
+
 });
 	    
 $(document).on("click", "#refundButton", function () {
