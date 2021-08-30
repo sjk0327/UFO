@@ -19,116 +19,106 @@
 
 
 <style>
-
 @media screen and (min-width: 768px) {
-		.division_line { 
-			border-right: solid;
-			color: gray;
-		} 
+	.division_line {
+		border-right: solid;
+		color: gray;
 	}
+}
 
-	@media screen and (max-width:768px) {
-		.table {
-			table-layout: fixed;
-			width: 100%;
-			text-align: center;
-			font-size: 15px;
-		}
-		
-		.table th {
-			background: #ccc;
-		}
-		
-		.table td, .table th {
-			padding: 10px 20px;
-			border-top: 1px solid #ccc;
-			word-break: break-all;
-		}
-		/*block*/
-		.table--block thead {
-			display: none;
-		}
-		.table--block tr {
-			display: block;
-			margin-bottom: 14px;
-			border-top: none;
-			padding-bottom: 0px !important; 
-		}
-		.table--block th, .table--block tbody td {
-			display: block;
-			position: relative;
-			padding: 10px 0;
-			padding-left: 30%;
-			border-width: 0 0 1px 0;
-			text-align: left;
-		}
-		.table--block tbody td:before {
-			display: block;
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 30%;
-			padding: 10px 0;
-			background: #ccc;
-		}
-		.table--block th, .table--block tbody td {
-		    display: block;
-		    position: relative;
-		    padding: 10px 0;
-		    padding-left: 30%;
-		    border-width: 0 0 1px 0;
-		    text-align: center; 
-
-		}
-		.table--block tbody td.content {
-		    display: block;
-		    position: relative;
-		    padding: 10px 0;
-		    padding-left: 30%;
-		    border-width: 0 0 1px 0;
-		    text-align: left; 
-		    margin-right: 50px
-
-		}
-		.table--block tbody td {
-			text-align:right;
-			padding-right:100px;
-		}
-		.table--block tbody td:nth-child(5):before {
-		   display: block;
-		   position: absolute;
-		   left: 0;
-		   top: 0;
-		   width: 30%;
-		   padding: 16px 0px 16px 0px;
-		   background: #ccc;
-		}
-		
-		
-		.table--block td:nth-child(1):before {
-			content: '상품 번호';
-			text-align: center; 
-		}
-		.table--block td:nth-child(2):before {
-			content: '상품 정보';
-			text-align: center;
-		}
-		.table--block td:nth-child(3):before {
-			content: '금 액';
-			text-align: center;
-		}
-		.table--block td:nth-child(4):before {
-			content: '수 량';
-			text-align: center;
-		}
-		.table--block td:nth-child(5):before {
-			content: '진행 상태';
-			text-align: center; 
-		}
+@media screen and (max-width:768px) {
+	.table {
+		table-layout: fixed;
+		width: 100%;
+		text-align: center;
+		font-size: 15px;
 	}
-
-
-
+	.table th {
+		background: #ccc;
+	}
+	.table td, .table th {
+		padding: 10px 20px;
+		border-top: 1px solid #ccc;
+		word-break: break-all;
+	}
+	/*block*/
+	.table--block thead {
+		display: none;
+	}
+	.table--block tr {
+		display: block;
+		margin-bottom: 14px;
+		border-top: none;
+		padding-bottom: 0px !important;
+	}
+	.table--block th, .table--block tbody td {
+		display: block;
+		position: relative;
+		padding: 10px 0;
+		padding-left: 30%;
+		border-width: 0 0 1px 0;
+		text-align: left;
+	}
+	.table--block tbody td:before {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 30%;
+		padding: 10px 0;
+		background: #ccc;
+	}
+	.table--block th, .table--block tbody td {
+		display: block;
+		position: relative;
+		padding: 10px 0;
+		padding-left: 30%;
+		border-width: 0 0 1px 0;
+		text-align: center;
+	}
+	.table--block tbody td.content {
+		display: block;
+		position: relative;
+		padding: 10px 0;
+		padding-left: 30%;
+		border-width: 0 0 1px 0;
+		text-align: left;
+		margin-right: 50px
+	}
+	.table--block tbody td {
+		text-align: right;
+		padding-right: 100px;
+	}
+	.table--block tbody td:nth-child(5):before {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 30%;
+		padding: 16px 0px 16px 0px;
+		background: #ccc;
+	}
+	.table--block td:nth-child(1):before {
+		content: '상품 번호';
+		text-align: center;
+	}
+	.table--block td:nth-child(2):before {
+		content: '상품 정보';
+		text-align: center;
+	}
+	.table--block td:nth-child(3):before {
+		content: '금 액';
+		text-align: center;
+	}
+	.table--block td:nth-child(4):before {
+		content: '수 량';
+		text-align: center;
+	}
+	.table--block td:nth-child(5):before {
+		content: '진행 상태';
+		text-align: center;
+	}
+}
 
 * {
 	padding: 0;
@@ -343,172 +333,376 @@ body, html {
 																				</div>
 																			</div>
 																		</div>
-																		
-																		
-																		
-																		
-																		
-																		<!-- 대여 내역-->
-															<div class="col-sm-7">
-																<div class="card table-card">
-																	<div class="card-header">
-																		<h5>${rentInfo.r_mid }님의${rentInfo.r_pid }대여현황</h5>
-																	</div>
-																	<div class="card-block">
-																		<div class="table-responsive col-xl-12">
-																			<script
-																				src="https://kit.fontawesome.com/848d8f1fa9.js"></script>
-																			<div class="container-fluid col-xl-12"
-																				style="text-align: center;">
-																				<div class="col-lg-12">
-																					<div
-																						class="col-1 col-lg-1   flex-column flex-shrink-0 p-3 bg-light "
-																						style="width: 250px;"></div>
 
-																					<main class="col-12  ms-sm-auto col-lg-12">
-																						<div class="row" id="topmarin">
-																							<div class="col-sm-12"
-																								style="padding: 0px 0px 15px 0px;">
-																								<div
-																									style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;">대여
-																									정보</div>
-																							</div>
-																							<div class="col-sm-12"
-																								style="padding-bottom: 15px;">
-																								<div class="row"
-																									style="font-size: 13pt; font-weight: bold; height: 50px; padding: 10px; border: solid; color: gray; height: fit-content;">
-																									<div class="col-md-6 division_line">
-																										<div class="row">
-																											<div class="col-md-8 division_line">대여일자</div>
-																											<div class="col-md-8">${rentInfo.r_sdate }</div>
-																										</div>
-																									</div>
-																									<div class="col-md-6">
-																										<div class="row">
-																											<div class="col-md-8 division_line">대여
-																												번호</div>
-																											<div class="col-md-8">${rentInfo.r_id }</div>
-																										</div>
-																									</div>
-																								</div>
-																							</div>
-																							<div class="table">
-																							
-																								<table
-																									class="table table-striped table-sm table--block"
-																									id="testab">
-																									<thead>
-																										<tr>
-																											<th class="one">상품 번호</th>
-																											<th class="two">상품 정보</th>
-																											<th>금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</th>
-																											<th>수&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량</th>
-																											<th>진행 상태</th>
-																										</tr>
-																									</thead>
-																									<tbody class="col-sm-12">
-																										<tr>
-																											<td>${proInfo.p_id }</td>
-																											<td>${proInfo.p_name }</td>
-																											<td><c:if
-																													test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청' || rentInfo.r_state eq '환불 완료'}">
-																													<fmt:parseNumber var="totalprice"
-																														value="${proInfo.p_price * 0.05 * rentInfo.r_rent}"
-																														integerOnly="true" />
+
+
+
+
+
+																		<div class="col-sm-7">
+
+																			<div class="card table-card">
+																				<!-- 대여 내역-->
+																				<c:if
+																					test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납요청' || rentInfo.r_state eq '반납완료'}">
+																					<div class="card-header">
+																						<h5>${rentInfo.r_mid }님의&nbsp;&nbsp;${rentInfo.r_pid }&nbsp;&nbsp;대여현황</h5>
+																					</div>
+																					<div class="card-block">
+																						<div class="table-responsive col-xl-12">
+																							<script
+																								src="https://kit.fontawesome.com/848d8f1fa9.js"></script>
+																							<div class="container-fluid col-xl-12"
+																								style="text-align: center;">
+																								<div class="col-lg-12">
+																									<div
+																										class="col-1 col-lg-1   flex-column flex-shrink-0 p-3 bg-light "
+																										style="width: 250px;"></div>
+
+																									<main class="col-12  ms-sm-auto col-lg-12">
+																										<div class="row" id="topmarin">
+																											<div class="col-sm-12"
+																												style="padding: 0px 0px 15px 0px;">
+																												<div
+																													style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;">대여
+																													정보</div>
+																											</div>
+																											<div class="col-sm-12"
+																												style="padding-bottom: 15px;">
+																												
+																												<div class="row"
+																													style="font-size: 13pt; font-weight: bold; height: 50px; padding: 10px; border: solid; color: gray; height: fit-content;">
+																													<div class="col-md-6 division_line">
+																														<div class="row">
+																															<div class="col-md-6 division_line">대여일자</div>
+																															<div class="col-md-6">${rentInfo.r_sdate }</div>
+																														</div>
+																													</div>
+																													<div class="col-md-6">
+																														<div class="row">
+																															<div class="col-md-6 division_line">대여
+																																번호</div>
+																															<div class="col-md-6">${rentInfo.r_id }</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<div class="table">
+
+																												<table
+																													class="table table-striped table-sm table--block"
+																													id="testab">
+																													<thead>
+																														<tr>
+																															<th class="one">상품 번호</th>
+																															<th class="two">상품 정보</th>
+																															<th>금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</th>
+																															<th>수&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량</th>
+																															<th>진행 상태</th>
+																														</tr>
+																													</thead>
+																													<tbody class="col-sm-12">
+																														<tr>
+																															<td>${proInfo.p_id }</td>
+																															<td>${proInfo.p_name }</td>
+																															<td><c:if
+																																	test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청' || rentInfo.r_state eq '환불 완료'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${proInfo.p_price * 0.05 * rentInfo.r_rent}"
+																																		integerOnly="true" />
 										${totalprice}<%="원"%>
-																												</c:if></td>
-																											<td>${rentInfo.r_rent }<%="개"%></td>
-																											<td style="padding: 9.6px 0px;">
-																												<!-- 상태 색깔 변경 로직 부분  추가--> <span
-																												class="col-md-2"> <c:if
-																														test="${rentInfo.r_state eq '대여중'}">
-																														<fmt:parseDate var="tempToday"
-																															value="${rentInfo.r_sdate}"
-																															pattern="yyyy-MM-dd" />
-																														<fmt:parseNumber var="sdate"
-																															value="${tempToday.time / (1000*60*60*24)}"
-																															integerOnly="true" />
-																														<c:set var="now"
-																															value="<%=new java.util.Date()%>" />
-																														<fmt:parseNumber var="today"
-																															value="${now.time / (1000*60*60*24)}"
-																															integerOnly="true" />
-																														<!-- 
+																																</c:if></td>
+																															<td>${rentInfo.r_rent }<%="개"%></td>
+																															<td style="padding: 9.6px 0px;">
+																																<!-- 상태 색깔 변경 로직 부분  추가--> <span
+																																class="col-md-2"> <c:if
+																																		test="${rentInfo.r_state eq '대여중'}">
+																																		<fmt:parseDate var="tempToday"
+																																			value="${rentInfo.r_sdate}"
+																																			pattern="yyyy-MM-dd" />
+																																		<fmt:parseNumber var="sdate"
+																																			value="${tempToday.time / (1000*60*60*24)}"
+																																			integerOnly="true" />
+																																		<c:set var="now"
+																																			value="<%=new java.util.Date()%>" />
+																																		<fmt:parseNumber var="today"
+																																			value="${now.time / (1000*60*60*24)}"
+																																			integerOnly="true" />
+																																		<!-- 
 										<c:out  value="<script type='text/javascript'>alert(${sdate } + ':' +${today });</script>" escapeXml="fasle"/>
 										-->
-																														<c:if test="${sdate+3>=today}">
-																															<label
-																																class="btn btn-primary rent-state-btn-label">대
-																																여 중</label>
-																														</c:if>
-																														<c:if test="${sdate+3<today}">
-																															<label
-																																class="btn btn-danger late-state-btn-label">연
-																																체 중</label>
-																														</c:if>
-																													</c:if> <c:if
-																														test="${rentInfo.r_state eq '반납 요청'}">
-																														<label
-																															class="btn btn-warning request-state-btn-label">반납
-																															요청</label>
-																													</c:if> <c:if
-																														test="${rentInfo.r_state eq '반납 완료'}">
-																														<label
-																															class="btn btn-success return-state-btn-label">반납
-																															완료</label>
-																													</c:if> <c:if
-																														test="${rentInfo.r_state eq '환불 요청'}">
-																														<label
-																															class="btn btn-warning return-state-btn-label">환불
-																															요청</label>
-																													</c:if> <c:if
-																														test="${rentInfo.r_state eq '환불 완료'}">
-																														<label
-																															class="btn btn-success return-state-btn-label">환불
-																															완료</label>
-																													</c:if>
-																											</span> <!-- 상태 색깔 변경 로직 부분  끝 -->
-																											</td>
-																										</tr>
-																									</tbody>
-																								</table>
+																																		<c:if test="${sdate+3>=today}">
+																																			<label
+																																				class="btn btn-primary rent-state-btn-label">대
+																																				여 중</label>
+																																		</c:if>
+																																		<c:if test="${sdate+3<today}">
+																																			<label
+																																				class="btn btn-danger late-state-btn-label">연
+																																				체 중</label>
+																																		</c:if>
+																																	</c:if> <c:if
+																																		test="${rentInfo.r_state eq '반납 요청'}">
+																																		<label
+																																			class="btn btn-warning request-state-btn-label">반납
+																																			요청</label>
+																																	</c:if> <c:if
+																																		test="${rentInfo.r_state eq '반납 완료'}">
+																																		<label
+																																			class="btn btn-success return-state-btn-label">반납
+																																			완료</label>
+																																	</c:if> <c:if
+																																		test="${rentInfo.r_state eq '환불 요청'}">
+																																		<label
+																																			class="btn btn-warning return-state-btn-label">환불
+																																			요청</label>
+																																	</c:if> <c:if
+																																		test="${rentInfo.r_state eq '환불 완료'}">
+																																		<label
+																																			class="btn btn-success return-state-btn-label">환불
+																																			완료</label>
+																																	</c:if>
+																															</span> <!-- 상태 색깔 변경 로직 부분  끝 -->
+																															</td>
+																														</tr>
+																													</tbody>
+																												</table>
+																											</div>
+																											<div class="col-sm-12"
+																												style="padding: 0px 0px 15px 0px;">
+																												<div
+																													style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;"></div>
+																											</div>
+																											<hr>
+																											<div>
+																												<a
+																													href="/member/mem/memRentDetail/${rentInfo.r_id}">상세보기</a>
+																											</div>
+																										</div>
+																									</main>
+																								</div>
 																							</div>
-																							<div class="col-sm-12"
-																								style="padding: 0px 0px 15px 0px;">
-																								<div
-																									style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;"></div>
+																						</div>
+																					</div>
+																				</c:if>
+
+
+
+
+
+																				<!-- 구매 내역-->
+																				<c:if
+																					test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
+
+																					<div class="card-header">
+																						<h5>${rentInfo.r_mid }님의&nbsp;${rentInfo.r_pid }&nbsp;구매
+																							현황</h5>
+																					</div>
+																					<div class="card-block">
+																						<div class="table-responsive col-xl-12">
+																							<script
+																								src="https://kit.fontawesome.com/848d8f1fa9.js"></script>
+																							<div class="container-fluid col-xl-12"
+																								style="text-align: center;">
+																								<div class="col-lg-12">
+																									<div
+																										class="col-1 col-lg-1   flex-column flex-shrink-0 p-3 bg-light "
+																										style="width: 250px;"></div>
+
+																									<main class="col-12  ms-sm-auto col-lg-12">
+																										<div class="row" id="topmarin">
+																											<div class="col-sm-12"
+																												style="padding: 0px 0px 15px 0px;">
+																												<div
+																													style="border-bottom: solid 1px; text-align: center; font-weight: bold; font-size: 15pt;">구매
+																													정보</div>
+																											</div>
+																											<div class="col-sm-12"
+																												style="padding-bottom: 15px;">
+																												<div class="row"
+																													style="font-size: 13pt; font-weight: bold; height: 50px; padding: 10px; border: solid; color: gray; height: fit-content;">
+																													<div class="col-md-6 division_line">
+																														<div class="row">
+																															<div class="col-md-6 division_line">구매일자</div>
+																															<div class="col-md-6">${rentInfo.r_pdate }</div>
+																														</div>
+																													</div>
+																													<div class="col-md-6">
+																														<div class="row">
+																															<div class="col-md-6 division_line">구매
+																																번호</div>
+																															<div class="col-md-6">${rentInfo.r_id }</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<div class="table">
+																												<table
+																													class="table table-striped table-sm table--block"
+																													id="testab">
+																													<thead>
+																														<tr>
+																															<th class="one">상품 번호</th>
+																															<th class="two">상품 정보</th>
+																															<th>금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</th>
+																															<th>수&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량</th>
+																															<th>진행 상태</th>
+																														</tr>
+																													</thead>
+																													<tbody>
+																														<tr>
+																															<td>${proInfo.p_id }</td>
+																															<td>${proInfo.p_name }</td>
+																															<td><c:if
+																																	test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${proInfo.p_price * 0.95 * rentInfo.r_rent}"
+																																		integerOnly="true" />
+										${totalprice}원
+										</c:if></td>
+																															<td>${rentInfo.r_rent }개</td>
+																															<td style="padding: 9.6px 0px;"><fmt:parseDate
+																																	var="tempToday"
+																																	value="${rentInfo.r_pdate}"
+																																	pattern="yyyy-MM-dd" /> <fmt:parseNumber
+																																	var="pdate"
+																																	value="${tempToday.time / (1000*60*60*24)}"
+																																	integerOnly="true" /> <c:set var="now"
+																																	value="<%=new java.util.Date()%>" /> <fmt:parseNumber
+																																	var="today"
+																																	value="${now.time / (1000*60*60*24)}"
+																																	integerOnly="true" /> <!-- 상태 색깔 변경 로직 부분  추가-->
+																																<span class="col-md-2"> <c:if
+																																		test="${rentInfo.r_state eq '즉시 구매'}">
+																																		<label class="btn btn-info">즉시
+																																			구매</label>
+																																	</c:if> <c:if
+																																		test="${rentInfo.r_state eq '구매 확정'}">
+																																		<label class="btn btn-info2">구매
+																																			확정</label>
+																																	</c:if>
+																															</span> <!-- 상태 색깔 변경 로직 부분  끝 --></td>
+																														</tr>
+																													</tbody>
+																												</table>
+																											</div>
+																											<div class="col-sm-12"
+																												style="padding: 0px 0px 15px 0px;"></div>
+
+																											<hr>
+																											<div>
+																												<a
+																													href="/member/mem/memBuyDetail/${rentInfo.r_id}">상세보기</a>
+																											</div>
+
+																											<c:forEach var="buyInfo" items="${buyList}">
+																												<div class="col-sm-12"
+																													style="padding-bottom: 15px;">
+																													<div class="row">
+																														<div class="col-md-6"
+																															style="height: 150px; padding: 50px;">${buyInfo.b_how }</div>
+																														<div class="col-md-6"
+																															style="font-size: 13pt; color: white; padding: 5px; background-color: #7971ea">
+																															<div style="text-align: left;"><%="상품 가격 : "%>${proInfo.p_price }<%="원"%></div>
+																															<div style="text-align: left;"><%="대여 구매 정보 : "%>${buyInfo.b_state }</div>
+																															<div style="text-align: left;"><%="수량 : "%>${buyInfo.b_amount }</div>
+																															<hr>
+																															<div
+																																style="font-size: 15pt; font-weight: bold; text-align: left;"><%="결제 가격 : "%>
+																																<c:if test="${buyInfo.b_state eq '대여'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${buyInfo.b_purchase}"
+																																		integerOnly="true" />
+										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
+																																</c:if>
+																																<c:if test="${buyInfo.b_state eq '구매'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${buyInfo.b_purchase}"
+																																		integerOnly="true" />
+										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
+																																</c:if>
+																																<c:if
+																																	test="${buyInfo.b_state eq '즉시 구매'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${buyInfo.b_purchase}"
+																																		integerOnly="true" />
+										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
+																																</c:if>
+																																<c:if
+																																	test="${buyInfo.b_state eq '환불 요청'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${buyInfo.b_purchase}"
+																																		integerOnly="true" />
+										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
+																																</c:if>
+																																<c:if test="${buyInfo.b_state eq '환불'}">
+																																	<fmt:parseNumber var="totalprice"
+																																		value="${buyInfo.b_purchase}"
+																																		integerOnly="true" />
+										${totalprice}<%="원 ("%>${buyInfo.b_amount }<%="개)"%>
+																																</c:if>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																												<hr>
+
+																											</c:forEach>
+																										</div>
+																									</main>
+																								</div>
 																							</div>
-																							<hr>
-																							<div>
-																								<a href="/member/mem/memRentDetail/${rentInfo.r_id}" >상세보기</a>
-																							</div>
-																						
-																					<main
-																						class="col-12 col-lg-1 ms-sm-auto  px-md-4 bg-light"></main>
-																				</div>
+																						</div>
+																					</div>
+
+																				</c:if>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 																			</div>
 																		</div>
 																	</div>
 																</div>
-																		
-																	
-																		
-
-																	</div>
-
-
-																</div>
 															</div>
-														</div>
-														<!-- 메시지함 끝 -->
+															<!-- 대여 -->
 
-														
 
-															</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 														</div>
 													</div>
 												</div>
 											</div>
+											<!-- 메시지함 끝 -->
+
+
+
 										</div>
 									</div>
 								</div>
@@ -517,164 +711,146 @@ body, html {
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
 
-			<!-- confirm 모달을 쓸 페이지에 추가 start-->
-			<section class="modal modal-section type-confirm">
-				<div class="enroll_box">
-					<p class="menu_msg"></p>
-				</div>
-				<div class="enroll_btn">
-					<button class="btn pink_btn btn_ok">확인</button>
-					<button class="btn gray_btn modal_close">취소</button>
-				</div>
-			</section>
-			<!-- confirm 모달을 쓸 페이지에 추가 end-->
+	<!-- confirm 모달을 쓸 페이지에 추가 start-->
+	<section class="modal modal-section type-confirm">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn btn_ok">확인</button>
+			<button class="btn gray_btn modal_close">취소</button>
+		</div>
+	</section>
+	<!-- confirm 모달을 쓸 페이지에 추가 end-->
 
 
-			<!-- alert 모달을 쓸 페이지에 추가 start-->
-			<section class="modal modal-section type-alert">
-				<div class="enroll_box">
-					<p class="menu_msg"></p>
-				</div>
-				<div class="enroll_btn">
-					<button class="btn pink_btn modal_close">확인</button>
-				</div>
-			</section>
+	<!-- alert 모달을 쓸 페이지에 추가 start-->
+	<section class="modal modal-section type-alert">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn modal_close">확인</button>
+		</div>
+	</section>
 
-			<!-- alert 모달을 쓸 페이지에 추가 end-->
-			<!-- 승빈-->
-			<script>
-				$(function() {
-					//사용 예시 **************************
-					$(document).on("click", "#confirm", function() {
-						action_popup.confirm("삭제 하시겠습니까?", function(res) {
-							if (res) {
-								action_popup.alert("삭제가 되었습니다.");
-								document.delete2.submit();
-							} else {
-								action_popup.alert("삭제에 실패하였습니다.");
-							}
-						})
-					});
+	<!-- alert 모달을 쓸 페이지에 추가 end-->
+	<!-- 승빈-->
+	<script>
+		$(function() {
+			//사용 예시 **************************
+			$(document).on("click", "#confirm", function() {
+				action_popup.confirm("삭제 하시겠습니까?", function(res) {
+					if (res) {
+						action_popup.alert("삭제가 되었습니다.");
+						document.delete2.submit();
+					} else {
+						action_popup.alert("삭제에 실패하였습니다.");
+					}
+				})
+			});
 
-					$(document).on("click", "#alert", function() {
-						action_popup.alert("경고창 테스트!!!");
-					});
+			$(document).on("click", "#alert", function() {
+				action_popup.alert("경고창 테스트!!!");
+			});
 
-					$(".modal_close").on("click", function() {
+			$(".modal_close").on("click", function() {
+				action_popup.close(this);
+			});
+			//사용 예시 **************************
+		});
+
+		/**
+		 *  alert, confirm 대용 팝업 메소드 정의 <br/>
+		 *  timer : 애니메이션 동작 속도 <br/>
+		 *  alert : 경고창 <br/>
+		 *  confirm : 확인창 <br/>
+		 *  open : 팝업 열기 <br/>
+		 *  close : 팝업 닫기 <br/>
+		 */
+		var action_popup = {
+			timer : 500,
+			confirm : function(txt, callback) {
+				if (txt == null || txt.trim() == "") {
+					console.warn("confirm message is empty.");
+					return;
+				} else if (callback == null || typeof callback != 'function') {
+					console.warn("callback is null or not function.");
+					return;
+				} else {
+					$(".type-confirm .btn_ok").on("click", function() {
+						$(this).unbind("click");
+						callback(true);
 						action_popup.close(this);
 					});
-					//사용 예시 **************************
+					this.open("type-confirm", txt);
+				}
+			},
+
+			alert : function(txt) {
+				if (txt == null || txt.trim() == "") {
+					console.warn("confirm message is empty.");
+					return;
+				} else {
+					this.open("type-alert", txt);
+				}
+			},
+
+			open : function(type, txt) {
+				var popup = $("." + type);
+				popup.find(".menu_msg").text(txt);
+				$("body").append("<div class='dimLayer'></div>");
+				$(".dimLayer").css('height', $(document).height()).attr(
+						"target", type);
+				popup.fadeIn(this.timer);
+			},
+
+			close : function(target) {
+				var modal = $(target).closest(".modal-section");
+				var dimLayer;
+				if (modal.hasClass("type-confirm")) {
+					dimLayer = $(".dimLayer[target=type-confirm]");
+				} else if (modal.hasClass("type-alert")) {
+					dimLayer = $(".dimLayer[target=type-alert]")
+				} else {
+					console.warn("close unknown target.")
+					return;
+				}
+				modal.fadeOut(this.timer);
+				setTimeout(function() {
+					dimLayer != null ? dimLayer.remove() : "";
+				}, this.timer);
+			}
+		}
+
+		$(document).ready(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
 				});
 
-				/**
-				 *  alert, confirm 대용 팝업 메소드 정의 <br/>
-				 *  timer : 애니메이션 동작 속도 <br/>
-				 *  alert : 경고창 <br/>
-				 *  confirm : 확인창 <br/>
-				 *  open : 팝업 열기 <br/>
-				 *  close : 팝업 닫기 <br/>
-				 */
-				var action_popup = {
-					timer : 500,
-					confirm : function(txt, callback) {
-						if (txt == null || txt.trim() == "") {
-							console.warn("confirm message is empty.");
-							return;
-						} else if (callback == null
-								|| typeof callback != 'function') {
-							console.warn("callback is null or not function.");
-							return;
-						} else {
-							$(".type-confirm .btn_ok").on("click", function() {
-								$(this).unbind("click");
-								callback(true);
-								action_popup.close(this);
-							});
-							this.open("type-confirm", txt);
-						}
-					},
-
-					alert : function(txt) {
-						if (txt == null || txt.trim() == "") {
-							console.warn("confirm message is empty.");
-							return;
-						} else {
-							this.open("type-alert", txt);
-						}
-					},
-
-					open : function(type, txt) {
-						var popup = $("." + type);
-						popup.find(".menu_msg").text(txt);
-						$("body").append("<div class='dimLayer'></div>");
-						$(".dimLayer").css('height', $(document).height())
-								.attr("target", type);
-						popup.fadeIn(this.timer);
-					},
-
-					close : function(target) {
-						var modal = $(target).closest(".modal-section");
-						var dimLayer;
-						if (modal.hasClass("type-confirm")) {
-							dimLayer = $(".dimLayer[target=type-confirm]");
-						} else if (modal.hasClass("type-alert")) {
-							dimLayer = $(".dimLayer[target=type-alert]")
-						} else {
-							console.warn("close unknown target.")
-							return;
-						}
-						modal.fadeOut(this.timer);
-						setTimeout(function() {
-							dimLayer != null ? dimLayer.remove() : "";
-						}, this.timer);
+		$(window).resize(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
 					}
-				}
-
-				$(document)
-						.ready(
-								function() {
-									var size = $(window)[0].innerWidth;
-									if (size > 1200) {
-										$('#menuBar')
-												.attr('class',
-														"nav nav-tabs md-tabs tabs-left b-none");
-									} else {
-										$('#menuBar').attr('class',
-												"nav nav-tabs md-tabs");
-									}
-								});
-
-				$(window)
-						.resize(
-								function() {
-									var size = $(window)[0].innerWidth;
-									if (size > 1200) {
-										$('#menuBar')
-												.attr('class',
-														"nav nav-tabs md-tabs tabs-left b-none");
-									} else {
-										$('#menuBar').attr('class',
-												"nav nav-tabs md-tabs");
-									}
-								});
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			</script>
+				});
+	</script>
 
 
 
-			<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
 </body>
 </html>

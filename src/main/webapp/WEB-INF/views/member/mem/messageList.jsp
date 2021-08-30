@@ -208,7 +208,7 @@ body, html {
 
 
 															<form name="delList" id="form">
-																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="button"
+																&nbsp;&nbsp;&nbsp;<input type="button" id="button"
 																	class="btn waves-effect waves-light btn-primary btn-outline-primary"
 																	value="선택삭제" onclick="checkboxArr();" />
 																	<input type="hidden" id="arrayParam" name="arrayParam" />

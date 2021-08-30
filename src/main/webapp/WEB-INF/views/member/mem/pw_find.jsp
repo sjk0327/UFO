@@ -13,42 +13,6 @@
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 <style>
-.filebox input[type="file"] {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
-
-.filebox label {
-	display: inline-block;
-	padding: .5em .75em;
-	color: #999;
-	font-size: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #fdfdfd;
-	cursor: pointer;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-} /* named upload */
-.filebox .upload-name {
-	display: inline-block;
-	padding: .5em .75em; /* label의 패딩값과 일치 */
-	font-size: inherit;
-	font-family: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #f5f5f5;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-}
 
 * {
 	padding: 0;
@@ -134,6 +98,25 @@ body, html {
 	font-size: 17px;
 	border: none;
 }
+
+#menuBar {
+	width: 400px;
+	align: "center";
+	
+
+}
+
+.card {
+	width: 450px;
+	
+	
+}
+
+
+
+
+
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 </script>
@@ -149,16 +132,52 @@ body, html {
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
+				
+				
+				
+									
+				
+				
+				
+				
+				
+				
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="find"
 						action="/member/mem/pw_auth" method="post">
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
-						</div>
+						</div>			
 						<div class="auth-box card">
 							<div class="card-block">
+							
 								<div class="row m-b-20">
+										
+							
+										<!--  메뉴바 시작 -->
+												<div class="card-block">
+														<!-- Row start -->
+														<div class="row">
+															<div class="col-sm-12">
+																<!-- Nav tabs -->
+																<ul id="menuBar" class="nav nav-tabs md-tabs"
+																	role="tablist">
+																	<li class="nav-item"><a class="nav-link "
+																		href="/member/mem/id_auth" role="tab">아이디 찾기</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link active"
+																		href="/member/mem/pw_auth" role="tab">비밀번호 찾기</a>
+																		<div class="slide"></div></li>
+																</ul>
+															</div>
+														</div>
+														<!-- Row end -->
+													</div>
+											<!-- 메뉴바 끝 -->
+								
+								
+								
 									<div class="col-md-12">
 										<h3 class="text-center">비밀번호 찾기</h3>
 									</div>
@@ -187,7 +206,7 @@ body, html {
 								</div>
 								<div class="row m-t-30">
 									<div class="col-md-12">
-										<input type="submit" id="confirm" value="이메일 전송"
+										<input type="submit" id="alert" value="이메일 전송"
 											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 									</div>
 									<div class="row m-b-0 text-left">
@@ -203,16 +222,13 @@ body, html {
 										<p class="text-inverse text-left">
 											<a href="/"><b>처음으로</b></a>
 										</p>
-									</div>
-									
-									<div class="col-md-10">
-										<p class="text-inverse text-left m-b-0"></p>
 										<p class="text-inverse text-left">
-											<a href="/member/mem/id_auth"><b>아이디 찾기</b></a>
+											<a href="/member/mem/memJoin"><b>회원가입</b></a>
+										</p>
+										<p class="text-inverse text-left">
+											<a href="/login"><b>로그인</b></a>
 										</p>
 									</div>
-									
-
 									<div class="col-md-2">
 										<img src="resources/assets/images/auth/Logo-small-bottom.png"
 											alt="small-logo.png">

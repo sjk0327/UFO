@@ -244,22 +244,7 @@
 		$(".infoUpgr").show();
 	}
  	
-    //승빈 탈퇴 막기 메시지 end
-	/*
-	$(function(){
-			$('#resign').click(function(){
-				if(!confirm('정말로 탈퇴하시겠습니까?')){
-					return false;
-				}
-				
-			}
-			)
-		})
-	*/
-		
-	
-	//승빈 탈퇴 막기 메시지 end
-	
+    
 	
 
 </script>

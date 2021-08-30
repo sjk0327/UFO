@@ -513,7 +513,6 @@ public class MemberController {
 	// 회원 탈퇴
 	
 	
-
 	@RequestMapping(value = "/member/mem/userDelete/{userID}", method = RequestMethod.POST)
 	public String userDelete(Model model, UserVO userVO, HttpSession session, @PathVariable String userID)
 			throws IOException {
@@ -585,14 +584,17 @@ public class MemberController {
 		String name = (String)request.getParameter("name");
 		String email = (String)request.getParameter("email");
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-
+		
 		UserVO vo = dao.selectMember(email);
-			
+		System.out.println("email : " +  email);
+		System.out.println("name : " +  name);
+		System.out.println("vo : " +  vo);
+		
 		if(vo != null) {
 		Random r = new Random();
 		int num = r.nextInt(999999); // 랜덤난수설정
 		
-		if (vo.getM_name().equals(name)  ) {
+		if (vo.getM_name().equals(name) && vo.getM_email().equals(email) && vo.getM_regtype().equals("유에프오")  ) {
 			session.setAttribute("email", vo.getM_email());
 
 			String setfrom = "usefirstown@gmail.com";
@@ -636,9 +638,22 @@ public class MemberController {
 		//이메일 인증번호 확인
 		@RequestMapping(value = "/member/mem/id_set", method = RequestMethod.POST)
 		public String id_set(@RequestParam(value="email_injeung") String email_injeung,
-					@RequestParam(value = "num") String num) throws IOException{
+					@RequestParam(value = "num") String num, UserVO user, HttpSession session, Model model) throws IOException{
 				
 				if(email_injeung.equals(num)) {
+					UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+					
+					user.setM_email((String) session.getAttribute("email"));
+
+					
+					System.out.println("user정보 " + user);
+					
+					
+					String info = dao.selectId(user);
+					
+					model.addAttribute("info", info);
+					
+					
 					return "/member/mem/id_info";
 				}
 				else {
@@ -648,26 +663,7 @@ public class MemberController {
 		
 		
 		
-		//아이디 확인
-		@RequestMapping(value = "/member/mem/id_info", method = RequestMethod.POST)
-		public String id_info(UserVO user, HttpSession session, HttpServletRequest request, Model model) throws IOException{
-			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-			
-			user.setM_email((String) session.getAttribute("email"));
-
-			
-			System.out.println("user정보 " + user);
-			
-			
-			UserVO info = dao.selectId(user);
-			
-			model.addAttribute("info", info);
-			System.out.println("info정보 " + info);
-			
-			return "member/mem/id_info";
-		}
-		
-		
+	
 		
 
 	
@@ -690,12 +686,12 @@ public class MemberController {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
 		UserVO vo = dao.selectMember(email);
-			
+		
 		if(vo != null) {
 		Random r = new Random();
 		int num = r.nextInt(999999); // 랜덤난수설정
 		
-		if (vo.getM_name().equals(name) && vo.getM_id().equals(id) ) {
+		if (vo.getM_name().equals(name) && vo.getM_id().equals(id)  && vo.getM_email().equals(email) && vo.getM_regtype().equals("유에프오")  ) {
 			session.setAttribute("email", vo.getM_email());
 
 			String setfrom = "usefirstown@gmail.com";
@@ -770,12 +766,6 @@ public class MemberController {
 			return "member/mem/pw_new";
 		}
 }
-	
-	
-	
-	
-	
-	
 	
 
 	// 관리자
@@ -1036,7 +1026,7 @@ public class MemberController {
 					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
 							+ userVO.getM_img()));
 		}
-
+		userVO.setM_regtype("유에프오");
 		int n = dao.memJoin(userVO);
 		System.out.println("시작 후" + userVO.toString());
 		if (n != 1) {

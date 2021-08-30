@@ -13,43 +13,6 @@
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 <style>
-.filebox input[type="file"] {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
-
-.filebox label {
-	display: inline-block;
-	padding: .5em .75em;
-	color: #999;
-	font-size: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #fdfdfd;
-	cursor: pointer;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-} /* named upload */
-.filebox .upload-name {
-	display: inline-block;
-	padding: .5em .75em; /* label의 패딩값과 일치 */
-	font-size: inherit;
-	font-family: inherit;
-	line-height: normal;
-	vertical-align: middle;
-	background-color: #f5f5f5;
-	border: 1px solid #ebebeb;
-	border-bottom-color: #e2e2e2;
-	border-radius: .25em;
-}
-
 * {
 	padding: 0;
 	margin: 0;
@@ -134,6 +97,15 @@ body, html {
 	font-size: 17px;
 	border: none;
 }
+
+#menuBar {
+	width: 400px;
+	align: "center";
+}
+
+.card {
+	width: 450px;
+}
 <
 script
 
@@ -163,10 +135,6 @@ script
 </head>
 <body themebg-pattern="theme1">
 
-
-
-
-
 	<section class="login-block">
 		<!-- Container-fluid starts -->
 		<div class="container">
@@ -174,30 +142,51 @@ script
 				<div class="col-sm-12">
 					<!-- Authentication card start -->
 
-				
+					
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
 								<div class="row m-b-20">
+									<!--  메뉴바 시작 -->
+									<div class="card-block">
+										<!-- Row start -->
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- Nav tabs -->
+												<ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
+													<li class="nav-item"><a class="nav-link active"
+														href="/member/mem/id_auth" role="tab">아이디 찾기</a>
+														<div class="slide"></div></li>
+													<li class="nav-item"><a class="nav-link "
+														href="/member/mem/pw_auth" role="tab">비밀번호 찾기</a>
+														<div class="slide"></div></li>
+												</ul>
+											</div>
+										</div>
+										<!-- Row end -->
+									</div>
+									<!-- 메뉴바 끝 -->
+
+
+
+
+
+
 									<div class="col-md-12">
 										<h3 class="text-center">아이디 찾기 검색결과</h3>
 									</div>
 								</div>
 
 								<div class="w3-content w3-container w3-margin-top">
-									<div class="w3-container w3-card-4">
-										
+									<div class="w3-container w3-card-6">
+
 										<div>
-											<h3 align="center">${info.m_id}</h3>
-											
+											<h3 align="center">${info}</h3>
 										</div>
 									</div>
 								</div>
-
-
-
 
 							</div>
 							<hr />
@@ -206,6 +195,12 @@ script
 									<p class="text-inverse text-left m-b-0"></p>
 									<p class="text-inverse text-left">
 										<a href="/"><b>처음으로</b></a>
+									</p>
+									<p class="text-inverse text-left">
+										<a href="/member/mem/memJoin"><b>회원가입</b></a>
+									</p>
+									<p class="text-inverse text-left">
+										<a href="/login"><b>로그인</b></a>
 									</p>
 								</div>
 
@@ -216,13 +211,18 @@ script
 							</div>
 						</div>
 				</div>
-				
+
+
+
 				<!-- end of form -->
 			</div>
+
 			<!-- end of col-sm-12 -->
 		</div>
+
 		<!-- end of row -->
-	
+
+
 		<!-- end of container-fluid -->
 	</section>
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->

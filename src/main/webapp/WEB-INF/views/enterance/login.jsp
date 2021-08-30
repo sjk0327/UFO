@@ -30,6 +30,7 @@
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
+							<br>
 								<div class="row m-b-20">
 									<div class="col-md-12">
 										<h3 class="text-center">로그인</h3>
@@ -109,13 +110,8 @@
 									<div class="col-md-10">
 										<p class="text-inverse text-left m-b-0"></p>
 										<p class="text-inverse text-left">
-											<a href="/member/mem/id_auth" ><b>아이디 찾기</b></a>
+											<a href="/member/mem/id_auth" ><b>아이디 및 비밀번호  찾기</b></a>
 										</p>
-										
-										<p class="text-inverse text-left">
-											<a href="/member/mem/pw_auth" ><b>비밀번호 찾기</b></a>
-										</p>
-										
 										
 									</div>
 									<div class="col-md-2">
