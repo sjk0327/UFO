@@ -119,7 +119,6 @@ body, html {
 	background: #ffffff;
 	color: #999999;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 }
@@ -129,7 +128,6 @@ body, html {
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
@@ -178,23 +176,21 @@ body, html {
 						            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
 						            <!-- Nav tabs -->
 						            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
-						                <li class="nav-item">
-						                    <a class="nav-link" href="/member/mem/userInfo" role="tab">내 정보</a>
-						                    <div class="slide"></div>
-						                </li>
-						                <li class="nav-item">
-						                    <a class="nav-link active" href="/member/mem/memRentList" role="tab">대역 내역</a>
-						                    <div class="slide"></div>
-						                </li>
-						                <li class="nav-item">
-						                    <a class="nav-link" href="/member/mem/memBuyList" role="tab">구매 내역</a>
-						                    <div class="slide"></div>
-						                </li>
-						                <li class="nav-item">
-						                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
-						                    <div class="slide"></div>
-						                </li>
-						            </ul>
+										<li class="nav-item"><a class="nav-link active"
+											href="/member/mem/userInfo" role="tab">내 정보</a>
+											<div class="slide"></div></li>
+										<li class="nav-item"><a class="nav-link "
+											href="/member/mem/memRentList" role="tab">대역 내역</a>
+											<div class="slide"></div></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/member/mem/memBuyList" role="tab">구매 내역</a>
+											<div class="slide"></div></li>
+										<li class="nav-item"><a class="nav-link"
+			
+											href="/member/mem/messageList" role="tab">메시지 함</a>
+			
+											<div class="slide"></div></li>
+									</ul>
 						        </div>
 						    </div>
 						    <!-- Row end -->
@@ -208,7 +204,7 @@ body, html {
 					<div class="card">
 					<div class="card-block">
 						<form id="sort" name="rentSearch" method="post"
-												action="/admin/rent/rentList">
+												action="/member/mem/memRentList">
 	
 						<select id="searchType" name="searchType">
 	                               <option value="">검색조건</option>
@@ -216,11 +212,11 @@ body, html {
 	                               <option value="w" <c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
 	                               <option value="tc" <c:if test="${pageMaker.cri.searchType eq 'tc'}"> selected </c:if>>상태</option>
 	                            </select>&nbsp;
-							<input type="text" id="keyword" name="keyword"  
+							<input type="text" id="searchWord" name="keyword"  
 								value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요" />&nbsp;
 				
-							<button id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;
-							<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="전체보기" onClick="location.href='/admin/rent/rentList';">&nbsp;
+							<input type="button" id="searchBtn" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">&nbsp;
+							<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="전체보기" onClick="location.href='/member/mem/memRentList';">&nbsp;
 						</form>
 						<div class="row">
 							<!--  sale analytics start -->
@@ -302,7 +298,7 @@ body, html {
 							</c:forEach>
 							<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
 								<li><a href='<c:url value="/member/mem/memRentList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-									<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
+									<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
 							</c:if>
 						</ul>
 						</div>
@@ -352,6 +348,32 @@ body, html {
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
+	$(document).on("click", "#searchBtn", function(){
+		var searchTypeSelect = $('#searchType option:selected').val();
+		var searchWordInput = $('#searchWord').val();
+		console.log("type:"+searchTypeSelect);
+		console.log("word:"+searchWordInput);
+		if(searchTypeSelect == null || searchTypeSelect == "" || searchWordInput == ""){
+			action_popup.alert("검색 조건과 검색어를 입력해주세요.");
+		}else{
+			document.rentSearch.submit();
+		}
+	});
+	
+	$(document).ready(function(){
+		var searchTypeSelect = $('#searchType option:selected').val();
+		var searchWordInput = $('#searchWord').val();
+		var rentListSize = ${rentList.size()};
+		console.log(searchTypeSelect + "+" + searchWordInput + "+" +rentListSize)
+		if(searchTypeSelect != "" || searchWordInput != ""){
+			if(rentListSize <= 0){
+				action_popup.alert("검색하신 조건에 맞는게 없습니다.")
+			}
+		}
+	});
+	
+	
+	
 	$(document).ready(function(){
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {

@@ -7,7 +7,7 @@
         <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Menu</div>
         <ul class="pcoded-item pcoded-left-item">
         <li class="">
-            <a href="/adminIndex" class="waves-effect waves-dark">
+            <a href="/admin" class="waves-effect waves-dark">
                 <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                 <span class="pcoded-mtext" data-i18n="nav.dash.main">HOME</span>
             </a>

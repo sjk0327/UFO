@@ -159,8 +159,8 @@
 	.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
 	.menu_msg{font-size: 21px;font-weight: 500;}
 	.enroll_box p{padding-bottom: 56px;}
-	.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
-	.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+	.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;transition: 0.5s;font-size: 17px;}
+	.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 
 	<!-- 관리자 쪽 템블릿 가져와서 왼쪽에 메뉴 부분이 비어 있을 때 제거하는 css -->
 	.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content {
@@ -199,23 +199,21 @@
 							            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
 							            <!-- Nav tabs -->
 							            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
-							                <li class="nav-item">
-							                    <a class="nav-link active" href="/member/mem/userInfo" role="tab">내 정보</a>
-							                    <div class="slide"></div>
-							                </li>
-							                <li class="nav-item">
-							                    <a class="nav-link" href="#RentInfo" role="tab">대역 내역</a>
-							                    <div class="slide"></div>
-							                </li>
-							                <li class="nav-item">
-							                    <a class="nav-link" href="#ButInfo" role="tab">구매 내역</a>
-							                    <div class="slide"></div>
-							                </li>
-							                <li class="nav-item">
-							                    <a class="nav-link" href="#MessageBox" role="tab">메시지 함</a>
-							                    <div class="slide"></div>
-							                </li>
-							            </ul>
+											<li class="nav-item"><a class="nav-link active"
+												href="/member/mem/userInfo" role="tab">내 정보</a>
+												<div class="slide"></div></li>
+											<li class="nav-item"><a class="nav-link "
+												href="/member/mem/memRentList" role="tab">대역 내역</a>
+												<div class="slide"></div></li>
+											<li class="nav-item"><a class="nav-link"
+												href="/member/mem/memBuyList" role="tab">구매 내역</a>
+												<div class="slide"></div></li>
+											<li class="nav-item"><a class="nav-link"
+				
+												href="/member/mem/messageList" role="tab">메시지 함</a>
+				
+												<div class="slide"></div></li>
+										</ul>
 							        </div>
 							    </div>
 							    <!-- Row end -->

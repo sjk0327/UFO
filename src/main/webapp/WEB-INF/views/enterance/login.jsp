@@ -73,7 +73,6 @@
 	background: #ffffff;
 	color: #999999;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 }
@@ -83,7 +82,6 @@
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;

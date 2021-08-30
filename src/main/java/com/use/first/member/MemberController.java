@@ -1,7 +1,9 @@
 package com.use.first.member;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +25,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.use.first.buy.BuyDAO;
@@ -797,12 +797,12 @@ public class MemberController {
 	
 
 	// 관리자
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	@RequestMapping(value = "/adminLogin", method = RequestMethod.GET)
 	public String adminLoginG(UserVO user, Model model, HttpSession session) {
 		model.addAttribute("user", user);
 		if (session.getAttribute("userName") != null) {
 			if (session.getAttribute("userName").equals("관리자"))
-				return "redirect:/adminIndex";
+				return "redirect:/admin";
 			else
 				return "/enterance/adminLogin";
 		} else {
@@ -830,7 +830,7 @@ public class MemberController {
 	}
 
 	
-	@RequestMapping(value = "/admin", method = RequestMethod.POST)
+	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
 	public String adminLogin(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
@@ -852,7 +852,7 @@ public class MemberController {
 				session.setAttribute("userName", user.getM_name());
 				session.setAttribute("returnList", returnList);
 				session.setAttribute("lateList", lateList);
-				return "redirect:/adminIndex";
+				return "redirect:/admin";
 			} else {
 				return "/enterance/adminLogin";
 			}
@@ -866,10 +866,10 @@ public class MemberController {
 	public String adminLoginout(HttpSession session) {
 		session.invalidate();
 
-		return "redirect:/admin";
+		return "redirect:/adminLogin";
 	}
 
-	@RequestMapping(value = "/adminIndex", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(UserVO vo, Model model) {
 		model.addAttribute("user", vo);
 
@@ -1218,7 +1218,32 @@ public class MemberController {
     
     //회원 내정보 - 대여 내역
     @RequestMapping(value = "/member/mem/memRentList", method = RequestMethod.GET)
-	public String memRentList(Criteria cri, Model model,HttpSession session) {
+	public String memRentListForm(Criteria cri, Model model,HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+		
+		// 대여 정보 가져오기
+		List<RentVO> rentList = rentDAO.rentListByMidAndSearch(cri, userId, "구매");
+		System.out.println("rentList size : " + rentList.size());
+	
+		// 모델에 추가
+		model.addAttribute("rentList", rentList);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentDAO.getMyRentTotalCount(cri, userId, "구매");
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		System.out.println("memRentList:: pageMaker : "+pageMaker);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/mem/memRentList";
+	}
+  //회원 내정보 - 대여 내역 검색
+    @RequestMapping(value = "/member/mem/memRentList", method = RequestMethod.POST)
+	public String memRentListPro(Criteria cri, Model model,HttpSession session) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
@@ -1242,20 +1267,22 @@ public class MemberController {
 		return "/member/mem/memRentList";
 	}
     
+    
+    
     //회원 내정보 - 구매 내역
     @RequestMapping(value = "/member/mem/memBuyList", method = RequestMethod.GET)
-	public String memBuyList(Criteria cri, Model model,HttpSession session) {
+	public String memBuyListForm(Criteria cri, Model model,HttpSession session) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
 		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
 		String userId = infoVO.getM_id();
 		
 		// 대여 정보 가져오기
-		List<RentVO> rentList = rentDAO.purchaseListByMidAndSearch(cri, userId, "구매");
-		System.out.println("rentList size : " + rentList.size());
+		List<RentVO> buyList = rentDAO.purchaseListByMidAndSearch(cri, userId, "구매");
+		System.out.println("rentList size : " + buyList.size());
 	
 		// 모델에 추가
-		model.addAttribute("rentList", rentList);
+		model.addAttribute("buyList", buyList);
 		// PageMaker 객체 생성
 		PageMaker pageMaker = new PageMaker(cri);
 		// 전체 게시물 수를 구함
@@ -1268,6 +1295,79 @@ public class MemberController {
 		model.addAttribute("pageMaker", pageMaker);
 		return "/member/mem/memBuyList";
 	}
+    
+  //회원 내정보 - 구매 내역 검색
+    @RequestMapping(value = "/member/mem/memBuyList", method = RequestMethod.POST)
+	public String memBuyListPro(Criteria cri, Model model,HttpSession session) {
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		String userId = infoVO.getM_id();
+		
+		// 대여 정보 가져오기
+		List<RentVO> buyList = rentDAO.purchaseListByMidAndSearch(cri, userId, "구매");
+		System.out.println("rentList size : " + buyList.size());
+	
+		// 모델에 추가
+		model.addAttribute("buyList", buyList);
+		// PageMaker 객체 생성
+		PageMaker pageMaker = new PageMaker(cri);
+		// 전체 게시물 수를 구함
+		int totalCount = rentDAO.getMyBuyTotalCount(cri, userId, "구매");
+
+		System.out.println("memBuyList:: pageMaker : "+pageMaker);
+		// pageMaker로 전달
+		pageMaker.setTotalCount(totalCount);
+		// 모델에 추가
+		model.addAttribute("pageMaker", pageMaker);
+		return "/member/mem/memBuyList";
+	}
+    
+    @RequestMapping(value = "/pythonTest", method = RequestMethod.GET)
+   	public String adminPythonTest(Model model,HttpSession session) throws IOException, InterruptedException{
+   		String command = "C:\\ProgramData\\Anaconda3\\python.exe";
+   		String arg1 = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest.py";
+    	//String arg1 = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest2.py";
+    	ProcessBuilder builder = new ProcessBuilder(command, arg1);
+    	builder.redirectErrorStream(true);  // 표준 에러도 표준 출력에 쓴다
+    	Process process = builder.start();
+    	int exitVal = process.waitFor();
+    	
+    	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8")); // 서브 프로세스가 출력하는 내용을 받기 위해
+    	StringBuilder buffer = new StringBuilder(); 
+    	String line = "";
+    	System.out.println("pythonTest :: while문 앞 :" + line);
+    	while ((line = br.readLine()) != null) {
+    		buffer.append(line + ",");
+    	     System.out.println(">>>  " + buffer.toString()); // 표준출력에 쓴다
+    	}
+    	System.out.println("pythonTest :: while문 뒤 :" + process.exitValue());
+    	model.addAttribute("status", "결과 확인");
+    	model.addAttribute("line",buffer.toString());
+    	if(exitVal != 0) {
+    	  // 비정상 종료
+    	  System.out.println("서브 프로세스가 비정상 종료되었다.");
+    	}
+    	
+//    	String filePath = "D:\\pwork\\pythonTest2.py";      
+//        ProcessBuilder pb = new ProcessBuilder()
+//            .command("python", "-u", filePath, "main33");        
+//        Process p = pb.start(); 
+//        BufferedReader in = new BufferedReader(
+//            new InputStreamReader(p.getInputStream()));
+//        StringBuilder buffer = new StringBuilder();     
+//        String line = null;
+//        while ((line = in.readLine()) != null){           
+//            buffer.append(line);
+//        }
+//        int exitCode = p.waitFor();
+//        System.out.println("Value is: "+buffer.toString());                
+//        System.out.println("Process exit value:"+exitCode);
+//        model.addAttribute("status", "결과 확인");
+//        model.addAttribute("line", buffer.toString());
+//        in.close();
+    	return "/member/mem/pythonTest";
+   	}
 	// 성훈 end
 
 }

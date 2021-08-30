@@ -70,7 +70,6 @@
 	background: #ffffff;
 	color: #999999;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 }
@@ -80,7 +79,6 @@
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
@@ -98,7 +96,7 @@
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
                     
-                        <form:form class="md-float-material form-material" name="loginForm" action="admin" method="post"  modelAttribute="user">
+                        <form:form class="md-float-material form-material" name="loginForm" action="/adminLogin" method="post"  modelAttribute="user">
                             <div class="text-center">
                                 <img src="/resources/assets/images/logo.png" alt="logo.png">
                             </div>

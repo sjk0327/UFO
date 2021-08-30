@@ -119,7 +119,6 @@ body, html {
 	background: #ffffff;
 	color: #999999;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 }
@@ -129,7 +128,6 @@ body, html {
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
@@ -175,6 +173,22 @@ input[type=radio]:checked + label{
 	padding-left:1.5px;
 	padding-right:1.5px;
 }
+select {
+	color: #0764ff;
+	width: inherit;
+	padding: .5em .5em;
+	border: 1px solid #7971ea;
+	font-family: inherit;
+	background: url('/resources/img/selectArrow.jpg') no-repeat 95% 50%;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+select::-ms-expand {
+	display: none;
+}
+
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -307,8 +321,8 @@ input[type=radio]:checked + label{
 																					<div class="form-group row">
 																						<div class="col-sm-3 col-form-label">성별</div>
 																						<div
-																							class="form-group form-primary form-static-label col-sm-9 row">
-																							<div class="col-sm-12" style="text-align:center;">
+																							class="form-group form-primary form-static-label col-sm-9 row" style="margin-left:0px;padding-left:0px;">
+																							<div class="col-sm-4" style="text-align:center;">
 														                                		<c:choose>									                                		
 														                                		<c:when test="${userInfo.m_gender eq '남자'}">
 														                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자" checked>
@@ -317,9 +331,9 @@ input[type=radio]:checked + label{
 														                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자">
 														                                		</c:otherwise>
 														                                		</c:choose>
-														                                    	<label for="male_raido"> 남&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+														                                    	<label for="male_raido" style="width:max-content;"> 남&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
 														                                    </div>
-														                                    <div class="col-sm-12" style="text-align:center;">
+														                                    <div class="col-sm-4" style="text-align:center;">
 														                                    	<c:choose>
 														                                    	<c:when test="${userInfo.m_gender eq '여자'}">
 														                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자" checked>
@@ -328,9 +342,9 @@ input[type=radio]:checked + label{
 														                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자">
 														                                    	</c:otherwise>
 														                                    	</c:choose>				
-														                                    	<label for="female_raido"> 여&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+														                                    	<label for="female_raido" style="width:max-content;"> 여&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
 														                                    </div>
-														                                    <div class="col-sm-12" style="text-align:center;">
+														                                    <div class="col-sm-4" style="text-align:center;">
 														                                    	<c:choose>
 														                                    	<c:when test="${userInfo.m_gender eq '선택안함'}">
 														                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함" checked>
@@ -339,8 +353,7 @@ input[type=radio]:checked + label{
 														                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함">
 														                                    	</c:otherwise>
 														                                    	</c:choose>
-														                                    	
-														                                    	<label for="noChoice_raido">선택안함</label>
+														                                    	<label for="noChoice_raido"style="width:max-content;">미선택</label>
 														                                    </div>
 																						</div>
 																					</div>
@@ -423,7 +436,7 @@ input[type=radio]:checked + label{
 																						class="form-bar"></span>
 																				</div>
 																				@
-																				<div class="col-sm-4">
+																				<div class="col-sm-4" style="padding: 0px 0px 0px 15px;">
 																					<select id="backEmail" onchange="emailSum()">
 																						<option value="">선택해주세요.</option>
 																						<c:forTokens var="email"
