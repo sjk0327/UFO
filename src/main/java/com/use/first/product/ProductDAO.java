@@ -23,7 +23,7 @@ public interface ProductDAO {
 	//삭제기능
 	public int productUpdate2(ProductVO productVO);
 	public int countProductListCategory();	
-	public List<ProductVO> productSmartPhoneList(String p_category);
+	public List<ProductVO> productSmartPhoneList(Criteria cri);
 	public ProductVO productSmartPhoneList();
 	public int countSmartPhone();public int countLaptop();
 	public int countCamera();public int countWatch();public int countTablet();
@@ -40,11 +40,8 @@ public interface ProductDAO {
 	public List<ProductVO> productsearchTypeList(Criteria cri, String searchType);
 	public List<ProductVO> productSearchTypeList(Criteria cri);
 	public List<ProductVO> productMenubarPriceSearchRent(String minPrice, String maxPrice);
-	public List<ProductVO> productSelectColor(Criteria cri, String p_categoryColor);
+	public List<ProductVO> productSelectColor(Criteria cri);
 	public int colorTotal(Criteria cri, String p_categoryColor);
-	
-	
-	
 			
 	//위시리스트추가,삭제
 			public int wishListInsert(WishListVO wishListVO);
@@ -75,4 +72,5 @@ public interface ProductDAO {
 					public int reviewUpdate(RecVO recVO);
 				//리뷰 삭제
 					public int reviewDelete(String v_mid, String v_pid);
+					public List<ProductVO> productSmartPhoneList(String maxcate);
 			}			

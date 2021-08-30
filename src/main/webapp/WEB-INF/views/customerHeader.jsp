@@ -89,7 +89,7 @@
                   </c:otherwise>
                  </c:choose>
                  <br>
-                   <li><a href="member/noticeList">[ 공지사항 ]</a></li>
+                   <li><a href="/member/pro/noticeList">[ 공지사항 ]</a></li>
                     <li><a href="member/qnaList">[ Q&A ]</a></li>
                  
                 </ul>

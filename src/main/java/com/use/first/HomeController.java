@@ -2,6 +2,8 @@ package com.use.first;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.use.first.paging.Criteria;
+import com.use.first.paging.PageMaker;
+import com.use.first.product.ProductDAO;
+import com.use.first.product.ProductVO;
 
 
 
@@ -73,8 +81,16 @@ public class HomeController {
 	}
 
 	
-	
-	
+	//공지사항 컨트롤러 - 신영 구현중..
+	@RequestMapping(value = "/member/pro/noticeList", method = RequestMethod.GET)
+	public String noticeList(Model model, Criteria cri) {
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		
+
+		return "member/pro/noticeList";
+	}
+
+
 
 	
 	

@@ -9,6 +9,37 @@ public class Criteria {
 	private String searchType;
 	private String keyword;
 	private String v_pid;
+	private String color;
+	private String p_category;
+	private String p_categoryColor;
+
+	
+	
+	
+
+	public String getP_categoryColor() {
+		return p_categoryColor;
+	}
+
+	public void setP_categoryColor(String p_categoryColor) {
+		this.p_categoryColor = p_categoryColor;
+	}
+
+	public String getP_category() {
+		return p_category;
+	}
+
+	public void setP_category(String p_category) {
+		this.p_category = p_category;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 	public String getV_pid() {
 		return v_pid;

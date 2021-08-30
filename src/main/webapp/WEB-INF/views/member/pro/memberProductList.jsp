@@ -38,7 +38,6 @@
     <script src="/resources/common/js/aos.js"></script>
     <script src="/resources/common/js/main.js"></script>
     <style>
-  
 #container {
 	width:210px;
 	margin:0 auto;
@@ -134,6 +133,8 @@ ul{ list-style:none;}
 #margin { margin:20px; padding:80px; }
 #minPrice { height: 32px; width: 81px; }
 #maxPrice { height: 32px; width: 81px; }
+#minPriceBuy{ height: 32px; width: 81px; }
+#maxPriceBuy{ height: 32px; width: 81px; }
 #selfminprice{ height: 32px; width: 81px; }
 #selfmaxprice{ height: 32px; width: 81px; }
 #priceSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
@@ -177,66 +178,6 @@ ul{ list-style:none;}
   </ul>   
 </div>
      
-
-           <%--   <div class="row" id="picCategory" >
-                 <div class="col-md-2 " data-aos="fade" data-aos-delay="">
-                   <a id="total" class="block-2-item" href="/member/pro/productList/" >
-                     <figure class="image">
-                    <img class="small2" src="/resources/common/images/total.jpg" alt="" class="img-fluid">
-                    <img src=/resources/Images/product/${productVO.p_subImg} width="50%" height="50%"
-                alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub">
-                </figure>
-                    
-                   </a>
-                 </div>
-                  
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="100">
-                      <a id="smartPhone" class="block-2-item" value="스마트폰"  href="/member/pro/productList/스마트폰">
-                      <figure class="image">
-                        <img class="small1" src="/resources/common/images/phone.jpg" alt="" class="img-fluid">
-                      </figure>
-                      
-                    </a>
-                  </div>
-                 
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/member/pro/productList/노트북" >
-                      <figure class="image">
-                        <img id="laptop" class="small1" src="/resources/common/images/laptop.jpg" alt="" class="img-fluid">
-                      </figure>
-                     
-                    </a>
-                  </div>
-                 
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/member/pro/productList/카메라" >
-                      <figure class="image">
-                        <img id="camera" class="small1" src="/resources/common/images/camera.jpg" alt="" class="img-fluid">
-                      </figure>
-                      
-                    </a>
-                  </div>
-                 
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/member/pro/productList/스마트워치" >
-                      <figure class="image">
-                        <img id="watch" class="small1" src="/resources/common/images/watch.jpg" alt="" class="img-fluid">
-                      </figure>
-                     
-                    </a>
-                  </div>
-                  
-                  <div class="col-md-2 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="/member/pro/productList/태블릿" >
-                      <figure class="image">
-                        <img id="tablet" class="small1" src="/resources/common/images/tablet.jpg" alt="" class="img-fluid">
-                      </figure>
-                     
-                    </a>
-                  </div>
-                  
-                </div>  --%>
-             
             </div>
           </div>
         </div>
@@ -279,19 +220,6 @@ ul{ list-style:none;}
         </section>
         <!-- alert 모달을 쓸 페이지에 추가 end-->
     </div>
-   <!--  <div id="slidemenu">
-   <ul>
-      <li><a href="/member/pro/productList">상단으로</a></li>
-      <li><a href="#">메뉴1</a></li>
-      <li><a href="#">메뉴2</a></li>
-      <li><a href="#">메뉴3</a></li>
-      <li><a href="#">메뉴4</a></li>
-      <li><a href="#">메뉴5</a></li>
-      <li><a href="#">메뉴6</a></li>
-      <li><a href="#">메뉴7</a></li>
-      <li><a href="#">메뉴8</a></li>
-   </ul>
-</div> -->
 
       <div class="container"> 
         <div class="row mb-5">
@@ -385,8 +313,48 @@ ul{ list-style:none;}
              </c:if>
           
             </div>
+            
+            
+             <div id = "paging-div text-center">
+                <ul class="btn-group pagination text-center">
+                   <c:forEach begin="1" end="${size}" var="pageNum" varStatus="status">
+                   
+                   <c:choose>                
+	                   	<c:when test="${p_category ne null && p_category ne ''}">
+	                   		<a href='<c:url value="/member/pro/productList/${p_category}?page=${status.count}"/>'>
+	                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
+	                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
+	                       <span class="col-md-1"></span>
+	                   	</c:when>
+	                   	
+	                   	<c:when test="${color ne null && color ne ''}">
+	                   		<a href='<c:url value="/member/pro/productList/color/${color}?page=${status.count}"/>'>
+	                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
+	                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
+	                       <span class="col-md-1"></span>
+	                   	</c:when>                
+	                  
+                    <c:when test="${p_category eq null || p_category eq '' || color eq null || color eq ''}" > 
+                   		
+                   		
+                   			<a href='<c:url value="/member/pro/productList/${p_category}?page=${status.count}"/>'>
+                   		    <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
+                   	                     border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
+                      		<span class="col-md-1" ></span>
+                      	
+                   	</c:when>
+               
+                
+                   </c:choose>
+                   </c:forEach>
+                </ul>
+                </div>
+            
+            
+            
+            
        
-             <!-- 페이징 start -->
+            <%--  <!-- 페이징 start -->
                 <div id = "paging-div text-center">
                 <ul class="btn-group pagination text-center">
                    <c:if test="${pageMaker.prev }">
@@ -395,13 +363,13 @@ ul{ list-style:none;}
                    </c:if>
                    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
                       <c:if test="${pageNum eq pageMaker.cri.page}"><li>
-                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}&color=${color}"/>'>
                        <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
                                         border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li>
                        <span class="col-md-1"></span>
                       </c:if>
                       <c:if test="${pageNum ne pageMaker.cri.page}"><li>
-                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}&color=${color}"/>'>
                        <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span>
                       </c:if>
                       
@@ -412,7 +380,7 @@ ul{ list-style:none;}
                    </c:if>
                 </ul>
                 </div>
-           <!-- 페이징 end -->
+           <!-- 페이징 end --> --%>
             
           </div>
 
@@ -505,128 +473,7 @@ ul{ list-style:none;}
 		
 
 		</div>
-	<!-- <div id="container" style="text-align:left;">		
-		<ul class="tab">
-			<li class="current" data-tab="tab1"><a href="">대여가격 조회</a></li>
-			<li data-tab="tab2"><a href="">구매가격 조회</a></li>			
-		</ul>
-		<div id="tab1" class="tabcontent current" id="mymodal">
-			   <div>
-                 <select name="minPrice" id="minPrice" class="line selectric">
-                      <option value="" >최소</option>      
-                      <option value="500000">50만원</option>                
-                      <option value="1000000">100만원</option>                  
-                      <option value="2000000">200만원</option>                  
-                      <option value="3000000">300만원</option>                  
-                      <option value="4000000">400만원</option>                                      
-                 </select>
-                   <span class="inp_division" >&nbsp;~&nbsp;</span>
-                        <select name="maxPrice" id="maxPrice" class="line selectric">
-                          <option value="">최대</option>                   
-                        <option value="1000000">100만원</option>                    
-                        <option value="2000000">200만원</option>                    
-                        <option value="3000000">300만원</option>                    
-                        <option value="4000000">400만원</option>                      
-                    </select>
-                   
-              </div> 
-                  <div>               
-          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button>
-          <br>
-              </div>
-               <div class="">
-                      <div class="row">
-                          <input type="text" name="selfminprice" id="selfminprice" class="" 
-                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
-                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
-                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
-                                  placeholder="최대금액" size=5  style="text-align:right;">
-                      </div> 
-                       </div>                     
-                      <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
-                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-                      </div>
-		</div>
-		<div id="tab2" class="tabcontent" id="mymodal">
-			   <div>
-                 <select name="minPrice" id="minPrice" class="line selectric">
-                      <option value="" >최소</option>      
-                      <option value="500000">50만원</option>                
-                      <option value="1000000">100만원</option>                  
-                      <option value="2000000">200만원</option>                  
-                      <option value="3000000">300만원</option>                  
-                      <option value="4000000">400만원</option>                                      
-                 </select>
-                   <span class="inp_division" >&nbsp;~&nbsp;</span>
-                        <select name="maxPrice" id="maxPrice" class="line selectric">
-                          <option value="">최대</option>                   
-                        <option value="1000000">100만원</option>                    
-                        <option value="2000000">200만원</option>                    
-                        <option value="3000000">300만원</option>                    
-                        <option value="4000000">400만원</option>                      
-                    </select>
-                   
-              </div> 
-                  <div>               
-          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
-              </div>
-               <div class="container">
-                      <div class="row">
-                          <input type="text" name="selfminprice" id="selfminprice" class="" 
-                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
-                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
-                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
-                                  placeholder="최대금액" size=5  style="text-align:right;">
-                      </div> 
-                       </div>                     
-                      <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
-                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-                      </div>
-		</div>
-	</div> -->
 
-	
-         <!--  <div class="mb-4" id="mymodal"> -->
-          
-            <!--   <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-              <div>
-                 <select name="minPrice" id="minPrice" class="line selectric">
-                      <option value="" >최소</option>      
-                      <option value="500000">50만원</option>                
-                      <option value="1000000">100만원</option>                  
-                      <option value="2000000">200만원</option>                  
-                      <option value="3000000">300만원</option>                  
-                      <option value="4000000">400만원</option>                                      
-                 </select>
-                   <span class="inp_division" >&nbsp;~&nbsp;</span>
-                        <select name="maxPrice" id="maxPrice" class="line selectric">
-                          <option value="">최대</option>                   
-                        <option value="1000000">100만원</option>                    
-                        <option value="2000000">200만원</option>                    
-                        <option value="3000000">300만원</option>                    
-                        <option value="4000000">400만원</option>                      
-                    </select>
-                   
-              </div>   
-              <div>               
-          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
-              </div><br>
-              <div class="">
-                  <div class="container">
-                      <div class="row">
-                          <input type="text" name="selfminprice" id="selfminprice" class="" 
-                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
-                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
-                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
-                                  placeholder="최대금액" size=5  style="text-align:right;">
-                      </div> 
-                       </div>                     
-                      <div class="form_inner_fixed"><br><button type="button" id="selfSearch" name="searchType" 
-                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-                      </div>
-                 
-               </div>
-               <br> -->
                <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Color</h3>
             <a href="/member/pro/productList/color/black" class="d-flex color-item align-items-center" >
