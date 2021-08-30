@@ -24,7 +24,6 @@ body, html {height: 100%;}
 </style>
 
 </head>
-
 <body>
    <div id="pcoded" class="pcoded">
       <div class="pcoded-overlay-box"></div>
@@ -42,7 +41,7 @@ body, html {height: 100%;}
                            <div class="page-body">
                    <form id="sort" name="productSearch" method="get" action="/admin/pro/productList">
 					
-						<select id="searchType" name="Type">
+						<select id="searchType" name="searchType">
 							<option value="">검색조건</option>
 							<option value="t">상품번호</option> 
 							<option value="c">카테고리</option>
@@ -151,9 +150,6 @@ body, html {height: 100%;}
 											value="상품삭제" class="btn waves-effect waves-light btn-primary btn-outline-primary">삭제</button> 
 				</tr> 
 				</form>
-				
-		
-                       
               </tbody>
             </c:forEach>
 
@@ -161,25 +157,25 @@ body, html {height: 100%;}
                        </form> 
                       <br>
                       <!-- 페이징 start -->
-                              <div id = "paging-div">
-                              <ul class="btn-group pagination">
-                                 <c:if test="${pageMaker.prev }">
-                                    <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
-                                       <span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
-                                 </c:if>
-                                 <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-                                    <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                                    <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-                                    <c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
-                                    <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
-                                    
-                                 </c:forEach>
-                                 <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-                                    <li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-                                       <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
-                                 </c:if>
-                              </ul>
-                              </div>
+                   <div id = "paging-div">
+					<ul class="btn-group pagination">
+						<c:if test="${pageMaker.prev }">
+							<li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+								<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+							<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+							<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+							<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
+							<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
+							
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+							<li><a href='<c:url value="/admin/pro/productList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+								<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
+						</c:if>
+					</ul>
+					</div>
                               <!-- 페이징 end -->
                      
                                     </div></div></div> </div>
@@ -204,22 +200,14 @@ body, html {height: 100%;}
 			 }
 		}
 		
-	   	//한줄 수정 다시 됌>_<
-		function productUpdateRow(p_id,p_canBuy,p_canRent) {
-	   		
-			/* alert('p_id:::' + p_id);
-			alert('p_canBuy::' + p_canBuy); 
-			alert('p_canRent::' + p_canRent);  */
-			
+	   	//한줄 수정
+		function productUpdateRow(p_id,p_canBuy,p_canRent) {	   		
 			var p_id = p_id;
 			var p_canBuy2 = $("#p_canBuy_" + p_id).val();
 			var p_canRent2 = $("#p_canRent_" + p_id).val(); 
-			/* alert('p_canBuy2::' + p_canBuy2); 
-			alert('p_canRent2::' + p_canRent2);  */
 			
-						
 			if (confirm('상품을 수정하시겠습니까?')) {	
-				location.href = '/admin/pro/productUpdate2/' + p_id +'/'+ p_canBuy2 +'/'+ p_canRent2;
+				location.href = '/admin/pro/productUpdateRow/' + p_id +'/'+ p_canBuy2 +'/'+ p_canRent2;
 			}
 		} 
 		
@@ -267,19 +255,15 @@ body, html {height: 100%;}
 			$("#form").submit();
 			}
 		 }
-		/*  $("#aa").on("click",function(e){
-			 alert('g22');
-		        e.preventDefault();    // 추가이벤트를 막아서 #의 최상위이동막음!!!
-		        alert(1);
-		}) */
+		
 		 function check_update(){
 			 var is_use = document.getElementById('checkboxup');
 			 is_use.disabled=false;
 		 }
 		
 		 var action_popup = {
-	    timer: 500,
-	    confirm: function (txt, callback) {
+	    	timer: 500,
+	   		confirm: function (txt, callback) {
 	        if (txt == null || txt.trim() == "") {
 	            console.warn("confirm message is empty.");
 	            return;

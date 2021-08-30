@@ -112,9 +112,6 @@ body, html {
 	img{
 	border-radius: 15px;
 	}
-	.reviewContent{
-	border:5px;
-	}
 	textarea {
 	border: none;
 	outline:none;
@@ -125,16 +122,16 @@ body, html {
 	cursor: pointer;
 	}
 	.profile img{ 
-	height: 90px;
-	  max-width: 90px;
-	  min-width: 90px;
+	height: 60px;
+	  max-width: 60px;
+	  min-width: 60px;
 	  display: block;
 	border-radius: 10px; 
 	}
 	.imgIdDate {
 	margin-bottom :20px;
 	}
-	.reviewContent textarea {
+	.recommendContent textarea {
 	width:100%; 
 	resize: none; 
 	overflow-y: hidden;
@@ -148,7 +145,7 @@ body, html {
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
- 
+  
 
 </style>
 <script
@@ -211,151 +208,91 @@ body, html {
 												<div class="main-body">
 													<div class="page-wrapper">
 														<div class="page-body">
-										<c:choose>				
-										<c:when test="${recommendList[0].v_id eq null}"><h1>등록된 추천글이 없어요</h1></c:when>
-										<c:when test="${recommendList[0].v_id ne null}">
-															<form id="sort" name="recSearch" method="post" 
-																action="/member/rec/recommendList">
+															<div class="container">
+																	<form name="recommendUpdateForm" method="post"
+																		action="/member/rec/recommendUpdate">
+																		<div class="row imgIdDate" name="imgIdDate">
 
-																<select id="searchType" name="searchType">
-																	<option value="">검색조건</option>
-																	<option value="t"
-																		<c:if test="${pageMaker.cri.searchType eq 't'}"> selected </c:if>>회원ID</option>
-																	<option value="c"
-																		<c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>제품ID</option>
-																	<option value="w"
-																		<c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
-																</select>&nbsp; <input type="text" id="keyword" name="keyword"
-																	value="${pageMaker.cri.keyword}"
-																	placeholder="검색어를 입력하세요" />&nbsp;
-
-																<button id="button"
-																	class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>
-																&nbsp; <input type="button" id="button"
-																	class="btn waves-effect waves-light btn-primary btn-outline-primary"
-																	value="전체보기"
-																	onClick="location.href='/admin/rec/recList';">&nbsp;
-															</form></c:when></c:choose>
-															<div>
-																<br>
-															</div>
-															<!-- 리스트 나오는 부분 시작 -->
-															<div class="container" id="recList">
-																<div class="row mb-5">
-																	<div class="col-md-12 order-2" id="namedate">
-
-
-																		<c:forEach var="recVO" items="${recommendList}"
-																			begin="0" end="10" step="1" varStatus="status">
-																			
-																			<div class="row imgIdDate" name="imgIdDate" >
-
-																				<div class="col-2 profile" align="center">
-																					<img
-																						src=/resources/Images/product/${recVO.p_mainimg}
-																						alt="${recVO.p_mainimg}"
-																						title="${recVO.p_mainimg}"
-																						class="img-fluid img-circle">
-																				</div>
-																				<div class="col-6">
-																					<div>${recVO.p_name}</div>
-																					<div>${recVO.v_date}</div>	
-																					<c:choose>
-																						<c:when test="${recVO.v_like eq 'none'}">
-																							<a title="noselected"><img
-																								src=/resources/Images/product/like1.jpg
-																								style="cursor: auto;" width="50" height="50"
-																								alt="likes" /></a>
-																						</c:when>
-																						<c:when test="${recVO.v_like ne 'none'}">
-																							<a title="likes"><img
-																								src=/resources/Images/product/like2.jpg
-																								style="cursor: auto;" width="50" height="50"
-																								alt="noselected" /></a>
-																						</c:when>
-																					</c:choose>
-																				</div>
-																				<div class="col-4">
-																					<button type="button" class="btn btn-primary" onclick='recommendEdit(${recVO.v_id})'>편집하기</button>																					
-																				</div>
+																			<div class="col-3 profile" align="center">
+																				<img
+																					src=/resources/Images/product/${oneRecommend.p_mainimg}
+																					alt="${oneRecommend.p_mainimg}"
+																					title="${oneRecommend.p_mainimg}"
+																					class="img-fluid img-circle">
 																			</div>
-<hr>
-																			<div class="row" name="content">
-																				<div class="col-12 reviewContent" id="reviewContent">
-																					<textarea disabled>${recVO.v_content}</textarea> <hr style="border: solid 1px black;">
-																			</div>
-																			</div>
-																		</c:forEach>
-																		<!-- 페이징 start -->
-																		<div id="paging-div">
-																			<ul class="btn-group pagination">
-																				<c:if test="${pageMaker.prev }">
-																					<li><a
-																						href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageMaker.startPage-1)}#recList"/>'>
-																							<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span>
-																					</a></li>
-																					<span class="col-md-1"></span>
-																				</c:if>
-																				<c:forEach begin="${pageMaker.startPage }"
-																					end="${pageMaker.endPage }" var="pageNum">
-																					<c:if test="${pageNum eq pageMaker.cri.page}">
-																						<li><a
-																							href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageNum)}#recList"/>'>
-																								<span id="pagingCur"
-																								style="background-color: #7971ea; display: inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding: 5px;">&nbsp;${pageNum}&nbsp;</span>
-																						</a></li>
-																						<span class="col-md-1"></span>
+																			<div class="col-9" align="left">
+																				<input type="hidden" name="v_id"
+																					value="${oneRecommend.v_id}" /> <input
+																					type="hidden" name="v_like" value="none"
+																					id="updatereviewLike">
+																				<div>${oneRecommend.p_name}</div>														
+																					<c:if test="${oneRecommend.v_like eq 'none'}">
+																						<a title="noselected"><img
+																							src=/resources/Images/product/like1.jpg
+																							id="like-o" class="like-o" width="50" height="50"
+																							alt="likes" onclick='like()' /></a>
 																					</c:if>
-																					<c:if test="${pageNum ne pageMaker.cri.page}">
-																						<li><a
-																							href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageNum)}#recList"/>'>
-																								<span>&nbsp;${pageNum}&nbsp;</span>
-																						</a></li>
-																						<span class="col-md-1"> </span>
+																					<c:if test="${oneRecommend.v_like ne 'none'}">
+																						<a title="likes"><img
+																							src=/resources/Images/product/like2.jpg id="like"
+																							class="like" width="50" height="50"
+																							alt="noselected" onclick='likeCancel()' /></a>
 																					</c:if>
+																				
 
-																				</c:forEach>
-																				<c:if
-																					test="${pageMaker.next && pageMaker.endPage >0 }">
-																					<li><a
-																						href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageMaker.endPage+1)}#recList"/>'>
-																							<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span>
-																					</a></li>
-																					<span class="col-md-1"></span>
-																				</c:if>
-																			</ul>
+																			</div>
 																		</div>
-																		<!-- 페이징 end -->
-																		
 
 
 
-
-																	</div>
-																</div>
-															</div>	
+																		<div class="row" name="content">
+																			<h3>여러분의 후기를 남겨주세요</h3>
+																			<div class="col-12 recommendContent">
+																				<br>
+																				<textarea class="recommendContent" rows="2" cols="50" id="Recommendcontent" autofocus
+																				 maxlength="100" name="v_content" ></textarea>
+																			</div>
+																		</div>
+																		<div style="text-align:right">
+																		<input type="button" value="수정"
+																			class="btn btn-primary" onclick='recommendUpdate()'>
+																		<input type="button" value="삭제" class="btn btn-primary"
+																			onclick='recommendDelete(${oneRecommend.v_id})'>
+																		<button class="btn btn-primary"
+																			onclick='history.back();'>뒤로가기</button>	
+																			<hr style="border: solid 1px black;">												
+																		</div>	
+																	</form>
+																	
+															</div>
 														</div>
+
+
+
+
+
+
 													</div>
 												</div>
 											</div>
 										</div>
-
-
-
 									</div>
-
 								</div>
-
-
-
-
-
 							</div>
-
 						</div>
+
+
+
 					</div>
+
 				</div>
+
+
+
+
+
 			</div>
+
 		</div>
 	</div>
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
@@ -391,14 +328,11 @@ body, html {
 	</script>
 	<script>
 	$(document).ready(function(){
-		var size =$(window)[0].innerWidth;		
-
+		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-			$('#namedate').remove('text-align');
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('#namedate').css('text-align' , "right");
 		}
 	});
 
@@ -407,10 +341,8 @@ body, html {
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-			$('#namedate').remove('text-align');
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('#namedate').css('text-align' , "right");
 		}
 	});
 	
@@ -449,17 +381,22 @@ function likeCancel(){
 	 } 
 }
 //리뷰 삭제
-function recommendDelete() {
+function recommendDelete(v_id) {
 	action_popup.confirm('추천글을 삭제하시겠습니까?', function (res) {
 		if (res) {			
-			document.recommendDeleteForm.submit();
+			location.href='/member/rec/recommendDelete/'+v_id
 	
 		 } 
 	})	
 }
-//리뷰 수정폼으로
-function recommendEdit(v_id) {
-	location.href='/member/rec/UpdateForm/'+v_id;
+//리뷰 업데이트
+function recommendUpdate() {
+	action_popup.confirm('수정하시겠습니까', function (res) {
+		if (res) {			
+			document.recommendUpdateForm.submit();
+	
+		 } 
+	})	
 }
 	
 	
@@ -528,7 +465,18 @@ function recommendEdit(v_id) {
 				}, this.timer);
 			}
 		}
-		 
+	//textarea에 자동 포커스
+	window.onload = function(){
+			const Recommendcontent = document.getElementById('Recommendcontent');
+			var content = "<c:out value='${oneRecommend.v_content}'/>";
+			Recommendcontent.value = content; 
+	if (content == '') {
+		Recommendcontent.setAttribute('placeholder','입력란');
+	}
+}
+	
+
+		
 
 	</script>
 
