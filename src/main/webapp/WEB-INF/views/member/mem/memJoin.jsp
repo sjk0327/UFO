@@ -78,6 +78,125 @@
         border-bottom-color: #e2e2e2;
         border-radius: .25em; 
     }
+    
+    .modal .btn {
+	cursor: pointer;
+	border: 1px solid #999999;
+	text-align: center;
+	border-radius: 5px;
+	outline: none;
+	font-weight: 500;
+}
+
+.dimLayer {
+	display: block;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	position: fixed;
+	left: 0;
+	top: 0px;
+	margin: 0;
+	padding: 0;
+	z-index: 9998;
+}
+
+.modal {
+	width: 600px;
+	height: 252px;
+	border-radius: 10px;
+	padding: 80px 24px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.modal-section {
+	background: #ffffff;
+	box-sizing: border-box;
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 9999;
+}
+
+.menu_msg {
+	font-size: 21px;
+	font-weight: 500;
+}
+
+.enroll_box p {
+	padding-bottom: 56px;
+}
+
+.gray_btn {
+	width: 90px;
+	background: #ffffff;
+	color: #999999;
+	height: 36px;
+	transition: 0.5s;
+	font-size: 17px;
+}
+
+.pink_btn {
+	width: 90px;
+	background: #7971ea;
+	color: #fff;
+	height: 36px;
+	transition: 0.5s;
+	font-size: 17px;
+	border: none;
+}
+select {
+	color: #0764ff;
+	width: 180px;
+	padding: .8em .5em;
+	border: 1px solid #7971ea;
+	font-family: inherit;
+	background: url('/resources/img/selectArrow.jpg') no-repeat 95% 50%;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+select::-ms-expand {
+	display: none;
+}
+
+@media screen and (max-width:575px) {
+	select {
+		color: #0764ff;
+		width: 395px;
+		padding: .8em .5em;
+		border: 1px solid #7971ea;
+		font-family: inherit;
+		background: url('/resources/img/selectArrow.jpg') no-repeat 95% 50%;
+		border-radius: 0px;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+	select::-ms-expand {
+		display: none;
+	}
+	.spaceNeed {
+		padding: 0px 0px 30px 0px !important;
+	}
+	.col-sm-8{
+		padding: 0px 0px 10px 0px !important;
+	}
+	.col-sm-9{
+		padding: 0px 0px 10px 0px !important;
+	}
+	input[type=button]{
+		float:right;
+	}
+}
      </style>
 </head>
 
@@ -107,14 +226,14 @@
 							        <input type="file" name="uploadFile" id="input-file" class="upload-hidden" />
                                 	<input type="hidden" name="m_img" value="defaultImage.jpg" required="required"/>
                             	</div>
-								<div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
+								<div class="form-group form-primary form-static-label row" style="width: 410px; margin-left: 0px;">
 									<div class="col-sm-9" style="padding:0px;">
 	                                    <input type="text" id="id" name="m_id" class="form-control" required="required" onkeyup="check_id()">
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">아이디</label>
 	                                   	<span id="check_id"></span>
 									</div>
-									<div class="col-sm-2" style="padding:0px 0px 0px 15px;">
+									<div class="col-sm-2" style="padding:0px 0px 0px 4px;">
 	                                  	<input type="button" value="중복확인" onclick="duplicateIdCheck()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
 									</div>
 								</div>
@@ -149,7 +268,7 @@
                                     	<label for="noChoice_raido" style="padding-left: 39px; padding-right: 39px;">선택안함</label>
                                     </div>
                                 </div>
-                                <div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
+                                <div class="form-group form-primary form-static-label row" style="width: 410px; margin-left: 0px;">
                                 	
                                     <div class="col-sm-6" style="padding:0px;">
                                     	<input type="hidden" id="realEmail" name="m_email" value="" class="form-control" required="required" >
@@ -169,29 +288,30 @@
                                     	</select>
                                     </div>
                                 </div>
-                                <div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
+                                <div class="form-group form-primary form-static-label row" style="width: 410px; margin-left: 0px;">
                                     <div class="col-sm-8" style="padding:0px;">
 	                                    <input type="text" id="checkKey" onchange="authKeyCompared()" placeholder="인증번호 받기를 하면 활성화 됩니다." class="form-control" required="required" disabled>
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">인증번호</label>
 	                                    <span id="check_authKey"></span>
                                     </div>
-                                    <div class="col-sm-3" style="padding:0px 0px 0px 11px;">
+                                    <div class="col-sm-3" style="padding:0px 0px 0px 4px;">
                                    		<input type="button" id="authBtn" value="인증번호 받기" onclick="authKeySend()" onmouseout="authBtnOut()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
                                 		<input type="button" id="timeBtn" value="" style="display:none;" onmouseover="timeBtnOver()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
+                                		<input type="button" id="completeBtn" value="" style="display:none;" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
                                 	</div>
                               	</div>
 
                                 
                                 <hr style="border-style:dotted;margin-bottom: 2.5em;"/>
                                 <input type="hidden" id="realAddress" name="m_addr"/>
-                               	<div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
+                               	<div class="form-group form-primary form-static-label row" style="width: 410px; margin-left: 0px;">
                                     <div class="col-sm-8" style="padding:0px;">
 	                                    <input type="text" id="postcode" name="addr" class="form-control" placeholder="우편번호 찾기를 해주세요." readonly="readonly">
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">우편번호</label>
                                     </div>
-                                    <div class="col-sm-3" style="padding:0px 0px 0px 11px;">
+                                    <div class="col-sm-3" style="padding:0px 0px 0px 4px;">
                                    		<input type="button" value="우편번호 찾기" onclick="daumPostcode()" class="btn waves-effect waves-light btn-primary btn-outline-primary"/>
                                 	</div>
                               	</div>
@@ -200,16 +320,16 @@
                                     <span class="form-bar"></span>
                                     <label class="float-label">주소</label>
                                 </div>
-                              	<div class="form-group form-primary form-static-label row" style="width: 410px; padding-left: 15px;">
-                                    <div class="col-sm-6" style="padding:0px;">
+                              	<div class="form-group form-primary form-static-label row" style="width: 410px; margin-left: 0px;">
+                                    <div class="col-sm-6 spaceNeed" style="padding:0px 15px 0px 0px;">
 	                                    <input type="text" id="detailAddress" class="form-control" >
 	                                    <span class="form-bar"></span>
 	                                    <label class="float-label">상세주소</label>
                                     </div>
-                                    <div class="col-sm-6" style="padding:0px 0px 0px 15px;">
+                                    <div class="col-sm-6" style="padding:0px 0px 0px 0px;">
                                    		<input type="text" id="extraAddress" name="addr" class="form-control" readonly="readonly">
 	                                    <span class="form-bar"></span>
-	                                    <label class="float-label" style="padding-left: 15px;">참고항목</label>
+	                                    <label class="float-label">참고항목</label>
                                 	</div>
                               	</div>
                                 <div class="form-group form-primary form-static-label">
@@ -242,8 +362,129 @@
             <!-- end of row -->
         </div>
         <!-- end of container-fluid -->
+    <!-- confirm 모달을 쓸 페이지에 추가 start-->
+	<section class="modal modal-section type-confirm">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn btn_ok">확인</button>
+			<button class="btn gray_btn modal_close">취소</button>
+		</div>
+	</section>
+	<!-- confirm 모달을 쓸 페이지에 추가 end-->
+	
+	<!-- confirmEdit 모달을 쓸 페이지에 추가 start-->
+	<section class="modal modal-section type-confirmEdit">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn btn_ok">확인</button>
+		</div>
+	</section>
+	<!-- confirmEdit 모달을 쓸 페이지에 추가 end-->
+
+	<!-- alert 모달을 쓸 페이지에 추가 start-->
+	<section class="modal modal-section type-alert">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn modal_close">확인</button>
+		</div>
+	</section>
+	<!-- alert 모달을 쓸 페이지에 추가 end-->
+        
+        
     </section>
 <script>
+$(".modal_close").on("click", function() {
+	action_popup.close(this);
+});
+
+
+
+/**
+ *  alert, confirm 대용 팝업 메소드 정의 <br/>
+ *  timer : 애니메이션 동작 속도 <br/>
+ *  alert : 경고창 <br/>
+ *  confirm : 확인창 <br/>
+ *  open : 팝업 열기 <br/>
+ *  close : 팝업 닫기 <br/>
+ */
+var action_popup = {
+	timer : 500,
+	confirm : function(txt, callback) {
+		if (txt == null || txt.trim() == "") {
+			console.warn("confirm message is empty.");
+			return;
+		} else if (callback == null || typeof callback != 'function') {
+			console.warn("callback is null or not function.");
+			return;
+		} else {
+			$(".type-confirm .btn_ok").on("click", function() {
+				$(this).unbind("click");
+				callback(true);
+				action_popup.close(this);
+			});
+			this.open("type-confirm", txt);
+		}
+	},
+	confirmEdit : function(txt, callback) {
+		if (txt == null || txt.trim() == "") {
+			console.warn("confirm message is empty.");
+			return;
+		} else if (callback == null || typeof callback != 'function') {
+			console.warn("callback is null or not function.");
+			return;
+		} else {
+			$(".type-confirmEdit .btn_ok").on("click", function() {
+				$(this).unbind("click");
+				callback(true);
+				action_popup.close(this);
+			});
+			this.open("type-confirmEdit", txt);
+		}
+	},
+	alert : function(txt) {
+		if (txt == null || txt.trim() == "") {
+			console.warn("confirm message is empty.");
+			return;
+		} else {
+			this.open("type-alert", txt);
+		}
+	},
+
+	open : function(type, txt) {
+		var popup = $("." + type);
+		popup.find(".menu_msg").text(txt);
+		$("body").append("<div class='dimLayer'></div>");
+		$(".dimLayer").css('height', $(document).height()).attr(
+				"target", type);
+		popup.fadeIn(this.timer);
+	},
+
+	close : function(target) {
+		var modal = $(target).closest(".modal-section");
+		var dimLayer;
+		if (modal.hasClass("type-confirm")) {
+			dimLayer = $(".dimLayer[target=type-confirm]");
+		} else if (modal.hasClass("type-alert")) {
+			dimLayer = $(".dimLayer[target=type-alert]")
+		} else {
+			console.warn("close unknown target.")
+			return;
+		}
+		modal.fadeOut(this.timer);
+		setTimeout(function() {
+			dimLayer != null ? dimLayer.remove() : "";
+		}, this.timer);
+	}
+}
+
+
+
 
 //전화번호 자동 - 추가
 var autoHypenPhone = function(str){
@@ -426,7 +667,7 @@ this.value = autoHypenPhone( this.value ) ;
 			emailFormCheck = true;
 		}
 		
-		if(emailFormCheck && (inputed.length > 0 || inputed != "")) {
+		if(emailFormCheck && (inputed.length > 0 || inputed != "") && !emailCheck) {
 			$("#check_email").text("");
 			// timer가 없을 때 (처음 클릭)
 			if(!isRunning){
@@ -437,7 +678,7 @@ this.value = autoHypenPhone( this.value ) ;
 					dataType : "text",
 					contentType: "application/json; charset=UTF-8",
 					success : function(data) {
-						alert('인증번호가 전송 되었습니다.');
+						action_popup.alert('인증번호가 전송 되었습니다.');
 						
 						checkInput.attr("disabled", false);	
 						checkInput.attr("placeholder", "");
@@ -474,7 +715,7 @@ this.value = autoHypenPhone( this.value ) ;
 	            // 타이머 끝
 	            if (--count < 0) {
 	    	     clearInterval(timer);
-	    	     alert("시간초과");
+	    	     action_popup.alert("시간초과");
 	    	     display.val("시간초과");
 	    	     $('input#checkKey').attr("disabled", true);
 	    	     authKey="";
@@ -508,6 +749,12 @@ this.value = autoHypenPhone( this.value ) ;
 		var result = $("#check_authKey");
 		
 		if(inputCode == authKey ){
+			$('input#completeBtn').val("인증 완료")
+			$('input#completeBtn').attr("style","display:block;");
+			$('input#timeBtn').attr("style","display:none;");
+			$('input#authBtn').attr("style","display:none;");
+			isRunning = false;
+			clearInterval(timer);
 			result.text("인증번호가 일치합니다.");
 			result.css("color","blue");
 			emailCheck = true;

@@ -80,8 +80,8 @@ body, html {
 	z-index: 9998;
 }
 
-.modal {
-	width: 600px;
+.mocdal {
+	width: 500px;
 	height: 252px;
 	border-radius: 10px;
 	padding: 80px 24px;
@@ -119,7 +119,6 @@ body, html {
 	background: #ffffff;
 	color: #999999;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 }
@@ -129,7 +128,6 @@ body, html {
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
@@ -143,6 +141,54 @@ body, html {
 .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
 	display: table-cell;
 }
+
+   input[type=radio]{
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: -9999px;
+}
+input[type=radio] + label{
+  margin: 0;
+  padding: .75em 28%;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  border: solid 1px #DDD;
+  background-color: #FFF;
+  line-height: 140%;
+  text-align: center;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  transition: border-color .15s ease-out,  color .25s ease-out,  background-color .15s ease-out, box-shadow .15s ease-out;
+  cursor: pointer;
+}
+input[type=radio]:checked + label{
+	background-color: #4B9DEA;
+  color: #FFF;
+  box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+  border-color: #4B9DEA;
+  z-index: 1;
+}
+.noChoice_raido{
+	padding-left:1.5px;
+	padding-right:1.5px;
+}
+select {
+	color: #0764ff;
+	width: inherit;
+	padding: .5em .5em;
+	border: 1px solid #7971ea;
+	font-family: inherit;
+	background: url('/resources/img/selectArrow.jpg') no-repeat 95% 50%;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+select::-ms-expand {
+	display: none;
+}
+
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -256,11 +302,8 @@ body, html {
 																						<div class="col-sm-3 col-form-label">비밀번호</div>
 																						<div
 																							class="form-group form-primary form-static-label col-sm-9">
-																							<form:input type="text" value="${userInfo.m_pw }"
-																								path="m_pw"
-																								class="form-control form-control-center form-control-round form-control-bold"
-																								placeholder="필수 항목 입니다." required="required" />
-																							<span class="form-bar"></span>
+																							<input type="button" value="비밀번호 변경" onclick="showPopUp()"
+																							 class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 																						</div>
 																					</div>
 
@@ -278,12 +321,40 @@ body, html {
 																					<div class="form-group row">
 																						<div class="col-sm-3 col-form-label">성별</div>
 																						<div
-																							class="form-group form-primary form-static-label col-sm-9">
-																							<form:input type="text" path="m_gender"
-																								value="${userInfo.m_gender }"
-																								class="form-control form-control-center form-control-round form-control-bold"
-																								readonly="readonly" />
-																							<span class="form-bar"></span>
+																							class="form-group form-primary form-static-label col-sm-9 row" style="margin-left:0px;padding-left:0px;">
+																							<div class="col-sm-4" style="text-align:center;">
+														                                		<c:choose>									                                		
+														                                		<c:when test="${userInfo.m_gender eq '남자'}">
+														                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자" checked>
+														                                		</c:when>
+														                                		<c:otherwise>
+														                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자">
+														                                		</c:otherwise>
+														                                		</c:choose>
+														                                    	<label for="male_raido" style="width:max-content;"> 남&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+														                                    </div>
+														                                    <div class="col-sm-4" style="text-align:center;">
+														                                    	<c:choose>
+														                                    	<c:when test="${userInfo.m_gender eq '여자'}">
+														                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자" checked>
+														                                    	</c:when>
+														                                    	<c:otherwise>
+														                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자">
+														                                    	</c:otherwise>
+														                                    	</c:choose>				
+														                                    	<label for="female_raido" style="width:max-content;"> 여&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+														                                    </div>
+														                                    <div class="col-sm-4" style="text-align:center;">
+														                                    	<c:choose>
+														                                    	<c:when test="${userInfo.m_gender eq '선택안함'}">
+														                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함" checked>
+														                                    	</c:when>
+														                                    	<c:otherwise>
+														                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함">
+														                                    	</c:otherwise>
+														                                    	</c:choose>
+														                                    	<label for="noChoice_raido"style="width:max-content;">미선택</label>
+														                                    </div>
 																						</div>
 																					</div>
 																				</div>
@@ -345,7 +416,7 @@ body, html {
 																					<form:input type="text" id="phoneNum" path="m_tel"
 																						value="${userInfo.m_tel }"
 																						class="form-control form-control-center form-control-round form-control-bold"
-																						placeholder="필수 항목 입니다.('-'을 빼고 적어주세요)"
+																						placeholder="'-'을 빼고 적어주세요."
 																						required="required" />
 
 																					<span class="form-bar"></span>
@@ -365,7 +436,7 @@ body, html {
 																						class="form-bar"></span>
 																				</div>
 																				@
-																				<div class="col-sm-4">
+																				<div class="col-sm-4" style="padding: 0px 0px 0px 15px;">
 																					<select id="backEmail" onchange="emailSum()">
 																						<option value="">선택해주세요.</option>
 																						<c:forTokens var="email"
@@ -403,7 +474,7 @@ body, html {
 																					<form:input type="text" path="m_point"
 																						value="${userInfo.m_point }"
 																						class="form-control form-control-center form-control-round form-control-bold"
-																						disabled='true' placeholder="필수 항목 입니다."
+																						readonly='true' placeholder="필수 항목 입니다."
 																						required="required" />
 																					<span class="form-bar"></span>
 																				</div>
@@ -416,7 +487,7 @@ body, html {
 																				<div class="form-group form-primary col-sm-10">
 																					<form:input type="date" name="m_regdate"
 																						path="m_regdate" value="${userInfo.m_regdate }"
-																						disabled='true' />
+																						readonly='true' />
 																					<span class="form-bar"></span>
 																				</div>
 																			</div>
@@ -441,6 +512,20 @@ body, html {
 																	</div>
 																	<div class="card-block">
 																		<div class="table-responsive">
+																			<c:choose>
+																			<c:when test="${rentList.size() eq 0 }">
+																			<div style="display:flex; justify-content: center">
+																				<table>
+																					<tbody>
+																						<tr>
+																						<td>대여 현황이 없습니다. </td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			</c:when>
+																			<c:otherwise>
+																		
 																			<table class="table table-hover">
 
 																				<c:forEach var="list" items="${rentList }">
@@ -494,6 +579,11 @@ body, html {
 																				</c:forEach>
 
 																			</table>
+																			
+																			
+																			</c:otherwise>
+																			</c:choose>
+																			
 																		</div>
 																	</div>
 																</div>
@@ -504,6 +594,20 @@ body, html {
 																	</div>
 																	<div class="card-block">
 																		<div class="table-responsive">
+																			<c:choose>
+																			<c:when test="${purchaseList.size() eq 0 }">
+																			<div style="display:flex; justify-content: center">
+																				<table>
+																					<tbody>
+																						<tr>
+																						<td>구매 현황이 없습니다. </td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			</c:when>
+																			<c:otherwise>
+																		
 																			<table class="table table-hover">
 
 																				<c:forEach var="list" items="${purchaseList }">
@@ -535,9 +639,9 @@ body, html {
 																						</tr>
 																					</tbody>
 																				</c:forEach>
-
-
 																			</table>
+																			</c:otherwise>
+																			</c:choose>
 																		</div>
 																	</div>
 																</div>
@@ -555,6 +659,21 @@ body, html {
 																	</div>
 																	<div class="card-block">
 																		<div class="table-responsive">
+																			<c:choose>
+																			<c:when test="${messageList.size() eq 0 }">
+																			<div style="display:flex; justify-content: center">
+																				<table>
+																					<tbody>
+																						<tr>
+																						<td>메시지가 없습니다. </td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			</c:when>
+																			<c:otherwise>
+																		
+																		
 																			<table class="table table-hover">
 
 																				<c:forEach var="messageList" items="${messageList }">
@@ -582,12 +701,9 @@ body, html {
 																						</tr>
 																					</tbody>
 																				</c:forEach>
-
-
-
-
 																			</table>
-
+																		</c:otherwise>
+																		</c:choose>
 																		
 
 
@@ -649,7 +765,7 @@ body, html {
 
 
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-confirm">
+	<section class="mocdal modal-section type-confirm">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
 		</div>
@@ -662,7 +778,7 @@ body, html {
 
 
 	<!-- alert 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-alert">
+	<section class="mocdal modal-section type-alert">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
 		</div>
@@ -680,6 +796,16 @@ body, html {
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 	</script>
 	<script>
+	//비밀번호 수정 팝업창 띄우기
+	function showPopUp(){
+		
+		var url = "/member/mem/pw_change/1";
+		var name = "addrPopup";
+		var option = "width = 450, height = 560 left = 200, top=50, location=no";
+		 
+		window.open(url,name,option); 
+		 
+	}
 	//전화번호 자동 - 추가
 	var autoHypenPhone = function(str){
 	    str = str.replace(/[^0-9]/g, '');

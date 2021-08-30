@@ -234,7 +234,7 @@
 		rental.r_sdate, rental.r_rent, rental.r_state, rental.r_pdate from
 		rental, product
 		where rental.r_pid = product.p_id and r_mid = #{param2} and r_state not like concat('%',#{param3},'%')
-		<if test="param1.searchType == 't'.toString()">
+		<if test="param1.searchType == 'c'.toString()">
 				AND r_pid LIKE CONCAT('%', #{param1.keyword},'%')
 			</if>
 			<if test="param1.searchType == 'w'.toString()">
@@ -252,7 +252,7 @@
 		rental.r_sdate, rental.r_rent, rental.r_state, rental.r_pdate from
 		rental, product
 		where rental.r_pid = product.p_id and r_mid = #{param2} and r_state like concat('%',#{param3},'%')
-		<if test="param1.searchType == 't'.toString()">
+		<if test="param1.searchType == 'c'.toString()">
 				AND r_pid LIKE CONCAT('%', #{param1.keyword},'%')
 			</if>
 			<if test="param1.searchType == 'w'.toString()">

@@ -133,14 +133,14 @@
                                                                <div class="col-sm-4 col-form-label">아이디</div>
                                                                <div class="form-group form-primary form-static-label col-sm-8">
                                                                   <form:hidden path="m_id" class="form-control form-control-center form-control-round form-control-bold" />
-                                                                  <input id="id" value="${userVO.m_id }" disabled="disabled" class="form-control form-control-center form-control-round form-control-bold" />
+                                                                  <input id="id" value="${userVO.m_id }" readonly class="form-control form-control-center form-control-round form-control-bold" />
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
                                                             <div class="form-group row">
                                                                <div class="col-sm-4 col-form-label">이 름</div>
                                                                <div class="form-group form-primary form-static-label col-sm-8">
-                                                                  <form:input type="text" path="m_name" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
+                                                                  <form:input type="text" path="m_name" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다."/>
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                             </div>
@@ -205,7 +205,7 @@
                                                             <span class="form-bar"></span>
                                                             <div class="row">
                                                                <div class="col-sm-6">
-                                                                  <input type="text" id="detailAddress" value="${fn:split(userVO.m_addr,'|')[2]}" class="form-control" placeholder="상세주소" required="required">
+                                                                  <input type="text" id="detailAddress" value="${fn:split(userVO.m_addr,'|')[2]}" class="form-control" placeholder="상세주소">
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
@@ -218,7 +218,7 @@
                                                       <div class="form-group row">
                                                          <div class="col-sm-3 col-form-label">전화번호</div>
                                                          <div class="form-group form-primary form-static-label col-sm-8">
-                                                            <form:input type="text" id="phoneNum" path="m_tel" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
+                                                            <form:input type="text" id="phoneNum" path="m_tel" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다."/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                       </div>
@@ -226,12 +226,12 @@
                                                       	 <input type="hidden" name="m_email" id="realEmail" value="${userVO.m_email }"/>
                                                          <div class="col-sm-3 col-form-label">이메일</div>
                                                          <div class="form-group form-primary form-static-label col-sm-4">
-                                                            <input type="text" id="frontEmail" value="${fn:split(userVO.m_email,'@')[0] }" onchange="emailSum()" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." required="required"/>
+                                                            <input type="text" id="frontEmail" value="${fn:split(userVO.m_email,'@')[0] }" onchange="emailSum()" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다."/>
                                                             <span class="form-bar"></span>
                                                          </div>
                                                          @
                                                          <div class="col-sm-4">
-					                                    	<select id="backEmail" onchange="emailSum()" required="required">
+					                                    	<select id="backEmail" onchange="emailSum()">
 					                                    		<option value="">선택해주세요.</option>
 					                                    	<c:forTokens var="email" items="naver.com,daum.net,hanmail.net,gmail.com" delims=",">
 					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] eq email}">
@@ -266,7 +266,7 @@
                                                          <!--<fmt:formatDate var="formatRegDate" value="${userVO.m_regdate}" pattern="yyyy년 MM월 dd일, HH시 MM분 SS초"/>
                                                             <input value="${formatRegDate}" class="form-control form-control-center form-control-round form-control-bold" placeholder="필수 항목 입니다." readonly="readonly"/>-->
                                                          <div class="form-group form-primary form-static-label col-sm-8">
-                                                            <input id="regdate" value="${userVO.m_regdate }" disabled="disabled" class="form-control form-control-center form-control-round form-control-bold"/>
+                                                            <input id="regdate" value="${userVO.m_regdate }" readonly class="form-control form-control-center form-control-round form-control-bold"/>
                                                             <form:hidden path="m_regdate"/>
                                                             <span class="form-bar"></span>
                                                          </div>
@@ -335,10 +335,10 @@
 						<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대 여  중</label></c:if>
 						<c:if test="${sdate+3<today}"><label class="btn btn-danger">연 체  중</label></c:if>
 						</c:if>
-						<c:if test="${list.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
-						<c:if test="${list.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
-                        <c:if test="${list.r_state eq '환불 요청'}"><label class="btn btn-warning">환불 요청</label></c:if>
-						<c:if test="${list.r_state eq '환불 완료'}"><label class="btn btn-success">환불 완료</label></c:if>                                       
+						<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 요청(대여)'}"><label class="btn btn-inverse">환불 요청</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 완료(대여)'}"><label class="btn btn-inverse">환불 완료</label></c:if>                                       
                                                        
                                                                
                                                             </td>
@@ -378,9 +378,12 @@
                                                                </div>
                                                             </td>
                                                             <td class="text-right">
-                                                               	<c:if test="${list.r_state eq '즉시 구매'}"><label class="btn btn-info">즉시 구매</label></c:if>
-																<c:if test="${list.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
-																<c:if test="${list.r_state eq '환불'}"><label class="btn btn-info2">환 불</label></c:if>
+                                                               <c:if test="${rentInfo.r_state eq '즉시 구매'}"><label class="btn btn-info">즉시 구매</label></c:if>
+						<c:if test="${rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
+						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 요청(즉시 구매)'||rentInfo.r_state eq '환불 요청(구매 확정)'}"><label class="btn btn-inverse">환불 요청</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 완료(즉시 구매)'}"><label class="btn btn-inverse">환불 완료</label></c:if>
                                                             </td>
                                                                </tr>
                                                             </tbody>
