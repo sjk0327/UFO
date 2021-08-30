@@ -149,16 +149,24 @@ body, html {
 </head>
 
 <body>
-	<ul id="tempPage" style="display: none"></ul>
+<div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><span class="mx-2 mb-0"></span></div>
+        </div>
+      </div>
+    </div>
+
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
 
 			<div class="pcoded-main-container">
-				<div class="pcoded-wrapper">
+				<div class="pcoded-wrapper" style="background-color: #fff;">
 
 					<div class="pcoded-content">
 						<div class="pcoded-inner-content">
+						
 							<!-- Main-body start -->
 							<div class="main-body">
 								<div class="page-wrapper">

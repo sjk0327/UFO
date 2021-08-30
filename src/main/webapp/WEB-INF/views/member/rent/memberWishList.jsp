@@ -108,6 +108,7 @@ border-color: #4e5a72;
           height: 100%;
           display: flex;
           justify-content: center;
+          z-index: 1;
           align-items: center;
         }
 
@@ -237,6 +238,18 @@ position: sticky;
 top:300px;
 
 }
+
+
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modac .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0; z-index: 2;}
+.modac{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
+.modac-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 </style>
 
 </head>
@@ -249,10 +262,17 @@ top:300px;
 	<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
 	</c:forEach>
 	<!-- 남은 수량 계산위한 rentalList end script로! -->
+	
+	<!-- cartList -->
+	<c:forEach var="cart" items="${cartList}">
+	<input id="cartProId" type="hidden" value="${cart.c_pid}">
+	<input id="cartProState" type="hidden" value="${cart.c_state}">
+	</c:forEach>
+	<!-- cartList end script로! -->
 
 
 
-    <div class="bg-light py-3">
+    <div class="py-3" style="background-color: #f4f4f4;">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><span class="mx-2 mb-0"></span></div>
@@ -297,9 +317,9 @@ top:300px;
                 <div class="row">
                 <div class="check col-md-5" onclick="event.cancelBubble=true" style="text-align: left; margin: 3pt;" >
                      <input class="check" onclick="event.cancelBubble=true" type="checkbox" name="RowCheck" value="${wishInfo.w_id }"></div>
-                  <div class="col-md-5" style="text-align: right; margin: 3pt; left: 40px;"><form action="/member/rent/deleteWishList" method="post">
+                  <div class="col-md-5" style="text-align: right; margin: 3pt; left: 40px;"><form id="deleteSepForm" action="/member/rent/deleteWishList" method="post">
                         <input type="hidden" name="w_id" value="${wishInfo.w_id}">
-                        <button id="delbtn" class="deleteWish"onclick="">Χ</button>
+                        <input type="button" id="delbtn" class="deleteWish" onclick="deleteWish();" value="Χ"></input>
  						</form></div></div></div>
                      
                   <!-- 이미지 -->
@@ -487,13 +507,51 @@ top:300px;
 		<div class="col-md-3">
 		<div class="row">
 		<div class="col-md-6" style="padding-left: 50px;">	
-    <button id="button" class="closeBtn btn btn-outline-primary btn-sm">취소</button></div>
+    <input type="button" class="closeBtn btn btn-outline-primary btn-sm" value="취소"></input></div>
     <div class="col-md-6" style="padding-left: 30px;">	
-    <button id="keepgo" class="btn btn-outline-primary btn-sm"></button></div></div></div>
+    <input type="button" id="keepgo" class="btn btn-outline-primary btn-sm" value=""></input></div></div></div>
   </div>
   </form:form></div>	
 </div>
 <!-- 모달창 끝 -->
+                
+       <!-- confirm 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modac modac-section type-confirm">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <input type="button" class="btn pink_btn btn_ok" value="확인"></input>
+                <input type="button" class="btn gray_btn modal_close" value="취소"></input>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+        
+        <!-- confirm2 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modac modac-section type-confirm2">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <input type="button" class="btn pink_btn btn_ok2" value="확인"></input>
+                <input id="modal_close2" type="button" class="btn gray_btn modal_close" value="취소"></input>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+        
+        
+
+        <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modac modac-section type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button id="modal_close" class="btn pink_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->
+                
                 
 
 <c:if test="${empty wishList }">
@@ -511,7 +569,7 @@ top:300px;
  <div class="row checkpro">
     		<span style="font-weight: bold;">선택상품을</span>
     		<form id="form">
-           	<span style="margin-left: 3pt;"><button id="deleteWish" href="" class="btn btn-outline-primary" onclick="wishcheckboxArr();">삭제하기</button></span>
+           	<span style="margin-left: 3pt;"><input type="button" id="deleteWish" class="btn btn-outline-primary" onclick="wishcheckboxArr();" value="삭제하기"></input></span>
            	<input type="hidden" id="arrayParam" name="arrayParam"/>
            	</form>
 
@@ -522,9 +580,9 @@ top:300px;
  <div class="row allpro">
     
             <span>
-            <form id="form" action="/member/rent/deleteWishAll" method="post">
+            <form id="deleteAllForm" action="/member/rent/deleteWishAll" method="post">
             <input type="hidden" id="userID" name="userID" value="crystal"/>
-            <span style="margin-left: 3pt;"><button id="deleteWish" class="btn btn-outline-primary deleteWishAll">위시리스트 비우기</button></span>
+            <span style="margin-left: 3pt;"><input type="button" id="deleteWish" class="btn btn-outline-primary deleteWishAll" value="위시리스트 비우기"></input></span>
             </form></span>
             </div>
      </span>  
@@ -593,26 +651,41 @@ $(document).ready(function() {
 	$('#myCarousel2').carousel('cycle');
 });
 
-$('.deleteWish').click(function() {
+
 	
-	if (confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?") == true){   
 
-	  }else{   
-		 event.preventDefault();
-       event.stopPropagation();
 
-	  };	
-});
+function deleteWish(){
+	action_popup.confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?",function(res){
+		if(res){
+			action_popup.alert("상품이 위시리스트에서 삭제되었습니다!");
+			 $("#modal_close").on("click", function () {
+				 $("#deleteSepForm").submit();
+			    });
+			
+		}else{
+			 event.preventDefault();
+		       event.stopPropagation();
+		}
+	})
+}
+
+
 
 $('.deleteWishAll').click(function() {
-	
-	if (confirm("위시리스트를 모두 비우시겠습니까?") == true){   
+	action_popup.confirm("위시리스트를 모두 비우시겠습니까?",function(res){
+		if(res){
+			action_popup.alert("위시리스트를 모두 비웠습니다!");
+			 $("#modal_close").on("click", function () {
+				 $("#deleteAllForm").submit();
+			    });
 		
 	  }else{   
 		 event.preventDefault();
        event.stopPropagation();
 
-	  };	
+	  }	
+})
 });
 
 
@@ -624,15 +697,22 @@ function wishcheckboxArr() {
 				
 	$("#arrayParam").val(array);
 	
-	if (confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?") == true){   
-		$("#form").attr("action", "/member/rent/deleteWishList2");  
-		$("#form").submit();
+	action_popup.confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?",function(res){
+		if(res){
+			action_popup.alert("선택한 상품들이 위시리스트에서 삭제되었습니다!");
+			 $("#modal_close").on("click", function () {
+				 $("#form").attr("action", "/member/rent/deleteWishList2");  
+					$("#form").submit();
+			    });
+		
 	  }else{   
 		 event.preventDefault();
      event.stopPropagation();
 
 	  };	
-}
+});
+};
+
 
 
 function allChk(obj){
@@ -680,6 +760,10 @@ for(var i=0; i < btnrentLength; i++){
 			var rentalIdNowListLength = rentalIdNowList.length;
 			var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
 			var rentalamountNowList=document.querySelectorAll("#rentalamountNow");
+			var cartProId=document.querySelectorAll("#cartProId");
+			var cartProState=document.querySelectorAll("#cartProState");
+			var cartListLength = cartProId.length;
+			
 			for(var i=0; i< btnrentLength;i++){
 			//대여버튼
 			if(e.target==btnrentList[i]){
@@ -710,7 +794,7 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("proamount").addEventListener("input",changeprice);
 				document.getElementById("proamount").addEventListener("change",checkDisabled);
 				document.getElementById("productPrice").value=proPriceList[i].value*0.05;
-				document.getElementById("keepgo").innerText="대여";
+				document.getElementById("keepgo").value="대여";
 				document.getElementById("keepgo").addEventListener("click",giveData);
 				var arrayDay= new Array();
 				
@@ -742,17 +826,22 @@ for(var i=0; i < btnrentLength; i++){
 				};	
 				
 				function giveData(){
-					if (confirm("대여 결제를 진행하시겠습니까?") == true){   
-						document.getElementById("buyType").removeAttribute('disabled');
-						$("#buyform").attr("action", "/member/rent/buy");  
-						$("#buyform").submit();
-					  }else{   
-						  return;
-						 event.preventDefault();
-				     event.stopPropagation();
-
-					  };	
+					action_popup.confirm("대여 결제를 진행하시겠습니까?",function(res){
+						if(res){
+							document.getElementById("buyType").removeAttribute('disabled');
+							$("#buyform").attr("action", "/member/rent/buy");  
+							$("#buyform").submit();
+							
+						}else{
+							 return;
+							 event.preventDefault();
+						       event.stopPropagation();
+						}
+					})
 				};
+					
+					
+					
 				
 				function checkDisabled(){
 					var amount=document.getElementById("proamount").value;
@@ -814,27 +903,28 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("rdate").classList.add('hidden');
 				document.getElementById("productPrice").value=proPriceList[i].value*0.95;
 				document.getElementById("proamount").addEventListener("input",changeprice);
-				document.getElementById("keepgo").innerText="구매";
+				document.getElementById("keepgo").value="구매";
 				document.getElementById("keepgo").addEventListener("click",giveData);
 					var price=proPriceList[i].value*0.95;
 				function changeprice(ev){
 					document.getElementById("productPrice").value=(document.getElementById("proamount").value)*price;
 				}			
 				
-					function giveData(){
-						if (confirm("구매 결제를 진행하시겠습니까?") == true){   
+				function giveData(){
+					action_popup.confirm("구매 결제를 진행하시겠습니까?",function(res){
+						if(res){
 							document.getElementById("buyType").removeAttribute('disabled');
 							$("#buyform").attr("action", "/member/rent/buy");  
 							$("#buyform").submit();
-						  }else{   
-							  return;
+							
+						}else{
+							 return;
 							 event.preventDefault();
-					     event.stopPropagation();
+						       event.stopPropagation();
+						}
+					})
+				};
 
-						  }	
-					}
-				
-				
 			}
 			
 			//장바구니 버튼
@@ -848,8 +938,8 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("productName").innerText='['+proCategoryList[i].value+']'+proNameList[i].value;
 				document.getElementById("productId").value=proIdList[i].value;
 				document.getElementById("buyType").addEventListener("input",changestate);
-				document.getElementById("rentdate").setAttribute('disabled',true);
-				document.getElementById("keepgo").innerText="장바구니";
+				document.getElementById("rentdate").setAttribute('readonly',true);
+				document.getElementById("keepgo").value="장바구니";
 				document.getElementById("keepgo").addEventListener("click",giveData);
 				$("#rentdate").datepicker("option","showOn","text");
 				
@@ -859,32 +949,57 @@ for(var i=0; i < btnrentLength; i++){
 				function giveData(){
 						document.getElementById("buyType").removeAttribute('disabled');
 						if(document.getElementById("buyType").value=="선택"){
-							alert('옵션을 선택하세요!');
+							action_popup.alert('옵션을 선택하세요!');
 							event.preventDefault();
 					    	 event.stopPropagation();
 
 						}
 						else{
-					if (confirm("장바구니에 넣으시겠습니까?") == true){ 
-						$("#buyform").attr("action", "/member/rent/wishToCart");  
-						$("#buyform").submit();
-					  }else{   
-						  $("#buyType option[value*='대여']").removeAttr('disabled');
-						  $("#buyType option[value*='구매']").removeAttr('disabled');
-						 event.preventDefault();
-				    	 event.stopPropagation();
+							
+							action_popup.confirm("장바구니에 넣으시겠습니까?",function(res){
+								if(res){
+									var count=0;
+									for(var k=0;k<cartListLength;k++){
+										if(document.getElementById("productId").value==cartProId[k].value && document.getElementById("buyType").value==cartProState[k].value){
+										count++;
+										}
+										
+									}
+									if(count>0){
+									
+									action_popup.alert("해당 옵션의 해당 상품이 이미 존재합니다!");
+									}else{
+										 event.stopPropagation();
+									action_popup.confirm2("장바구니에 담겼습니다. 장바구니를 확인해보시겠습니까?", function(r){
+										
+										if(r){	
+									$("#buyform").attr("action", "/member/rent/wishToCart");  
+									$("#buyform").submit();
+										}
 
-					  }
+									})
+									}
+									
+								}else{
+									 $("#buyType option[value*='대여']").removeAttr('disabled');
+									  $("#buyType option[value*='구매']").removeAttr('disabled');
+									 event.preventDefault();
+							    	 event.stopPropagation();
+								}
+							})
 						}
 				};
-				
+				$("#modal_close2").on("click", function () {
+					$("#buyform").attr("action", "/member/rent/wishToCart2");  
+					$("#buyform").submit();
+					    });
 				function changestate(){
 						if(document.getElementById("buyType").value=="대여"){
 							document.getElementById("proamount").setAttribute('max',rentamount);
 							document.getElementById("productPrice").value=rentprice;
 							document.getElementById("proamount").addEventListener("input",changeprice);
 							document.getElementById("rentdate").setAttribute('type','text');
-							document.getElementById("rentdate").removeAttribute('disabled');
+							document.getElementById("rentdate").removeAttribute('readonly');
 							document.getElementById("rentdate").value=new Date().toISOString().substring(0, 10);
 							$("#rentdate").datepicker("option","showOn","both");
 							
@@ -941,7 +1056,7 @@ for(var i=0; i < btnrentLength; i++){
 								
 							document.getElementById("proamount").setAttribute('max',buyamount);
 							document.getElementById("rentdate").value=new Date().toISOString().substring(0, 10);
-							document.getElementById("rentdate").setAttribute('disabled',true);
+							document.getElementById("rentdate").setAttribute('readonly',true);
 							$("#rentdate").datepicker("option","showOn","text");
 							document.getElementById("productPrice").value=buyprice;
 							document.getElementById("proamount").addEventListener("input",changeprice);
@@ -959,28 +1074,111 @@ for(var i=0; i < btnrentLength; i++){
 			}
 		};	
 		
+		
 		document.querySelector(".closeBtn").addEventListener("click",close);
 		function close(){
-			if(confirm('진행창을 닫으시겠습니까?')){
+			action_popup.confirm("진행창을 닫으시겠습니까?",function(res){
+				if(res){
 				$("#buyType option[value*='대여']").removeAttr('disabled');
 			  $("#buyType option[value*='구매']").removeAttr('disabled');
 			  $("#buyType").removeAttr('disabled');
 			  document.getElementById("buyType").value="선택";
 			  document.getElementById("proamount").value="1";
 			  document.getElementById("productPrice").value=0;  
-			document.querySelector(".modal").classList.add('hidden');
+			  document.querySelector(".modal").classList.add('hidden');
+				location.reload();
 
-			event.stopImmediatePropagation();
 			}
 			else{
 				 event.preventDefault();
 		    	 event.stopPropagation();
 			}
-		};	
-
-
+		})
+		};
 		
 		
+
+		/**
+		 *  alert, confirm 대용 팝업 메소드 정의 <br/>
+		 *  timer : 애니메이션 동작 속도 <br/>
+		 *  alert : 경고창 <br/>
+		 *  confirm : 확인창 <br/>
+		 *  open : 팝업 열기 <br/>
+		 *  close : 팝업 닫기 <br/>
+		 */ 
+		var action_popup = {
+		    timer: 500,
+		    confirm: function (txt, callback) {
+		        if (txt == null || txt.trim() == "") {
+		            console.warn("confirm message is empty.");
+		            return;
+		        } else if (callback == null || typeof callback != 'function') {
+		            console.warn("callback is null or not function.");
+		            return;
+		        } else {
+		            $(".type-confirm .btn_ok").on("click", function () {
+		                $(this).unbind("click");
+		                callback(true);
+		                action_popup.close(this);
+		            });
+		            this.open("type-confirm", txt);
+		        }
+		    },
+		    confirm2: function (txt, callback) {
+		        if (txt == null || txt.trim() == "") {
+		            console.warn("confirm message is empty.");
+		            return;
+		        } else if (callback == null || typeof callback != 'function') {
+		            console.warn("callback is null or not function.");
+		            return;
+		        } else {
+		            $(".type-confirm2 .btn_ok2").on("click", function () {
+		                $(this).unbind("click");
+		                callback(true);
+		                action_popup.close(this);
+		            });
+		            this.open("type-confirm2", txt);
+		        }
+		    },
+
+		    alert: function (txt) {
+		        if (txt == null || txt.trim() == "") {
+		            console.warn("confirm message is empty.");
+		            return;
+		        } else {
+		            this.open("type-alert", txt);
+		        }
+		    },
+
+		    open: function (type, txt) {
+		        var popup = $("." + type);
+		        popup.find(".menu_msg").text(txt);
+		        $("body").append("<div class='dimLayer'></div>");
+		        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+		        popup.fadeIn(this.timer);
+		    },
+
+		    close: function (target) {
+		        var modal = $(target).closest(".modac-section");
+		        var dimLayer;
+		        if (modal.hasClass("type-confirm")) {
+		            dimLayer = $(".dimLayer[target=type-confirm]");
+		        } else if (modal.hasClass("type-alert")) {
+		            dimLayer = $(".dimLayer[target=type-alert]")
+		        } else {
+		            console.warn("close unknown target.")
+		            return;
+		        }
+		        modal.fadeOut(this.timer);
+		        setTimeout(function () {
+		            dimLayer != null ? dimLayer.remove() : "";
+		        }, this.timer);
+		    }
+		}
+		
+		 $("#modal_close").on("click", function () {
+		        action_popup.close(this);
+		    });
 		
 
 </script>

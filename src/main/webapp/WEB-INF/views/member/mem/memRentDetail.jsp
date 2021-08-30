@@ -440,15 +440,10 @@ $(document).on("click", "#returnButton", function () {
     });
     
 });
-$(document).on("click", "#lateFeeButton", function () {
-	console.log("연체료 납부 스크립트 진입");
-	$(".btn_ok").text("납부");
-    action_popup.confirm("연체료를 납부 후 반납 가능합니다.연체료를 납부해주십시오.", function (res) {
-        if (res) {
 
-        }
-    });
-    
+
+
+
 });
 $(document).on("click", "#refundButton", function () {
 	console.log("환불 스크립트 진입");

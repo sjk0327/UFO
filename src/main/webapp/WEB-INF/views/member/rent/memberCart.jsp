@@ -1,3 +1,5 @@
+
+
 <%@page import="java.util.Date"%>
 <%@page import="org.aspectj.weaver.reflect.Java14GenericSignatureInformationProvider"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -208,11 +210,11 @@ body, html {height: 100%;}
 .modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
 .dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
 .modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
-.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: sticky; top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
 .menu_msg{font-size: 21px;font-weight: 500;}
 .enroll_box p{padding-bottom: 56px;}
-.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
-.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px; transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px; transition: 0.5s;font-size: 17px;border: none;}
 </style>
 
 </head>
@@ -225,7 +227,7 @@ body, html {height: 100%;}
 	</c:forEach>
 	<!-- 남은 수량 계산위한 rentalList end script로! -->
 	
-    <div class="bg-light py-3">
+    <div class="py-3" style="background-color: #f4f4f4;">
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><span class="mx-2 mb-0"></span></div>
@@ -265,7 +267,7 @@ body, html {height: 100%;}
                 <input id="originprice" type="hidden" value="${cartInfo.p_price}">
                 
                 <tr class="" style="text-align: center;">
-                 <form:form id="proInfo" commandName="BuyInfoVO" method="post">
+                 <form:form id="proInfo">
                  
                 <td class="check" onclick="event.cancelBubble=true">
                 
@@ -478,7 +480,7 @@ body, html {height: 100%;}
                     <td class="button sel">
                    <c:if test="${cartInfo.c_state eq '대여'}">
                         
-						 <button id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy">결제</button>
+						 <input type="button" id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy" value="결제"></input>
 						
 						</c:if>
                        
@@ -486,10 +488,10 @@ body, html {height: 100%;}
 						
 						<c:choose>
 						<c:when test="${cartInfo.p_canbuy eq 0}">
-						 <button id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy" disabled="disabled">결제</button>
+						 <input type="button" id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy" disabled="disabled" value="결제"></input>
 						</c:when>
 						<c:otherwise>
-						 <button id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy">결제</button>
+						 <input type="button" id="button2" class="btn btn-outline-primary btn-sm btn-block carttobuy" value="결제"></input>
 						</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -497,7 +499,7 @@ body, html {height: 100%;}
                        
                          <c:if test="${cartInfo.c_state eq '대여'}">
                         
-						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" style="margin-top: 8pt;">옵션 수정</button>
+						<input type="button" id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" style="margin-top: 8pt;" value="옵션 수정"></input>
 						
 						</c:if>
 						
@@ -505,17 +507,17 @@ body, html {height: 100%;}
 						
 						<c:choose>
 						<c:when test="${cartInfo.p_canbuy eq 0}">
-						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" disabled="disabled" style="margin-top: 8pt;">옵션 수정</button>
+						<input type="button" id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" disabled="disabled" style="margin-top: 8pt;" value="옵션 수정"></input>
 						</c:when>
 						<c:otherwise>
-						<button id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" style="margin-top: 8pt;">옵션 수정</button>
+						<input type="button" id="button" class="btn btn-outline-primary btn-sm btn-block updatecart" style="margin-top: 8pt;" value="옵션 수정"></input>
 						</c:otherwise>
 						</c:choose>
 						</c:if>
                      </form:form>
-                        <form action="/member/rent/deleteCartList" method="post">
+                        <form id="deleteSepForm" method="post">
                         <input type="hidden" Id="cartId" name="cartId" value="${cartInfo.c_id}">
-                        <button id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" onclick="">삭제</button></form>
+                        <input type="button" id="button" class="btn btn-outline-primary btn-sm btn-block deletecart" style="margin-top: 8pt;" value="삭제"></input></form>
                     </td>
                 </tr>
                 </c:forEach>
@@ -560,12 +562,12 @@ body, html {height: 100%;}
  <div class="row checkpro">
     		<span style="font-weight: bold;">선택상품을</span>
     		<form id="form">
-           	<span style="margin-left: 3pt;"><button id="deletecart" href="" class="btn btn-outline-primary" onclick="cartcheckboxArr();">삭제하기</button></span>
+           	<span style="margin-left: 3pt;"><input type="button" id="deletecart" class="btn btn-outline-primary" onclick="cartcheckboxArr();" value="삭제하기"></input></span>
            	<input type="hidden" id="arrayParam" name="arrayParam">
            	</form>
            	
            	<form id="selectBuy" method="post">
-            <span style="margin-left: 3pt;"><button id="button" href="" class="btn btn-outline-primary" onclick="selectBuy();">주문하기</button></span>
+            <span style="margin-left: 3pt;"><input type="button" id="button" class="btn btn-outline-primary" onclick="selectBuy();" value="주문하기"></input></span>
        		
    
        		<input type="hidden" id="productIdArray" name="productIdArray">
@@ -579,7 +581,7 @@ body, html {height: 100%;}
  
 <span style="float: right;">
  <div class="row allpro"><form id="allBuy" method="post">
-            <span><button id="button2" href="" class="btn btn-outline-primary" onclick="allBuy();">전체 상품 주문</button></span>   
+            <span><input type="button" id="button2" class="btn btn-outline-primary" onclick="allBuy();" value="전체 상품 주문"></input></span>   
         
        		<input type="hidden" id="productIdArrayAll" name="productIdArray">
        		<input type="hidden" id="buyTypeArrayAll" name="buyTypeArray">
@@ -588,9 +590,9 @@ body, html {height: 100%;}
        		
             </form>
             <span>
-            <form id="form" action="/member/rent/deleteCartAll" method="post">
+            <form id="deleteAllform" action="/member/rent/deleteCartAll" method="post">
             <input type="hidden" id="userID" name="userID" value="${userInfo.m_id }"/>
-            <span style="margin-left: 3pt;"><button id="deletecart" class="btn btn-outline-primary deletecartAll">장바구니 비우기</button></span>
+            <span style="margin-left: 3pt;"><input type="button" id="deletecart" class="btn btn-outline-primary deletecartAll" value="장바구니 비우기"></input></span>
             </form></span>
             </div>
      </span>  
@@ -600,17 +602,20 @@ body, html {height: 100%;}
                  
       </c:if>                         
         </div>
-         <!-- confirm 모달을 쓸 페이지에 추가 start-->
+       
+        <!-- confirm 모달을 쓸 페이지에 추가 start-->
         <section class="modal modal-section type-confirm">
             <div class="enroll_box">
                 <p class="menu_msg"></p>
             </div>
             <div class="enroll_btn">
                 <button class="btn pink_btn btn_ok">확인</button>
-                <button class="btn gray_btn modal_close">취소</button>
+                <button id="cancel" class="btn gray_btn modal_close">취소</button>
             </div>
         </section>
         <!-- confirm 모달을 쓸 페이지에 추가 end-->
+        
+        
 
         <!-- alert 모달을 쓸 페이지에 추가 start-->
         <section class="modal modal-section type-alert">
@@ -636,14 +641,19 @@ $(document).ready(function() {
 
 
 $('.deletecartAll').click(function() {
-	
-	if (confirm("장바구니를 모두 비우시겠습니까?") == true){   
-		
+	action_popup.confirm("장바구니를 모두 비우시겠습니까?",function(res){
+		if(res){
+			action_popup.alert("장바구니를 모두 비웠습니다!");
+			 $(".modal_close").on("click", function () {
+				 $("#deleteAllform").submit();
+			    });
+
 	  }else{   
 		 event.preventDefault();
        event.stopPropagation();
 
 	  };	
+})
 });
 
 
@@ -655,14 +665,18 @@ function cartcheckboxArr() {
 	});
 				
 	$("#arrayParam").val(array);
-	if (confirm("선택한 상품들을 장바구니에서 삭제하시겠습니까?") == true){   
+	action_popup.confirm("선택한 상품들을 장바구니에서 삭제하시겠습니까?",function(res){
+		if(res){
+			action_popup.alert("선택한 상품들이 장바구니에서 삭제되었습니다!");
+			 $(".modal_close").on("click", function () {
 		$("#form").attr("action", "/member/rent/deleteCartList2");  
 		$("#form").submit();
+			 });
 	  }else{   
 		 event.preventDefault();
      event.stopPropagation();
-
 	  };	
+});
 }
 
 function allChk(obj){
@@ -699,7 +713,9 @@ function allChk(obj){
 		var carttobuyList=document.querySelectorAll(".carttobuy");
 		var proInfoList=document.querySelectorAll("#proInfo");
 		var checkBoxList=document.querySelectorAll("#checkBox");
-
+		var deletecartList=document.querySelectorAll(".deletecart");
+		var deleteSepFormList=document.querySelectorAll("#deleteSepForm");
+		var zerodeleteFormList=document.querySelectorAll("#zerodelete");
 		//rental table
 		var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
 		var rentalIdNowListLength = rentalIdNowList.length;
@@ -726,26 +742,19 @@ function allChk(obj){
 		updatecartList[i].addEventListener('click',updateInfo)};
 		for(var i=0; i < amountLength; i++){
 			carttobuyList[i].addEventListener('click',cartToBuyForm)};
+			for(var i=0; i < amountLength; i++){
+				deletecartList[i].addEventListener('click',deleteCartList)};
 			
 						
 		function onIncreaseCountHandler(event) {
-			
+			var count=0;
 			for(var i=0; i< amountLength;i++){
 				if(event.target==amountList[i]){
 					if(amountList[i].value==0){
-						if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?") == true){   
-								$("#zerodelete").attr("action", "/member/rent/deleteCartList");  
-								$("#zerodelete").attr("method", "POST");  
-								$("#zerodelete").submit();
-								
-						  }else{ 
-							  amountList[i].value=1;
-							 event.preventDefault();
-					       event.stopPropagation();
-
-						  };
+						count=i;
+							
 						
-					}
+				}
 					else{
 						if(stateList[i].value=="대여"){
 					priceList[i].value=originprice[i].value*amountList[i].value*0.05;
@@ -763,6 +772,24 @@ function allChk(obj){
 					}
 				}
 			}
+		if(count!=-1){
+			action_popup.confirm("해당 상품을 장바구니에서 삭제하시겠습니까?",function(res){
+				if(res){
+					action_popup.alert("상품이 장바구니에서 삭제되었습니다!");
+					 $(".modal_close").on("click", function () {
+						 zerodeleteFormList[count].setAttribute("action", "/member/rent/deleteCartList");
+						 zerodeleteFormList[count].setAttribute("method", "POST");
+						 zerodeleteFormList[count].submit();
+							
+					 });
+			  }
+
+				
+		});
+			
+			amountList[count].value=1;	
+		}
+			
 		}
 		
 function onStateCountHandler(ev) {
@@ -773,7 +800,7 @@ function onStateCountHandler(ev) {
 						if(stateList[i].value=="대여"){
 							for(var k=0; k< i;k++){
 								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="대여"){
-									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									action_popup.alert('해당 상품의 해당 옵션이 이미 존재합니다!');
 									stateList[i].value="구매"
 									return;
 									ev.preventDefault();
@@ -782,7 +809,7 @@ function onStateCountHandler(ev) {
 							}
 							for(var k=i+1;k<amountLength;k++){
 								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="대여"){
-									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									action_popup.alert('해당 상품의 해당 옵션이 이미 존재합니다!');
 									stateList[i].value="구매"
 										return;
 									ev.preventDefault();
@@ -834,7 +861,7 @@ function onStateCountHandler(ev) {
 							
 							for(var k=0; k< i;k++){
 								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="구매"){
-									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									action_popup.alert('해당 상품의 해당 옵션이 이미 존재합니다!');
 									stateList[i].value="대여"
 									return;
 									ev.preventDefault();
@@ -843,7 +870,7 @@ function onStateCountHandler(ev) {
 							}
 							for(var k=i+1;k<amountLength;k++){
 								if(productIdList[i].value==productIdList[k].value&&stateList[k].value=="구매"){
-									alert('해당 상품의 해당 옵션이 이미 존재합니다!');
+									action_popup.alert('해당 상품의 해당 옵션이 이미 존재합니다!');
 									stateList[i].value="대여"
 										return;
 									ev.preventDefault();
@@ -855,8 +882,8 @@ function onStateCountHandler(ev) {
 							amountList[i].setAttribute('max',buyamountList[i].value);
 							amountList[i].value=1;
 							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
-							rentdateList[i].value="";
-							rentdateList[i].setAttribute('disabled','disabled');
+							rentdateList[i].value=new Date().toISOString().substring(0, 10);
+							rentdateList[i].setAttribute('readonly','readonly');
 							pointList[i].innerText=AddComma(priceList[i].value*0.01);
 							totalpriceList[i].innerText=AddComma(priceList[i].value*1+2500);
 							priceList[i].value=AddComma(priceList[i].value);
@@ -904,16 +931,15 @@ function selectBuy() {
 	$("#rentdateArray").val(array4);
 	
 	
-
+	action_popup.confirm("선택한 상품들의 결제를 진행하시겠습니까?",function(res){
+		if(res){
+			$("#selectBuy").attr("action", "/member/rent/buySelect");  
+			$("#selectBuy").submit();
+			 
+	  }	
+});
 	
-	if (confirm("선택한 상품들의 결제를 진행하시겠습니까?") == true){   
-		$("#selectBuy").attr("action", "/member/rent/buySelect");  
-		$("#selectBuy").submit();
-	  }else{   
-		 event.preventDefault();
-     event.stopPropagation();
-
-	  }
+	
 	};
 	
 	
@@ -941,50 +967,73 @@ function selectBuy() {
 		$("#rentdateArrayAll").val(array4);
 		
 		
-
+		action_popup.confirm("모든 상품들의 결제를 진행하시겠습니까?",function(res){
+			if(res){
+				$("#allBuy").attr("action", "/member/rent/buySelect");  
+				$("#allBuy").submit();
+				 
+		  }	
+	});
 		
-		if (confirm("모든 상품들의 결제를 진행하시겠습니까?") == true){   
-			$("#allBuy").attr("action", "/member/rent/buySelect");  
-			$("#allBuy").submit();
-		  }else{   
-			 event.preventDefault();
-	     event.stopPropagation();
-
-		  }
+	
 		};
 		
 function updateInfo(e) { 
+	var count=0;
 	for(var i=0; i< amountLength;i++){
 		if(e.target==updatecartList[i]){
+			count=i;
+			}	
 	
-	if (confirm("옵션을 수정하시겠습니까?") == true){   
-		proInfoList[i].setAttribute("action", "/member/rent/cartUpdate");  
-		proInfoList[i].submit();
-	  }else{   
-		 event.preventDefault();
-     event.stopPropagation();
-
-	  }
 		}
-		}
+			action_popup.confirm("옵션을 수정하시겠습니까?",function(res){
+				if(res){
+				proInfoList[count].setAttribute("action", "/member/rent/cartUpdate");  
+				proInfoList[count].submit();
+				}
+		});
 };   
 
 function cartToBuyForm(e) { 
+	var count=0;
 	for(var i=0; i< amountLength;i++){
 		if(e.target==carttobuyList[i]){
-	if (confirm("해당 상품의 결제를 진행하시겠습니까?") == true){   
-		proInfoList[i].setAttribute("action", "/member/rent/buy");  
-		proInfoList[i].submit();
-		
-
-	  }else{   
-		 event.preventDefault();
-     event.stopPropagation();
-
-	  }
+			count=i;
 		}
 	}
+	
+
+	action_popup.confirm("해당 상품의 결제를 진행하시겠습니까?",function(res){
+		if(res){
+		proInfoList[count].setAttribute("action", "/member/rent/buy");  
+		proInfoList[count].submit();
+		}
+});
+	
 } ;  
+
+
+
+function deleteCartList(e) { 
+	var count=0;
+	for(var i=0; i< amountLength;i++){
+		if(e.target==deletecartList[i]){
+			count=i;
+		}
+	}
+	alert(count);	
+	action_popup.confirm("해당 상품을 장바구니에서 삭제하시겠습니까?",function(res){
+		if(res){
+		action_popup.alert("상품이 장바구니에서 삭제되었습니다!");
+		 $(".modal_close").on("click", function () {
+		deleteSepFormList[count].setAttribute("action", "/member/rent/deleteCartList");  
+		deleteSepFormList[count].submit();
+		 })
+		}
+		});
+	
+	
+}; 
 
 
 //선택된 상품들 총 가격 구하는 메소드
@@ -1170,13 +1219,6 @@ var action_popup = {
 }
 			
 
-	    $(document).on("click", ".deletecart", function () {
-	        action_popup.confirm("해당 상품을 장바구니에서 삭제하시겠습니까?", function (res) {
-	            if (res) {
-	                action_popup.alert("확인창을 눌렀습니다.");
-	            }
-	        })
-	    });
 
 
 	    $(".modal_close").on("click", function () {

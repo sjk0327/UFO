@@ -268,6 +268,7 @@ public class RentController {
 		System.out.println(wishProList.toString());
 		
 		List<RentVO> rentalListNow=rentDAO.rentListNow(); 	
+		List<CartVO> cartList = rentDAO.getCartList(userId);
 		
 		
 	
@@ -284,30 +285,23 @@ public class RentController {
 				model.addAttribute("wishList", wishList);
 				model.addAttribute("wishProList", wishProList);
 				model.addAttribute("rentalListNow", rentalListNow);
+				model.addAttribute("cartList", cartList);
 				
 		return "/member/rent/memberWishList";
 	}
 
 	// 위시리스트 삭제
 	@RequestMapping(value = "/member/rent/deleteWishList", method = RequestMethod.POST)
-	public void customerDeleteWishList(@RequestParam("w_id") String w_id, Model model, HttpServletResponse response)
+	public String customerDeleteWishList(@RequestParam("w_id") String w_id, Model model)
 			throws Exception {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		rentDAO.deleteWishList(w_id);
 
-		response.setContentType("text/html; charset=UTF-8");
-
-		PrintWriter out = response.getWriter();
-
-		out.println("<script language='javascript'>");
-		out.println("alert('상품이 위시리스트에서 삭제되었습니다!')");
-		out.println("window.location='/member/rent/wishList'");
-		out.println("</script>");
-		out.flush();
+		return "redirect:/member/rent/wishList";
 	}
 
 	@RequestMapping(value = "/member/rent/deleteWishList2", method = RequestMethod.GET)
-	public void customerWishSelectDelete(@RequestParam HashMap<String, Object> commandMap, HttpServletResponse response)
+	public String customerWishSelectDelete(@RequestParam HashMap<String, Object> commandMap)
 			throws Exception {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
@@ -323,37 +317,19 @@ public class RentController {
 			rentDAO.deleteWishList(code_array[i]);
 		}
 
-		response.setContentType("text/html; charset=UTF-8");
-
-		PrintWriter out = response.getWriter();
-
-		out.println("<script language='javascript'>");
-		out.println("alert('선택한 상품들이 위시리스트에서 삭제되었습니다!')");
-		out.println("window.location='/member/rent/wishList'");
-		out.println("</script>");
-		out.flush();
-
+		return "redirect:/member/rent/wishList";
 	}
 
 	// 위시리스트 전체 삭제
 	@RequestMapping(value = "/member/rent/deleteWishAll")
-	public void customerDeleteWishAll(@RequestParam("userID") String w_mid, HttpServletResponse response)
+	public String customerDeleteWishAll(@RequestParam("userID") String w_mid)
 			throws Exception {
 		System.out.println(w_mid);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
 		rentDAO.deleteWishAll(w_mid);
 
-		response.setContentType("text/html; charset=UTF-8");
-
-		PrintWriter out = response.getWriter();
-
-		out.println("<script language='javascript'>");
-		out.println("alert('위시리스트를 모두 비웠습니다!')");
-		out.println("window.location='/member/rent/wishList'");
-		out.println("</script>");
-		out.flush();
-
+		return "redirect:/member/rent/wishList";
 	}
 
 	
@@ -374,23 +350,16 @@ public class RentController {
 		
 		//장바구니 상품 삭제
 		@RequestMapping(value = "/member/rent/deleteCartList", method = RequestMethod.POST)
-		public void customerDeleteCartList(@RequestParam("cartId") String c_id, Model model,HttpServletResponse response) throws Exception{
+		public String customerDeleteCartList(@RequestParam("cartId") String c_id, Model model) throws Exception{
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 			rentDAO.deleteCartList(c_id);	
 			
-			response.setContentType("text/html; charset=UTF-8");
-			 
-			PrintWriter out = response.getWriter();
-			 
-			out.println("<script language='javascript'>");
-			out.println("alert('상품이 장바구니에서 삭제되었습니다!')");
-			out.println("window.location='/member/rent/cartList'");
-			out.println("</script>");
-			out.flush();
+			
+			return "redirect:/member/rent/cartList";
 		}
 		
 		@RequestMapping(value = "/member/rent/deleteCartList2", method = RequestMethod.GET)
-		public void customerDeleteSelectCartList(@RequestParam HashMap<String, Object> commandMap, HttpServletResponse response)
+		public String customerDeleteSelectCartList(@RequestParam HashMap<String, Object> commandMap)
 				throws Exception {
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
@@ -406,41 +375,27 @@ public class RentController {
 				rentDAO.deleteCartList(code_array[i]);
 			}
 
-			response.setContentType("text/html; charset=UTF-8");
-
-			PrintWriter out = response.getWriter();
-
-			out.println("<script language='javascript'>");
-			out.println("alert('선택한 상품들이 장바구니에서 삭제되었습니다!')");
-			out.println("window.location='/member/rent/cartList'");
-			out.println("</script>");
-			out.flush();
+			
+			return "redirect:/member/rent/cartList";
 
 		}
 		
 		// 장바구니 전체 삭제
 		@RequestMapping(value = "/member/rent/deleteCartAll")
-		public void customerDeleteCartAll(@RequestParam("userID") String c_mid, HttpServletResponse response)
+		public String customerDeleteCartAll(@RequestParam("userID") String c_mid)
 				throws Exception {
 			
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
 			rentDAO.deleteCartAll(c_mid);
 
-			response.setContentType("text/html; charset=UTF-8");
-
-			PrintWriter out = response.getWriter();
-
-			out.println("<script language='javascript'>");
-			out.println("alert('장바구니를 모두 비웠습니다!')");
-			out.println("window.location='/member/rent/cartList'");
-			out.println("</script>");
-			out.flush();
+			
+			return "redirect:/member/rent/cartList";
 
 		}
 		//장바구니 insert
 				@RequestMapping(value ="/member/rent/wishToCart")
-				public void customerWishtoCart(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session,HttpServletResponse response)throws Exception{
+				public String customerWishtoCart(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session,HttpServletResponse response)throws Exception{
 					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
 					String userId=userInfo.getM_id();
@@ -456,32 +411,33 @@ public class RentController {
 					cartVO.setC_amount(amount);
 					cartVO.setC_date(sdate);
 					
-					int check=rentDAO.checkCart(cartVO);
-					if(check>0) {
-						response.setContentType("text/html; charset=UTF-8");
-
-						PrintWriter out = response.getWriter();
-
-						out.println("<script language='javascript'>");
-						out.println("alert('해당 옵션의 해당 상품이 이미 존재합니다!')");
-						out.println("window.location='/member/rent/wishList'");
-						out.println("</script>");
-						out.flush();
-					}else {
 					rentDAO.insertCartList(cartVO);
-					response.setContentType("text/html; charset=UTF-8");
-
-					PrintWriter out = response.getWriter();
-
 					
-					out.println("<script language='javascript'>");
-					out.println("if (confirm(\"장바구니를 확인해보시겠습니까?\") == true){");
-					out.println("window.location='/member/rent/cartList'}");
-					out.println("else{");
-					out.println("window.location='/member/rent/wishList'}");
-					out.println("</script>");
-					out.flush();
-					}
+					return "redirect:/member/rent/cartList";
+					
+				}
+				
+				//장바구니 insert2
+				@RequestMapping(value ="/member/rent/wishToCart2")
+				public String customerWishtoCart2(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model,HttpSession session,HttpServletResponse response)throws Exception{
+					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+					String userId=userInfo.getM_id();
+					String productId=buyInfoVO.getProductId();
+					String state=buyInfoVO.getBuyType();
+					int amount=buyInfoVO.getProamount();
+					String sdate=buyInfoVO.getRentdate();
+					
+					CartVO cartVO = new CartVO();
+					cartVO.setC_mid(userId);
+					cartVO.setC_pid(productId);
+					cartVO.setC_state(state);
+					cartVO.setC_amount(amount);
+					cartVO.setC_date(sdate);
+					
+					rentDAO.insertCartList(cartVO);
+					
+					return "redirect:/member/rent/wishList";
 					
 				}
 				
@@ -653,7 +609,7 @@ public class RentController {
 					else if(r_state.equals("환불 요청(즉시 구매)")) {
 						rentVO.setR_state("환불 완료(즉시 구매)");
 					}
-					System.out.println(rentVO.getR_state()+"지금 상태");
+					
 					rentDAO.rentRefund(rentVO);
 				
 					List<BuyVO> buyList=buyDAO.buyList(r_id);
