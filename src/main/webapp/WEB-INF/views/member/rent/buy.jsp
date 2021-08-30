@@ -478,7 +478,7 @@ body, html {
 										<input id="m_tel1" name="m_tel1" type="text" value="${userVO.m_tel }" placeholder="전화번호"
 											class="form-control form-control-center form-control-round form-control-bold"
 											style="height: 30px; font-size: 14px; background-color: #ffffff; text-align: center;"
-											onchange="changeTel1(this)" required/>
+											onchange="changeTel1(this)" readonly/>
 									</div>
 								</div>
 
@@ -507,8 +507,8 @@ body, html {
 											
 											<input type="text" name="addr1" value="${fn:split(userVO.m_addr,'|')[2]}"
 											class="form-control form-control-center form-control-round form-control-bold"
-											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px;"
-											onchange="detail_m_addr1(this)" required>
+											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px; background-color: #ffffff;"
+											onchange="detail_m_addr1(this)" readonly>
 									</div>
 								</div>
 								

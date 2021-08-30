@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.notice.NoticeDAO">
+
+	<select id="noticeList" resultType="com.use.first.notice.NoticeVO">
+		select n_id, n_title, n_content, n_name, n_date from notice
+		ORDER BY n_id desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="getNoticeTotalCount" resultType="int">
+		select count(*) from notice
+	</select>
+	
+	<select id="noticeInfo" resultType="com.use.first.notice.NoticeVO">
+		select n_id, n_title, n_content, n_name, n_date from notice where n_id=#{n_id}
+	</select>
+	
+	<update id="noticeUpdate" parameterType="com.use.first.notice.NoticeVO">
+		<![CDATA[
+		update notice set n_title = #{n_title}, n_content = #{n_content} where n_id = #{n_id}
+		]]>
+	</update>
+	
+	<insert id="noticeInsert" parameterType="com.use.first.notice.NoticeVO">
+		insert into notice (n_title, n_content, n_name, n_date) 
+		VALUES (#{n_title}, #{n_content}, #{n_name}, now())
+	</insert>
+	
+	<delete id="noticeDelete">
+		<![CDATA[
+		delete from notice where n_id = #{n_id}
+		]]>
+	</delete>
+	
+</mapper>
+
+
+
