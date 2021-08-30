@@ -92,7 +92,20 @@
 		</if>
 	</sql>
 	
+	<!-- 한 개의 추천글 -->
+	<select id="memberOneRecommend" resultType="com.use.first.rec.RecVO">
+		select review.v_id, review.v_mid, review.v_pid, review.v_content, review.v_like,
+		product.p_name,product.p_mainimg,review.v_date from
+		review, product
+		where review.v_pid = product.p_id and v_id = #{v_id}
+	</select>	
+	
+	<!-- 내 정보에서 추천글 수정 -->
+	<update id="memberRecommenUpdate" parameterType="com.use.first.rec.RecVO">
+		update review set v_content = #{v_content} , v_like = #{v_like} where v_id = #{v_id}
+	</update>
+	<!-- 내 정보에서 추천글 삭제 -->
+	<delete id="memberRecommenDelete">
+		delete from review where v_id = #{v_id}
+	</delete>
 </mapper>
-
-
-

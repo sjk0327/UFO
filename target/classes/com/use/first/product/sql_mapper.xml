@@ -4,27 +4,36 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.use.first.product.ProductDAO">
-	<select id="productList"
-		resultType="com.use.first.product.ProductVO">
+	<select id="productList" resultType="com.use.first.product.ProductVO" parameterType="com.use.first.paging.Criteria">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-			
+			where 1=1
 			<if test="searchType == 't'.toString()">
-				where p_id LIKE CONCAT('%', #{keyword},'%')
+				and p_id LIKE CONCAT('%', #{keyword},'%')
 			</if>
 			<if test="searchType == 'c'.toString()">
-				where p_category LIKE CONCAT('%', #{keyword},'%')
+				and p_category LIKE CONCAT('%', #{keyword},'%')				
 			</if>
 			<if test="searchType == 'w'.toString()">
-				where p_name LIKE CONCAT('%', #{keyword},'%')
-			</if> 
+				and p_name LIKE CONCAT('%', #{keyword},'%')
+			</if> 			
+			<if test="color != null " >
+				and p_name like CONCAT('%',#{color},'%') 
+			</if>
+			<!-- <if test="category != null" >
+				and p_category like CONCAT('%',#{category},'%')
+			</if> -->
 		ORDER BY p_id desc
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!-- 페이징을 위한 수량 세기 -->
-	<select id="countProductListTotal" resultType="int">
+	<select id="countProductListTotal"  resultType="int">
 		select count(*)	from product
+	</select>
+	<select id="colorTotal" resultType="int">
+		select count(*)	from product
+		where p_name LIKE CONCAT('%', #{param2},'%')
 	</select>
 	<select id="countSmartPhone" resultType="int">
 		select count(*) from product
@@ -46,6 +55,7 @@
 		select count(*) from product
 		where p_category = '태블릿'	
 	</select>
+	
 	<!--  카테고리별 수량 세기  -->
 	<select id="countProductListCategory" resultType="int">
 		select count(*)	from product
@@ -69,7 +79,12 @@
       from product p
       join (select r_pid, count(*) as count from rental group by r_pid) r
       on p.p_id = r.r_pid
-      order by r.count desc      
+      order by r.count desc       
+      <!-- select p.p_id, p.p_name, p.p_price, p.p_category, r.count
+      from product p     
+      join (select v_pid, count(*) as count from review where v_like != 'none' group by v_pid) r      
+      on p.p_id = r.v_pid     
+      order by r.count desc  -->
    </select>
 	<sql id="searchCondition">
 		<if test="searchType != null">
@@ -86,20 +101,23 @@
 		</if>
 	</sql>
 	<!-- 상품카테고리 select -->
-	 <select id="productSmartPhoneList" parameterType ="String" resultType="com.use.first.product.ProductVO">
+	 <select id="productSmartPhoneList" parameterType ="com.use.first.paging.Criteria" resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%')
+		where (p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%'))
+		ORDER BY p_id desc		
+		LIMIT #{page}, #{perPageNum}
+		<!--LIMIT #{param1.pageStart}, #{param1.perPageNum}-->
 		<!-- or p_name LIKE CONCAT('%', 블랙,'%') -->
 	</select>
-	 <select id="productSelectColor" resultType="com.use.first.product.ProductVO">
+	 <select id="productSelectColor" parameterType ="com.use.first.paging.Criteria" resultType="com.use.first.product.ProductVO">
 		select 
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product 		
-		where p_name LIKE CONCAT('%', #{p_category}, '%')
-		<!-- ORDER BY p_id desc		
-		LIMIT #{param1.pageStart}, #{param1.perPageNum} -->
+		where p_name LIKE CONCAT('%', #{p_categoryColor}, '%')
+		ORDER BY p_id desc		
+		LIMIT #{page}, #{perPageNum}
 	</select>
 	<!--  상품 메뉴바 가격조회 -->
 	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
@@ -148,7 +166,7 @@
 		ORDER BY p_id desc
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
-	<select id="productSearchTypeList"
+	<select id="productSearchTypeList" parameterType ="com.use.first.paging.Criteria"
 		resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
@@ -160,19 +178,18 @@
 		or p_id LIKE CONCAT('%', #{searchType},'%')
 		or p_category LIKE CONCAT('%', #{searchType},'%')
 		ORDER BY p_id desc
-		LIMIT #{pageStart}, #{perPageNum}
-	</select>
-	<select id="productKeywordSearchTypeList"
+		LIMIT #{page}, #{perPageNum}
+	</select> 
+	<select id="productKeywordSearchTypeList" parameterType ="com.use.first.paging.Criteria"
 		resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_name LIKE CONCAT('%', #{searchType},'%')
-		or p_name LIKE CONCAT('%', #{searchType},'%')
+		where p_name LIKE CONCAT('%', #{searchType},'%')		
 		or p_id LIKE CONCAT('%', #{searchType},'%')
 		or p_category LIKE CONCAT('%', #{searchType},'%')
 		ORDER BY p_id desc
-		LIMIT #{pageStart}, #{perPageNum}
+	
 	</select>
 	<!--  조회수 update 진행중.... -->
 	<update id="productReadUpdate" parameterType="String" > 
@@ -188,7 +205,6 @@
 		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
 	</insert>
 
-	
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">
 		<![CDATA[
