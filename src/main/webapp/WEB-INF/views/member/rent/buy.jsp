@@ -169,6 +169,7 @@ td, th {
 
 .button1:hover, .button2:hover {
 	color: #FEE500;
+	background: #555555;
 }
 
 .button::before {
@@ -180,32 +181,6 @@ td, th {
 	background: #555555;
 	z-index: -1;
 	transition: 0.5s;
-}
-
-.button1::before, .button3::before {
-	top: 0;
-}
-
-.button2::before, .button4::before {
-	bottom: 0;
-	border-radius: 50% 50% 0 0;
-}
-
-.button3::before, .button4::before {
-	height: 180%;
-}
-
-.button1:hover::before, .button2:hover::before {
-	height: 150%;
-}
-
-.button3:hover::before, .button4:hover::before {
-	height: 0%;
-}
-
-* {
-	padding: 0;
-	margin: 0;
 }
 
 body, html {
@@ -321,48 +296,38 @@ body, html {
 									</thead>
 									<tbody class="tablebody">
 										<c:forEach var="buyInfo" items="${buyInfoList}">
-											<fmt:parseNumber var="rentpoint"
-												value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}"
+											<fmt:parseNumber var="rentpoint" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}"
 												integerOnly="true" />
-											<fmt:parseNumber var="buypoint"
-												value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}"
+											<fmt:parseNumber var="buypoint" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}"
 												integerOnly="true" />
 											<c:if test="${buyInfo.buyType eq '대여' }">
-												<c:set var="i"
-													value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+												<c:set var="i" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
 											</c:if>
 											<c:if test="${buyInfo.buyType eq '구매' }">
-												<c:set var="i"
-													value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+											<c:set var="i" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 											</c:if>
 											<c:if test="${buyInfo.buyType eq '대여' }">
-												<c:set var="k"
-													value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}" />
+												<c:set var="k" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}" />
 											</c:if>
 											<c:if test="${buyInfo.buyType eq '구매' }">
-												<c:set var="k"
-													value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}" />
+												<c:set var="k" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}" />
 											</c:if>
 											<!-- 총금액 s -->
 											<c:set var="s" value="${i + s }" />
 											<c:set var="p" value="${k + p }" />
 											<tr
 												style="text-align: center; color: #111111; font-size: 14px;">
-												<td><img
-													src="/resources/Images/${buyInfo.productImg}.jpg"
-													alt="Image" class="img-fluid"
-													style="width: 100px; height: 100px;"></td>
+												<td><img src="/resources/Images/${buyInfo.productImg}.jpg"
+													alt="Image" class="img-fluid" style="width: 100px; height: 100px;"></td>
 												<td>${buyInfo.productName }</td>
 												<td>${buyInfo.buyType }</td>
 												<c:if test="${buyInfo.buyType eq '대여' }">
-													<td><img src="/resources/Images/icon_cash.gif"
-														alt="적립금" style="margin-bottom: 2px;" /> <fmt:formatNumber
-															pattern="###,###,###">${rentpoint }</fmt:formatNumber></td>
+													<td><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom: 2px;" /> 
+													<fmt:formatNumber pattern="###,###,###">${rentpoint }</fmt:formatNumber></td>
 												</c:if>
 												<c:if test="${buyInfo.buyType eq '구매' }">
-													<td><img src="/resources/Images/icon_cash.gif"
-														alt="적립금" style="margin-bottom: 2px;" /> <fmt:formatNumber
-															pattern="###,###,###">${buypoint }</fmt:formatNumber></td>
+													<td><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom: 2px;" /> 
+													<fmt:formatNumber pattern="###,###,###">${buypoint }</fmt:formatNumber></td>
 												</c:if>
 												<td>${buyInfo.proamount }</td>
 												<c:if test="${buyInfo.buyType eq '대여' }">
@@ -513,7 +478,7 @@ body, html {
 										<input id="m_tel1" name="m_tel1" type="text" value="${userVO.m_tel }" placeholder="전화번호"
 											class="form-control form-control-center form-control-round form-control-bold"
 											style="height: 30px; font-size: 14px; background-color: #ffffff; text-align: center;"
-											onchange="changeTel1(this)" required/>
+											onchange="changeTel1(this)" readonly/>
 									</div>
 								</div>
 
@@ -523,7 +488,7 @@ body, html {
 										<div class="row">
 											<div class="col-sm-6">
 												<input type="text" class="form-control form-control-round form-control-bold"
-													id="postcode" name="m_addr" value="${fn:split(userVO.m_addr,',')[0]}" placeholder="우편번호"
+													id="postcode" name="addr1" value="${fn:split(userVO.m_addr,'|')[0]}" placeholder="우편번호"
 													style="height: 30px; font-size: 14px; background-color: #ffffff;" readonly>
 											</div>
 											<div class="col-sm-6">
@@ -531,19 +496,19 @@ body, html {
 													style="height: 30px; float: right;">
 											</div>
 										</div>
-										<input type="text" id="address" name="m_addr" value="${fn:split(userVO.m_addr,',')[1]}"
+										<input type="text" id="address" name="addr1" value="${fn:split(userVO.m_addr,'|')[1]}"
 											class="form-control form-control-center form-control-round form-control-bold"
 											placeholder="주소" style="height: 30px; font-size: 14px; background-color: #ffffff;" readonly> 
 											
-											<input type="text" name="m_addr" value="${fn:split(userVO.m_addr,'(')[1]}"
+											<input type="text" name="addr1" value="${fn:split(userVO.m_addr,'|')[3]}"
 											class="form-control form-control-center form-control-round form-control-bold"
 											id="extraAddress" placeholder="참고사항" style="height: 30px; font-size: 14px; 
 											background-color: #ffffff;" readonly> 
 											
-											<input type="text" name="m_addr" value="${fn:split(userVO.m_addr,',')[2]}"
+											<input type="text" name="addr1" value="${fn:split(userVO.m_addr,'|')[2]}"
 											class="form-control form-control-center form-control-round form-control-bold"
-											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px;"
-											onchange="detail_m_addr1(this)" required>
+											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px; background-color: #ffffff;"
+											onchange="detail_m_addr1(this)" readonly>
 									</div>
 								</div>
 								
@@ -580,7 +545,7 @@ body, html {
 								<div class="form-group row">
 									<div class="col-sm-3 col-form-label" style="color: #566963; font-weight: bold; line-height: 1;">전화번호</div>
 									<div class="col-sm-9" style="line-height: 1;">
-										<input id="m_tel2" name="m_tel2" type="text" value="" placeholder="전화번호"
+										<input id="m_tel2" name="m_tel2" type="text" value="" placeholder="특수문자 없이 숫자만 입력해주세요"
 											class="form-control form-control-center form-control-round form-control-bold"
 											style="height: 30px; font-size: 14px; background-color: #ffffff; text-align: center;"
 											onchange="changeTel2(this)" required/>
@@ -593,27 +558,27 @@ body, html {
 										<div class="row">
 											<div class="col-sm-6">
 												<input type="text" class="form-control form-control-round form-control-bold"
-													id="postcode55" name="m_addr" value="" placeholder="우편번호"
-													style="height: 30px; font-size: 14px; background-color: #ffffff;" required>
+													id="postcode55" name="addr2" value="" placeholder="우편번호"
+													style="height: 30px; font-size: 14px; background-color: #ffffff;" required/>
 											</div>
 											<div class="col-sm-6">
 												<input type="button" class="postbtn" onclick="DaumPostcode2()" value="우편번호 찾기"
 													style="height: 30px; float: right;">
 											</div>
 										</div>
-										<input type="text" id="address55" name="m_addr" value=""
+										<input type="text" id="address55" name="addr2" value=""
 											class="form-control form-control-center form-control-round form-control-bold"
-											placeholder="주소" style="height: 30px; font-size: 14px; background-color: #ffffff;" required> 
+											placeholder="주소" style="height: 30px; font-size: 14px; background-color: #ffffff;" required/> 
 											
-											<input type="text" name="m_addr" value=""
+											<input type="text" name="addr2" value=""
 											class="form-control form-control-center form-control-round form-control-bold"
 											id="extraAddress55" placeholder="참고사항" style="height: 30px; font-size: 14px; 
-											background-color: #ffffff;" required> 
+											background-color: #ffffff;" required/> 
 											
-											<input type="text" name="m_addr" value=""
+											<input type="text" name="addr2" value=""
 											class="form-control form-control-center form-control-round form-control-bold"
 											id="detailAddress55" placeholder="상세주소" style="height: 30px; font-size: 14px;"
-											onchange="detail_m_addr2(this)" required>
+											onchange="detail_m_addr2(this)" required/>
 									</div>
 								</div>
 								
@@ -699,23 +664,7 @@ body, html {
 								<input type="hidden" id="b_pid" name="b_pid" value="${buyInfo.productId }" />
 								<input type="hidden" id="b_mname1${status.index}" name="b_mname" value="${userVO.m_name }" />
 								
-								<!-- <input type="text" id="realAddress" name="b_maddr" required/> -->
-								
-								<input type="hidden" class="form-control form-control-round form-control-bold"
-									id="postcode11${status.index}" name="b_maddr" value="${fn:split(userVO.m_addr,',')[0]}" placeholder="우편번호"
-									style="height: 30px; font-size: 14px;" required> 
-									
-								<input type="hidden" id="address11${status.index}" name="b_maddr" value="${fn:split(userVO.m_addr,',')[1]}"
-									class="form-control form-control-center form-control-round form-control-bold"
-									placeholder="주소" style="height: 30px; font-size: 14px;" required> 
-									
-								<input type="hidden" name="b_maddr" value="${fn:split(userVO.m_addr,'(')[1]}"
-									class="form-control form-control-center form-control-round form-control-bold"
-									id="detailAddress11${status.index}" placeholder="상세주소" style="height: 30px; font-size: 14px;"> 
-									
-								<input type="hidden" name="b_maddr" value="@@"
-									class="form-control form-control-center form-control-round form-control-bold"
-									id="extraAddress11${status.index}" placeholder="참고사항" style="height: 30px; font-size: 14px;" required>
+								<input type="hidden" id="realAddress1" name="b_maddr" required/>
 								
 								<input type="hidden" id="b_mtel1${status.index}" name="b_mtel" value="${userVO.m_tel }" required/>
 								
@@ -724,15 +673,12 @@ body, html {
 								<input type="hidden" id="b_state" name="b_state" value="${buyInfo.buyType }" />
 								
 								<c:if test="${buyInfo.buyType eq '대여' }">
-									<input type="hidden" id="b_purchase" name="b_purchase"
-										value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '구매' }">
-									<input type="hidden" id="b_purchase" name="b_purchase"
-										value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 								</c:if>
-								<input type="hidden" id="b_message" name="b_message"
-									value="안전하게 배송해 주세요." />
+								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
 								<input type="hidden" id="sp" name="m_point" value="${p + userVO.m_point }" /> 
 								
 							</c:forEach>
@@ -758,27 +704,11 @@ body, html {
 							<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
 								<input type="hidden" id="b_mid2" name="b_mid" value="${userVO.m_id }" />
 								<input type="hidden" id="b_pid2" name="b_pid" value="${buyInfo.productId }" />
-								<input type="text" id="b_mname2${status.index}" name="b_mname" value="${userVO.m_name }" />
+								<input type="hidden" id="b_mname2${status.index}" name="b_mname" value="${userVO.m_name }" />
 								
-								<!-- <input type="text" id="realAddress" name="b_maddr" required/> -->
+								<input type="hidden" id="realAddress2" name="b_maddr" required/>
 								
-								<input type="text" class="form-control form-control-round form-control-bold"
-									id="postcode22${status.index}" name="b_maddr" value="${fn:split(userVO.m_addr,',')[0]}" placeholder="우편번호"
-									style="height: 30px; font-size: 14px;" required> 
-									
-								<input type="text" id="address22${status.index}" name="b_maddr" value="${fn:split(userVO.m_addr,',')[1]}"
-									class="form-control form-control-center form-control-round form-control-bold"
-									placeholder="주소" style="height: 30px; font-size: 14px;" required> 
-									
-								<input type="text" name="b_maddr" value="${fn:split(userVO.m_addr,'(')[1]}"
-									class="form-control form-control-center form-control-round form-control-bold"
-									id="detailAddress22${status.index}" placeholder="상세주소" style="height: 30px; font-size: 14px;"> 
-									
-								<input type="text" name="b_maddr" value="@@"
-									class="form-control form-control-center form-control-round form-control-bold"
-									id="extraAddress22${status.index}" placeholder="참고사항" style="height: 30px; font-size: 14px;" required>
-								
-								<input type="text" id="b_mtel2${status.index}" name="b_mtel" value="${userVO.m_tel }" required/>
+								<input type="hidden" id="b_mtel2${status.index}" name="b_mtel" value="${userVO.m_tel }" required/>
 								
 								<input type="hidden" id="b_amount2" name="b_amount" value="${buyInfo.proamount }" />
 								<input type="hidden" id="b_how2" name="b_how" value="카카오페이" />
@@ -799,7 +729,7 @@ body, html {
 									
 								</div>
 								<div class="col-sm-6">
-									<button class="button button1">일 반 결 제</button>
+									<input type="button" value="일 반 결 제" class="button button1" onclick="check()">
 								</div>
 							</div>
 						</form:form>
@@ -829,6 +759,33 @@ body, html {
 	<script>
 	
 	
+	function check(){
+		
+		if(document.getElementById("radioType2").checked){
+			
+			if(document.getElementById("m_name2").value == "" 
+					|| document.getElementById("m_tel2").value == "" 
+					|| document.getElementById("detailAddress55").value == ""){
+				action_popup.alert("이름, 전화번호, 주소는 필수입력 입니다.");
+			} else {
+				action_popup.confirm("결제하시겠습니까?", function (res) {
+			        if (res) {
+			            action_popup.alert("확인창을 눌렀습니다.");
+			            document.buyInsert2.submit();
+			        }
+			})
+			}
+		} else {
+			action_popup.confirm("결제하시겠습니까?", function (res) {
+		        if (res) {
+		            action_popup.alert("확인창을 눌렀습니다.");
+		            document.buyInsert2.submit();
+		        }
+		})
+			
+		}
+	} 
+		
 	
 	$(document).ready(function() {
 		
@@ -837,10 +794,20 @@ body, html {
 		   $('#radioType1').click(function() {
 			   $("#radio1").show();
 			   $("#radio2").hide();
+			   document.getElementById("detailAddress").focus();
+			   
 		   });
+		   
 		   $('#radioType2').click(function() {
 			   $("#radio2").show();
 			   $("#radio1").hide();
+			   document.getElementById("m_name2").value="";
+			   document.getElementById("m_tel2").value="";
+			   document.getElementById("postcode55").value="";
+			   document.getElementById("address55").value="";
+			   document.getElementById("extraAddress55").value="";
+			   document.getElementById("detailAddress55").value="";
+			   
 		   });
 		   
 		});
@@ -935,7 +902,7 @@ body, html {
 			//보유 포인트보다 사용포인트를 크게 입력했을때
 			if (m_point < v_point) {
 				
-				alert("보유하신 포인트만 사용가능 합니다.");
+				action_popup.alert("보유하신 포인트만 사용가능 합니다.");
 				
 				document.getElementById("usepoint").value = "";
 				
@@ -944,7 +911,6 @@ body, html {
 				
 				document.getElementById("usep").value = v_point;
 				var usep = Number(document.getElementById("usep").value);
-				console.log(usep);
 				document.getElementById("usep").value = usep.toLocaleString() + "원";
 				
 				document.getElementById("total").value = p_price - v_point;
@@ -952,7 +918,6 @@ body, html {
 				document.getElementById("total").value = total;
 				
 				var mpoint = m_point - v_point;
-				console.log(mpoint.toLocaleString());
 				document.getElementById("m_point").value = mpoint.toLocaleString() + "P";
 			}
 
@@ -1020,46 +985,76 @@ body, html {
 								}
 								// 조합된 참고항목을 해당 필드에 넣는다.
 								document.getElementById("extraAddress").value = extraAddr;
-								
-								<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-								document.getElementById("extraAddress11${status.index}").value = extraAddr + "@@";
-								document.getElementById("extraAddress22${status.index}").value = extraAddr + "@@";
-								</c:forEach>
-
 							} else {
 								document.getElementById("extraAddress").value = '';
-								<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-								document.getElementById("extraAddress11${status.index}").value = '';
-								document.getElementById("extraAddress22${status.index}").value = '';
-								</c:forEach>
+								
 							}
-
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
 							document.getElementById('postcode').value = data.zonecode;
-							<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-							document.getElementById('postcode11${status.index}').value = data.zonecode;
-							document.getElementById('postcode22${status.index}').value = data.zonecode;
-							console.log(document.getElementById('postcode11${status.index}').value);
-							</c:forEach>
 							document.getElementById("address").value = addr;
-							<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-							document.getElementById("address11${status.index}").value = addr;
-							document.getElementById("address22${status.index}").value = addr;
-							</c:forEach>
+							
 							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("detailAddress").value = '';
 							document.getElementById("detailAddress").focus();
 						}
 					}).open();
 		}
 		
-		/* $('#detailAddress').focusout(function(){
-		      var realAddr = $('input[name=b_maddr1]').eq(0).val() 
-		               + "|" + $('input[name=b_maddr1]').eq(1).val()
+			$(document).ready(function() {
+		      var realAddr = $('input[name=addr1]').eq(0).val() 
+		               + "|" + $('input[name=addr1]').eq(1).val()
 		               + "|" + $('#detailAddress').val()
-		               + "|" + $('input[name=b_maddr1]').eq(2).val();
+		               + "|" + $('input[name=addr1]').eq(2).val()
+		               + "@@";
 		      $('input[name=b_maddr]').val(realAddr);
-		   }); */
-		
+		   });
+			
+			$('#detailAddress').focusout(function(){
+			      var realAddr = $('input[name=addr1]').eq(0).val() 
+			               + "|" + $('input[name=addr1]').eq(1).val()
+			               + "|" + $('#detailAddress').val()
+			               + "|" + $('input[name=addr1]').eq(2).val()
+			               + "@@";
+			      $('input[name=b_maddr]').val(realAddr);
+					})
+					
+	//전화번호	
+	var autoHypenPhone = function(str){
+       str = str.replace(/[^0-9]/g, '');
+       var tmp = '';
+       if( str.length < 4){
+           return str;
+       }else if(str.length < 7){
+           tmp += str.substr(0, 3);
+           tmp += '-';
+           tmp += str.substr(3);
+           return tmp;
+       }else if(str.length < 11){
+           tmp += str.substr(0, 3);
+           tmp += '-';
+           tmp += str.substr(3, 3);
+           tmp += '-';
+           tmp += str.substr(6);
+           return tmp;
+       }else{              
+           tmp += str.substr(0, 3);
+           tmp += '-';
+           tmp += str.substr(3, 4);
+           tmp += '-';
+           tmp += str.substr(7);
+           return tmp;
+       }
+
+       return str;
+   }
+
+   var phoneNum = document.getElementById('m_tel1');
+
+   phoneNum.onkeyup = function(){
+   console.log(this.value);
+   this.value = autoHypenPhone( this.value ) ;  
+   }			
+					
 		//전호번호1
 		$('#m_tel1').focusout(function() {
 			
@@ -1107,43 +1102,39 @@ body, html {
 								}
 								// 조합된 참고항목을 해당 필드에 넣는다.
 								document.getElementById("extraAddress55").value = extraAddr;
-								<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-								document.getElementById("extraAddress11${status.index}").value = extraAddr + "@@";
-								document.getElementById("extraAddress22${status.index}").value = extraAddr + "@@";
-								</c:forEach>
-
+								
 							} else {
 								document.getElementById("extraAddress55").value = '';
-								<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-								document.getElementById("extraAddress11${status.index}").value = '@@';
-								document.getElementById("extraAddress22${status.index}").value = '@@';
-								</c:forEach>
+								
 							}
 
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
 							document.getElementById('postcode55').value = data.zonecode;
-							<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-							document.getElementById('postcode11${status.index}').value = data.zonecode;
-							document.getElementById('postcode22${status.index}').value = data.zonecode;
-							</c:forEach>
 							document.getElementById("address55").value = addr;
-							<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
-							document.getElementById("address11${status.index}").value = addr;
-							document.getElementById("address22${status.index}").value = addr;
-							</c:forEach>
+							
 							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("detailAddress55").value = '';
 							document.getElementById("detailAddress55").focus();
 						}
 					}).open();
 		}
 		
-		/* $('#detailAddress55').focusout(function(){
-		      var realAddr = $('input[name=b_maddr2]').eq(0).val() 
-		               + "|" + $('input[name=b_maddr2]').eq(1).val()
+		$('#detailAddress55').focusout(function(){
+		      var realAddr = $('input[name=addr2]').eq(0).val() 
+		               + "|" + $('input[name=addr2]').eq(1).val()
 		               + "|" + $('#detailAddress55').val()
-		               + "|" + $('input[name=b_maddr2]').eq(2).val();
+		               + "|" + $('input[name=addr2]').eq(2).val()
+		               + "@@";
 		      $('input[name=b_maddr]').val(realAddr);
-		   }); */
+		   });
+		
+		
+		var phoneNum = document.getElementById('m_tel2');
+
+		   phoneNum.onkeyup = function(){
+		   console.log(this.value);
+		   this.value = autoHypenPhone( this.value ) ;  
+		   }
 		   
 		//전화번호2
 		$('#m_tel2').focusout(function(){

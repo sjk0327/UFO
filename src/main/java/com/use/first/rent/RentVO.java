@@ -47,8 +47,8 @@ public class RentVO {
 		public int getR_rent() {
 			return r_rent;
 		}
-		public void setR_rent(int r_rent) {
-			this.r_rent = r_rent;
+		public void setR_rent(int b_amount) {
+			this.r_rent = b_amount;
 		}
 		public String getR_state() {
 			return r_state;

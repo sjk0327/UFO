@@ -330,4 +330,23 @@
 	<delete id="reviewDelete">
 		delete from review where v_mid = #{param1} and v_pid = #{param2}
 	</delete>
+	
+	
+	<!-- 정노추가 -->
+	<update id="productUpdatebuy" >
+		<![CDATA[
+		update product set p_canRent = #{param1}, p_canBuy = #{param2}
+		where p_id = #{param3}
+		]]>
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

@@ -15,7 +15,7 @@
 	<select id="addrList" resultType="com.use.first.buy.BuyVO" parameterType="map">
 		<![CDATA[
 		select distinct b_maddr, b_mname, b_mtel from buy where b_mid=#{m_mid}
-		ORDER BY b_rid desc limit 5
+		ORDER BY b_rid desc limit 3
 		]]>
 	</select>
 	
