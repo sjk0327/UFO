@@ -142,37 +142,42 @@ body, html {
 	display: table-cell;
 }
 
-   input[type=radio]{
-  width: 0;
-  height: 0;
-  position: absolute;
-  left: -9999px;
+input[type=radio] {
+	width: 0;
+	height: 0;
+	position: absolute;
+	left: -9999px;
 }
-input[type=radio] + label{
-  margin: 0;
-  padding: .75em 28%;
-  box-sizing: border-box;
-  position: relative;
-  display: inline-block;
-  border: solid 1px #DDD;
-  background-color: #FFF;
-  line-height: 140%;
-  text-align: center;
-  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-  transition: border-color .15s ease-out,  color .25s ease-out,  background-color .15s ease-out, box-shadow .15s ease-out;
-  cursor: pointer;
+
+input[type=radio]+label {
+	margin: 0;
+	padding: .75em 28%;
+	box-sizing: border-box;
+	position: relative;
+	display: inline-block;
+	border: solid 1px #DDD;
+	background-color: #FFF;
+	line-height: 140%;
+	text-align: center;
+	box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+	transition: border-color .15s ease-out, color .25s ease-out,
+		background-color .15s ease-out, box-shadow .15s ease-out;
+	cursor: pointer;
 }
-input[type=radio]:checked + label{
+
+input[type=radio]:checked+label {
 	background-color: #4B9DEA;
-  color: #FFF;
-  box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
-  border-color: #4B9DEA;
-  z-index: 1;
+	color: #FFF;
+	box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+	border-color: #4B9DEA;
+	z-index: 1;
 }
-.noChoice_raido{
-	padding-left:1.5px;
-	padding-right:1.5px;
+
+.noChoice_raido {
+	padding-left: 1.5px;
+	padding-right: 1.5px;
 }
+
 select {
 	color: #0764ff;
 	width: inherit;
@@ -185,23 +190,25 @@ select {
 	-moz-appearance: none;
 	appearance: none;
 }
+
 select::-ms-expand {
 	display: none;
 }
-
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-<div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><span class="mx-2 mb-0"></span></div>
-        </div>
-      </div>
-    </div>
+	<div class="bg-light py-3">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mb-0">
+					<span class="mx-2 mb-0"></span>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
@@ -212,7 +219,7 @@ select::-ms-expand {
 
 					<div class="pcoded-content">
 						<div class="pcoded-inner-content">
-						
+
 							<!-- Main-body start -->
 							<div class="main-body">
 								<div class="page-wrapper">
@@ -241,13 +248,12 @@ select::-ms-expand {
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-
 																		href="/member/mem/messageList" role="tab">메시지 함</a>
 
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-                                                      href="/member/rec/recommendList" role="tab">내 리뷰</a>
-                                                      <div class="slide"></div></li>
+																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
+																		<div class="slide"></div></li>
 																</ul>
 															</div>
 														</div>
@@ -313,8 +319,13 @@ select::-ms-expand {
 																						<div class="col-sm-3 col-form-label">비밀번호</div>
 																						<div
 																							class="form-group form-primary form-static-label col-sm-9">
-																							<input type="button" value="비밀번호 변경" onclick="showPopUp()"
-																							 class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+																							<input type="button" value="비밀번호 변경"
+																								onclick="showPopUp()"
+																								class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+																							<form:input type="hidden"
+																								value="${userInfo.m_pw }" path="m_pw"
+																								class="form-control form-control-center form-control-round form-control-bold"
+																								placeholder="필수 항목 입니다." required="required" />
 																						</div>
 																					</div>
 
@@ -332,40 +343,58 @@ select::-ms-expand {
 																					<div class="form-group row">
 																						<div class="col-sm-3 col-form-label">성별</div>
 																						<div
-																							class="form-group form-primary form-static-label col-sm-9 row" style="margin-left:0px;padding-left:0px;">
-																							<div class="col-sm-4" style="text-align:center;">
-														                                		<c:choose>									                                		
-														                                		<c:when test="${userInfo.m_gender eq '남자'}">
-														                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자" checked>
-														                                		</c:when>
-														                                		<c:otherwise>
-														                                		<input type="radio" name="m_gender" id="male_raido" class="only-sr checked" value="남자">
-														                                		</c:otherwise>
-														                                		</c:choose>
-														                                    	<label for="male_raido" style="width:max-content;"> 남&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
-														                                    </div>
-														                                    <div class="col-sm-4" style="text-align:center;">
-														                                    	<c:choose>
-														                                    	<c:when test="${userInfo.m_gender eq '여자'}">
-														                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자" checked>
-														                                    	</c:when>
-														                                    	<c:otherwise>
-														                                    	<input type="radio" name="m_gender" id="female_raido" class="only-sr checked" value="여자">
-														                                    	</c:otherwise>
-														                                    	</c:choose>				
-														                                    	<label for="female_raido" style="width:max-content;"> 여&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
-														                                    </div>
-														                                    <div class="col-sm-4" style="text-align:center;">
-														                                    	<c:choose>
-														                                    	<c:when test="${userInfo.m_gender eq '선택안함'}">
-														                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함" checked>
-														                                    	</c:when>
-														                                    	<c:otherwise>
-														                                    	<input type="radio" name="m_gender" id="noChoice_raido" class="only-sr checked" value="선택안함">
-														                                    	</c:otherwise>
-														                                    	</c:choose>
-														                                    	<label for="noChoice_raido"style="width:max-content;">미선택</label>
-														                                    </div>
+																							class="form-group form-primary form-static-label col-sm-9 row"
+																							style="margin-left: 0px; padding-left: 0px;">
+																							<div class="col-sm-4" style="text-align: center;">
+																								<c:choose>
+																									<c:when test="${userInfo.m_gender eq '남자'}">
+																										<input type="radio" name="m_gender"
+																											id="male_raido" class="only-sr checked"
+																											value="남자" checked>
+																									</c:when>
+																									<c:otherwise>
+																										<input type="radio" name="m_gender"
+																											id="male_raido" class="only-sr checked"
+																											value="남자">
+																									</c:otherwise>
+																								</c:choose>
+																								<label for="male_raido"
+																									style="width: max-content;">
+																									남&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+																							</div>
+																							<div class="col-sm-4" style="text-align: center;">
+																								<c:choose>
+																									<c:when test="${userInfo.m_gender eq '여자'}">
+																										<input type="radio" name="m_gender"
+																											id="female_raido" class="only-sr checked"
+																											value="여자" checked>
+																									</c:when>
+																									<c:otherwise>
+																										<input type="radio" name="m_gender"
+																											id="female_raido" class="only-sr checked"
+																											value="여자">
+																									</c:otherwise>
+																								</c:choose>
+																								<label for="female_raido"
+																									style="width: max-content;">
+																									여&nbsp;&nbsp;&nbsp;&nbsp;자 </label>
+																							</div>
+																							<div class="col-sm-4" style="text-align: center;">
+																								<c:choose>
+																									<c:when test="${userInfo.m_gender eq '선택안함'}">
+																										<input type="radio" name="m_gender"
+																											id="noChoice_raido" class="only-sr checked"
+																											value="선택안함" checked>
+																									</c:when>
+																									<c:otherwise>
+																										<input type="radio" name="m_gender"
+																											id="noChoice_raido" class="only-sr checked"
+																											value="선택안함">
+																									</c:otherwise>
+																								</c:choose>
+																								<label for="noChoice_raido"
+																									style="width: max-content;">미선택</label>
+																							</div>
 																						</div>
 																					</div>
 																				</div>
@@ -427,8 +456,7 @@ select::-ms-expand {
 																					<form:input type="text" id="phoneNum" path="m_tel"
 																						value="${userInfo.m_tel }"
 																						class="form-control form-control-center form-control-round form-control-bold"
-																						placeholder="'-'을 빼고 적어주세요."
-																						required="required" />
+																						placeholder="'-'을 빼고 적어주세요." required="required" />
 
 																					<span class="form-bar"></span>
 																				</div>
@@ -447,7 +475,8 @@ select::-ms-expand {
 																						class="form-bar"></span>
 																				</div>
 																				@
-																				<div class="col-sm-4" style="padding: 0px 0px 0px 15px;">
+																				<div class="col-sm-4"
+																					style="padding: 0px 0px 0px 15px;">
 																					<select id="backEmail" onchange="emailSum()">
 																						<option value="">선택해주세요.</option>
 																						<c:forTokens var="email"
@@ -463,21 +492,21 @@ select::-ms-expand {
 																				</div>
 																			</div>
 																			<script>
-																function emailSum() {
-																	var front = document
-																			.getElementById("frontEmail").value;
-																	var back = document
-																			.getElementById("backEmail");
-																	var email = "";
-																	var hidInput = document
-																			.getElementById("realEmail");
-																	email = front
-																			+ "@"
-																			+ back.options[back.selectedIndex].value;
-																	hidInput.value = email;
+																				function emailSum() {
+																					var front = document
+																							.getElementById("frontEmail").value;
+																					var back = document
+																							.getElementById("backEmail");
+																					var email = "";
+																					var hidInput = document
+																							.getElementById("realEmail");
+																					email = front
+																							+ "@"
+																							+ back.options[back.selectedIndex].value;
+																					hidInput.value = email;
 
-																}
-															</script>
+																				}
+																			</script>
 																			<div class="form-group row">
 																				<div class="col-sm-2 col-form-label">포인트</div>
 																				<div
@@ -524,81 +553,81 @@ select::-ms-expand {
 																	<div class="card-block">
 																		<div class="table-responsive">
 																			<c:choose>
-																			<c:when test="${rentList.size() eq 0 }">
-																			<div style="display:flex; justify-content: center">
-																				<table>
-																					<tbody>
-																						<tr>
-																						<td>대여 현황이 없습니다. </td>
-																						</tr>
-																					</tbody>
-																				</table>
-																			</div>
-																			</c:when>
-																			<c:otherwise>
-																		
-																			<table class="table table-hover">
+																				<c:when test="${rentList.size() eq 0 }">
+																					<div style="display: flex; justify-content: center">
+																						<table>
+																							<tbody>
+																								<tr>
+																									<td>대여 현황이 없습니다.</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																				</c:when>
+																				<c:otherwise>
 
-																				<c:forEach var="list" items="${rentList }">
-																					<tbody>
+																					<table class="table table-hover">
 
-																						<tr
-																							onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
+																						<c:forEach var="list" items="${rentList }">
+																							<tbody>
 
-																							<td>
-																								<div class="d-inline-block align-middle">
-																									<img
-																										src="/resources/Images/tempProductImage.jpg"
-																										class="img-radius img-40 align-top m-r-15">
-																									<div class="d-inline-block">
-																										<h6>${list.p_name }</h6>
-																										<p class="text-muted m-b-0">${list.p_category }</p>
-																									</div>
-																								</div>
-																							</td>
-																							<td>
-																								<div>${list.r_sdate }</div>
-																							</td>
-																							<td>
-																								<div>D - ${list.r_sdate}</div>
-																							</td>
-																							<td class="text-right"><c:if
-																									test="${list.r_state eq '대여중'}">
-																									<fmt:parseDate var="tempToday"
-																										value="${list.r_sdate}" pattern="yyyy-MM-dd" />
-																									<fmt:parseNumber var="sdate"
-																										value="${tempToday.time / (1000*60*60*24)}"
-																										integerOnly="true" />
-																									<c:set var="now"
-																										value="<%=new java.util.Date()%>" />
-																									<fmt:parseNumber var="today"
-																										value="${now.time / (1000*60*60*24)}"
-																										integerOnly="true" />
-																									<c:if test="${sdate+3>=today}">
-																										<label class="btn btn-primary">대 여 중</label>
-																									</c:if>
-																									<c:if test="${sdate+3<today}">
-																										<label class="btn btn-danger">연 체 중</label>
-																									</c:if>
-																								</c:if> <c:if test="${list.r_state eq '반납 요청'}">
-																									<label class="btn btn-warning">반납 요청</label>
-																								</c:if> <c:if test="${list.r_state eq '반납 완료'}">
-																									<label class="btn btn-success">반납 완료</label>
-																								</c:if></td>
-																						</tr>
-																					</tbody>
-																				</c:forEach>
+																								<tr
+																									onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
 
-																			</table>
-																			
-																			
-																			</c:otherwise>
+																									<td>
+																										<div class="d-inline-block align-middle">
+																											<img
+																												src="/resources/Images/tempProductImage.jpg"
+																												class="img-radius img-40 align-top m-r-15">
+																											<div class="d-inline-block">
+																												<h6>${list.p_name }</h6>
+																												<p class="text-muted m-b-0">${list.p_category }</p>
+																											</div>
+																										</div>
+																									</td>
+																									<td>
+																										<div>${list.r_sdate }</div>
+																									</td>
+																									<td>
+																										<div>D - ${list.r_sdate}</div>
+																									</td>
+																									<td class="text-right"><c:if
+																											test="${list.r_state eq '대여중'}">
+																											<fmt:parseDate var="tempToday"
+																												value="${list.r_sdate}" pattern="yyyy-MM-dd" />
+																											<fmt:parseNumber var="sdate"
+																												value="${tempToday.time / (1000*60*60*24)}"
+																												integerOnly="true" />
+																											<c:set var="now"
+																												value="<%=new java.util.Date()%>" />
+																											<fmt:parseNumber var="today"
+																												value="${now.time / (1000*60*60*24)}"
+																												integerOnly="true" />
+																											<c:if test="${sdate+3>=today}">
+																												<label class="btn btn-primary">대 여 중</label>
+																											</c:if>
+																											<c:if test="${sdate+3<today}">
+																												<label class="btn btn-danger">연 체 중</label>
+																											</c:if>
+																										</c:if> <c:if test="${list.r_state eq '반납 요청'}">
+																											<label class="btn btn-warning">반납 요청</label>
+																										</c:if> <c:if test="${list.r_state eq '반납 완료'}">
+																											<label class="btn btn-success">반납 완료</label>
+																										</c:if></td>
+																								</tr>
+																							</tbody>
+																						</c:forEach>
+
+																					</table>
+
+
+																				</c:otherwise>
 																			</c:choose>
-																			
+
 																		</div>
 																	</div>
 																</div>
-																
+
 																<!-- 회원 구매 현황(간략) -->
 																<div class="card table-card">
 																	<div class="card-header">
@@ -607,52 +636,53 @@ select::-ms-expand {
 																	<div class="card-block">
 																		<div class="table-responsive">
 																			<c:choose>
-																			<c:when test="${purchaseList.size() eq 0 }">
-																			<div style="display:flex; justify-content: center">
-																				<table>
-																					<tbody>
-																						<tr>
-																						<td>구매 현황이 없습니다. </td>
-																						</tr>
-																					</tbody>
-																				</table>
-																			</div>
-																			</c:when>
-																			<c:otherwise>
-																		
-																			<table class="table table-hover">
+																				<c:when test="${purchaseList.size() eq 0 }">
+																					<div style="display: flex; justify-content: center">
+																						<table>
+																							<tbody>
+																								<tr>
+																									<td>구매 현황이 없습니다.</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																				</c:when>
+																				<c:otherwise>
 
-																				<c:forEach var="list" items="${purchaseList }">
-																					<tbody>
-																						
+																					<table class="table table-hover">
 
-																						<tr onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+																						<c:forEach var="list" items="${purchaseList }">
+																							<tbody>
 
-																							<td>
-																								<div class="d-inline-block align-middle">
-																									<img
-																										src="/resources/Images/tempProductImage.jpg"
-																										class="img-radius img-40 align-top m-r-15">
-																									<div class="d-inline-block">
-																										<h6>${list.p_name }</h6>
-																										<p class="text-muted m-b-0">${list.p_category }</p>
-																									</div>
-																								</div>
-																							</td>
-																							<td>
-																								<div>${list.r_pdate }</div>
-																							</td>
-																							<td class="text-right"><c:if
-																									test="${list.r_state eq '즉시 구매'}">
-																									<label class="btn btn-info">즉시 구매</label>
-																								</c:if> <c:if test="${list.r_state eq '구매 확정'}">
-																									<label class="btn btn-info2">구매 확정</label>
-																								</c:if></td>
-																						</tr>
-																					</tbody>
-																				</c:forEach>
-																			</table>
-																			</c:otherwise>
+
+																								<tr
+																									onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+
+																									<td>
+																										<div class="d-inline-block align-middle">
+																											<img
+																												src="/resources/Images/tempProductImage.jpg"
+																												class="img-radius img-40 align-top m-r-15">
+																											<div class="d-inline-block">
+																												<h6>${list.p_name }</h6>
+																												<p class="text-muted m-b-0">${list.p_category }</p>
+																											</div>
+																										</div>
+																									</td>
+																									<td>
+																										<div>${list.r_pdate }</div>
+																									</td>
+																									<td class="text-right"><c:if
+																											test="${list.r_state eq '즉시 구매'}">
+																											<label class="btn btn-info">즉시 구매</label>
+																										</c:if> <c:if test="${list.r_state eq '구매 확정'}">
+																											<label class="btn btn-info2">구매 확정</label>
+																										</c:if></td>
+																								</tr>
+																							</tbody>
+																						</c:forEach>
+																					</table>
+																				</c:otherwise>
 																			</c:choose>
 																		</div>
 																	</div>
@@ -672,51 +702,52 @@ select::-ms-expand {
 																	<div class="card-block">
 																		<div class="table-responsive">
 																			<c:choose>
-																			<c:when test="${messageList.size() eq 0 }">
-																			<div style="display:flex; justify-content: center">
-																				<table>
-																					<tbody>
-																						<tr>
-																						<td>메시지가 없습니다. </td>
-																						</tr>
-																					</tbody>
-																				</table>
-																			</div>
-																			</c:when>
-																			<c:otherwise>
-																		
-																		
-																			<table class="table table-hover">
+																				<c:when test="${messageList.size() eq 0 }">
+																					<div style="display: flex; justify-content: center">
+																						<table>
+																							<tbody>
+																								<tr>
+																									<td>메시지가 없습니다.</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																				</c:when>
+																				<c:otherwise>
 
-																				<c:forEach var="messageList" items="${messageList }">
-																					<tbody>
-																						<tr
-																							onclick="location.href='/member/mem/messageList/${messageList.a_id }'"
-																							style="cursor: hand">
-																							<td>
-																								<div>
-																									<p>UFO&nbsp;고객센터</p>
-																								</div>
-																							</td>
-																							<td>
-																								<div>
-																									<div>
 
-																										<p>${messageList.a_title }</p>
+																					<table class="table table-hover">
 
-																									</div>
-																								</div>
-																							</td>
-																							<td><fmt:formatDate
-																									value="${messageList.a_date }"
-																									pattern="yyyy-MM-dd hh:mm:ss" /></td>
-																						</tr>
-																					</tbody>
-																				</c:forEach>
-																			</table>
-																		</c:otherwise>
-																		</c:choose>
-																		
+																						<c:forEach var="messageList"
+																							items="${messageList }">
+																							<tbody>
+																								<tr
+																									onclick="location.href='/member/mem/messageList/${messageList.a_id }'"
+																									style="cursor: hand">
+																									<td>
+																										<div>
+																											<p>UFO&nbsp;고객센터</p>
+																										</div>
+																									</td>
+																									<td>
+																										<div>
+																											<div>
+
+																												<p>${messageList.a_title }</p>
+
+																											</div>
+																										</div>
+																									</td>
+																									<td><fmt:formatDate
+																											value="${messageList.a_date }"
+																											pattern="yyyy-MM-dd hh:mm:ss" /></td>
+																								</tr>
+																							</tbody>
+																						</c:forEach>
+																					</table>
+																				</c:otherwise>
+																			</c:choose>
+
 
 
 																		</div>
@@ -733,19 +764,25 @@ select::-ms-expand {
 														</div>
 													</div>
 												</div>
-												<!-- Page-body end -->
-												<form:form class="form-material" name="delete2"
-													action="/member/mem/userDelete/${userInfo.m_id }"
-													method="post" enctype="multipart/form-data"
-													modelAttribute="userVO">
-													<form:hidden path="m_id" value="${userInfo.m_id }"
-														class="form-control form-control-center form-control-round form-control-bold" />
 
-													<div style="float: right; padding-bottom: 100px">
+
+												<!-- Page-body end -->
+											
+												
+												
+												<div style="float: right; padding-bottom: 100px"><a href=/member/mem/accountDelete>
 														<input type="button" id="confirm" value="회원탈퇴"
-															class="btn waves-effect waves-light btn-primary btn-outline-primary">
+															class="btn waves-effect waves-light btn-primary btn-outline-primary"></a>
 													</div>
-												</form:form>
+
+
+
+
+
+
+
+
+
 											</div>
 										</div>
 
@@ -754,7 +791,6 @@ select::-ms-expand {
 
 									</div>
 
-									</div>
 								</div>
 							</div>
 						</div>
@@ -762,6 +798,7 @@ select::-ms-expand {
 				</div>
 			</div>
 		</div>
+	</div>
 
 
 
@@ -806,95 +843,94 @@ select::-ms-expand {
 	<!--이 script 없으면 css 깨짐-->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+		
 	</script>
 	<script>
-	//비밀번호 수정 팝업창 띄우기
-	function showPopUp(){
-		
-		var url = "/member/mem/pw_change/1";
-		var name = "addrPopup";
-		var option = "width = 450, height = 560 left = 200, top=50, location=no";
-		 
-		window.open(url,name,option); 
-		 
-	}
-	//전화번호 자동 - 추가
-	var autoHypenPhone = function(str){
-	    str = str.replace(/[^0-9]/g, '');
-	    var tmp = '';
-	    if( str.length < 4){
-	        return str;
-	    }else if(str.length < 7){
-	        tmp += str.substr(0, 3);
-	        tmp += '-';
-	        tmp += str.substr(3);
-	        return tmp;
-	    }else if(str.length < 11){
-	        tmp += str.substr(0, 3);
-	        tmp += '-';
-	        tmp += str.substr(3, 3);
-	        tmp += '-';
-	        tmp += str.substr(6);
-	        return tmp;
-	    }else{              
-	        tmp += str.substr(0, 3);
-	        tmp += '-';
-	        tmp += str.substr(3, 4);
-	        tmp += '-';
-	        tmp += str.substr(7);
-	        return tmp;
-	    }
+		//비밀번호 수정 팝업창 띄우기
+		function showPopUp() {
 
-	    return str;
-	}
+			var url = "/member/mem/pw_change/1";
+			var name = "addrPopup";
+			var option = "width = 450, height = 560 left = 200, top=50, location=no";
 
-	var phoneNum = document.getElementById('phoneNum');
+			window.open(url, name, option);
 
-	phoneNum.onkeyup = function(){
-	console.log(this.value);
-	this.value = autoHypenPhone( this.value ) ;  
-	}
-	
-	
-	
-	$(document).ready(function(){
-		var size =$(window)[0].innerWidth;
-		if(size > 1200) {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-		} else {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
 		}
-	});
+		//전화번호 자동 - 추가
+		var autoHypenPhone = function(str) {
+			str = str.replace(/[^0-9]/g, '');
+			var tmp = '';
+			if (str.length < 4) {
+				return str;
+			} else if (str.length < 7) {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3);
+				return tmp;
+			} else if (str.length < 11) {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3, 3);
+				tmp += '-';
+				tmp += str.substr(6);
+				return tmp;
+			} else {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3, 4);
+				tmp += '-';
+				tmp += str.substr(7);
+				return tmp;
+			}
 
-
-	$(window).resize(function() {
-		var size =$(window)[0].innerWidth;
-		if(size > 1200) {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-		} else {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+			return str;
 		}
-	});
 
-	function goRentDetailPage(r_id){
-	   	var url = '/member/mem/memRentDetail/'+r_id;
-    	 $("#tempPage").load(url, function(){
-      	 $("#changedPage").html($("#tempPage").html());
-      	 $("#tempPage").html("");
-     	});
-	}
-	
-	function goBuyDetailPage(r_id){
-	   	var url = '/member/mem/memBuyDetail/'+r_id;
-    	 $("#tempPage").load(url, function(){
-      	 $("#changedPage").html($("#tempPage").html());
-      	 $("#tempPage").html("");
-     	});
-	}
-	
-	
-	
-	
+		var phoneNum = document.getElementById('phoneNum');
+
+		phoneNum.onkeyup = function() {
+			console.log(this.value);
+			this.value = autoHypenPhone(this.value);
+		}
+
+		$(document).ready(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
+				});
+
+		$(window).resize(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
+				});
+
+		function goRentDetailPage(r_id) {
+			var url = '/member/mem/memRentDetail/' + r_id;
+			$("#tempPage").load(url, function() {
+				$("#changedPage").html($("#tempPage").html());
+				$("#tempPage").html("");
+			});
+		}
+
+		function goBuyDetailPage(r_id) {
+			var url = '/member/mem/memBuyDetail/' + r_id;
+			$("#tempPage").load(url, function() {
+				$("#changedPage").html($("#tempPage").html());
+				$("#tempPage").html("");
+			});
+		}
+
 		/*사진 미리 보여주기 함수 memberDetail*/
 		$(document).ready(
 				function() {
@@ -989,16 +1025,16 @@ select::-ms-expand {
 						}
 					}).open();
 		}
-		
-        
-		$('#detailAddress').focusout(function(){
-			var realAddr = $('input[name=addr]').eq(0).val() 
-						+ "|" + $('input[name=addr]').eq(1).val()
-						+ "|" + $('#detailAddress').val()
-						+ "|" + $('input[name=addr]').eq(2).val();
-			$('#realAddress').val(realAddr);
-		});
-			
+
+		$('#detailAddress').focusout(
+				function() {
+					var realAddr = $('input[name=addr]').eq(0).val() + "|"
+							+ $('input[name=addr]').eq(1).val() + "|"
+							+ $('#detailAddress').val() + "|"
+							+ $('input[name=addr]').eq(2).val();
+					$('#realAddress').val(realAddr);
+				});
+
 		//승빈
 
 		$(function() {

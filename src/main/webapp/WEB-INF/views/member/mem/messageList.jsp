@@ -223,7 +223,19 @@ body, html {
 																					<th width="100">날짜</th>
 																				</tr>
 																			</thead>
-
+																			<c:choose>
+																			<c:when test="${messageList.size() eq 0 }">
+																			<div style="display:flex; justify-content: center">
+																				<table>
+																					<tbody>
+																						<tr>
+																						<td>메시지가 없습니다. </td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			</c:when>
+																			<c:otherwise>
 																			<c:forEach var="list" items="${messageList}"
 																				begin="0" end="8" step="1" varStatus="status">
 																				<input type="hidden" id="id" value="${list.a_id}">	
@@ -244,6 +256,8 @@ body, html {
 																					</tr>
 																				</tbody>
 																			</c:forEach>
+																			</c:otherwise>
+																			</c:choose>
 
 																		</table>
 																		</form>

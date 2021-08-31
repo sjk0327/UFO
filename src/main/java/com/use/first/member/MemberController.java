@@ -521,9 +521,43 @@ public class MemberController {
 			return "redirect:/member/mem/messageList" ;
 			
 		}	
-			
-			
+		
+		
+		//탈퇴 전 확인 
+		
+		@RequestMapping(value = "/member/mem/accountDelete")
+		public ModelAndView accountDelete(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+			String password = (String)request.getParameter("password");
 	
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			
+			UserVO vo = dao.selectMember(password);
+		
+			
+			if (vo.getM_pw().equals(password) && vo.getM_regtype().equals("유에프오")  ) {
+				session.setAttribute("email", vo.getM_email());
+
+				
+				ModelAndView mv = new ModelAndView();
+				mv.setViewName("/member/mem/accountDelete");
+				
+				return mv;
+			}else {
+				ModelAndView mv = new ModelAndView();
+				mv.setViewName("/member/mem/accountDelete");
+				return mv;
+			}
+			
+
+
+		}
+		
+		
+		
+		
+			
+		
+		
 	
 	
 	
@@ -594,6 +628,8 @@ public class MemberController {
 		}
 
 	}
+	
+	
 	
 	//아이디 찾기
 	
@@ -803,6 +839,7 @@ public class MemberController {
 		}
 		return "/member/mem/pw_change";
 	}
+	
 	@RequestMapping(value="/member/mem/pw_change", method= RequestMethod.POST)
 	public String pw_changePro(HttpSession session, @RequestParam String pwd, Model model) {
 		UserDAO userDao = sqlSessionTemplate.getMapper(UserDAO.class);
