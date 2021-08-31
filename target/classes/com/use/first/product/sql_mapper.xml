@@ -28,7 +28,7 @@
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!-- 페이징을 위한 수량 세기 -->
-	<select id="countProductListTotal"  resultType="int">
+	<select id="countProductListTotal"  parameterType ="com.use.first.paging.Criteria" resultType="int">
 		select count(*)	from product
 	</select>
 	<select id="colorTotal" resultType="int">
@@ -62,29 +62,34 @@
 		where p_category=#{p_category}
 	</select>
 	<!--  가격순 정렬  -->
-	<select id="productSortLow" resultType="com.use.first.product.ProductVO">
+	<select id="productSortLow" parameterType ="com.use.first.paging.Criteria" resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		order by p_price asc
+		LIMIT #{pageStart}, #{perPageNum}
 	</select>
-	<select id="productSortHigh" resultType="com.use.first.product.ProductVO">
+	<select id="productSortHigh" parameterType ="com.use.first.paging.Criteria" resultType="com.use.first.product.ProductVO">
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
 		order by p_price desc
+		LIMIT #{pageStart}, #{perPageNum}
 	</select>
-	<select id="productRecommand" resultType="com.use.first.product.ProductVO">
+	<select id="productRecommand" parameterType ="com.use.first.paging.Criteria" resultType="com.use.first.product.ProductVO">
       select p.p_id, p.p_name, p.p_price, p.p_category, r.count
       from product p
       join (select r_pid, count(*) as count from rental group by r_pid) r
       on p.p_id = r.r_pid
-      order by r.count desc       
+      order by r.count desc   
+      LIMIT #{pageStart}, #{perPageNum}    
       <!-- select p.p_id, p.p_name, p.p_price, p.p_category, r.count
       from product p     
       join (select v_pid, count(*) as count from review where v_like != 'none' group by v_pid) r      
       on p.p_id = r.v_pid     
-      order by r.count desc  -->
+      order by r.count desc 
+      LIMIT #{pageStart}, #{perPageNum}
+       -->
    </select>
 	<sql id="searchCondition">
 		<if test="searchType != null">
@@ -117,7 +122,7 @@
 		p_category,p_mainImg,p_subImg,p_regdate from product 		
 		where p_name LIKE CONCAT('%', #{p_categoryColor}, '%')
 		ORDER BY p_id desc		
-		LIMIT #{page}, #{perPageNum}
+		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!--  상품 메뉴바 가격조회 -->
 	<select id="productMenubarPriceSearch" parameterType="String" resultType="com.use.first.product.ProductVO">
@@ -204,6 +209,7 @@
 		insert into product (p_id,p_name,p_price,p_canBuy,p_canRent,p_category,p_mainImg,p_subImg,p_regdate,p_content)
 		values (#{p_id},#{p_name},#{p_price},#{p_canBuy},#{p_canRent},#{p_category},#{p_mainImg},#{p_subImg},now(),#{p_content})
 	</insert>
+
 
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<select id="productInfo" resultType="com.use.first.product.ProductVO">

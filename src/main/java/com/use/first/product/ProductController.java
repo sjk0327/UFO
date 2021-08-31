@@ -28,6 +28,7 @@ import com.use.first.paging.PageMaker;
 import com.use.first.rec.RecVO;
 import com.use.first.rent.BuyInfoVO;
 import com.use.first.rent.CartVO;
+import com.use.first.rent.RentVO;
 import com.use.first.rent.WishListVO;
 
 @Controller
@@ -344,47 +345,62 @@ public class ProductController {
 		// 신영-고객쪽 상품리스트(색상 별)
 		@RequestMapping(value = "/member/pro/productList/color/{p_categoryColor}", method = RequestMethod.GET)
 		public String getProductCateColor(Model model, Criteria cri, @PathVariable String p_categoryColor) {
-			
+			model.addAttribute("color",p_categoryColor);
 			ProductVO productVO = new ProductVO();
-			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-			
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);			
 			//카테고리가 블랙/레드/화이트/실버면,
 			if((p_categoryColor.equals("black")) || (p_categoryColor.equals("red"))  || (p_categoryColor.equals("white")) || (p_categoryColor.equals("silver"))){
 				if(p_categoryColor.equals("black")) {
 					p_categoryColor = productVO.setP_categoryColor("블랙");
-					cri.setP_categoryColor("블랙");
+					cri.setP_categoryColor("p_categoryColor");
 					System.out.println(p_categoryColor);
 				}else if(p_categoryColor.equals("red")) {
 					p_categoryColor = productVO.setP_categoryColor("레드");
-					cri.setP_categoryColor("레드");
+					cri.setP_categoryColor("p_categoryColor");
 					System.out.println(p_categoryColor);
 				}else if(p_categoryColor.equals("white")) {
 					p_categoryColor = productVO.setP_categoryColor("화이트");
-					cri.setP_categoryColor("화이트");
+					cri.setP_categoryColor("p_categoryColor");
 					System.out.println(p_categoryColor);
 				}else if(p_categoryColor.equals("silver")) {
 					p_categoryColor = productVO.setP_categoryColor("실버");
-					cri.setP_categoryColor("실버");
+					cri.setP_categoryColor("p_categoryColor");
 					System.out.println(p_categoryColor);
-					}	
+					}					
 				
-				
-				model.addAttribute("color",p_categoryColor);
+				//model.addAttribute("color",p_categoryColor);
 				int colorCount = productDAO.colorTotal(cri,p_categoryColor);
-				
+				cri.setP_categoryColor(p_categoryColor);
+				System.out.println("cri.setP_categoryColor(p_categoryColor)::" + cri.getP_categoryColor());
 				System.out.println("colorCount:::" + colorCount);
 				
 				
 				if(cri.getPage() == 0) {
 					cri.setPage(0);
-				}else {
+					/*
+				}
+				else {						
+					cri.setPage((cri.getPage()*10-11));
+				}				
+				cri.setPerPageNum(9);
+				*/	
+			
+				}else if(0 < cri.getPage() &&  cri.getPage() < 2) {
+					System.out.println("cri.getPage()::" + cri.getPage());
+					cri.setPage((cri.getPage()*1-1));
+					
+				}else if(cri.getPage() > 2) {	
+					System.out.println(" page0");
 					cri.setPage((cri.getPage()*10-11));
 				}
-				cri.setPerPageNum(9);
 				
+				cri.setPerPageNum(9);
+			
+				System.out.println(cri.getP_categoryColor());
+				System.out.println(cri.getPage());
 				List<ProductVO> list = productDAO.productSelectColor(cri);		
 				
-				System.out.println("list/size:::" + list.size());
+				System.out.println("listp_catesize:::" + list.size());
 				System.out.println("Math.ceil(cate_totalCount/9):::" + (int)(Math.ceil((double)colorCount/9)));
 				
 				model.addAttribute("size" , (int)(Math.ceil((double)colorCount/9)));
@@ -422,25 +438,58 @@ public class ProductController {
 
 		  @RequestMapping(value = "/member/pro/productList/sort/{sort}", method = RequestMethod.GET)
 		  public String sort(Model model,Criteria cri, @PathVariable String sort) { 
-			 
-		  ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);		  
-		  if(sort.equals("pricelow")) {
-		  List<ProductVO> list = productDAO.productSortLow(cri);
-	
-		  model.addAttribute("productList", list);
-		  }
-		  else if(sort.equals("pricehigh")){
-			  List<ProductVO> rlist = productDAO.productSortHigh(cri);			  
-			  model.addAttribute("productList", rlist);
-		  }
-		  else if(sort.equals("recommand")){
-			  List<ProductVO> rclist = productDAO.productRecommand(cri);
-			  model.addAttribute("productList", rclist);
-		  }
-		 
-		 
-		  return "member/pro/memberProductList2";
+		  ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
 		  
+		  	System.out.println("sort:::" + sort);
+		    int sortCount = productDAO.countProductListTotal(cri);
+			cri.setSort(sort);
+			System.out.println("cri.getSort::" + cri.getSort());
+			System.out.println("sortCount:::" + sortCount);
+			
+			
+			if(cri.getPage() == 0) {
+				cri.setPage(0);
+			}else if(0 < cri.getPage() &&  cri.getPage() < 2) {
+				System.out.println("cri.getPage()::" + cri.getPage());
+				cri.setPage((cri.getPage()*1-1));
+				
+			}else if(cri.getPage() > 2) {	
+				System.out.println(" page0");
+				cri.setPage((cri.getPage()*10-11));
+			}
+			
+			cri.setPerPageNum(9);
+		
+			System.out.println(cri.getP_category());
+			System.out.println(cri.getPage());
+			
+			if(sort.equals("pricelow")) {
+				List<ProductVO> list = productDAO.productSortLow(cri);	
+				model.addAttribute("productList", list);
+				System.out.println("pricelow size:::" + list.size());
+			}
+			else if(sort.equals("pricehigh")){
+				List<ProductVO> rlist = productDAO.productSortHigh(cri);			  
+				model.addAttribute("productList", rlist);
+				System.out.println("pricehigh size:::" + rlist.size());
+			}
+			else if(sort.equals("recommand")){
+				List<ProductVO> rclist = productDAO.productRecommand(cri);
+				model.addAttribute("productList", rclist);
+				System.out.println("recommand size:::" + rclist.size());
+			}	 		 
+			
+			//System.out.println("listp_catesize:::" + list.size());
+			System.out.println("Math.ceil(cate_totalCount/9):::" + (int)(Math.ceil((double)sortCount/9)));
+			
+			model.addAttribute("size" , (int)(Math.ceil((double)sortCount/9)));
+			model.addAttribute("sort",sort);
+		  
+		  
+		  
+		  
+		  
+		  return "member/pro/memberProductList2";		  
 		  }	
 	  	
 		  //신영-메뉴바 가격조회
@@ -483,7 +532,6 @@ public class ProductController {
 			return "redirect:/member/pro/productList";
 		}
 			
-		 
 		  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬 관리자 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			//상품상세보기
 				@RequestMapping(value = "/admin/pro/productDetail/{p_id}", method = RequestMethod.GET)
@@ -527,6 +575,7 @@ public class ProductController {
 					return "redirect:/admin/pro/productDetail/"+ product_id;
 				}
 		
+
 				/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~병찬 고객 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 				
 				//ajax 위시리스트 추가

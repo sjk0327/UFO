@@ -146,10 +146,7 @@ ul{ list-style:none;}
 </style>
   </head>
   <body>
-  <div class="main_moving_banner" style="display:none;">
-		<a href="" data-attr=""><img src="" alt="" data-ref-compareKey=""/></a>
-		<button type="button" class="moving_banner_close">배너 하루동안 보지 않기</button>
-	</div>
+ 
 <ul id="tempList" style=" display:none"></ul>
 
   <div class="site-wrap" >
@@ -232,10 +229,11 @@ ul{ list-style:none;}
                      <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
                         <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
                   	<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
-                	<button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;  
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>                 	             
+                	<button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;
+                	
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false" >높은가격순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false" >낮은가격순</button>
+                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false" >추천순</button>                 	             
                      </form>
                   </div>
                
@@ -329,6 +327,12 @@ ul{ list-style:none;}
 	                   	
 	                   	<c:when test="${color ne null && color ne ''}">
 	                   		<a href='<c:url value="/member/pro/productList/color/${color}?page=${status.count}"/>'>
+	                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
+	                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
+	                       <span class="col-md-1"></span>
+	                   	</c:when>     
+	                   	<c:when test="${sort ne null && sort ne ''}">
+	                   		<a href='<c:url value="/member/pro/productList/sort/${sort}?page=${status.count}"/>'>
 	                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
 	                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
 	                       <span class="col-md-1"></span>

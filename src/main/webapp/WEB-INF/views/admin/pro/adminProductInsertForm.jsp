@@ -29,6 +29,10 @@ font-size: 15pt;
 .mainContainer, subContainer {
  margin:auto;
 }
+.col-5 
+{
+border: 1px ridge #7971ea;
+	}
 
    </style>
 
@@ -154,7 +158,7 @@ font-size: 15pt;
            	 <div class="col-7 mainContainer">                     	
                   <img  width="80%" height="80%" class="img-fluid thumbnailMain"> 							   
            	 </div>
-          	 <div class="col-5 productInfo"> <br><br>
+          	 <div class="col-5"> <br><br>
          
           	<div class="row"> <div class="col-3"><label for="p_id">상품 I D</label></div><div class="col-9" ><form:input path="p_id" type="text" id="p_id" placeholder="id를 입력하세요"  required="required"/></div></div> 
   	<div class="row"> <div class="col-3"><label for="p_name">상품이름</label></div><div class="col-9"><form:input path="p_name" type="text" id="p_name" placeholder="이름을 입력하세요"  required="required"/></div></div> 

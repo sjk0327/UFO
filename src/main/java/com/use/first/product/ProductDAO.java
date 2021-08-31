@@ -42,7 +42,6 @@ public interface ProductDAO {
 	public List<ProductVO> productMenubarPriceSearchRent(String minPrice, String maxPrice);
 	public List<ProductVO> productSelectColor(Criteria cri);
 	public int colorTotal(Criteria cri, String p_categoryColor);
-			
 
 			
 
