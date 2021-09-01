@@ -36,6 +36,7 @@ public class BuyController {
       ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
       
       System.out.println(buyVO.toString());
+      System.out.println(m_point);
       
       String[] b_mid = buyVO.getB_mid().split(",");
       String[] b_pid = buyVO.getB_pid().split(",");
@@ -125,6 +126,16 @@ public class BuyController {
       
       return "/member/rent/buysuccess";
    }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    @RequestMapping(value = "/buy/addr/{list}")
 	public String addrList(Model model, HttpSession session, @PathVariable("list") int list) {

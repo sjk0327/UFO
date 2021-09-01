@@ -88,6 +88,7 @@ public class NoticeController {
 		PageMaker pageMaker = new PageMaker(cri);
 		int totalCount = noticeDAO.getNoticeTotalCount(cri);
 		pageMaker.setTotalCount(totalCount);
+		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("pageMaker", pageMaker);
 		return "/member/notice/memberNoticeList";
 	}

@@ -44,100 +44,87 @@
 	height: 70%;
 }
 
-:root {
-  --border-size: 0.125rem;
-  --duration: 500ms;
-  --ease: cubic-bezier(0.215, 0.61, 0.355, 1);
-  --font-family: monospace;
-  --color-primary: white;
-  --color-secondary: #555555;
-  --color-tertiary: dodgerblue;
-  --shadow: rgba(0, 0, 0, 0.1);
-  --space: 1rem;
-}
-
-
-.multi-button {
-  display: flex;
-  width: 100%;
-}
-
-.multi-button button {
-  flex-grow: 1;
-  cursor: pointer;
-  position: relative;
-  font-weight: bold;
-  border-radius: 8px;
-  color: var(--color-secondary);
-  background-color: var(--color-primary);
-  font-size: 1em;
-  font-family: var(--font-family);
-  text-transform: lowercase;
-  text-shadow: var(--shadow) 2px 2px;
-  transition: flex-grow var(--duration) var(--ease);
-}
-
-.multi-button button + button {
-  border-left: var(--border-size) solid black;
-  margin-left: calc(var(--border-size) * -1);
-}
-
-.multi-button button:hover,
-.multi-button button:focus {
-  flex-grow: 2;
-  color: white;
-  outline: none;
-  text-shadow: none;
-  background-color: var(--color-secondary);
-}
-
-.multi-button button:focus {
-  outline: var(--border-size) dashed var(--color-primary);
-  outline-offset: calc(var(--border-size) * -3);
-}
-
-.multi-button:hover button:focus:not(:hover) {
-  flex-grow: 1;
-  color: var(--color-secondary);
-  background-color: var(--color-primary);
-  outline-color: var(--color-tertiary);
-}
-
-.multi-button button:active {
-  transform: translateY(var(--border-size));
+.tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+	display: table-cell !important;
 }
 
 </style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
-	<div class="container" style="text-align: center;">
+	<div style="text-align: center;">
 		<br><br>
 		<h2 style="color: #666666; font-weight: bold;">공 지 사 항</h2>
 		<br><br>
+		<div class="row">
+		<div class="col-xl-1 col-sm-12">
+		</div>
+		<!--  메뉴바 시작 -->
+		
+		<div class="col-xl-2 col-sm-12">
+		<div class="container" style="text-align: center; margin: auto;">
+			<div class="card">
+				<div class="card-block">
+		<div class="main-body">
+		<div class="page-body">
+			<!-- Page-body start -->
+					<!-- Row start -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="sub-title" style="font-weight: bold; font-size: 15px; margin: 0px">Menu</div>
+							<!-- Nav tabs -->
+							<ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist" style="padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;">
+								<li class="nav-item"><a id="menu-1" class="nav-link active"
+                           href="/member/noticeList" role="tab" style="font-weight: bold;">공지사항</a>
+                           <div class="slide"></div></li>
+                        <li class="nav-item"><a id="menu-2" class="nav-link "
+                           href="/member/qnaList" role="tab" style="font-weight: bold;">Q&A</a>
+                           <div class="slide"></div></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Row end -->
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+		<!-- 메뉴바 끝 -->
+		<div class="col-xl-7 col-sm-12">
+		<div class="container" style="text-align: center;">
 		<div class="box">
 			<table class="table table-hover table-sm">
 				<thead style="background-color: #A0AFFF;">
-					<tr style="color: #eeeeee; font-weight: bold;">
+					<tr style="color: #fffeee; font-weight: bold;">
 						<th style="text-align: center; width: 20%;">번호</th>
 						<th style="text-align: center; width: 40%;">제목</th>
 						<th style="text-align: center; width: 20%;">작성자</th>
 						<th style="text-align: center; width: 25%;">작성날짜</th>
 					</tr>
 				</thead>
-				<c:forEach var="notice" items="${noticeList}">
-					<tbody>
-						<tr style="text-align: center; color: #555555;" onClick="location.href='/member/noticeDetail/${notice.n_id}'">
-							<td>${notice.n_id }</td>
-							<td>${notice.n_title }</td>
-							<td>${notice.n_name }</td>
-							<td>${notice.n_date }</td>
-						</tr>
-					</tbody>
-				</c:forEach>
+				<c:set var="num" value="${totalCount }"></c:set>
+            <c:forEach var="notice" items="${noticeList }">
+               <tbody>
+                  <tr style="text-align: center; color: #555555;" onClick="location.href='/member/noticeDetail/${notice.n_id }'">
+                     <td>${num-(pageMaker.cri.page-1)*9 }</td>
+                     <td>${notice.n_title }</td>
+                     <td>${notice.n_name }</td>
+                     <td>${notice.n_date }</td>
+                  </tr>
+               </tbody>
+                <c:set var="num" value="${num-1 }"></c:set>
+            </c:forEach>
 			</table>
-		</div><br>
-	<div class="row" style="justify-content: center">
+		</div><br><br><br>
+		</div>
+		</div>
+		<div class="col-xl-2 col-sm-12">
+		</div>
+		</div>
+	<div class="row">
 				<!-- 페이징 start -->
 				<div id = "paging-div">
 				<ul class="btn-group pagination">
@@ -147,7 +134,7 @@
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 						<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/noticeList${pageMaker.makeQuery(pageNum)}"/>'>
-						<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 2px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+						<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 4px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
 						<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/noticeList${pageMaker.makeQuery(pageNum)}"/>'>
 						<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 						
@@ -178,6 +165,43 @@
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		
+	
+	$(document).ready(function(){
+	      var size =$(window)[0].innerWidth;
+	      if(size > 1200) {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+	         $('#menuBar').attr('style' , "font-weight: bold;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px;');
+	         $('#menu-1').attr('style', 'padding:20px 0 !important;');
+	         $('#menu-2').attr('style', 'padding:20px 0 !important;');
+	      } else {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+	         $('#menuBar').attr('style' , "padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px; margin:0px;');
+	         $('#menu-1').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('#menu-2').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	      }
+	   });
+
+
+	   $(window).resize(function() {
+	      var size =$(window)[0].innerWidth;
+	      if(size > 1200) {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+	         $('#menuBar').attr('style' , "font-weight: bold;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px;');
+	         $('#menu-1').attr('style', 'padding:20px 0 !important;');
+	         $('#menu-2').attr('style', 'padding:20px 0 !important;');
+	      } else {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+	         $('#menuBar').attr('style' , "padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px; margin:0px;');
+	         
+	         $('#menu-1').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('#menu-2').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	      }
+	   });
+	
 	</script>
 </body>
 

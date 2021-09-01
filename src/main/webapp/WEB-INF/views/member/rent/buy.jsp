@@ -508,7 +508,7 @@ body, html {
 											<input type="text" name="addr1" value="${fn:split(userVO.m_addr,'|')[2]}"
 											class="form-control form-control-center form-control-round form-control-bold"
 											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px; background-color: #ffffff;"
-											onchange="detail_m_addr1(this)" readonly>
+											onchange="detail_m_addr1(this)">
 									</div>
 								</div>
 								
@@ -679,7 +679,7 @@ body, html {
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 								</c:if>
 								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
-								<input type="hidden" id="sp" name="m_point" value="${p + userVO.m_point }" /> 
+								<input type="hidden" id="sp1" name="m_point" value="${p + userVO.m_point }" /> 
 								
 							</c:forEach>
 
@@ -693,7 +693,7 @@ body, html {
 										alt="카카오페이">
 								</div>
 								<div class="col-sm-6">
-									<button id="buy">kakaopay</button>
+									<input type="button" value="kakaopay" id="buy" onClick="check2()">
 								</div>
 							</div>
 						</form:form>
@@ -721,7 +721,7 @@ body, html {
 								</c:if>
 								<input type="hidden" id="b_message2" name="b_message" value="안전하게 배송해 주세요." />
 							</c:forEach>
-								<input type="hidden" id="sp" name="m_point" value="${p + userVO.m_point }" /> 
+								<input type="hidden" id="sp2" name="m_point" value="${p + userVO.m_point }" /> 
 								<input type="hidden" id="hiddenTotal2" name="total" value="" /> 
 								
 							<div class="form-group row">
@@ -771,46 +771,95 @@ body, html {
 				action_popup.confirm("결제하시겠습니까?", function (res) {
 			        if (res) {
 			            action_popup.alert("확인창을 눌렀습니다.");
-			            document.buyInsert2.submit();
+			            document.buyInsert1.submit();
 			        }
 			})
 			}
 		} else {
-			action_popup.confirm("결제하시겠습니까?", function (res) {
-		        if (res) {
-		            action_popup.alert("확인창을 눌렀습니다.");
-		            document.buyInsert2.submit();
-		        }
-		})
+			
+			if(document.getElementById("radioType1").checked){
+				if(document.getElementById("detailAddress").value == ""){
+					action_popup.alert("상세주소를 입력해 주세요.");
+				} else {
+					action_popup.confirm("결제하시겠습니까?", function (res) {
+				        if (res) {
+				            action_popup.alert("확인창을 눌렀습니다.");
+				            document.buyInsert1.submit();
+				        }
+				})
+				}
+			}
+			
+		}
+	} 
+	
+	
+function check2(){
+		
+		if(document.getElementById("radioType2").checked){
+			
+			if(document.getElementById("m_name2").value == "" 
+					|| document.getElementById("m_tel2").value == "" 
+					|| document.getElementById("detailAddress55").value == ""){
+				action_popup.alert("이름, 전화번호, 주소는 필수입력 입니다.");
+			} else {
+				action_popup.confirm("결제하시겠습니까?", function (res) {
+			        if (res) {
+			            action_popup.alert("확인창을 눌렀습니다.");
+			            document.buyInsert.submit();
+			        }
+			})
+			}
+		} else {
+			
+			if(document.getElementById("radioType1").checked){
+				if(document.getElementById("detailAddress").value == ""){
+					action_popup.alert("상세주소를 입력해 주세요.");
+				} else {
+					action_popup.confirm("결제하시겠습니까?", function (res) {
+				        if (res) {
+				            action_popup.alert("확인창을 눌렀습니다.");
+				            document.buyInsert.submit();
+				        }
+				})
+				}
+			}
 			
 		}
 	} 
 		
 	
 	$(document).ready(function() {
-		
 		$("#radio1").show();
 		
-		   $('#radioType1').click(function() {
-			   $("#radio1").show();
-			   $("#radio2").hide();
-			   document.getElementById("detailAddress").focus();
-			   
-		   });
+		if(document.getElementById("radioType1").checked){
+					
+			if( document.getElementById("m_tel1").value == ""
+				|| document.getElementById("postcode").value == ""){
+				
+				$("input:radio[id='radioType2']").prop("checked", true);
+				$("#radio2").show();
+				$("#radio1").hide();
+			} 
+		} 
+	   $('#radioType1').click(function() {
+		   $("#radio1").show();
+		   $("#radio2").hide();
+		   document.getElementById("detailAddress").focus();
+	   });
+	   $('#radioType2').click(function() {
+		   $("#radio2").show();
+		   $("#radio1").hide();
+		   document.getElementById("m_name2").value="";
+		   document.getElementById("m_tel2").value="";
+		   document.getElementById("postcode55").value="";
+		   document.getElementById("address55").value="";
+		   document.getElementById("extraAddress55").value="";
+		   document.getElementById("detailAddress55").value="";
 		   
-		   $('#radioType2').click(function() {
-			   $("#radio2").show();
-			   $("#radio1").hide();
-			   document.getElementById("m_name2").value="";
-			   document.getElementById("m_tel2").value="";
-			   document.getElementById("postcode55").value="";
-			   document.getElementById("address55").value="";
-			   document.getElementById("extraAddress55").value="";
-			   document.getElementById("detailAddress55").value="";
-			   
-		   });
-		   
-		});
+	   });
+			
+	});
 	
 	function showPopup(list) { 
 		 
@@ -882,8 +931,6 @@ body, html {
 			var v_point = Number(document.getElementById("usepoint").value);
 			var sp = p + (m_point - v_point);
 			
-			document.getElementById("sp").value = sp;
-			
 			if (v_point < 100) {
 				v_point = 0;
 				action_popup.alert("포인트는 100P 이상 사용가능 합니다");
@@ -919,6 +966,14 @@ body, html {
 				
 				var mpoint = m_point - v_point;
 				document.getElementById("m_point").value = mpoint.toLocaleString() + "P";
+				
+				
+				document.getElementById("sp1").value = sp;
+				document.getElementById("sp2").value = sp;
+				
+				console.log(sp);
+				console.log();
+				
 			}
 
 		}
@@ -929,7 +984,8 @@ body, html {
 				parseInt(document.getElementById("usep").value.replace(/,/g,"")) + parseInt(document.getElementById("m_point").value.replace(/,/g,""));
 			var sp = c_point + Number(p);
 			
-			document.getElementById("sp").value = sp;
+			document.getElementById("sp1").value = sp;
+			document.getElementById("sp2").value = sp;
 			
 			document.getElementById("m_point").value = c_point.toLocaleString() + "P";
 			

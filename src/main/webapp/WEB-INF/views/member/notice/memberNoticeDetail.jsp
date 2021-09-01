@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+<title>공지사항</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -108,24 +108,70 @@
   transform: translateY(var(--border-size));
 }
 
+.tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+	display: table-cell !important;
+}
+
+.table.table-sm td, .table.table-sm th{
+	padding: 5px 5px !important;
+}
+
 </style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
-	<div class="container" style="text-align: center;">
+	<div style="text-align: center;">
 		<br><br>
 		<h2 style="color: #666666; font-weight: bold;">공 지 사 항</h2>
 		<br><br>
+		<div class="row">
+		<div class="col-xl-1 col-sm-12">
+		</div>
+		
+		<!--  메뉴바 시작 -->
+		
+		<div class="col-xl-2 col-sm-12">
+		<div class="container" style="text-align: center; margin: auto;">
+			<div class="card">
+				<div class="card-block">
+		<div class="main-body">
+		<div class="page-body">
+			<!-- Page-body start -->
+					<!-- Row start -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="sub-title" style="font-weight: bold; font-size: 15px; margin: 0px">Menu</div>
+							<!-- Nav tabs -->
+							<ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist" style="padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;">
+								<li class="nav-item"><a id="menu-1" class="nav-link active"
+                           href="/member/noticeList" role="tab" style="font-weight: bold;">공지사항</a>
+                           <div class="slide"></div></li>
+                        <li class="nav-item"><a id="menu-2" class="nav-link "
+                           href="/member/qnaList" role="tab" style="font-weight: bold;">Q&A</a>
+                           <div class="slide"></div></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Row end -->
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+		<!-- 메뉴바 끝 -->
+		<div class="col-xl-6 col-sm-12">
 		<div class="box">
 			<div class="card-block table-border-style">
-				<div class="table-responsive">
 					<table class="table table-striped table-sm">
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555;">글번호</td>
+							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">글번호</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${noticeVO.n_id }</td>
-							<td class="danger" style="font-weight: bold; color: #555555;">작성자</td>
+							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성자</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${noticeVO.n_name }</td>
-							<td class="danger" style="font-weight: bold; color: #555555;">작성일</td>
+							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성일</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${noticeVO.n_date }</td>
 							
 						</tr>
@@ -135,22 +181,26 @@
 						</tr>
 	
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555;">글내용</td>
-							<td colspan="5"><textarea name="n_content" class="form-control" rows="18" style="resize: none; background-color: white; readonly">${noticeVO.n_content }</textarea></td>
+							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE; vertical-align: middle;">내용</td>
+							<td colspan="5"><textarea name="n_content" class="form-control" rows="18" style="resize: none; background-color: white;" disabled>${noticeVO.n_content }</textarea></td>
 						</tr>
 	
 						<tr>
 							<td colspan="7" class="text-center"><br>
 							<div class="row" style="width: 100px; margin: auto;">
 							<div class="multi-button" >
-							  <button onClick="location.href='/member/noticeList'">글목록</button>
+							  <button onClick="javascript:history.back();">글 목 록</button>
 							</div>
 						</div></td>
 						</tr>
 					</table>
-				</div>
+			
 			</div>
+		</div>
+		</div>
+		<div class="col-xl-3 col-sm-12">
 			</div>
+		</div>
 		</div>
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
 
@@ -169,6 +219,42 @@
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		
+	$(document).ready(function(){
+	      var size =$(window)[0].innerWidth;
+	      if(size > 1200) {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+	         $('#menuBar').attr('style' , "font-weight: bold;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px;');
+	         $('#menu-1').attr('style', 'padding:20px 0 !important;');
+	         $('#menu-2').attr('style', 'padding:20px 0 !important;');
+	      } else {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+	         $('#menuBar').attr('style' , "padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px; margin:0px;');
+	         $('#menu-1').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('#menu-2').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	      }
+	   });
+
+
+	   $(window).resize(function() {
+	      var size =$(window)[0].innerWidth;
+	      if(size > 1200) {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+	         $('#menuBar').attr('style' , "font-weight: bold;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px;');
+	         $('#menu-1').attr('style', 'padding:20px 0 !important;');
+	         $('#menu-2').attr('style', 'padding:20px 0 !important;');
+	      } else {
+	         $('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+	         $('#menuBar').attr('style' , "padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('.sub-title').attr('style', 'font-weight: bold; font-size: 15px; margin:0px;');
+	         
+	         $('#menu-1').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	         $('#menu-2').attr('style', "font-weight: bold; padding-top: 10px !important; padding-right: 0px !important; padding-bottom: 10px !important; padding-left: 0px !important;");
+	      }
+	   });
+	
 	</script>
 </body>
 
