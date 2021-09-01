@@ -27,6 +27,10 @@ public class UserVO {
 	private Date m_regdate;
 
 	private String m_regtype;
+	
+	private boolean m_kakaolink;
+	
+	private boolean m_naverlink;
 
 	private MultipartFile uploadFile;
 
@@ -126,13 +130,30 @@ public class UserVO {
 		this.m_regtype = m_regtype;
 	}
 
+	public boolean isM_kakaolink() {
+		return m_kakaolink;
+	}
+
+	public void setM_kakaolink(boolean m_kakaolink) {
+		this.m_kakaolink = m_kakaolink;
+	}
+
+	public boolean isM_naverlink() {
+		return m_naverlink;
+	}
+
+	public void setM_naverlink(boolean m_naverlink) {
+		this.m_naverlink = m_naverlink;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVO [m_id=" + m_id + ", m_name=" + m_name + ", m_pw=" + m_pw + ", m_gender=" + m_gender + ", m_addr="
 				+ m_addr + ", m_tel=" + m_tel + ", m_email=" + m_email + ", m_point=" + m_point + ", m_img=" + m_img
-				+ ", m_regdate=" + m_regdate + ", m_regtype=" + m_regtype + ", uploadFile=" + uploadFile + "]";
+				+ ", m_regdate=" + m_regdate + ", m_regtype=" + m_regtype + ", m_kakaolink=" + m_kakaolink + ", m_naverlink="
+				+ m_naverlink + ", uploadFile=" + uploadFile + "]";
 	}
 
-
+	
 
 }

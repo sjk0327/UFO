@@ -249,6 +249,13 @@
       SELECT count(m_id) FROM MEMBER WHERE m_id = #{m_id}
       ]]>
    </select>
+   
+   <select id="duplicateCheckEmail" resultType="com.use.first.member.UserVO" parameterType="String" >
+     <![CDATA[
+      SELECT * FROM MEMBER WHERE m_email = #{m_email}
+      ]]>
+   </select>
+   
 
 	<insert id="memJoin" parameterType="com.use.first.member.UserVO">
 		<![CDATA[

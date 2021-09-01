@@ -614,6 +614,7 @@ this.value = autoHypenPhone( this.value ) ;
         }
     };
     
+    
     //회원 가입 버튼 클릭시 중복검사, 이메일 인증 수행 여부 체크
     function signUp(){
     	var nameCheck = document.getElementById('name').value;
@@ -629,11 +630,21 @@ this.value = autoHypenPhone( this.value ) ;
     	}else if(nameCheck == null || nameCheck == ""){
     		alert("이름은 필수 사항 입니다.");
     		document.getElementById('name').focus();
-    	}else if(!emailCheck){
+    	}else if(!authCheck){
     		alert("이메일 인증을 해주세요.");
     		document.getElementById('frontEmail').focus();
     	}else{
-    		document.signIn_form.submit();
+    		if(addrCheck){
+    			if(document.getElementById("detailAddress").value == ""){
+    				action_popup.alert("상세 주소를 적어주세요.");
+					document.getElementById("detailAddress").focus();
+    			}else{
+    				addrCheck = false;
+    			}
+    		}
+    		
+    		if(!addrCheck)
+    			document.signIn_form.submit();
     	}
     	
     };
@@ -642,6 +653,7 @@ this.value = autoHypenPhone( this.value ) ;
 	var authKey = "";
 	var emailFormCheck = false;
 	var emailCheck = false;
+	var authCheck = false;
 	var isRunning = false;
 	var timer = null;
 	function authKeySend(){
@@ -649,9 +661,7 @@ this.value = autoHypenPhone( this.value ) ;
 		var inputed = $('input#frontEmail').val();
 		var select = $('select#backEmail').val();
 		var checkInput = $('input#checkKey');
-		
-		console.log(inputed);
-		
+				
 		var SC = ["!","@","#","$","%","`","~","^","&","*","(",")","+","=","\\","|","{","}",":",";","\"","\'",",","<",">","/","?"];
         var check_SC = 0;
 		
@@ -659,44 +669,63 @@ this.value = autoHypenPhone( this.value ) ;
             if(inputed.indexOf(SC[i]) != -1) check_SC = 1;
         }
 		
-		if(check_SC == 1 || select == ""){
+		if(check_SC == 1 || select == "" || inputed == ""){
 			$("#check_email").css("color","red");
 			$("#check_email").text("이메일을 제대로 입력해주세요.");
 			emailFormCheck = false;
 		}else{
+			$("#check_email").text("");
 			emailFormCheck = true;
 		}
 		
-		if(emailFormCheck && (inputed.length > 0 || inputed != "") && !emailCheck) {
-			$("#check_email").text("");
-			// timer가 없을 때 (처음 클릭)
-			if(!isRunning){
-				$.ajax({
-					data : inputed + "@" + select,
-					url : "/member/mem/memEmailCheck",
-					type : "POST",
-					dataType : "text",
-					contentType: "application/json; charset=UTF-8",
-					success : function(data) {
-						action_popup.alert('인증번호가 전송 되었습니다.');
-						
-						checkInput.attr("disabled", false);	
-						checkInput.attr("placeholder", "");
-						authKey = data;
-						realEmail.val(inputed + "@" + select);
-						console.log(authKey);
-						$('input#authBtn').attr("style","display:none;");
-						$('input#timeBtn').attr("style","display:block;");
-						startTimer(180, $('#timeBtn'));
-					},
-				});
-			}else{
-	    		clearInterval(timer);
-	    		$('#timeBtn').val("03:00");
-	    		startTimer(180, $('#timeBtn'));
-		    }
-			
+		if(emailFormCheck && (inputed.length > 0 || inputed != "") && !authCheck) {
+			$.ajax({
+				data : inputed+"@"+select,
+				url : "/member/mem/emailCheck",
+				type : "POST",
+				dataType : "JSON",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					console.log("emailCheck : " + inputed+"@"+select);
+
+					if(data.ufo){
+						$("#check_email").css("color","red");
+						$("#check_email").text("이미 사용중인 이메일 입니다.");
+						emailCheck = false;
+					} else{
+						$("#check_email").text("");
+						emailCheck = true;
+						if(!isRunning){
+							$.ajax({
+								data : inputed + "@" + select,
+								url : "/member/mem/memEmailSend",
+								type : "POST",
+								dataType : "text",
+								contentType: "application/json; charset=UTF-8",
+								success : function(data) {
+									console.log("memEmailSend : " + inputed+"@"+select);
+									action_popup.alert('인증번호가 전송 되었습니다.');
+									
+									checkInput.attr("disabled", false);	
+									checkInput.attr("placeholder", "");
+									authKey = data;
+									realEmail.val(inputed + "@" + select);
+									console.log(authKey);
+									$('input#authBtn').attr("style","display:none;");
+									$('input#timeBtn').attr("style","display:block;");
+									startTimer(180, $('#timeBtn'));
+								},
+							});
+						}else{
+				    		clearInterval(timer);
+				    		$('#timeBtn').val("03:00");
+				    		startTimer(180, $('#timeBtn'));
+					    }
+					}
+				}
+			});
 		}
+
 	};
 	
 	    
@@ -757,11 +786,11 @@ this.value = autoHypenPhone( this.value ) ;
 			clearInterval(timer);
 			result.text("인증번호가 일치합니다.");
 			result.css("color","blue");
-			emailCheck = true;
+			authCheck = true;
 		} else{
 			result.text("인증번호를 다시 확인해주세요.");
 			result.css("color","red");
-			emailCheck = false;
+			authCheck = false;
 		}
 	};
     
@@ -801,7 +830,7 @@ this.value = autoHypenPhone( this.value ) ;
     
     
     /*다음 우편번호 찾기 javaScript */
-	
+	var addrCheck = false;
 	function daumPostcode() {
 		new daum.Postcode(
 				{
@@ -851,8 +880,9 @@ this.value = autoHypenPhone( this.value ) ;
 						document.getElementById("address").value = addr;
 						// 커서를 상세주소 필드로 이동한다.
 						document.getElementById("detailAddress").value = '';
+						addrCheck = true;
 						document.getElementById("detailAddress").focus();
-					}
+					}					
 				}).open();
 	};
 	

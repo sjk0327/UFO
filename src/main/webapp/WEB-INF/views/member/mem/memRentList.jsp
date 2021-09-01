@@ -263,18 +263,14 @@ body, html {
 									  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
 									   						<c:set var="now" value="<%=new java.util.Date()%>" />
 									    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
-															<c:if test="${sdate+3<today}"><td><label class="label label-danger" style="font-size: 10pt;">연체중</label></td></c:if>
-															<c:if test="${sdate+3>=today}"><td><label class="label label-primary" style="font-size: 10pt;">대여중</label></td></c:if>
-															</c:if>
-													
-														<c:if test="${list.r_state eq '즉시 구매'}"><td><label class="label label-info" style="font-size: 10pt;">즉시 구매</label></td></c:if>
-														<c:if test="${list.r_state eq '구매 확정'}"><td><label class="label label-info2" style="font-size: 10pt;">구매 확정</label></td></c:if>
-														<c:if test="${list.r_state eq '반납 요청'}">
-															<td><label class="label label-warning" style="font-size: 10pt;">반납 요청</label></td>
+															<c:if test="${sdate+3>=today}"><td><label class="btn btn-primary">대 여  중</label></td></c:if>
+															<c:if test="${sdate+3<today}"><td><label class="btn btn-danger">연 체  중</label></td></c:if>
 														</c:if>
-														<c:if test="${list.r_state eq '반납 완료'}">
-															<td><label class="label label-success" style="font-size: 10pt;">반납 완료</label></td>
-														</c:if>
+															<c:if test="${list.r_state eq '반납 요청'}"><td><label class="btn btn-warning">반납 요청</label><td></c:if>
+															<c:if test="${list.r_state eq '반납 완료'}"><td><label class="btn btn-success">반납 완료</label><td></c:if>
+															<c:if test="${list.r_state eq '환불 요청(대여)'}"><td><label class="btn btn-inverse">환불 요청</label><td></c:if>
+															<c:if test="${list.r_state eq '환불 완료(대여)'}"><td><label class="btn btn-inverse">환불 완료</label><td></c:if>
+															  
 													</tr>
 												
 											</c:forEach>
