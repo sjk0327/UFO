@@ -11,9 +11,9 @@
 <meta charset="UTF-8">
 <title>회원 탈퇴</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
+<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
 <style>
-
 * {
 	padding: 0;
 	margin: 0;
@@ -99,21 +99,42 @@ body, html {
 	border: none;
 }
 
-#menuBar {
-	width: 400px;
-	align: "center";
-	
+.text-center{
+
+	width: 900px;
+	align: center;
+
+}
+
+
+
+.auth-box card{
+	width: 650px;
+	align: center;
+
+
 
 }
 
 .card {
-	width: 450px;
-	
-	
+	width: 800px;
+}
+
+
+.card-block {
+	width: 1000px;
+	align: center;
 }
 
 
 
+
+.login-block .auth-box {
+
+	
+	max-width: 2500px;
+	
+}
 
 
 
@@ -135,53 +156,81 @@ body, html {
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="find"
-						action="/member/mem/accountDeletePw" method="post">
-						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
-						</div>			
+						action="/member/mem/accountDeleteConfirm" method="post">
 						<div class="auth-box card">
-							<div class="card-block">
-							
+							<div class="card-block1">
+								<br>	
 								<div class="row m-b-20">
-										
-							
-								
 									<div class="col-md-12">
-										<h3 class="text-center">비밀번호 확인</h3>
+										<h4 class="text">회원탈퇴에 앞서 유의사항 및 안내를 <br>반드시 읽고 진행해 주세요.</h4>
 									</div>
 								</div>
-								
-								
-								<div class="form-group form-primary">
-									<input id="text" name="id" required="required" type="text"
-										class="form-control" /> <span class="form-bar"></span> <label
-										class="float-label">아이디</label>
+								<br>
+
+								<!-- 아이디 재사용 금지 -->
+								<div class="card">
+									<div class="card-block">
+										
+										<h5>UFO 아이디는 재사용 및 복구 불가 안내</h5><br>
+										회원탈퇴 진행 시 본인을 포함한 타인 모두 <br>
+										아이디 재사용이나 복구가 불가능합니다.<br>
+										신중히 선택하신 후 결정해주세요.<br>
+										<br>
+										<input type="checkbox" id="checkboxup" name="RowCheck"><br>
+										<p>동의</p>
+									</div>
 								</div>
 
-								<div class="form-group form-primary">
-									<input id="text" name="name" required="required" type="text"
-										class="form-control" /> <span class="form-bar"></span> <label
-										class="float-label">이름</label>
+
+								<!-- 내정보 및 개인형 서비스 이용기록 삭제 안내  -->
+								<div class="card">
+									<div class="card-block">
+										
+										<h5>내정보 및 개인형 서비스 이용 삭제안내</h5><br>
+										내정보및 개인형서비스 이용기록이 모두 삭제되며,<br>
+										삭제된 데이터는 복구되지 않습니다.<br>
+										신중히 선택하신 후 결정해주세요.<br>
+										<br>
+										<input type="checkbox" id="checkboxup" name="RowCheck"><br>
+										<p>동의</p>
+									</div>
 								</div>
-								<div class="form-group form-primary">
-									<input id="email" name="email"
-										required="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)?$/i"
-										type="email" class="form-control" /> <span class="form-bar"></span>
-									<label class="float-label">이메일</label>
+
+								<!-- 내정보 및 개인형 서비스 이용기록 삭제 안내  -->
+								<div class="card">
+									<div class="card-block">
+										
+										<h5>게시판형 서비스에 등록한 게시글 삭제 불가 안내</h5><br>
+										삭제를 원하는 게시글이 있다면 반드시 회원탈퇴 전 <br>
+										비공개 처리하거나 삭제하시기 바랍니다.<br>
+										탈퇴 후에는 회원정보가 삭제되어 본인 여부를 확인할 수 있는 방법이 없어,<br> 
+										게시글을 임의로 삭제해드릴 수 없습니다.<br>
+										<br>
+										<input type="checkbox" id="checkboxup" name="RowCheck"><br>
+										<p>동의</p>
+									</div>
 								</div>
+
+								<div class="form-group form-primary form-static-label">
+									<input type="password" id="Pwd" name="pwd" required="required"
+										placeholder="현재 비밀번호를 입력하세요" class="form-control" /> <span
+										class="form-bar"></span> <label class="float-label">현재
+										비밀번호</label>
+								</div>
+
+
 								<div class="row m-t-25 text-left">
 									<div class="col-12"></div>
 								</div>
+
 								<div class="row m-t-30">
 									<div class="col-md-12">
-										<input type="submit" id="alert" value="이메일 전송"
+										<input type="submit" id="alert" value="탈퇴하기"
 											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 									</div>
-									<div class="row m-b-0 text-left">
-										<div class="col-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입하신 이메일 주소로 인증번호가 전송됩니다.</div>
-									</div>
 
-									
+
+
 								</div>
 								<hr />
 								<div class="row">
@@ -189,13 +238,6 @@ body, html {
 										<p class="text-inverse text-left m-b-0"></p>
 										<p class="text-inverse text-left">
 											<a href="/"><b>처음으로</b></a>
-										</p>
-										<p class="text-inverse text-left">
-											<a href="/member/mem/memJoin"><b>회원가입</b></a>
-										</p>
-										<p class="text-inverse text-left">
-											<a href="/login"><b>로그인</b></a>
-										</p>
 									</div>
 									<div class="col-md-2">
 										<img src="resources/assets/images/auth/Logo-small-bottom.png"
@@ -242,22 +284,22 @@ body, html {
 
 
 	<script>
+	
 		$(function() {
-			//사용 예시 **************************
-
 			$(document).on("click", "#confirm", function() {
-				action_popup.confirm("인증번호를 이메일로 발송 했습니다", function(res) {
+				action_popup.confirm("탈퇴하시 겠습니까?", function(res) {
 					if (res) {
-						action_popup.alert("발송 되었습니다.");
 						document.find.submit();
+						action_popup.alert("탈퇴 되었습니다. ");
 					} else {
 						action_popup.alert("발송에 실패하였습니다.");
 					}
 				})
 			});
+			//사용 예시 **************************
 
 			$(document).on("click", "#alert", function() {
-				action_popup.alert("인증번호를 이메일로 발송 했습니다");
+				action_popup.alert("현재 비밀번호를 작성해주세요.");
 			});
 
 			$(".modal_close").on("click", function() {

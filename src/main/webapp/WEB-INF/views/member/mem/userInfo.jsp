@@ -314,6 +314,25 @@ select::-ms-expand {
 																							<span class="form-bar"></span>
 																						</div>
 																					</div>
+																					<!-- 비밀번호 변경 소셜은 못 함! -->
+																					<c:if test="${userInfo.m_regtype eq '카카오' || rentInfo.r_state eq '네이버'}">
+
+																					<div class="form-group row">
+																						<div class="col-sm-3 col-form-label">비밀번호</div>
+																						<div
+																							class="form-group form-primary form-static-label col-sm-9">
+																							<input type="button" value=" 소셜로그인은 비밀번호 변경불가"
+																								class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+																							<form:input type="hidden"
+																								value="${userInfo.m_pw }" path="m_pw"
+																								class="form-control form-control-center form-control-round form-control-bold"
+																								placeholder="필수 항목 입니다." required="required" />
+																						</div>
+																					</div>
+																					</c:if>
+																					
+																					<!-- 비밀번호 변경 소셜은 못 함! -->
+																					<c:if test="${userInfo.m_regtype eq '유에프오'}">
 
 																					<div class="form-group row">
 																						<div class="col-sm-3 col-form-label">비밀번호</div>
@@ -328,7 +347,8 @@ select::-ms-expand {
 																								placeholder="필수 항목 입니다." required="required" />
 																						</div>
 																					</div>
-
+																					</c:if>
+																					
 																					<div class="form-group row">
 																						<div class="col-sm-3 col-form-label">이 름</div>
 																						<div
@@ -767,21 +787,23 @@ select::-ms-expand {
 
 
 												<!-- Page-body end -->
-											
+												<c:if test="${userInfo.m_regtype eq '카카오' || rentInfo.r_state eq '네이버'}">
+												<div style="float: right; padding-bottom: 100px"><a href="/member/mem/accountDelete">
+													<input type="hidden" id="confirm" value="회원탈퇴"
+															class="btn waves-effect waves-light btn-primary btn-outline-primary">
+													<input type="hidden" id="confirm" value="userVO.m_id">
+															</a>
+												</div>
 												
-												
-												<div style="float: right; padding-bottom: 100px"><a href=/member/mem/accountDelete>
-														<input type="button" id="confirm" value="회원탈퇴"
-															class="btn waves-effect waves-light btn-primary btn-outline-primary"></a>
-													</div>
-
-
-
-
-
-
-
-
+												</c:if>
+												<c:if test="${userInfo.m_regtype eq '유에프오'}">
+												<div style="float: right; padding-bottom: 100px"><a href="/member/mem/accountDelete">
+													<input type="button" id="confirm" value="회원탈퇴"
+															class="btn waves-effect waves-light btn-primary btn-outline-primary">
+													<input type="hidden" id="confirm" value="userVO.m_id">
+															</a>
+												</div>
+												</c:if>
 
 											</div>
 										</div>
@@ -1045,7 +1067,7 @@ select::-ms-expand {
 						document.delete2.submit();
 						action_popup.alert("탈퇴가 되었습니다.");
 					} else {
-						action_popup.alert("탈퇴에 실패하였습니다.");
+						action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
 					}
 				})
 			});

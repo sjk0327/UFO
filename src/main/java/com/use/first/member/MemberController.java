@@ -520,18 +520,50 @@ public class MemberController {
 			
 			return "redirect:/member/mem/messageList" ;
 			
-		}	
+		}
+		
+		
+		
+		
+		
 		
 		
 		//탈퇴 전 확인 
 		
-		@RequestMapping(value = "/member/mem/accountDelete")
-		public ModelAndView accountDelete(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		@RequestMapping(value = "/member/mem/accountDelete", method = RequestMethod.GET)
+		public String accountDelete(Model model, UserVO userVO, HttpSession session, String userID)
+				throws IOException {
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+
+			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+			String userId = infoVO.getM_id();
+
+			int c = dao.userConfirm(userId);
+			System.out.println("시작 전" + userId.toString());
+
+			if (c == 0) {
+				return "/member/mem/accountDeleteAuth";
+			} else {
+				// 탈퇴 실패
+				System.out.println("userConfirm // user 탈퇴 실패 // " + userId.toString());
+
+				return "redirect:/member/mem/userInfo";
+			}
+
+		}
+		
+		
+		
+		@RequestMapping(value = "/member/mem/accountDeleteAuth", method = RequestMethod.POST)
+		public ModelAndView accountDeleteAuth(HttpSession session, HttpServletRequest request) throws IOException {
+			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+			UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userId");
+			String userId = infoVO.getM_id();
+			
 			String password = (String)request.getParameter("password");
 	
-			UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-			
-			UserVO vo = dao.selectMember(password);
+			UserVO vo = dao.selectMember(userId);
+			System.out.println("vo" + vo.toString());
 		
 			
 			if (vo.getM_pw().equals(password) && vo.getM_regtype().equals("유에프오")  ) {
@@ -539,12 +571,12 @@ public class MemberController {
 
 				
 				ModelAndView mv = new ModelAndView();
-				mv.setViewName("/member/mem/accountDelete");
+				mv.setViewName("/member/mem/accountDeleteConfirm");
 				
 				return mv;
 			}else {
 				ModelAndView mv = new ModelAndView();
-				mv.setViewName("/member/mem/accountDelete");
+				mv.setViewName("/member/mem/accountDeleteAuth");
 				return mv;
 			}
 			
@@ -554,13 +586,6 @@ public class MemberController {
 		
 		
 		
-		
-			
-		
-		
-	
-	
-	
 	
 	// 회원 탈퇴
 	
@@ -619,7 +644,7 @@ public class MemberController {
 
 			session.invalidate();
 
-			return "redirect:/";
+			return "redirect:/member";
 		} else {
 			// 탈퇴 실패
 			System.out.println("userConfirm // user 탈퇴 실패 // " + userId.toString());
@@ -628,13 +653,13 @@ public class MemberController {
 		}
 
 	}
-	
+
 	
 	
 	//아이디 찾기
 	
 	@RequestMapping(value = "/member/mem/id_auth")
-	public ModelAndView id_find(HttpSession session, HttpServletRequest request) throws IOException {
+	public ModelAndView id_auth(HttpSession session, HttpServletRequest request) throws IOException {
 		String name = (String)request.getParameter("name");
 		String email = (String)request.getParameter("email");
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
@@ -717,11 +742,6 @@ public class MemberController {
 		
 		
 		
-	
-		
-
-	
-			
 			
 			
 			
@@ -839,6 +859,7 @@ public class MemberController {
 		}
 		return "/member/mem/pw_change";
 	}
+	
 	
 	@RequestMapping(value="/member/mem/pw_change", method= RequestMethod.POST)
 	public String pw_changePro(HttpSession session, @RequestParam String pwd, Model model) {

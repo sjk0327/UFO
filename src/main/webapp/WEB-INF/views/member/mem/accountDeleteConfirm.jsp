@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>회원 탈퇴</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
+<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
 <style>
 
@@ -135,7 +136,7 @@ body, html {
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="find"
-						action="/member/mem/accountDeletePw" method="post">
+						action="/member/mem/accountDeleteConfirm" method="post">
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
 						</div>			
@@ -143,9 +144,6 @@ body, html {
 							<div class="card-block">
 							
 								<div class="row m-b-20">
-										
-							
-								
 									<div class="col-md-12">
 										<h3 class="text-center">비밀번호 확인</h3>
 									</div>
@@ -153,7 +151,7 @@ body, html {
 								
 								
 								<div class="form-group form-primary">
-									<input id="text" name="id" required="required" type="text"
+									<input id="text" name="pass" required="required" type="text"
 										class="form-control" /> <span class="form-bar"></span> <label
 										class="float-label">아이디</label>
 								</div>
@@ -177,9 +175,7 @@ body, html {
 										<input type="submit" id="alert" value="이메일 전송"
 											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 									</div>
-									<div class="row m-b-0 text-left">
-										<div class="col-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입하신 이메일 주소로 인증번호가 전송됩니다.</div>
-									</div>
+									
 
 									
 								</div>
@@ -190,12 +186,7 @@ body, html {
 										<p class="text-inverse text-left">
 											<a href="/"><b>처음으로</b></a>
 										</p>
-										<p class="text-inverse text-left">
-											<a href="/member/mem/memJoin"><b>회원가입</b></a>
-										</p>
-										<p class="text-inverse text-left">
-											<a href="/login"><b>로그인</b></a>
-										</p>
+							
 									</div>
 									<div class="col-md-2">
 										<img src="resources/assets/images/auth/Logo-small-bottom.png"
