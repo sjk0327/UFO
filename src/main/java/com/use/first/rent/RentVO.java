@@ -12,8 +12,8 @@ public class RentVO {
 		private int r_rent;
 		private String r_state;
 		private Date r_pdate;
-		
-
+		private int p_canRent;
+		private String p_category;
 		public int getR_id() {
 			return r_id;
 		}
@@ -47,8 +47,8 @@ public class RentVO {
 		public int getR_rent() {
 			return r_rent;
 		}
-		public void setR_rent(int b_amount) {
-			this.r_rent = b_amount;
+		public void setR_rent(int r_rent) {
+			this.r_rent = r_rent;
 		}
 		public String getR_state() {
 			return r_state;
@@ -62,16 +62,12 @@ public class RentVO {
 		public void setR_pdate(Date r_pdate) {
 			this.r_pdate = r_pdate;
 		}
-		
-		
-		
-		
-		
-		
-		// 8/10 : 성훈 추가
-		
-		private String p_category;
-		
+		public int getP_canRent() {
+			return p_canRent;
+		}
+		public void setP_canRent(int p_canRent) {
+			this.p_canRent = p_canRent;
+		}
 		public String getP_category() {
 			return p_category;
 		}
@@ -81,14 +77,12 @@ public class RentVO {
 		@Override
 		public String toString() {
 			return "RentVO [r_id=" + r_id + ", r_mid=" + r_mid + ", r_pid=" + r_pid + ", p_name=" + p_name
-					+ ", p_category=" + p_category + ", r_sdate=" + r_sdate + ", r_rent=" + r_rent + ", r_state="
-					+ r_state + ", r_pdate=" + r_pdate + "]";
+					+ ", r_sdate=" + r_sdate + ", r_rent=" + r_rent + ", r_state=" + r_state + ", r_pdate=" + r_pdate
+					+ ", p_canRent=" + p_canRent + ", p_category=" + p_category + "]";
 		}
 		
-	}
-
-	
-	
+		
+}
 	
 	
 

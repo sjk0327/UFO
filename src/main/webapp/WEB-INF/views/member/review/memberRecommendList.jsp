@@ -148,7 +148,7 @@ body, html {
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
- 
+ 	
 
 </style>
 <script
@@ -207,7 +207,7 @@ body, html {
 											</div>
 											<!-- 메뉴바 끝 -->
 											<!--  sale analytics start -->
-											<div class="pcoded-inner-content col-xl-10">
+											<div class="pcoded-inner-content col-xl-10" id="recommendListBox">
 												<div class="main-body">
 													<div class="page-wrapper">
 														<div class="page-body">
@@ -276,7 +276,7 @@ body, html {
 																					</c:choose>
 																				</div>
 																				<div class="col-4">
-																					<button type="button" class="btn btn-primary" onclick='recommendEdit(${recVO.v_id})'>편집하기</button>																					
+																					<button type="button" id="editButton" class="btn btn-primary" onclick='recommendEdit(${recVO.v_id})'>편집하기</button>																					
 																				</div>
 																			</div>
 <hr>

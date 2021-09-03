@@ -15,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.use.first.member.UserDAO;
+import com.use.first.visitor.VisitCountDAO;
+import com.use.first.visitor.VisitCounter;
+
 
 
 /**
@@ -32,6 +36,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
+		VisitCountDAO dao = sqlSessionTemplate.getMapper(VisitCountDAO.class);
 		if (session.getAttribute("userName") != null) {
 			System.out.println("home() userName : " + session.getAttribute("userName"));
 			if(!session.getAttribute("userName").equals("관리자")) {
@@ -43,9 +48,11 @@ public class HomeController {
 				return "redirect:/logout";
 			}
 		} else {
+			
 			return "home";
 		}
-
+		
+		
 	}
 	
 	

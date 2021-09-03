@@ -12,10 +12,18 @@ public class Criteria {
 	private String color;
 	private String p_category;
 	private String p_categoryColor;
+	private String sort;
+	
+	
+	
 
-	
-	
-	
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
 
 	public String getP_categoryColor() {
 		return p_categoryColor;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.visitor.VisitCountDAO">
+
+
+	 <insert id="insertVisit" parameterType="com.use.first.visitor.VisitCountVO">
+            INSERT
+            INTO VISITOR
+            (
+                VISIT_ID,
+                VISIT_IP,
+                VISIT_TIME,                
+                VISIT_AGENT
+            )
+            VALUES
+            (
+                VISITOR_SEQ.NEXTVAL,
+                #{visit_ip},
+                SYSDATETIME,              
+                #{visit_agent}
+            )
+        </insert>
+        <select id="selectVisit" resultType="int" parameterType="com.use.first.visitor.VisitCountVO">
+            SELECT VISIT_ID, VISIT_IP,VISIT_TIME,VISIT_REFER, VISIT_AGENT
+            from VISITOR
+            
+        </select>
+    </mapper>
+
+	
+	
+	
+	
+	
+	

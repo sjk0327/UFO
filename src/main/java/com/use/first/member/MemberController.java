@@ -47,8 +47,10 @@ import com.use.first.paging.PageMaker;
 import com.use.first.product.ProductDAO;
 import com.use.first.product.ProductVO;
 import com.use.first.rent.BuyInfoVO;
+import com.use.first.rent.CartVO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
+import com.use.first.rent.WishListVO;
 
 /**
  * 8.12일 성훈 수정 - 성훈 start 밑에는 이걸 우선으로 통합 승빈 start 부분은 로그인 로그아웃 쪽은 성훈이 수정했음 아마
@@ -99,14 +101,20 @@ public class MemberController {
 	
 	// UFO 회원 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(UserVO vo, Model model, HttpSession session) {
+	public String login(UserVO vo, Model model, HttpSession session,HttpServletRequest request) {
 		model.addAttribute("user", vo);
 
 		// 08월 13일 김수정 : 회원로그인 부분은 반환요청리스트, 연체 리스트 필요없어서 일단 주석처리. 확인할 것
 //		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 //		List<RentVO> returnList = rentDAO.returnList();
 //		List<RentVO> lateList = rentDAO.lateList();
-
+		//병찬추가
+		
+		String referer =request.getHeader("referer");
+		System.out.println("referer::"+referer);
+		String s1 = referer.substring(21); 
+		System.out.println("s1::"+s1);
+		//병찬추가 여기까지 밑에도 있음
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
 			return "redirect:/login";
 		} else if (vo.getM_pw() == null || vo.getM_pw().equals("")) {
@@ -117,6 +125,8 @@ public class MemberController {
 		UserVO user = dao.memInfo(vo.getM_id());
 
 		if (user != null) {
+			
+			
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
 				session.setAttribute("loginPl", "ufo");
 				UserInfoVO infoVO = new UserInfoVO(user.getM_id(), user.getM_name());
@@ -126,8 +136,40 @@ public class MemberController {
 				// session.setAttribute("userName", user.getM_name());
 //				session.setAttribute("returnList", returnList);
 //				session.setAttribute("lateList", lateList);
-
-				return "redirect:/";
+				//병찬추가
+				ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+				if(s1.contains("/member/cartInsert")) {
+					String c_pid = s1.substring(19,25);
+					String c_mid= infoVO.getM_id();
+					
+					CartVO cartVO = productDAO.checkCart(c_pid,c_mid);
+					
+					if (cartVO == null) {return "redirect:"+s1;} else { System.out.println("영?");
+						return	"redirect:/member/pro/productDetail/"+c_pid;
+					}												
+				} else if (s1.contains("/member/wishListInsert")){
+					String w_pid = s1.substring(23,29);
+					System.out.println("w_pid:::" + w_pid);
+					String w_mid = infoVO.getM_id();
+					WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
+						if (wishListVO == null) {return "redirect:"+s1;} else {
+							String s2 = s1.substring(23);
+							return "redirect:/member/pro/productDetail/"+s2;
+						}
+							
+					
+				} else if (s1.contains("/member/rent/buy")){
+					String s2 = s1.substring(17);
+					return "redirect:"+s1;
+					
+				}
+				//여기까지 병찬추가
+				else {
+					return "redirect:/";
+				}
+				
+				
+				
 			} else {
 				return "redirect:/login";
 			}
@@ -136,7 +178,7 @@ public class MemberController {
 
 			return "redirect:/login";
 		}
-	}
+	}	
 
 	// 카카오로그인
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
@@ -1051,11 +1093,90 @@ public class MemberController {
 
 		return "redirect:/adminLogin";
 	}
-
+	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String adminIndex(UserVO vo, Model model) {
-		model.addAttribute("user", vo);
+	public String adminIndex(UserVO vo, Model model, Criteria cri,HttpSession session) {
 
+		
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		model.addAttribute("user", vo);
+		
+		//신영 admin 인덱스 몇개 추가
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		
+		
+		List<UserVO> list = dao.memList(cri);
+		int listCount = list.size();
+		model.addAttribute("listCount", listCount);
+				
+		int countSmartPhone = productDAO.countSmartPhone();
+		int countLaptop = productDAO.countLaptop();
+		int countCamera = productDAO.countCamera();
+		int countWatch = productDAO.countWatch();
+		int countTablet = productDAO.countTablet();		
+		
+		int[] array = {countSmartPhone,countLaptop,countCamera,countWatch,countTablet};		
+		for (int i = 0; i < array.length; i++) {					
+		model.addAttribute("array0", array[0]);
+		model.addAttribute("array1", array[1]);
+		model.addAttribute("array2", array[2]);
+		model.addAttribute("array3", array[3]);
+		model.addAttribute("array4", array[4]);	
+		}
+		
+		List<BuyVO> buyList = buyDAO.buyManyList();
+		
+		
+		String seven = buyDAO.buyPurchase("07");
+		String eight = buyDAO.buyPurchase("08");
+		String nine = buyDAO.buyPurchase("09");
+		/*
+		DecimalFormat df = new DecimalFormat("00");
+
+        Calendar currentCalendar = Calendar.getInstance();
+		
+		String thisMonth  = "07";
+		String nextMonth  = df.format(currentCalendar.get(Calendar.MONTH) + 2);
+		String nextAfterMonth  = df.format(currentCalendar.get(Calendar.MONTH) + 3);
+		System.out.println("thisMonth:::" +thisMonth);
+		*/
+		
+		
+		ProductVO readList = productDAO.adminRead();
+		
+		model.addAttribute("buyList", buyList);
+		model.addAttribute("seven", seven);
+		model.addAttribute("eight", eight);
+		model.addAttribute("nine", nine);
+		model.addAttribute("readList", readList);
+		//model.addAttribute("countCamera", countCamera);
+		//model.addAttribute("countWatch", countWatch);
+		//model.addAttribute("countTablet", countTablet);
+	
+		
+		
+		//VisitCountDAO visitDao = sqlSessionTemplate.getMapper(VisitCountDAO.class);
+		
+		
+
+		System.out.println(session.toString());
+		
+        // 전체 방문자 수 +1
+	 	//int visitCount = visitDao.insertVisit();
+	 	//if(visitCount == 0) System.out.println("visit 실패");
+         
+	 	//int visitCountTotal = visitDao.selectVisit();
+         
+           
+        // 세션 속성에 담아준다.
+        //session.setAttribute("totalCount", totalCount); // 전체 방문자 수
+       // session.setAttribute("todayCount", todayCount); // 오늘 방문자 수
+		
+		
+		
+		
+		
 		return "/enterance/adminIndex";
 	}
 

@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.use.first.paging.Criteria;
+import com.use.first.product.ProductVO;
+import com.use.first.visitor.VisitCountVO;
 
 
 public interface UserDAO {
@@ -44,6 +46,10 @@ public interface UserDAO {
 	
 	// 8/16 : 정노 추가
 	public void memUpdateBuy(String m_id, String m_point);
+	
+	// 9/3 신영추가
+	public void insertVisitor(VisitCountVO vo);
+	
 	
 	
 
