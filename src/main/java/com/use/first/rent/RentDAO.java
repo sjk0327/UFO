@@ -20,7 +20,7 @@ public interface RentDAO {
 	public void rentReturn(int r_id);
 	public List<RentVO> rentList(Criteria cri);
 	public int getRentTotalCount(Criteria cri);
-	public List<WishListVO> getWishList(Criteria cri);
+	public List<WishListVO> getWishList( String userId, Criteria cri);
 	public List<WishListVO> getWishListAll(String userId);
 	//public int getWishTotalCount(Criteria cri);
 	public void deleteWishList(String w_id);

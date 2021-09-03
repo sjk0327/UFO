@@ -183,7 +183,7 @@
 		where m_email = #{m_email} and m_regtype="유에프오"
 	</select>
 
-	<!-- 패스워드변경 -->
+	<!-- 비밀번호 찾기 패스워드변경 -->
 	<update id="pwUpdate_M" parameterType="com.use.first.member.UserVO">
 		update member set m_pw = #{m_pw} 
 		where m_email = #{m_email} and m_regtype="유에프오"
