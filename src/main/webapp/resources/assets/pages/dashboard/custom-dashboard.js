@@ -1,4 +1,4 @@
-'use strict';
+
 $(document).ready(function() {
     // sale analytics start
     var chart = AmCharts.makeChart( "sales-analytics", {
@@ -65,7 +65,7 @@ $(document).ready(function() {
         },
         "dataProvider": [ {
             "date": "2012-07-27",
-            "value": 13
+            "value": 16
         }, {
             "date": "2012-07-28",
             "value": 11
@@ -626,7 +626,7 @@ $(document).ready(function() {
             "value": 84
         }, {
             "date": "2013-01-30",
-            "value": 81
+            "value": 300
         } ]
     } );
     var ctx = document.getElementById('this-month').getContext("2d");

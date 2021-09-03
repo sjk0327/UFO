@@ -21,11 +21,10 @@
 <script type="text/javascript" src="/resources/assets/js/chart.js/Chart.js"></script>
 <!-- amchart js -->
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="/resources/assets/pages/widget/amchart/gauge.js"></script>
+
 <script src="/resources/assets/pages/widget/amchart/serial.js"></script>
-<script src="/resources/assets/pages/widget/amchart/light.js"></script>
-<script src="/resources/assets/pages/widget/amchart/pie.min.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+
+
 <!-- menu js -->
 <script src="/resources/assets/js/pcoded.min.js"></script>
 <script src="/resources/assets/js/vertical-layout.min.js "></script>

@@ -75,7 +75,8 @@ public interface ProductDAO {
 		public int reviewUpdate(RecVO recVO);
 	//리뷰 삭제
 		public int reviewDelete(String v_mid, String v_pid);
-		public List<ProductVO> productSmartPhoneList(String maxcate);
+		
+		public List<ProductVO> productBestList(String maxcate);
 		//정노추가
 				public int productUpdatebuy(int b_amount1, int b_amount2, String b_pid);
 		}			

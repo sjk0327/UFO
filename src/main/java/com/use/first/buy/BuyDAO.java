@@ -16,5 +16,5 @@ public interface BuyDAO {
 	public int buyInsert(BuyVO buyVO) throws SQLException;
 	public int buyUpdate(BuyVO buyVO);
 	public int purchaseRefund(BuyVO buyVO);
-
+	public int totalPurchase();
 }

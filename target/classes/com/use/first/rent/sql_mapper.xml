@@ -115,7 +115,7 @@
 	
 	<select id="getWishList" resultType="com.use.first.rent.WishListVO">
 		<![CDATA[
-		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{keyword} and w_pid=p_id limit #{pageStart}, #{perPageNum}
+		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{param1} and w_pid=p_id limit #{param2.pageStart}, #{param2.perPageNum}
 		]]>
 	</select>
 
@@ -210,7 +210,35 @@
 		update rental set r_state = #{r_state} where r_id = #{r_id}
 		]]>
 	</update>
-
+	
+	<update id="rentlateUpdate" parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		update rental set r_state = #{r_state} where r_id = #{r_id}
+		]]>
+	</update>
+	
+	
+	
+	<insert id="rentBuyInsert" parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		insert into rental(r_rid, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate)
+		values(#{r_rid},#{r_mid},#{r_pid}, now(), #{r_rent}, #{r_state}, now())
+		]]>
+	</insert>
+	
+	<select id="rentbuyListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">
+      <![CDATA[
+      select rental.r_id, rental.r_rid, product.p_name, product.p_category, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
+      where product.p_id = rental.r_pid and r_mid = #{r_mid} and r_state = "구매 확정" 
+      ]]>
+   </select>
+   
+   <select id="rentToBuyList"  resultType="com.use.first.rent.RentVO">
+      <![CDATA[
+      select r_pid, product.p_name, product.p_category, sum(r_rent) as total, r_state from rental,product where product.p_id = rental.r_pid and r_state="구매 확정" group by r_pid order by sum(r_rent) desc limit 5;
+      ]]>
+   </select>
+	
 	<!-- 08/10 : 성훈 추가 product.p_category -->
 	<!-- 성훈 시작 -->
    <select id="rentListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">

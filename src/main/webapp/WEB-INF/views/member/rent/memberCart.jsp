@@ -747,7 +747,7 @@ function allChk(obj){
 			
 						
 		function onIncreaseCountHandler(event) {
-			var count=0;
+			var count=-1;
 			for(var i=0; i< amountLength;i++){
 				if(event.target==amountList[i]){
 					if(amountList[i].value==0){

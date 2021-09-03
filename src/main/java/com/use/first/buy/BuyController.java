@@ -47,15 +47,20 @@ public class BuyController {
       String[] b_state = buyVO.getB_state().split(",");
       String[] b_purchase = buyVO.getB_purchase().split(",");
       String[] b_message = buyVO.getB_message().split(",");
+      String[] b_ridArray = Integer.toString(buyVO.getB_rid()).split(",");
       int[] b_amount=new int[b_amountArray.length];
+      int[] b_rid=new int[b_ridArray.length];
       
       for(int i=0;i<b_amountArray.length;i++) {
-    	  int amount=Integer.parseInt(b_amountArray[i]);
-    	  
+    	  int amount=Integer.parseInt(b_amountArray[i]);   	  
     	  b_amount[i]=amount;
-    
       }
       
+      for(int i=0;i<b_ridArray.length;i++) {
+    	  int rid=Integer.parseInt(b_ridArray[i]);
+    	  b_rid[i]=rid;
+    	  System.out.println(b_rid[i]);
+      }
       
       
       for(int i = 0; i < b_mid.length; i++) {
@@ -76,7 +81,32 @@ public class BuyController {
             rentVO.setR_rent(b_amount[i]);
             rentVO.setR_state("즉시 구매");
             
-         }
+         }else if(b_state[i].equals("연체료 납부")) {
+        	 rentVO.setR_id(b_rid[i]);
+             rentVO.setR_state("반납 완료");
+             
+          }else if(b_state[i].equals("구매 확정")) {
+        	  
+        	  RentVO rentVObefore = new RentVO();
+        	  rentVObefore=rentDAO.rentInfo(b_rid[i]);
+        	  System.out.println(rentVObefore.toString());
+        	  String beforeState=rentVObefore.getR_state();
+        	  System.out.println(beforeState);
+        	  if(beforeState.equals("대여중")) {
+        		  rentVObefore.setR_state("반납 요청");        		  
+        		  rentDAO.rentUpdate(rentVObefore);
+        	  }
+        	  
+        	  System.out.println(rentVObefore.toString());
+        	 rentVO.setR_rid(b_rid[i]);
+        	  rentVO.setR_mid(b_mid[i]);
+              rentVO.setR_pid(b_pid[i]);
+              rentVO.setR_rent(b_amount[i]);
+             rentVO.setR_state("구매 확정");
+             
+          }
+         
+         if(b_state[i].equals("대여") | b_state[i].equals("구매")) {
          rentDAO.rentInsert(rentVO);
          int rid = rentDAO.rentSelect();
          
@@ -93,8 +123,53 @@ public class BuyController {
          buyVO.setB_state(b_state[i]);
          buyVO.setB_purchase(b_purchase[i]);
          buyVO.setB_message(b_message[i]);
-         
+   
          buyDAO.buyInsert(buyVO);
+         }
+         
+         else if(b_state[i].equals("연체료 납부")) {
+        	 rentDAO.rentlateUpdate(rentVO);
+        	 
+        	 int rid = b_rid[i];
+             
+             buyVO = new BuyVO();
+             
+             buyVO.setB_mid(b_mid[i]);
+             buyVO.setB_pid(b_pid[i]);
+             buyVO.setB_rid(rid);
+             buyVO.setB_mname(b_mname[i]);
+             buyVO.setB_maddr(b_maddr[i]);
+             buyVO.setB_mtel(b_mtel[i]);
+             buyVO.setB_amount(Integer.toString(b_amount[i]));
+             buyVO.setB_how(b_how[i]);
+             buyVO.setB_state(b_state[i]);
+             buyVO.setB_purchase(b_purchase[i]);
+             buyVO.setB_message(b_message[i]);
+       
+             buyDAO.buyInsert(buyVO);
+         } else if(b_state[i].equals("구매 확정")) {
+        	 rentDAO.rentBuyInsert(rentVO);
+        	 
+        	 int rid = rentDAO.rentSelect();
+             
+             buyVO = new BuyVO();
+             
+             buyVO.setB_mid(b_mid[i]);
+             buyVO.setB_pid(b_pid[i]);
+             buyVO.setB_rid(rid);
+             buyVO.setB_mname(b_mname[i]);
+             buyVO.setB_maddr(b_maddr[i]);
+             buyVO.setB_mtel(b_mtel[i]);
+             buyVO.setB_amount(Integer.toString(b_amount[i]));
+             buyVO.setB_how(b_how[i]);
+             buyVO.setB_state("구매");
+             buyVO.setB_purchase(b_purchase[i]);
+             buyVO.setB_message(b_message[i]);
+       
+             buyDAO.buyInsert(buyVO);
+         }
+         
+         
          
       }
       
@@ -108,7 +183,7 @@ public class BuyController {
     		  
     		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
     		  
-    	  } else if(b_state[i].equals("구매")) {
+    	  } else if(b_state[i].equals("구매") | b_state[i].equals("구매 확정")) {
     		  
     		  ProductVO productVO = productDAO.productInfo(b_pid[i]);
     		  int b_amount1 = (productVO.getP_canRent() - 0);
@@ -116,7 +191,17 @@ public class BuyController {
     		  
     		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
     		  
+    	  }else if(b_state[i].equals("연체료 납부")) {
+    		  
+    		  ProductVO productVO = productDAO.productInfo(b_pid[i]);
+    		  int b_amount1 = (productVO.getP_canRent() + b_amount[i]);
+    		  int b_amount2 = (productVO.getP_canBuy() - 0);
+    		  
+    		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
+    		  
     	  }
+    	   
+    	    
       }
    
       userDAO.memUpdateBuy(m_id, m_point);
@@ -149,7 +234,4 @@ public class BuyController {
 	}
    
    
-   
-   
-
 }

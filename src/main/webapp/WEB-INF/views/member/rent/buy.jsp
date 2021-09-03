@@ -296,6 +296,7 @@ body, html {
 									</thead>
 									<tbody class="tablebody">
 										<c:forEach var="buyInfo" items="${buyInfoList}">
+									<c:set var="buytype" value="${buyInfo.buyType }"></c:set>
 											<fmt:parseNumber var="rentpoint" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}"
 												integerOnly="true" />
 											<fmt:parseNumber var="buypoint" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}"
@@ -303,15 +304,19 @@ body, html {
 											<c:if test="${buyInfo.buyType eq '대여' }">
 												<c:set var="i" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
 											</c:if>
-											<c:if test="${buyInfo.buyType eq '구매' }">
+											<c:if test="${buyInfo.buyType eq '구매' or buyInfo.buyType eq '구매 확정'}">
 											<c:set var="i" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 											</c:if>
 											<c:if test="${buyInfo.buyType eq '대여' }">
 												<c:set var="k" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount * 0.01}" />
 											</c:if>
-											<c:if test="${buyInfo.buyType eq '구매' }">
+											<c:if test="${buyInfo.buyType eq '구매' or buyInfo.buyType eq '구매 확정' }">
 												<c:set var="k" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount * 0.01}" />
 											</c:if>
+											<c:if test="${buyInfo.buyType eq '연체료 납부' }">
+												<c:set var="i" value="${buyInfo.productPrice}" />
+											</c:if>
+											
 											<!-- 총금액 s -->
 											<c:set var="s" value="${i + s }" />
 											<c:set var="p" value="${k + p }" />
@@ -325,17 +330,23 @@ body, html {
 													<td><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom: 2px;" /> 
 													<fmt:formatNumber pattern="###,###,###">${rentpoint }</fmt:formatNumber></td>
 												</c:if>
-												<c:if test="${buyInfo.buyType eq '구매' }">
+												<c:if test="${buyInfo.buyType eq '구매' or buyInfo.buyType eq '구매 확정'}">
 													<td><img src="/resources/Images/icon_cash.gif" alt="적립금" style="margin-bottom: 2px;" /> 
 													<fmt:formatNumber pattern="###,###,###">${buypoint }</fmt:formatNumber></td>
+												</c:if>
+												<c:if test="${buyInfo.buyType eq '연체료 납부' }">
+													<td>해당 없음</td>
 												</c:if>
 												<td>${buyInfo.proamount }</td>
 												<c:if test="${buyInfo.buyType eq '대여' }">
 													<td><fmt:formatNumber pattern="###,###,###">${(buyInfo.productPrice * 0.05) * buyInfo.proamount }</fmt:formatNumber>원</td>
 												</c:if>
-												<c:if test="${buyInfo.buyType eq '구매'}">
+												<c:if test="${buyInfo.buyType eq '구매' or buyInfo.buyType eq '구매 확정'}">
 													<td><fmt:formatNumber pattern="###,###,###">${(buyInfo.productPrice * 0.95) * buyInfo.proamount }</fmt:formatNumber>원</td>
 												</c:if>
+												<c:if test="${buyInfo.buyType eq '연체료 납부' }">
+												<td><fmt:formatNumber pattern="###,###,###">${buyInfo.productPrice}</fmt:formatNumber>원</td>
+											</c:if>
 												<td>${buyInfo.rentdate }</td>
 											</tr>
 										</c:forEach>
@@ -374,6 +385,9 @@ body, html {
 			<!-- alert 모달을 쓸 페이지에 추가 end-->
 		</div>
 		<br> <br> <br>
+
+		
+	
 		<!-- 주문자정보 start -->
 		<div class="container">
 			<div class="row">
@@ -421,20 +435,40 @@ body, html {
 								<div class="form-group row">
 									<div class="col-sm-3 col-form-label" style="color: #566963; font-weight: bold; line-height: 1;">포인트사용</div>
 									<div class="col-sm-6">
+									<c:if test="${buytype eq '연체료 납부' }">
+										<input type="number" min="100" step="100" class="form-control form-control-round form-control-bold"
+											id="usepoint" value="0" placeholder="0" style="height: 30px; font-size: 14px; text-align: right;" disabled="disabled">
+											</c:if>
+											<c:if test="${buytype ne '연체료 납부' }">
 										<input type="number" min="100" step="100" class="form-control form-control-round form-control-bold"
 											id="usepoint" value="0" placeholder="0" style="height: 30px; font-size: 14px; text-align: right;">
+											</c:if>
 									</div>
 
 									<div class="col-sm-1.5" style="line-height: 1;">
+									<c:if test="${buytype eq '연체료 납부' }">
+										<input type="button" class="postbtn"
+											onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
+											value="사용" style="height: 30px; float: right;" disabled="disabled">
+											</c:if>
+											<c:if test="${buytype ne '연체료 납부' }">
 										<input type="button" class="postbtn"
 											onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
 											value="사용" style="height: 30px; float: right;">
+											</c:if>
 									</div>
 
 									<div class="col-sm-1.5" style="line-height: 1;">
+									<c:if test="${buytype eq '연체료 납부' }">
 										<input type="button" class="postbtn"
 											onClick="cancelPoint('${userVO.m_point }','${s }','${p }')"
-											value="취소" style="height: 30px; float: right;">
+											value="취소" style="height: 30px; float: right;" disabled="disabled">
+											</c:if>
+											<c:if test="${buytype ne '연체료 납부' }">
+										<input type="button" class="postbtn"
+											onClick="cancelPoint('${userVO.m_point }','${s }','${p }')"
+											value="취소" style="height: 30px; float: right;"/>
+											</c:if>
 									</div>
 								</div>
 
@@ -455,9 +489,16 @@ body, html {
 								<div class="card-block">
 								
 								<div style="text-align: center;">
+								<c:if test="${buytype eq '연체료 납부' }">
+								<input type="radio" id="radioType1" name="radioType" value="add1" checked>&nbsp;&nbsp;기본배송지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        						<input type="radio" id="radioType2" name="radioType" value="add2" disabled="disabled">&nbsp;&nbsp;신규배송지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        						<input type="button" class="postbtn" value="배송지목록" onclick="showPopup(${fn:length(buyInfoList)})" disabled="disabled">
+        						</c:if>
+        						<c:if test="${buytype ne '연체료 납부' }">
 								<input type="radio" id="radioType1" name="radioType" value="add1" checked>&nbsp;&nbsp;기본배송지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         						<input type="radio" id="radioType2" name="radioType" value="add2">&nbsp;&nbsp;신규배송지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         						<input type="button" class="postbtn" value="배송지목록" onclick="showPopup(${fn:length(buyInfoList)})">
+        						</c:if>
 								</div>
 								<br>
 								
@@ -492,8 +533,14 @@ body, html {
 													style="height: 30px; font-size: 14px; background-color: #ffffff;" readonly>
 											</div>
 											<div class="col-sm-6">
+											<c:if test="${buytype eq '연체료 납부' }">
+												<input type="button" class="postbtn" onclick="DaumPostcode1()" value="우편번호 찾기"
+													style="height: 30px; float: right;" disabled="disabled">
+													</c:if>
+													<c:if test="${buytype ne '연체료 납부' }">
 												<input type="button" class="postbtn" onclick="DaumPostcode1()" value="우편번호 찾기"
 													style="height: 30px; float: right;">
+													</c:if>
 											</div>
 										</div>
 										<input type="text" id="address" name="addr1" value="${fn:split(userVO.m_addr,'|')[1]}"
@@ -516,9 +563,16 @@ body, html {
 									<div class="col-sm-3 col-form-label"
 										style="color: #566963; font-weight: bold; line-height: 1;">요청사항</div>
 									<div class="col-sm-9">
+									<c:if test="${buytype eq '연체료 납부' }">
+										<input id="req" name="req" type="text" placeholder="요청사항"
+											value="" class="form-control form-control-center form-control-round form-control-bold"
+											style="height: 30px; font-size: 14px;" list="reqs" onchange="data(this)" disabled="disabled"/>
+											</c:if>
+											<c:if test="${buytype ne '연체료 납부' }">
 										<input id="req" name="req" type="text" placeholder="요청사항"
 											value="" class="form-control form-control-center form-control-round form-control-bold"
 											style="height: 30px; font-size: 14px;" list="reqs" onchange="data(this)" />
+											</c:if>
 										<datalist id="reqs">
 											<option value="배송전에 미리 연락 바랍니다.">
 											<option value="부재시 경비실에 맡겨 주세요 .">
@@ -548,7 +602,7 @@ body, html {
 										<input id="m_tel2" name="m_tel2" type="text" value="" placeholder="특수문자 없이 숫자만 입력해주세요"
 											class="form-control form-control-center form-control-round form-control-bold"
 											style="height: 30px; font-size: 14px; background-color: #ffffff; text-align: center;"
-											onchange="changeTel2(this)" required/>
+											onchange="changeTel2(this);" required/>
 									</div>
 								</div>
 
@@ -618,18 +672,35 @@ body, html {
 									<thead>
 										<tr>
 											<th style="color: #666666; font-size: 19px;">주문금액</th>
-											<th><input id="price" name="price" type="text" value="원"
+											<th>
+											<c:if test="${buytype eq '연체료 납부' }">
+										<input id="price" name="price" type="text" value=" 원"
 												onload="total(${s });"
 												class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-size: 20px; font-weight: bold;"
-												readonly /></th>
+												readonly />
+											</c:if>
+											<c:if test="${buytype ne '연체료 납부' }">
+											<input id="price" name="price" type="text" value=""
+												onload="total(${s });"
+												class="form-control form-control-center form-control-round form-control-bold"
+												style="background-color: white; border: none; height: 30px; text-align: right; font-size: 20px; font-weight: bold;"
+												readonly />
+												</c:if>
+												</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td style="font-size: 17px">배송료</td>
+											<c:if test="${buytype eq '연체료 납부' }">
+											<td style="text-align: right; font-size: 20px;"><fmt:formatNumber
+													value="0" pattern="###,###,###" />원&nbsp;&nbsp;&nbsp;</td>
+													</c:if>
+													<c:if test="${buytype ne '연체료 납부' }">
 											<td style="text-align: right; font-size: 20px;"><fmt:formatNumber
 													value="2500" pattern="###,###,###" />원&nbsp;&nbsp;&nbsp;</td>
+													</c:if>
 										</tr>
 
 										<tr>
@@ -645,8 +716,14 @@ body, html {
 											<td
 												style="color: #666666; font-size: 19px; font-weight: bold;">결제금액</td>
 											<td style="text-align: right;">
+											<c:if test="${buytype eq '연체료 납부' }">
+											<input id="latefee" name="total" type="text" value="${i }" class="form-control form-control-center form-control-round form-control-bold"
+												style="background-color: white; border: none; height: 30px; text-align: right; font-weight: bold; font-size: 20px;" readonly />
+												</c:if>
+												<c:if test="${buytype ne '연체료 납부' }">
 											<input id="total" name="total" type="text" value="" class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-weight: bold; font-size: 20px;" readonly />
+												</c:if>
 												</td>
 										</tr>
 									</tbody>
@@ -658,7 +735,13 @@ body, html {
 					<div class="form-group" style="text-align: center;">
 						<form:form name="buyInsert" action="/member/rent/buyKakao" commandName="BuyVO" method="post">
 							<input type="hidden" id="m_id2" name="m_id" value="${userVO.m_id }" />
+							
+							<c:if test="${buytype eq '연체료 납부' }">
+							<input type="hidden" id="latefee" name="total" value="${i }" />
+							</c:if>
+							<c:if test="${buytype ne '연체료 납부' }">
 							<input type="hidden" id="hiddenTotal" name="total" value="" />
+							</c:if>
 							<c:forEach var="buyInfo" items="${buyInfoList}" varStatus="status">
 								<input type="hidden" id="b_mid" name="b_mid" value="${userVO.m_id }" />
 								<input type="hidden" id="b_pid" name="b_pid" value="${buyInfo.productId }" />
@@ -675,11 +758,19 @@ body, html {
 								<c:if test="${buyInfo.buyType eq '대여' }">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
 								</c:if>
-								<c:if test="${buyInfo.buyType eq '구매' }">
+								<c:if test="${buyInfo.buyType eq '구매'}">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 								</c:if>
+								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
+									<input type="hidden" id="b_purchase" name="b_purchase" value="${buyInfo.productPrice}" />
+									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+								</c:if>
+								<c:if test="${buyInfo.buyType eq '구매 확정' }">
+									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+								</c:if>
 								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
-								<input type="hidden" id="sp" name="m_point" value="${p + userVO.m_point }" /> 
+								<input type="hidden" id="sp1" name="m_point" value="${p + userVO.m_point }" /> 
 								
 							</c:forEach>
 
@@ -711,7 +802,7 @@ body, html {
 								<input type="hidden" id="b_mtel2${status.index}" name="b_mtel" value="${userVO.m_tel }" required/>
 								
 								<input type="hidden" id="b_amount2" name="b_amount" value="${buyInfo.proamount }" />
-								<input type="hidden" id="b_how2" name="b_how" value="카카오페이" />
+								<input type="hidden" id="b_how2" name="b_how" value="일반 결제" />
 								<input type="hidden" id="b_state2" name="b_state" value="${buyInfo.buyType }" />
 								<c:if test="${buyInfo.buyType eq '대여' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
@@ -719,10 +810,25 @@ body, html {
 								<c:if test="${buyInfo.buyType eq '구매' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 								</c:if>
+								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
+									<input type="hidden" id="b_purchase2" name="b_purchase" value="${buyInfo.productPrice}" />
+									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+								</c:if>
+								
+								<c:if test="${buyInfo.buyType eq '구매 확정' }">
+									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+								</c:if>
 								<input type="hidden" id="b_message2" name="b_message" value="안전하게 배송해 주세요." />
 							</c:forEach>
-								<input type="hidden" id="sp" name="m_point" value="${p + userVO.m_point }" /> 
-								<input type="hidden" id="hiddenTotal2" name="total" value="" /> 
+								<input type="hidden" id="sp2" name="m_point" value="${p + userVO.m_point }" /> 
+								<c:if test="${buytype eq '연체료 납부' }">
+							<input type="hidden" id="latefee" name="total" value="${i }" />
+							</c:if>
+							<c:if test="${buytype ne '연체료 납부' }">
+							<input type="hidden" id="hiddenTotal2" name="total" value="" />
+							</c:if>
+						
 								
 							<div class="form-group row">
 								<div class="col-sm-6">
@@ -852,7 +958,7 @@ body, html {
 	
 	
 	$(document).ready(function(){
-		total(${s });
+		total(${s});
 			  
 	});
 	
@@ -880,9 +986,9 @@ body, html {
 			
 			var p_price =  Number(s) + 2500;
 			var v_point = Number(document.getElementById("usepoint").value);
-			var sp = p + (m_point - v_point);
+			var sp = Number(p) + Number((m_point - v_point));
 			
-			document.getElementById("sp").value = sp;
+		
 			
 			if (v_point < 100) {
 				v_point = 0;
@@ -912,13 +1018,17 @@ body, html {
 				document.getElementById("usep").value = v_point;
 				var usep = Number(document.getElementById("usep").value);
 				document.getElementById("usep").value = usep.toLocaleString() + "원";
-				
+			
 				document.getElementById("total").value = p_price - v_point;
 				var total = Number(document.getElementById("total").value);
 				document.getElementById("total").value = total;
 				
 				var mpoint = m_point - v_point;
 				document.getElementById("m_point").value = mpoint.toLocaleString() + "P";
+				
+				document.getElementById("sp1").value = sp;
+				document.getElementById("sp2").value = sp;
+	
 			}
 
 		}

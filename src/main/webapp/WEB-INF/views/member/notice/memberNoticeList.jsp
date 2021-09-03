@@ -125,15 +125,19 @@
 						<th style="text-align: center; width: 25%;">작성날짜</th>
 					</tr>
 				</thead>
+				<c:set var="num" value="${totalCount}"></c:set>
+				
 				<c:forEach var="notice" items="${noticeList}">
 					<tbody>
 						<tr style="text-align: center; color: #555555;" onClick="location.href='/member/noticeDetail/${notice.n_id}'">
-							<td>${notice.n_id }</td>
+						
+							<td>${num-(pageMaker.cri.page-1)*9}</td>
 							<td>${notice.n_title }</td>
 							<td>${notice.n_name }</td>
 							<td>${notice.n_date }</td>
 						</tr>
 					</tbody>
+						<c:set var="num" value="${num-1 }"></c:set>
 				</c:forEach>
 			</table>
 		</div><br>

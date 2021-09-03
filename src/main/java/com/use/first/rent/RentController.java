@@ -195,7 +195,7 @@ public class RentController {
 		System.out.println(session.getAttribute("userInfo")+"aaa");
 		UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
 		String userId=userInfo.getM_id();
-		cri.setKeyword(userId);
+		
 		
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
@@ -264,7 +264,7 @@ public class RentController {
 			maxcate="태블릿";
 		}
 		
-		List<ProductVO> wishProList = productDAO.productSmartPhoneList(maxcate);
+		List<ProductVO> wishProList = productDAO.productBestList(maxcate);
 		System.out.println(wishProList.toString());
 		
 		List<RentVO> rentalListNow=rentDAO.rentListNow(); 	
@@ -273,7 +273,7 @@ public class RentController {
 		
 	
 		// 현재 페이지에 해당하는 게시물을 조회해 옴
-				List<WishListVO> wishList = rentDAO.getWishList(cri);
+				List<WishListVO> wishList = rentDAO.getWishList(userId,cri);
 				// PageMaker 객체 생성
 				PageMaker pageMaker = new PageMaker(cri);
 				// 전체 게시물 수를 구함
@@ -480,9 +480,11 @@ public class RentController {
 					ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
 					buyInfoList.add(buyInfoVO);
 					
+					System.out.println(buyInfoVO.getRid());
 					//모델에 저장
 					model.addAttribute("buyInfoList", buyInfoList);
 					model.addAttribute("userVO", userVO);
+					model.addAttribute("r_id", buyInfoVO.getRid());
 					
 					return "member/rent/buy";
 				}
@@ -572,7 +574,12 @@ public class RentController {
 				public String customerWishtoRent(@Param("BuyVO") BuyVO buyVO,@Param("m_id") String m_id, @Param("m_point") String m_point, @Param("m_tel") String m_tel, @Param("m_addr") String m_addr, @RequestParam("total") int total,Model model,HttpServletRequest request){
 
 					
-					
+					System.out.println(buyVO.toString());
+					System.out.println(m_id);
+					System.out.println(m_point);
+					System.out.println(m_tel);
+					System.out.println(m_addr);
+					System.out.println(total);
 					request.setAttribute("total", total);
 					request.setAttribute("m_id", m_id);
 					request.setAttribute("m_point", m_point);

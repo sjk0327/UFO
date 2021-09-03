@@ -15,9 +15,8 @@ public class BuyInfoVO {
 	private int cartId;
 	private int productPrice;
 	private String productImg;
+	private int rid;
 	private ArrayList<BuyInfoVO> buyInfoList;
-	
-	
 	public String getProductId() {
 		return productId;
 	}
@@ -66,9 +65,12 @@ public class BuyInfoVO {
 	public void setProductImg(String productImg) {
 		this.productImg = productImg;
 	}
-	
-	
-	
+	public int getRid() {
+		return rid;
+	}
+	public void setRid(int rid) {
+		this.rid = rid;
+	}
 	public ArrayList<BuyInfoVO> getBuyInfoList() {
 		return buyInfoList;
 	}
@@ -79,7 +81,11 @@ public class BuyInfoVO {
 	public String toString() {
 		return "BuyInfoVO [productId=" + productId + ", productName=" + productName + ", buyType=" + buyType
 				+ ", proamount=" + proamount + ", rentdate=" + rentdate + ", cartId=" + cartId + ", productPrice="
-				+ productPrice + ", productImg=" + productImg + "]";
+				+ productPrice + ", productImg=" + productImg + ", rid=" + rid + ", buyInfoList=" + buyInfoList + "]";
 	}
+	
+	
+	
+	
 
 }
