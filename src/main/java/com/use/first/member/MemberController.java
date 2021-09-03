@@ -77,7 +77,7 @@ public class MemberController {
 		model.addAttribute("url", naverAuthUrl);
 
 		if (session.getAttribute("userName") != null) {
-			return "home";
+			return "redirect:/";
 		} else {
 			return "/enterance/login";
 		}

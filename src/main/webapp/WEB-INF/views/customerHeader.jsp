@@ -92,7 +92,7 @@
 
                    <li><a href="/member/noticeList">[ 공지사항 ]</a></li>
 
-                    <li><a href="member/qna/qnaList">[ Q&A ]</a></li>
+                    <li><a href="/member/qna/qnaList">[ Q&A ]</a></li>
                  
                 </ul>
               </div> 

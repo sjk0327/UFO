@@ -43,7 +43,7 @@
             </a>
         </li>
         <li class="">
-            <a href="adminsite" class="waves-effect waves-dark">
+            <a href="/admin/qnaList" class="waves-effect waves-dark">
                 <span class="pcoded-micon"><i class="ti-help-alt"></i></span>
                 <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Q&amp;A관리</span>
             </a>

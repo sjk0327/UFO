@@ -238,10 +238,11 @@
 		<div class="col-xl-7 col-sm-12">
 		<div class="container" style="text-align: center;">
 		<div class="box">
-			<form name="qnaUpdateForm" action="/member/qna/qnaUpdate" method="post">
+			<form:form name="qnaUpdateForm" action="/member/qna/qnaUpdate/${qnaVO.q_id }" method="post" modelAttribute="qnaVO">
 				<input type="hidden" name="q_id"  value="${qnaVO.q_id }">
 				<input type="hidden" name="q_mid" value="${qnaVO.q_mid }">
 				<input type="hidden" name="q_mname"  value="${qnaVO.q_mname }">
+				<input type="hidden" name="q_date"  value="${qnaVO.q_date }">
 				<input type="hidden" name="q_readCount"  value="${qnaVO.q_readCount }">
 				<input type="hidden" name="q_reference"  value="${qnaVO.q_reference }">
 				<input type="hidden" name="q_answer"  value="${qnaVO.q_answer }">
@@ -256,13 +257,13 @@
 					<tr>
 						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">카테고리</td>
 						<td style="color: #555555;">
-							<select name="q_type">
+							<select name="q_type" class="form-control" style="width:100%;">
 								<option value="">선택해주세요</option>
 								<c:forTokens var="type"	items="가입문의,상품문의,결제문의,배송문의" delims=",">
-									<c:if test="${qnaVO.q_type eq type}">
-										<option value="${type }" selected>${type }</option>
-									</c:if>
-									<option value="${type }">${type }</option>
+									<c:choose>
+									<c:when test="${qnaVO.q_type eq type}"><option value="${type }" selected>${type }</option></c:when>
+									<c:otherwise><option value="${type }">${type }</option></c:otherwise>
+									</c:choose>
 								</c:forTokens>
 							</select>
 						</td>	
@@ -277,8 +278,8 @@
 					</tr>
 					<tr>
 						<td class="danger" style="font-weight: bold; color: #555555;">제목</td>
-						<td colspan="3" style="color: #555555;">
-							<input type="hidden" name="q_answer"  value="${qnaVO.q_title }">
+						<td colspan="3" style="color: #555555; text-align: left;">
+							<input type="text" name="q_title"  value="${qnaVO.q_title }" class="form-control" style="width:100%;">
 						</td>
 					</tr>
 
@@ -287,12 +288,12 @@
 						<td colspan="3"><textarea name="q_content" class="form-control" rows="18" style="resize: none; background-color: white;">${qnaVO.q_content }</textarea></td>
 					</tr>
 				</table>
-			</form>
+			</form:form>
 					
 			<div class="row text-center" style="width: 55%; margin: auto;">
 			<div class="multi-button" >
-				<button onClick="javascript:history.back();">글 목 록</button><br>										  	
-	  			<button onClick="qnaEditeBtn();">글 수 정</button><br>
+				<button onClick="location.href='/member/qna/qnaList'">글 목 록</button><br>										  	
+	  			<button onClick="qnaEditBtn();">글 수 정</button><br>
 				<button onClick="qnaDeleteBtn()">글 삭 제</button><br>							  	
 			</div>
 			</div>
@@ -359,7 +360,7 @@
 	function qnaEditBtn(){
 		action_popup.confirm("수정 하시겠습니까?",function(res) {
 			if (res) {
-				location.href="/member/qna/qnaEdit/" + ${qnaVO.q_id };
+				document.qnaUpdateForm.submit();
 			} 
 		});
 	}

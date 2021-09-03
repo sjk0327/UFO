@@ -237,7 +237,10 @@
 					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] eq email}">
 					                                    		<option value="${email }" selected>${email }</option>
 					                                    		</c:if>
+					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] ne email}">
 					                                    		<option value="${email }">${email }</option>
+					                                    		</c:if>
+					                                    		
 					                                    		</c:forTokens>
 					                                    	</select>
 					                                    </div>

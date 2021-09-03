@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>UF&#38;O- Q &#38; A 상세페이지</title>
+<title>UF&#38;O- Q &#38; A 글 쓰기</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -238,95 +238,63 @@
 		<div class="col-xl-7 col-sm-12">
 		<div class="container" style="text-align: center;">
 		<div class="box">
-			<input type="hidden" name="q_id"  value="${qnaVO.q_id }">
-			<input type="hidden" name="q_mid" value="${qnaVO.q_mid }">
-			<input type="hidden" name="q_mname"  value="${qnaVO.q_mname }">
-			<input type="hidden" name="q_readCount"  value="${qnaVO.q_readCount }">
-			<input type="hidden" name="q_reference"  value="${qnaVO.q_reference }">
-			<input type="hidden" name="q_answer"  value="${qnaVO.q_answer }">
-			<c:choose>
-			<c:when test="${not empty userInfo}">
-				<c:choose>
-				<c:when test="${userInfo.m_id eq qnaVO.q_mid }">
-				
-					<table class="table table-sm">
-						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">글번호</td>
-							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_id }</td>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성자</td>
-							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_mname }</td>
-						</tr>
-						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">카테고리</td>
-							<td style="color: #555555;">${qnaVO.q_type }</td>	
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성일</td>
-							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_date }</td>
-						</tr>
-						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555;"></td>
-							<td style="color: #555555;"></td>	
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">조회수</td>
-							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_readCount }</td>
-						</tr>
-						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555;">제목</td>
-							<td colspan="3" style="color: #555555;">${qnaVO.q_title }</td>
-						</tr>
-	
-						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE; vertical-align:middle;">글내용</td>
-							<td colspan="3"><textarea name="q_content" class="form-control" rows="18" style="resize: none; background-color: white;" readOnly="readOnly">${qnaVO.q_content }</textarea></td>
-						</tr>
-					</table>
-				
-				</c:when>
-				<c:otherwise>
-					<table class="table table-sm">
-						<tr>
-							<td>비밀글 입니다.</td>
-						</tr>
-					</table>
-				</c:otherwise>
-				</c:choose>
-				</c:when>
-				<c:otherwise>
+			<form:form name="qnaWriteForm" action="/member/qna/qnaWrite" method="post" modelAttribute="qnaVO">
+				<input type="hidden" name="q_mid" value="${userInfo.m_id }">
+				<input type="hidden" name="q_mname"  value="${userInfo.m_name }">
 				<table class="table table-sm">
-						<tr>
-							<td>비밀글 입니다.</td>
-						</tr>
-					</table>
-				</c:otherwise>
-				</c:choose>
-				<c:choose>
-				<c:when test="${not empty userInfo}">
-				<c:if test="${userInfo.m_id eq qnaVO.q_mid }">
-					<div class="row text-center" style="width: 55%; margin: auto;">
-					<div class="multi-button" >
-						<button onClick="location.href='/member/qna/qnaList'">글 목 록</button><br>										  	
-			  			<button onClick="qnaEditBtn()">글 수 정</button><br>
-						<button onClick="qnaDeleteBtn()">글 삭 제</button><br>							  	
-					</div>
-					</div>
-				</c:if>
-				<c:if test="${userInfo.m_id ne qnaVO.q_mid }">
-					<div class="row text-center" style="width: 150px; margin: auto;">
-					<div class="multi-button" >
-						<button onClick="javascript:history.back();">글 목 록</button><br>			  	
-					</div>
-					</div>
-				</c:if>
-				</c:when>
-				<c:otherwise>
-					<div class="row text-center" style="width: 150px; margin: auto;">
-					<div class="multi-button" >
-						<button onClick="javascript:history.back();">글 목 록</button><br>			  	
-					</div>
-					</div>
-				</c:otherwise>
-				</c:choose>
-				</div>
+					<tr>
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">글번호</td>
+						
+						<td style="text-align: center; background-color: white; color: #555555;">${lastIndex }</td>
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성자</td>
+						<td style="text-align: center; background-color: white; color: #555555;">${userInfo.m_name }</td>
+					</tr>
+					<tr>
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">카테고리</td>
+						<td style="color: #555555;">
+							<select name="q_type" class="form-control" style="width:fit-content">
+								<option value="">선택해주세요</option>
+								<c:forTokens var="type"	items="가입문의,상품문의,결제문의,배송문의" delims=",">
+									<option value="${type }">${type }</option>
+								</c:forTokens>
+							</select>
+						</td>	
+						<c:set var="now" value="<%=new java.util.Date()%>" />
+						<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
+						
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성일</td>
+						<td style="text-align: center; background-color: white; color: #555555;">${today }</td>
+					</tr>
+					<tr>
+						<td class="danger" style="font-weight: bold; color: #555555;"></td>
+						<td style="color: #555555;"></td>	
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">조회수</td>
+						<td style="text-align: center; background-color: white; color: #555555;">0</td>
+					</tr>
+					<tr>
+						<td class="danger" style="font-weight: bold; color: #555555;">제목</td>
+						<td colspan="3" style="color: #555555; text-align: left;">
+							<input type="text" name="q_title"  value="" class="form-control" style="width:100%;">
+						</td>
+					</tr>
+
+					<tr>
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE; vertical-align:middle;">글내용</td>
+						<td colspan="3"><textarea name="q_content" class="form-control" rows="18" style="resize: none; background-color: white;"></textarea></td>
+					</tr>
+				</table>
+			</form:form>
+					
+			<div class="row text-center" style="width: 55%; margin: auto;">
+			<div class="multi-button" >
+				<button onClick="location.href='/member/qna/qnaList'">글 목 록</button><br>										  	
+	  			<button onClick="qnaWriteBtn();">글 등 록</button><br>				  	
 			</div>
 			</div>
+					
+		</div>
+		</div>
+		</div>
 		</div>
 			
 		<div class="col-xl-2 col-sm-12">
@@ -383,17 +351,10 @@
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-	function qnaEditBtn(){
-		action_popup.confirm("수정 하시겠습니까?",function(res) {
+	function qnaWriteBtn(){
+		action_popup.confirm("등록 하시겠습니까?",function(res) {
 			if (res) {
-				location.href="/member/qna/qnaEdit/" + ${qnaVO.q_id };
-			} 
-		});
-	}
-	function qnaDeleteBtn(){
-		action_popup.confirm("삭제 하시겠습니까?",function(res) {
-			if (res) {
-				location.href="/member/qna/qnaDelete/" + ${qnaVO.q_id };
+				document.qnaWriteForm.submit();
 			} 
 		});
 	}
