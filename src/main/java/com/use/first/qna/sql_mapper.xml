@@ -8,20 +8,77 @@
 	<select id="qnaList" resultType="com.use.first.qna.QnaVO" >
 		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
 		FROM qna
-		ORDER BY q_id DESC
+		WHERE 1 = 1
+		<if test="searchType == 'c'.toString()">
+			AND q_type LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 't'.toString()">
+			AND q_title LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'n'.toString()">
+			AND q_mname LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		<if test="searchType == 'i'.toString()">
+			AND q_mid LIKE CONCAT('%', #{keyword},'%')
+		</if>
+		ORDER BY q_reference DESC, q_id ASC
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<select id="getQnaTotalCount" resultType="int">
-		SELECT count(*) FROM qna
+
+		SELECT count(*) FROM qna WHERE 1 = 1
+		<include refid="searchCondition"></include>
 	</select>
 	
+	
+
 	<select id="qnaInfo" resultType="com.use.first.qna.QnaVO">
 		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
 		FROM qna
 		WHERE q_id = #{q_id}
 	</select>
 	
+
+	<update id="qnaRead" parameterType="int">
+		<![CDATA[
+		UPDATE qna SET q_readCount = #{param2} WHERE q_id = #{param1}
+		]]>
+	</update>
+	
+	<delete id="qnaDelete">
+		<![CDATA[
+		DELETE FROM qna WHERE q_id = #{q_id}
+		]]>
+	</delete>
+	
+	<update id="qnaUpdate" parameterType="com.use.first.qna.QnaVO">
+		<![CDATA[
+		UPDATE qna SET q_type=#{q_type}, q_title=#{q_title}, q_content=#{q_content}, q_date=now()
+		WHERE q_id=#{q_id}
+		]]>
+	</update>
+	
+	<select id="qnaLastIndex" resultType="int">
+		SELECT MAX(q_id) FROM qna
+	</select>
+	
+	<insert id="qnaInsert" parameterType="com.use.first.qna.QnaVO">
+		INSERT INTO qna (q_mid, q_mname, q_type, q_title, q_content, q_reference)
+		VALUES (#{q_mid}, #{q_mname}, #{q_type}, #{q_title}, #{q_content}, #{q_reference})
+	</insert>
+	
+	<select id="qnaSearchById" parameterType="String" resultType="com.use.first.qna.QnaVO">
+		SELECT q_id FROM qna WHERE q_mid = #{q_mid}
+	</select>
+	
+	<update id="qnaUpdateRef" parameterType="int">
+		UPDATE qna SET q_reference = #{q_reference} WHERE q_id = #{q_reference}
+	</update>
+	
+	
+	
+
 	<insert id="adminQnaInsert" parameterType="com.use.first.qna.QnaVO">
 		insert into qna (q_mid, q_mname, q_type, q_title, q_content, q_date, q_reference, q_answer) 
 		VALUES 
@@ -35,7 +92,7 @@
 	<select id="adminQnaAnswer" resultType="com.use.first.qna.QnaVO" >
 		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
 		FROM qna
-		where q_mname = '관리자'
+		where q_mid = 'admin'
 		ORDER BY q_id DESC
 		limit #{pageStart}, #{perPageNum}
 	</select>
@@ -43,7 +100,7 @@
 	<select id="adminQnaList" resultType="com.use.first.qna.QnaVO" >
 		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
 		FROM qna
-		where not q_mname = '관리자'
+		where not q_mid = 'admin'
 		<if test="searchType == 't'.toString()">
 			and	q_answer = true
 			</if>
@@ -54,6 +111,7 @@
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	
+
 	<select id="getQnaTotalCount1" resultType="int">
 		SELECT count(*) FROM qna where not q_mname = '관리자'
 		<include refid="searchCondition"></include>
@@ -72,6 +130,7 @@
 		delete from qna where q_reference = #{q_reference}
 	</delete>
 	
+
 	<update id="advertisementDelete">
 		update qna set q_title = #{param1}, q_content = #{param2} where q_id = #{param3}
 	</update>
@@ -86,5 +145,6 @@
 			</if>
 		</if>
 	</sql>
+
 	
 </mapper>

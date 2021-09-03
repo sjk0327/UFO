@@ -506,7 +506,10 @@ select::-ms-expand {
 																								test="${fn:split(userInfo.m_email,'@')[1] eq email}">
 																								<option value="${email }" selected>${email }</option>
 																							</c:if>
-																							<option value="${email }">${email }</option>
+																							<c:if
+																								test="${fn:split(userInfo.m_email,'@')[1] ne email}">
+																								<option value="${email }">${email }</option>
+																							</c:if>
 																						</c:forTokens>
 																					</select>
 																				</div>

@@ -98,27 +98,26 @@
 				<div class="col-sm-12">
 					<!-- Authentication card start -->
 
-					<form:form class="md-float-material form-material"  name="loginForm" action="/login"
-						method="post" modelAttribute="user">
+					
 						<div class="text-center">
 							<img src="resources/assets/images/logo.png" alt="logo.png">
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
 							<br>
+							<form class="md-float-material form-material"  name="loginForm" action="/login"	method="post" >
 								<div class="row m-b-20">
 									<div class="col-md-12">
 										<h3 class="text-center">로그인</h3>
 									</div>
 								</div>
 								<div class="form-group form-primary">
-									<form:input id="idInput" path="m_id" class="form-control"
-										required="required" />
+									<input type="text" id="idInput" name="m_id" class="form-control" required="required" />
 									<span class="form-bar"></span> <label class="float-label">ID</label>
 									<span id="id-checker"></span>
 								</div>
 								<div class="form-group form-primary">
-									<form:password id="pwdInput" path="m_pw" class="form-control"
+									<input type="password" id="pwdInput" name="m_pw" class="form-control"
 										required="required" />
 									<span class="form-bar"></span> <label class="float-label">Password</label>
 									<span id="pwd-checker"></span>
@@ -141,7 +140,7 @@
 											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 									</div>
 								</div>
-
+								</form>
 
 
 								<div class="row m-t-10">
@@ -198,7 +197,6 @@
 								</div>
 							</div>
 						</div>
-					</form:form>
 					<!-- end of form -->
 				</div>
 				<!-- end of col-sm-12 -->

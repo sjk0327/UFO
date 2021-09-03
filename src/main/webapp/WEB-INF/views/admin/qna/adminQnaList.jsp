@@ -29,6 +29,7 @@
 							<div class="main-body">
 								<div class="page-wrapper">
 									<div class="page-body">
+
 										<form id="sort1" name="qnaListY" method="post" action="/admin/qnaList">
 										<select id="searchType1" name="searchType" style="display: none;">
 		                                    <option value="t" selected></option>
@@ -46,6 +47,7 @@
 										<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="location.href='/admin/qnaList';">전제보기</button>
 										<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="answerY()">답변 Y</button>
 										<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="answerN()">답변 N</button>
+
 									<br><br>
 										<div class="card">
 											<div class="row">
@@ -56,6 +58,7 @@
                                                         <h5 class="card-header-text">Q&A 리스트</h5>
                                                     </div>
                                                     <div class="card-block accordion-block">
+
                                                         <div id="accordion" role="tablist" aria-multiselectable="true">
                                                             <div class="accordion-panel">
                                                             <div class="row">
@@ -87,9 +90,10 @@
                                                                         
 																	    <span id="q_answer" class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">
-                                                                        <c:if test="${qna.q_answer eq true}"><label class="label label-primary" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
-                                                                        <c:if test="${qna.q_content eq '관리자에 의해 삭제된 코멘트 입니다.' && qna.q_title eq '광고글 삭제'}"><label class="label label-info" style="font-size: 10pt;">광고삭제</label></c:if>
-                                                                        <c:if test="${qna.q_title ne '광고글 삭제' && qna.q_answer eq false}"><label class="label label-danger" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
+
+                                                                        <c:if test="${qna.q_answer eq 'true'}"><label class="label label-primary" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
+                                                                        <c:if test="${qna.q_answer eq 'false'}"><label class="label label-danger" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
+
                                                                         </a></span>
 																	</div>
 																	      
@@ -114,13 +118,17 @@
                                                                 
                                                                 </c:forEach>
                                                                 </c:when>
+
                                                                 <c:when test="${qna.q_title eq '광고글 삭제' }">
                                                                 </c:when>
+
                                                                 <c:otherwise>
                                                                 	<textarea id="q_content${status.index }" name="q_content" rows="5" class="form-control" style="resize: none; font-size:15px; background-color: white; color: #666666; text-align: center; border:1px solid #aaaaaa; border-radius: 10px;"></textarea> 
                                                                 	<br>
                                                                 	<input type="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="등록" onClick="adminQna(${status.index })">
+
                                                                 	<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="advertisementDelete(${qna.q_id })">광고글 삭제</button>
+
                                                                 </c:otherwise>
                                                                 </c:choose>
                                                                
@@ -130,7 +138,11 @@
                                                         </div>
                                                         </div>
                                                         <form:form name="adminQnaInsert" action="/admin/qnaInsert" commandName="QnaVO" method="post">
+
                                                         		<input type="hidden" id="q_mid-1" name="q_mid"/>
+
+                                                        		<input type="hidden" name="q_mid" value="admin" />
+
                                                                 <input type="hidden" name="q_mname" value="관리자" />
                                                                 <input type="hidden" id="q_type-1" name="q_type" />
                                                                 <input type="hidden" id="q_title-1" name="q_title" />
@@ -148,10 +160,12 @@
                                                         		<input type="hidden" name="q_answer" value="false" />
                                                                 <input type="hidden" id="q_reference-3" name="q_reference" />
                                                         </form:form>
+
                                                         
                                                         <form:form name="adminAdvertisementDelete" action="/admin/advertisementDelete" commandName="QnaVO" method="post">
                                                         		<input type="hidden" id="q_id-1" name="q_id" />
                                                         </form:form>
+
 		                                            </div>
 		                                        </div>
 		                                    </div>
@@ -159,7 +173,7 @@
                                 <!-- Multiple Open Accordion ends -->
 											</div>
 										</div>
-										
+
 										<!-- 페이징 start -->
 										<div id = "paging-div">
 										<ul class="btn-group pagination">
@@ -197,6 +211,7 @@
 
 function adminQna(index) {
 	
+
 	document.getElementById("q_mid-1").value = document.getElementById("q_mid" + index).innerText;
 	document.getElementById("q_type-1").value = document.getElementById("q_type" + index).innerText;
 	document.getElementById("q_title-1").value = "[RE]" + document.getElementById("q_title" + index).innerText;
@@ -234,6 +249,7 @@ function adminAnswerDelete(reference) {
 	}
 }
 
+
 function advertisementDelete(q_id) {
 	
 	document.getElementById("q_id-1").value = q_id;
@@ -252,6 +268,7 @@ function answerY(){
 function answerN(){
 	document.qnaListN.submit();
 }
+
 
 
    	

@@ -57,7 +57,7 @@
 
             <div class="mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
               <div class="site-logo" >
-                <a href="/" class="js-logo-clone" style="font-size: 20pt; font-weight: bold;" >UF&O</a>
+                <a href="/" class="js-logo-clone" style="font-size: 20pt; font-weight: bold;" >UF&#38;O</a>
               </div>
             </div>
 
@@ -92,7 +92,9 @@
 
                    <li><a href="/member/noticeList">[ 공지사항 ]</a></li>
 
-                    <li><a href="/member/qnaList">[ Q&A ]</a></li>
+
+                    <li><a href="/member/qna/qnaList">[ Q&A ]</a></li>
+
                  
                 </ul>
               </div> 

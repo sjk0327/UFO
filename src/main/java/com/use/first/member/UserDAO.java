@@ -36,12 +36,8 @@ public interface UserDAO {
 
 	public String selectId(UserVO user);
 	
-
-	
-	// 8/10 : 성훈 추가
-
-
 	public int duplicateCheckId(String m_id);
+	public List<UserVO> duplicateCheckEmail(String m_email);
 	public int memJoin(UserVO user);
 	
 	public int loginCheck(String id, String pw);

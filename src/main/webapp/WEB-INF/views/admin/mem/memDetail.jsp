@@ -205,7 +205,7 @@
                                                             <span class="form-bar"></span>
                                                             <div class="row">
                                                                <div class="col-sm-6">
-                                                                  <input type="text" id="detailAddress" value="${fn:split(userVO.m_addr,'|')[2]}" class="form-control" placeholder="상세주소">
+                                                                  <input type="text" id="detailAddress" value="${fn:split(userVO.m_addr,'|')[2]}" class="form-control" placeholder="상세주소" required="required">
                                                                   <span class="form-bar"></span>
                                                                </div>
                                                                <div class="col-sm-6">
@@ -237,7 +237,10 @@
 					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] eq email}">
 					                                    		<option value="${email }" selected>${email }</option>
 					                                    		</c:if>
+					                                    		<c:if test="${fn:split(userVO.m_email,'@')[1] ne email}">
 					                                    		<option value="${email }">${email }</option>
+					                                    		</c:if>
+					                                    		
 					                                    		</c:forTokens>
 					                                    	</select>
 					                                    </div>
@@ -500,6 +503,10 @@
                 document.getElementById("address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("detailAddress").value = '';
+				if(addr != '')
+					document.getElementById("detailAddress").setAttribute('required', 'required');
+				else
+					document.getElementById("detailAddress").removeAttribute('required');
                 document.getElementById("detailAddress").focus();
             }
         }).open();

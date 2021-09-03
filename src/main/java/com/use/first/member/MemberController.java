@@ -77,7 +77,7 @@ public class MemberController {
 		model.addAttribute("url", naverAuthUrl);
 
 		if (session.getAttribute("userName") != null) {
-			return "home";
+			return "redirect:/";
 		} else {
 			return "/enterance/login";
 		}
@@ -120,6 +120,7 @@ public class MemberController {
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
 				session.setAttribute("loginPl", "ufo");
 				UserInfoVO infoVO = new UserInfoVO(user.getM_id(), user.getM_name());
+				System.out.println("Login :: " + infoVO.toString());
 				session.setAttribute("userInfo", infoVO);
 				// session.setAttribute("userId", user.getM_id());
 				// session.setAttribute("userName", user.getM_name());
@@ -156,40 +157,67 @@ public class MemberController {
 			id = "kakao " + devid[0];
 
 			session.setAttribute("loginPl", "kakao");
-			UserInfoVO infoVO = new UserInfoVO(id, userInfo.get("nickname").toString());
-			session.setAttribute("userInfo", infoVO);
-			int b = email.indexOf("@");
-			int e = email.indexOf(".");
-			if (b > 0 && e > 0)
-				email = email.substring(b + 1, e);
-			System.out.println("email cutting : " + email);
-			String gender = userInfo.get("gender").toString();
-
-			if (dao.duplicateCheckId(id) > 0) {
-				return "redirect:/";
-			} else {
-				return "redirect:/kakaoJoin/" + email + "/" + gender;
+			// 이메일이 있는지 체크	- 없으면 kakaoJoin으로 이동		
+			//					- 있으면 regtype 검사		- 유에프오가 없으면  그 db 정보로 로그인				
+			//											- 유에프오가 있으면 아이디 있다고 알럿창 띄우기
+			//							
+			int isUFO = -1;
+			int isKakao = -1;
+			List<UserVO> userList = dao.duplicateCheckEmail(email);
+			for(int i = 0; i < userList.size(); i++) {
+				System.out.println("kakaoLogin :: users :" + userList.get(i).toString());
+				if(userList.get(i).getM_regtype().equals("카카오")){
+					isKakao = i;
+				}
+				if(userList.get(i).getM_regtype().equals("유에프오")){
+					isUFO = i;
+				}
 			}
+			
+			UserInfoVO infoVO;
+			if(isKakao == -1) {	
+				infoVO = new UserInfoVO(id, userInfo.get("nickname").toString());
+				session.setAttribute("userInfo", infoVO);
+				int b = email.indexOf("@");
+				int e = email.indexOf(".");
+				String emailFront = ""; 
+				if (b > 0 && e > 0) {
+					emailFront = email.substring(b + 1, e);
+				}
+				System.out.println("kakaoLogin :: go kakaoJoin : 한번도 카카오로 로그인 한 적 없음, DB에 저장");
+				String gender = userInfo.get("gender").toString();
+				
+				return "redirect:/kakaoJoin/" + emailFront + "/" + gender;
+			}else {
+				if(isUFO == -1) {
+					infoVO =  new UserInfoVO(userList.get(isKakao).getM_id(), userList.get(isKakao).getM_name());
+					session.setAttribute("userInfo", infoVO);
+					System.out.println("kakaoLogin :: go Index : 한번 이상 카카오로 로그인해서 정보가 있음, UFO로 가입한 적은 없음");
+					return "redirect:/";
+				}else {
+					
+						//연동이 안됬다면 연동 여부 묻기
+
+						System.out.println("kakaoLogin :: go kakaoLink : 한번 이상 카카오로 로그인해서 정보가 있음, UFO로 가입한 적도 있음");
+										
+						infoVO =  new UserInfoVO(userList.get(isKakao).getM_id(), userList.get(isKakao).getM_name());
+						session.setAttribute("userInfo", infoVO);
+						return "redirect:/";
+					}
+					
+				
+			}
+			
 		} else {
 			System.out.println("kakaoLoginG else문 in!!!!");
 			response.setContentType("text/html; charset=euc-kr");
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('선택사항을 동의해주세요'); location.href='redirect:/login'; </script>");
+			out.println("<script>action_popup.alert('선택사항을 동의해주세요'); location.href='redirect:/login'; </script>");
 			out.flush();
 			return null;
 		}
 	}
 
-
-	@RequestMapping(value = "/kakaoReject", method = RequestMethod.GET)
-	public String kakaoRejectG(HttpServletResponse response) throws IOException {
-		return "";
-	}
-
-	@RequestMapping(value = "/kakaoReject", method = RequestMethod.POST)
-	public String kakaoRejectP(HttpServletResponse response) throws IOException {
-		return "";
-	}
 
 	// 카카오 회원가입
 	@RequestMapping(value = "/kakaoJoin/{email}/{gender}", method = RequestMethod.GET)
@@ -207,7 +235,7 @@ public class MemberController {
 		else if (email.equals("hanmail"))
 			email = infoVO.getM_id().split(" ")[1] + "@hanmail.net";
 		else if (email.equals("gmail"))
-			email = infoVO.getM_id().split(" ")[1] + "@gmail.net";
+			email = infoVO.getM_id().split(" ")[1] + "@gmail.com";
 		else
 			email = "동의안함";
 		user.setM_email(email);
@@ -228,6 +256,7 @@ public class MemberController {
 		return "redirect:/";
 
 	}
+	
 
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -269,32 +298,63 @@ public class MemberController {
 			String mobile = (String) response_obj.get("mobile");
 			// 4.파싱 닉네임 세션으로 저장
 			session.setAttribute("loginPl", "naver");
-
+			model.addAttribute("result", apiResult);
 			String[] devid = email.split("@");
 			String id = "naver " + devid[0];
-			UserInfoVO infoVO = new UserInfoVO(id, name);
-			session.setAttribute("userInfo", infoVO);
-			int b = email.indexOf("@");
-			int e = email.indexOf(".");
-			if (b > 0 && e > 0)
-				email = email.substring(b + 1, e);
-			System.out.println("email cutting : " + email);
-
-			model.addAttribute("result", apiResult);
-
-			if (dao.duplicateCheckId(id) > 0) {
-
-				return "redirect:/";
-			} else {
-				return "redirect:/naverJoin/" + email + "/" + gender + "/" + mobile;
+			// 이메일이 있는지 체크	- 없으면 kakaoJoin으로 이동		
+			//					- 있으면 regtype 검사		- 유에프오가 없으면  그 db 정보로 로그인				
+			//											- 유에프오가 있으면 연동 여부 m_kakakolink 검사
+			//							
+			int isUFO = -1;
+			int isNaver = -1;
+			List<UserVO> userList = dao.duplicateCheckEmail(email);
+			for(int i = 0; i < userList.size(); i++) {
+				System.out.println("NaverLogin :: users :" + userList.get(i).toString());
+				if(userList.get(i).getM_regtype().equals("네이버")){
+					isNaver = i;
+				}
+				if(userList.get(i).getM_regtype().equals("유에프오")){
+					isUFO = i;
+					
+				}
 			}
 
+			UserInfoVO infoVO;
+			if(isNaver == -1) {	
+				infoVO = new UserInfoVO(id, name);
+				session.setAttribute("userInfo", infoVO);
+				int b = email.indexOf("@");
+				int e = email.indexOf(".");
+				String emailFront = ""; 
+				if (b > 0 && e > 0) {
+					emailFront = email.substring(b + 1, e);
+				}
+				System.out.println("email cutting : " + emailFront);
+				
+				return "redirect:/naverJoin/" + email + "/" + gender + "/" + mobile;
+			}else {
+				if(isUFO == -1) {
+					infoVO =  new UserInfoVO(userList.get(isNaver).getM_id(), userList.get(isNaver).getM_name());
+					session.setAttribute("userInfo", infoVO);
+				
+					return "redirect:/";
+				}else {
+					//연동이 안됬다면 연동 여부 묻기
+							
+					infoVO =  new UserInfoVO(userList.get(isNaver).getM_id(), userList.get(isNaver).getM_name());
+					session.setAttribute("userInfo", infoVO);
+					
+					return "redirect:/";
+					
+				}
+			}
+			
 		} else {
 			return "/enterance/login";
 		}
 	}
 
-	// 네이버회원가입
+	// 네이버 회원가입
 	@RequestMapping(value = "/naverJoin/{email}/{gender}/{mobile}", method = RequestMethod.GET)
 	public String naverJoin(UserVO user, Model model, HttpSession session, @PathVariable String email,
 			@PathVariable String gender, @PathVariable String mobile) {
@@ -311,7 +371,7 @@ public class MemberController {
 		else if (email.equals("hanmail"))
 			email = infoVO.getM_id().split(" ")[1] + "@hanmail.net";
 		else if (email.equals("gmail"))
-			email = infoVO.getM_id().split(" ")[1] + "@gmail.net";
+			email = infoVO.getM_id().split(" ")[1] + "@gmail.com";
 		else
 			email = "동의안함";
 		user.setM_email(email);
@@ -334,6 +394,36 @@ public class MemberController {
 
 	}
 
+	// UFO 와 카카오 연동
+	@RequestMapping(value = "/naverLink/{email}", method = RequestMethod.GET)
+	public String naverLink(UserVO user, Model model, HttpSession session, @PathVariable String email) {
+
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		UserInfoVO infoVO = (UserInfoVO) session.getAttribute("userInfo");
+		user.setM_id(infoVO.getM_id());
+		user.setM_name(infoVO.getM_name());
+		if (email.equals("naver"))
+			email = infoVO.getM_id().split(" ")[1] + "@naver.com";
+		else if (email.equals("daum"))
+			email = infoVO.getM_id().split(" ")[1] + "@daum.net";
+		else if (email.equals("hanmail"))
+			email = infoVO.getM_id().split(" ")[1] + "@hanmail.net";
+		else if (email.equals("gmail"))
+			email = infoVO.getM_id().split(" ")[1] + "@gmail.com";
+		else
+			email = "동의안함";
+		user.setM_email(email);
+	
+
+		int n = dao.kakaoJoin(user);
+
+		if (n == 0) {
+			System.out.println("등록 실패");
+		}
+
+		return "redirect:/";
+
+	}
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String loginout(HttpSession session) {
 
@@ -362,7 +452,6 @@ public class MemberController {
 		List<RentVO> rentList = rentDAO.rentListByMid(userId, "구매");
 		List<RentVO> purchaseList = rentDAO.purchaseListByMid(userId, "구매");
 		List<MessageVO> messageList = messageDAO.messageByMid(userId);
-
 		model.addAttribute("rentList", rentList);
 		model.addAttribute("purchaseList", purchaseList);
 		model.addAttribute("messageList", messageList);
@@ -1098,14 +1187,43 @@ public class MemberController {
 
 		return map;
 	}
+	
+	// 회원 가입 - 이메일 중복 검사
+	@ResponseBody
+	@RequestMapping(value = "/member/mem/emailCheck", method = RequestMethod.POST, produces = "application/json")
+	public Map<Object, Object> menEmailCheck(Model model, @RequestBody String m_email) throws Exception {
+		System.out.println("ajax 호출 / menEmailCheck");
+		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		List<UserVO> userList = dao.duplicateCheckEmail(m_email);
+		System.out.println("menEmailCheck :: userList.size() :" + userList.size());
+		map.put("ufo", false);
+		map.put("kakao", false);
+		map.put("naver", false);
+		
+		for(UserVO user : userList) {
+			if(user.getM_regtype().equals("유에프오")) {
+				map.replace("ufo", true);
+			}
+			if(user.getM_regtype().equals("카카오")) {
+				map.replace("kakao", true);
+			}
+			if(user.getM_regtype().equals("네이버")) {
+				map.replace("naver", true);
+			}
+			
+		}
+		System.out.println("menEmailCheck :: ufo :" + map.get("ufo") + " kakao :" + map.get("kakao") + " naver :" + map.get("naver"));
+		return map;
+	}
 
 	// 회원 가입 - 이메일 인증
 	@Autowired
 	private JavaMailSender javaMailSender;
 
 	@ResponseBody
-	@RequestMapping(value = "/member/mem/memEmailCheck", method = RequestMethod.POST, produces = "application/json")
-	public String menEmailCheck(Model model, @RequestBody String m_email) {
+	@RequestMapping(value = "/member/mem/memEmailSend", method = RequestMethod.POST, produces = "application/json")
+	public String menEmailSend(Model model, @RequestBody String m_email) {
 		System.out.println("ajax 호출 / menEmailCheck");
 
 		// 인증 번호 생성기
@@ -1404,7 +1522,7 @@ public class MemberController {
 		
 		// 대여 정보 가져오기
 		List<RentVO> buyList = rentDAO.purchaseListByMidAndSearch(cri, userId, "구매");
-		System.out.println("rentList size : " + buyList.size());
+		System.out.println("buyList size : " + buyList.size());
 	
 		// 모델에 추가
 		model.addAttribute("buyList", buyList);
@@ -1431,8 +1549,10 @@ public class MemberController {
 		
 		// 대여 정보 가져오기
 		List<RentVO> buyList = rentDAO.purchaseListByMidAndSearch(cri, userId, "구매");
-		System.out.println("rentList size : " + buyList.size());
-	
+		System.out.println("user Id : " + userId);
+		for(RentVO buys : buyList) {
+			System.out.println("buys : " + buys.toString());
+		}
 		// 모델에 추가
 		model.addAttribute("buyList", buyList);
 		// PageMaker 객체 생성
@@ -1450,47 +1570,49 @@ public class MemberController {
     
     @RequestMapping(value = "/pythonTest", method = RequestMethod.GET)
    	public String adminPythonTest(Model model,HttpSession session) throws IOException, InterruptedException{
-   		String command = "C:\\ProgramData\\Anaconda3\\python.exe";
-   		String arg1 = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest.py";
-    	//String arg1 = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest2.py";
-    	ProcessBuilder builder = new ProcessBuilder(command, arg1);
-    	builder.redirectErrorStream(true);  // 표준 에러도 표준 출력에 쓴다
-    	Process process = builder.start();
-    	int exitVal = process.waitFor();
+//   		String command = "C:\\ProgramData\\Anaconda3\\python.exe";
+//   		String arg1 = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest.py";
+//    	//String arg1 = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest2.py";
+//    	ProcessBuilder builder = new ProcessBuilder(command, arg1);
+//    	builder.redirectErrorStream(true);  // 표준 에러도 표준 출력에 쓴다
+//    	Process process = builder.start();
+//    	int exitVal = process.waitFor();
+//    	
+//    	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8")); // 서브 프로세스가 출력하는 내용을 받기 위해
+//    	StringBuilder buffer = new StringBuilder(); 
+//    	String line = "";
+//    	System.out.println("pythonTest :: while문 앞 :" + line);
+//    	while ((line = br.readLine()) != null) {
+//    		buffer.append(line + ",");
+//    	     System.out.println(">>>  " + buffer.toString()); // 표준출력에 쓴다
+//    	}
+//    	System.out.println("pythonTest :: while문 뒤 :" + process.exitValue());
+//    	model.addAttribute("status", "결과 확인");
+//    	model.addAttribute("line",buffer.toString());
+//    	if(exitVal != 0) {
+//    	  // 비정상 종료
+//    	  System.out.println("서브 프로세스가 비정상 종료되었다.");
+//    	}
     	
-    	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8")); // 서브 프로세스가 출력하는 내용을 받기 위해
-    	StringBuilder buffer = new StringBuilder(); 
-    	String line = "";
-    	System.out.println("pythonTest :: while문 앞 :" + line);
-    	while ((line = br.readLine()) != null) {
-    		buffer.append(line + ",");
-    	     System.out.println(">>>  " + buffer.toString()); // 표준출력에 쓴다
-    	}
-    	System.out.println("pythonTest :: while문 뒤 :" + process.exitValue());
+    	String filePath = "C:\\FinalProject\\UFO\\src\\main\\webapp\\resources\\python\\pythonTest3.py";      
+        ProcessBuilder pb = new ProcessBuilder()
+            .command("python", "-u", filePath, "main33");        
+        Process p = pb.start(); 
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(p.getInputStream(),"euc-kr")); 
+        String line = null;
+        StringBuilder output = new StringBuilder();
+        while ((line = in.readLine()) != null) {
+            output.append(line);
+            output.append('\n');
+        }
+        
+        int exitCode = p.waitFor();
+        System.out.println("value is : " + output);
+        System.out.println("Process exit value:"+exitCode);        
+        in.close();
     	model.addAttribute("status", "결과 확인");
-    	model.addAttribute("line",buffer.toString());
-    	if(exitVal != 0) {
-    	  // 비정상 종료
-    	  System.out.println("서브 프로세스가 비정상 종료되었다.");
-    	}
-    	
-//    	String filePath = "D:\\pwork\\pythonTest2.py";      
-//        ProcessBuilder pb = new ProcessBuilder()
-//            .command("python", "-u", filePath, "main33");        
-//        Process p = pb.start(); 
-//        BufferedReader in = new BufferedReader(
-//            new InputStreamReader(p.getInputStream()));
-//        StringBuilder buffer = new StringBuilder();     
-//        String line = null;
-//        while ((line = in.readLine()) != null){           
-//            buffer.append(line);
-//        }
-//        int exitCode = p.waitFor();
-//        System.out.println("Value is: "+buffer.toString());                
-//        System.out.println("Process exit value:"+exitCode);
-//        model.addAttribute("status", "결과 확인");
-//        model.addAttribute("line", buffer.toString());
-//        in.close();
+    	model.addAttribute("line",output);
     	return "/member/mem/pythonTest";
    	}
 	// 성훈 end
