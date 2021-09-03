@@ -115,7 +115,7 @@
 	
 	<select id="getWishList" resultType="com.use.first.rent.WishListVO">
 		<![CDATA[
-		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{keyword} and w_pid=p_id limit #{pageStart}, #{perPageNum}
+		select wishlist.w_id, wishlist.w_mid, wishlist.w_pid, wishlist.w_date, product.p_name, product.p_price, product.p_canbuy, product.p_canrent, product.p_category, product.p_mainimg, product.p_subimg from wishlist, product where w_mid=#{param1} and w_pid=p_id limit #{param2.pageStart}, #{param2.perPageNum}
 		]]>
 	</select>
 

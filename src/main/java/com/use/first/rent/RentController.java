@@ -188,107 +188,107 @@ public class RentController {
 	}
 
 	// 위시리스트
-	@RequestMapping(value = "/member/rent/wishList")
-	public String customerwishList(HttpSession session, Model model,Criteria cri) {
+		@RequestMapping(value = "/member/rent/wishList")
+		public String customerwishList(HttpSession session, Model model,Criteria cri) {
 
-	
-		System.out.println(session.getAttribute("userInfo")+"aaa");
-		UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
-		String userId=userInfo.getM_id();
-		cri.setKeyword(userId);
 		
-		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-		int smart=0;
-		int notebook=0;
-		int camera=0;
-		int watch=0;
-		int tablet=0;
-		int max=smart;
-		String maxcate="스마트폰";
-		
-		//카테고리별 상품 수 받아오기
-		List<WishListVO> list=rentDAO.getWishListAll(userId);
-		for(int k=0; k<list.size();k++) {
-			String categoty=list.get(k).getP_category();
-			if(categoty.equals("카메라")) {
-				camera++;
-			}
-			else if(categoty.equals("노트북")) {
-				notebook++;
-			}
-			else if(categoty.equals("스마트폰")) {
-				smart++;
-			}
-			else if(categoty.equals("스마트워치")) {
-				watch++;
-			}
-			else if(categoty.equals("태블릿")) {
-				tablet++;
+			System.out.println(session.getAttribute("userInfo")+"aaa");
+			UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
+			String userId=userInfo.getM_id();
+			
+			
+			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+			ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+			int smart=0;
+			int notebook=0;
+			int camera=0;
+			int watch=0;
+			int tablet=0;
+			int max=smart;
+			String maxcate="스마트폰";
+			
+			//카테고리별 상품 수 받아오기
+			List<WishListVO> list=rentDAO.getWishListAll(userId);
+			for(int k=0; k<list.size();k++) {
+				String categoty=list.get(k).getP_category();
+				if(categoty.equals("카메라")) {
+					camera++;
+				}
+				else if(categoty.equals("노트북")) {
+					notebook++;
+				}
+				else if(categoty.equals("스마트폰")) {
+					smart++;
+				}
+				else if(categoty.equals("스마트워치")) {
+					watch++;
+				}
+				else if(categoty.equals("태블릿")) {
+					tablet++;
+				}
+				
 			}
 			
-		}
+			
+			//최대구하기
+			if(smart>=notebook) {
+				max=smart;
+				maxcate="스마트폰";
+			}
+			else {
+				max=notebook;
+				maxcate="노트북";
+			}
+			if(max>=watch) {
+				max=max;
+				maxcate=maxcate;
+			}
+			else {
+				max=watch;
+				maxcate="스마트워치";
+			}
+			if(max>=camera) {
+				max=max;
+				maxcate=maxcate;
+			}
+			else {
+				max=camera;
+				maxcate="카메라";
+			}
+			if(max>=tablet) {
+				max=max;
+				maxcate=maxcate;
+			}
+			else {
+				max=tablet;
+				maxcate="태블릿";
+			}
+			
+			List<ProductVO> wishProList = productDAO.productBestList(maxcate);
+			System.out.println(wishProList.toString());
+			
+			List<RentVO> rentalListNow=rentDAO.rentListNow(); 	
+			List<CartVO> cartList = rentDAO.getCartList(userId);
+			
+			
 		
-		
-		//최대구하기
-		if(smart>=notebook) {
-			max=smart;
-			maxcate="스마트폰";
+			// 현재 페이지에 해당하는 게시물을 조회해 옴
+					List<WishListVO> wishList = rentDAO.getWishList(userId,cri);
+					// PageMaker 객체 생성
+					PageMaker pageMaker = new PageMaker(cri);
+					// 전체 게시물 수를 구함
+					int totalCount = rentDAO.getWishTotalCount(cri);
+					// pageMaker로 전달
+					pageMaker.setTotalCount(totalCount);
+					// 모델에 추가
+					model.addAttribute("pageMaker", pageMaker);
+					model.addAttribute("wishList", wishList);
+					model.addAttribute("wishProList", wishProList);
+					model.addAttribute("rentalListNow", rentalListNow);
+					model.addAttribute("cartList", cartList);
+					
+			return "/member/rent/memberWishList";
 		}
-		else {
-			max=notebook;
-			maxcate="노트북";
-		}
-		if(max>=watch) {
-			max=max;
-			maxcate=maxcate;
-		}
-		else {
-			max=watch;
-			maxcate="스마트워치";
-		}
-		if(max>=camera) {
-			max=max;
-			maxcate=maxcate;
-		}
-		else {
-			max=camera;
-			maxcate="카메라";
-		}
-		if(max>=tablet) {
-			max=max;
-			maxcate=maxcate;
-		}
-		else {
-			max=tablet;
-			maxcate="태블릿";
-		}
-		
-		List<ProductVO> wishProList = productDAO.productSmartPhoneList(maxcate);
-		System.out.println(wishProList.toString());
-		
-		List<RentVO> rentalListNow=rentDAO.rentListNow(); 	
-		List<CartVO> cartList = rentDAO.getCartList(userId);
-		
-		
-	
-		// 현재 페이지에 해당하는 게시물을 조회해 옴
-				List<WishListVO> wishList = rentDAO.getWishList(cri);
-				// PageMaker 객체 생성
-				PageMaker pageMaker = new PageMaker(cri);
-				// 전체 게시물 수를 구함
-				int totalCount = rentDAO.getWishTotalCount(cri);
-				// pageMaker로 전달
-				pageMaker.setTotalCount(totalCount);
-				// 모델에 추가
-				model.addAttribute("pageMaker", pageMaker);
-				model.addAttribute("wishList", wishList);
-				model.addAttribute("wishProList", wishProList);
-				model.addAttribute("rentalListNow", rentalListNow);
-				model.addAttribute("cartList", cartList);
-				
-		return "/member/rent/memberWishList";
-	}
 
 	// 위시리스트 삭제
 	@RequestMapping(value = "/member/rent/deleteWishList", method = RequestMethod.POST)
