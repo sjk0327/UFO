@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.use.first.qna.QnaDAO">
+
+	<select id="qnaList" resultType="com.use.first.qna.QnaVO" >
+		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
+		FROM qna
+		ORDER BY q_id DESC
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="getQnaTotalCount" resultType="int">
+		SELECT count(*) FROM qna
+	</select>
+	
+	<select id="qnaInfo" resultType="com.use.first.qna.QnaVO">
+		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
+		FROM qna
+		WHERE q_id = #{q_id}
+	</select>
+	
+	<insert id="adminQnaInsert" parameterType="com.use.first.qna.QnaVO">
+		insert into qna (q_mid, q_mname, q_type, q_title, q_content, q_date, q_reference, q_answer) 
+		VALUES 
+		(#{q_mid}, #{q_mname}, #{q_type}, #{q_title}, #{q_content}, now(), #{q_reference}, #{q_answer})
+	</insert>
+	
+	<select id="adminQnaInfo" resultType="java.util.Map">
+		select  a.q_id, b.q_reference,b.q_content from qna a, qna b where a.q_id=b.q_reference;
+	</select>
+	
+	<select id="adminQnaAnswer" resultType="com.use.first.qna.QnaVO" >
+		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
+		FROM qna
+		where q_mname = '관리자'
+		ORDER BY q_id DESC
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="adminQnaList" resultType="com.use.first.qna.QnaVO" >
+		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
+		FROM qna
+		where not q_mname = '관리자'
+		<if test="searchType == 't'.toString()">
+			and	q_answer = true
+			</if>
+			<if test="searchType == 'c'.toString()">
+			and	q_answer = false
+			</if>
+		ORDER BY q_id DESC
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="getQnaTotalCount1" resultType="int">
+		SELECT count(*) FROM qna where not q_mname = '관리자'
+		<include refid="searchCondition"></include>
+	</select>
+	
+	
+	<update id="adminQnaUpdate">
+		update qna set q_answer = #{param1} where q_id = #{param2}
+	</update>
+	
+	<update id="adminAnswerUpdate" parameterType="com.use.first.qna.QnaVO">
+		update qna set q_content = #{q_content} where q_reference = #{q_reference}
+	</update>
+	
+	<delete id="adminAnswerDelete" parameterType="com.use.first.qna.QnaVO">
+		delete from qna where q_reference = #{q_reference}
+	</delete>
+	
+	<update id="advertisementDelete">
+		update qna set q_title = #{param1}, q_content = #{param2} where q_id = #{param3}
+	</update>
+	
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+			and	q_answer = true
+			</if>
+			<if test="searchType == 'c'.toString()">
+			and	q_answer = false
+			</if>
+		</if>
+	</sql>
+	
+</mapper>
