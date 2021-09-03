@@ -148,7 +148,14 @@ body, html {height: 100%;}
   </head>
 
   <body>
-
+ 
+ <c:forEach var="rentalList" items="${rentalListNow}">
+	<input id="rentalIdNow" type="text" value="${rentalList.r_pid}">
+	<input id="rentaldateNow" type="text" value="${rentalList.r_sdate}">
+	<input id="rentalamountNow" type="text" value="${rentalList.r_rent}">
+	<input id="productCanRent" type="text" value="${rentalList.p_canRent}">
+	</c:forEach>
+ 
   <div class="site-wrap">
  
     <div class="site-section">
@@ -156,7 +163,7 @@ body, html {height: 100%;}
         <div class="row">
           <div class="col-md-5 mainContainer"><span>
             <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="500px" height="500px" class="img-fluid">
-          </div> 
+          </div>
           
           <div class="col-md-1 mmodal">
           <!-- 모달창 구현 -->
@@ -195,7 +202,7 @@ body, html {height: 100%;}
       
       
       
-      
+     
       
 <div class="row"><div class="col-3"><label>추천수:</label></div><div class="col-9">${recommendCount}개</div></div>	  
 <form:input type="text" path="productPrice" value="${productVO.p_price}" hidden="true"/> 
@@ -317,13 +324,14 @@ body, html {height: 100%;}
                 	<div class="col-10">
                 	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
                 	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
+                	 <input type="hidden" name="v_like" value="none" id="reviewLike">
       	    	 <div>${userVO.m_id}</div>
                 	<div class="col-lg-6 sm-6" id="recommendation">     
-          <c:if test = "${recommendVO eq null}">   
-       <a id="like" title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like();'/></a>
+          <c:if test = "${oneReview.v_like ne 'like'}">   
+       <a title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="noselected" onclick= 'like();'/></a>
           </c:if>
-           <c:if test = "${recommendVO ne null}">  	 
-		<a id="like" title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'like();'/></a>      
+           <c:if test = "${oneReview.v_like eq 'like'}">  	 
+		<a title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="likes" onclick= 'likeCancel();'/></a>      
 		   </c:if>
 	   </div>
                	 	
@@ -353,7 +361,9 @@ body, html {height: 100%;}
     </div>
   </div>	
    		   
-           
+     									<c:choose>				
+										<c:when test="${recVO[0].v_id eq null}"><h1>등록된 추천글이 없어요</h1></c:when>
+										<c:when test="${recVO[0].v_id ne null}">   </c:when></c:choose>
       <div class="container"> 
         <div class="row mb-5">
           <div class="col-md-12 order-2">
@@ -366,23 +376,26 @@ body, html {height: 100%;}
                 	<div class="col-2 profile" align="center">  
                 	 <img src = /resources/Images/member/${recVO.m_img} alt="${recVO.m_img}" title="${recVO.m_img}" class="img-fluid img-circle">         
                 	</div> 
-                	<div class="col-10">
+                	<div class="col-4">
                 	 <div>${recVO.v_mid}</div>
-                	 <div>${recVO.v_date}</div>
-          <c:choose>
-          <c:when test = "${recVO.v_like eq 'none'}">   
-        <a id="like"  title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like();'/></a>
-          </c:when>
-            <c:when test = "${recVO.v_like ne 'none'}">  	 
-		 <a id="like"  title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'like();'/></a>      
-		  </c:when>	
-		  </c:choose>	  		 
-		  <c:if test = "${recVO.v_mid eq userId}">
-		       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button>   		  	  
-		  </c:if>
-		   
+                	 <div>${recVO.v_date}</div> 
+                	 <c:choose>
+         				 <c:when test = "${recVO.v_like eq 'none'}">   
+       						 <a title="noselected"><img src=/resources/Images/product/like1.jpg style="cursor:auto;" width="50" height="50" alt="likes" /></a>
+      				     </c:when>
+          			     <c:when test = "${recVO.v_like ne 'none'}">  	 
+							 <a title="likes"><img src=/resources/Images/product/like2.jpg style="cursor:auto;" width="50" height="50" alt="noselected" /></a>      
+						 </c:when>	
+					  </c:choose>	       
                 	</div>      		
-                	                      
+          				 <div class="col-6">        		 
+		 				 <c:if test = "${recVO.v_mid eq userId}">
+		  				     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
+		   				    <form method="post" name="reviewDeleteForm" action="/member/pro/reviewDelete/${oneReview.v_mid}/${oneReview.v_pid}">
+		    				   <input type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
+		     				</form>  	  
+		 				 </c:if>
+					    </div>             
                 </div>
  
                 <div class="row" name="content">
@@ -408,18 +421,18 @@ body, html {height: 100%;}
 										<div id = "paging-div">
 										<ul class="btn-group pagination">
 											<c:if test="${pageMaker.prev }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}#paging-div"/>'>
 													<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}"/>'>
+												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#paging-div"/>'>
 												<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}"/>'>
+												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#paging-div"/>'>
 												<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 												
 											</c:forEach>
 											<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}#paging-div"/>'>
 													<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 										</ul>
@@ -452,15 +465,15 @@ body, html {height: 100%;}
                 	<div class="col-10">
                 	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
                 	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
+                	 <input type="hidden" name="v_like" value="none" id="updatereviewLike">
       	    	 <div>${userVO.m_id}</div>
                 	<div class="col-lg-6 sm-6" id="recommendation">     
-          <c:if test = "${recommendVO eq null}">   
-       <a id="like" title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like();'/></a>
+          <c:if test = "${oneReview.v_like eq 'none'}">   
+       <a title="noselected"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like()'/></a>
           </c:if>
-           <c:if test = "${recommendVO ne null}">  	 
-		<a id="like" title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'like();'/></a>      
+           <c:if test = "${oneReview.v_like ne 'none'}">  	 
+		<a title="likes"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'likeCancel()'/></a>      
 		   </c:if>
-		 
 	   </div>
                	 	
                 	</div>      		
@@ -509,7 +522,7 @@ body, html {height: 100%;}
       </div>
     </div>
      						
-				<a href="#" id="locateTop" style="display:scroll;"><img src="/resources/Images/product/화살표.png" width="20px" height="20px"/>맨 위로</a>
+				<a href="#" id="locateTop" style="display:scroll;">맨 위로<img src="/resources/Images/product/화살표.png" width="20px" height="20px"/></a>
 			
 		
 
@@ -632,47 +645,49 @@ function payment() {
 		
 	}
 }
-//조아요
-$('#like').on('click', function(){
-	recommend = document.reviewInsert.recommendCount;
-    var form = {
-    		  p_id      : $("#p_id").val()         
-    }    
-    if ($('img').is(".like-o") === true){
-    $.ajax({
-        url: "/member/recommendInsert/${productVO.p_id}",
-        type: "POST",
-        data: form,
-        success: function(data){  
-        	
-        	$('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
-        	$('.like-o').attr('class','like'); 
-        	 action_popup.alert('추천하셨습니다');
-        	
-        	
-        },
-        error: function(){
-            action_popup.alert("추천실패!");
-        }				
-    });                } else { 
-   
-      					 $.ajax({
-         			 	 url: "/member/recommendDelete/${productVO.p_id}",
-          				 type: "POST",
-          				 data: form,
-          				 success: function(data){     	
-          					 },
-          				 error: function(){
-          					
-          					$('.like').attr('src','/resources/Images/product/like1.jpg');
-          					$('.like').attr('class','like-o');  
-           				action_popup.alert("취소하셨습니다");
- 	
-          				 }
-      					 });
-    	
-   						 }		
-});
+//review에서 추천관련부분 #reviewLike는 리뷰추가할 때 추천
+function like(){
+	 if ($('#like-o').is(".like-o") === true){
+		 $('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
+     	 $('.like-o').attr('class','like'); 
+         $('#updatereviewLike').attr('value','like'); 
+         $('#reviewLike').attr('value','like'); 
+     	 action_popup.alert('추천하셨습니다');
+	 } else {
+		 $('.like').attr('src','/resources/Images/product/like1.jpg');
+		 $('.like').attr('class','like-o');  
+		 $('#updatereviewLike').attr('value','none'); 
+		 $('#reviewLike').attr('value','none'); 
+		 action_popup.alert("취소하셨습니다");
+	 } 
+}
+function likeCancel(){
+	 if ($('#like').is(".like") === true){
+		 $('.like').attr('src','/resources/Images/product/like1.jpg');
+		 $('.like').attr('class','like-o');  
+		 $('#updatereviewLike').attr('value','none'); 
+		 $('#reviewLike').attr('value','none');
+		 action_popup.alert("취소하셨습니다");
+		
+		
+	 } else {
+		 $('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
+    	 $('.like-o').attr('class','like'); 
+        $('#updatereviewLike').attr('value','like'); 
+        $('#reviewLike').attr('value','like');
+    	 action_popup.alert('추천하셨습니다');
+		
+	 } 
+}
+//리뷰 삭제
+function reviewDelete() {
+	action_popup.confirm('리뷰를 삭제하시겠습니까?', function (res) {
+		if (res) {			
+			document.reviewDeleteForm.submit();
+	
+		 } 
+	})	
+}
 
 //ajax 위시리스트 추가
 $('#wish').on('click', function(){
@@ -855,9 +870,8 @@ var action_popup = {
     }
 }
 
-//스크롤하면 맨위로 링크 나오게
+//스크롤하면 '맨위로' 링크 나오게
 	$(window).scroll(function() {
-  
     if($(this).scrollTop() > 2000) {
       $("#locateTop").css('position','fixed');
      
@@ -867,7 +881,12 @@ var action_popup = {
 
     }
   });
-  
+
+// 수량/날짜 비교
+$("#rentdate").change(function (e){
+	
+	
+});	
 
 
 </script>

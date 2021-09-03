@@ -222,21 +222,23 @@ body, html {
 																			</div>
 																			<div class="col-9" align="left">
 																				<input type="hidden" name="v_id"
-																					value="${oneRecommend.v_id}" /> <input
-																					type="hidden" name="v_like" value="none"
-																					id="updatereviewLike">
+																					value="${oneRecommend.v_id}" /> 
 																				<div>${oneRecommend.p_name}</div>														
 																					<c:if test="${oneRecommend.v_like eq 'none'}">
 																						<a title="noselected"><img
 																							src=/resources/Images/product/like1.jpg
 																							id="like-o" class="like-o" width="50" height="50"
-																							alt="likes" onclick='like()' /></a>
+																							alt="likes" onclick='like()' /></a><input
+																					type="hidden" name="v_like" value="none"
+																					id="updatereviewLike">
 																					</c:if>
 																					<c:if test="${oneRecommend.v_like ne 'none'}">
 																						<a title="likes"><img
 																							src=/resources/Images/product/like2.jpg id="like"
 																							class="like" width="50" height="50"
-																							alt="noselected" onclick='likeCancel()' /></a>
+																							alt="noselected" onclick='likeCancel()' /></a><input
+																					type="hidden" name="v_like" value="like"
+																					id="updatereviewLike">
 																					</c:if>
 																				
 

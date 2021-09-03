@@ -148,7 +148,14 @@ body, html {height: 100%;}
   </head>
 
   <body>
-
+ 
+ <c:forEach var="rentalList" items="${rentalListNow}">
+	<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
+	<input id="rentaldateNow" type="hidden" value="${rentalList.r_sdate}">
+	<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
+	<input id="productCanRent" type="hidden" value="${rentalList.p_canRent}">
+	</c:forEach>
+ 
   <div class="site-wrap">
  
     <div class="site-section">
@@ -156,7 +163,7 @@ body, html {height: 100%;}
         <div class="row">
           <div class="col-md-5 mainContainer"><span>
             <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="500px" height="500px" class="img-fluid">
-          </div> 
+          </div>
           
           <div class="col-md-1 mmodal">
           <!-- 모달창 구현 -->
@@ -195,14 +202,11 @@ body, html {height: 100%;}
       
       
       
-      
-      
-<div class="row"><div class="col-3"><label>추천수:</label></div><div class="col-9">${recommendCount}개</div></div>	  
-<form:input type="text" path="productPrice" value="${productVO.p_price}" hidden="true"/> 
+     
+      	  
+<form:input type="text" path="productPrice" id="productPrice" value="${productVO.p_price}" hidden="true"/> 
 <div class="row"><div class="col-lg-5"><label>제품가격</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
 <div class="row"><div class="col-lg-5"><label>대여금액</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
- <div class="row"><div class="col-lg-5"><label for="amount">수량</labeL></div><div class="col-lg-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/>
-<input type="button" class="btn btn-outline-primary js-btn-plus" value=" - " onclick="del();"/><input type="text" id="amount" name="proamount" value="1" size="2"  required="required" readonly="readonly" onchange="change();"/><input class="btn btn-outline-primary js-btn-plus" type="button"  value=" + " onclick="add();"></div></div>
 <div class="row"><div class="col-lg-5"><label>옵션선택</label></div><div class="col-lg-7" style="text-align:right;" >
   <select id="buyType" name="buyType" onchange="changeStateSelect()">
   	<option value="optSel">옵션</option>
@@ -212,12 +216,15 @@ body, html {height: 100%;}
   	
   </select>
   </div></div>
+<div class="row"><div class="col-lg-5"><label for="amount">수량</labeL></div><div class="col-lg-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/><input type=hidden name="original_price" value="${productVO.p_price}"/>
+<input style="cursor:default;"type="number" id="amount" name="proamount" value="1" min="1" max="50"  onchange="change();"/></div></div>
+
  <div class="row"><div class="col-lg-4" id="selectDate"><label id="choice" for="datepicker" >대여일선택</labeL></div><div class="col-lg-8" style="text-align:right;"><input type="text" name="rentdate"  readonly="readonly" required="required" placeholder="날짜를 선택해주세요" id="datepicker" hidden="false"></div></div>
 
  <div class="row"><div class="col-lg-5"><label>배송방법</label></div><div class="col-lg-7" style="text-align:right;" >택배</div></div>
   <div class="row"><div class="col-lg-5"><label>배송비</label></div><div class="col-lg-7" style="text-align:right;">2500원</div></div><hr>   
  <div class="row"><div class="col-lg-5"><label></label></div><div class="col-lg-7" style="text-align:right;">총액</div></div><hr>
-<div class="row"><div class="col-lg-5"><label>구매가격</label></div><div class="col-lg-7" style="text-align:right;"><input type="text" name="buysum" size="11" readonly/>원</div></div>
+<div class="row"><div class="col-lg-5"><label>즉시구매</label></div><div class="col-lg-7" style="text-align:right;"> <input style="text-decoration:line-through;" type="text" name="originalsum" size="11" readonly/>원 (-5%)<input type="text" name="buysum" size="11" readonly/>원</div></div>
 <div class="row"><div class="col-lg-5"><label>대여가격</label></div><div class="col-lg-7" style="text-align:right;"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
   
                
@@ -231,8 +238,8 @@ body, html {height: 100%;}
 				</c:if> 
 			</div>
              <div class="col-10"><input style="width:100%" type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/></div>
-		
-			
+
+				
 			<div class="col-12"><input style="width:100%" type="button" value="결제" onclick="payment();" class="buy-now btn btn-sm btn-primary"/></div>			
 			</div>
 			
@@ -359,10 +366,10 @@ body, html {height: 100%;}
 										<c:when test="${recVO[0].v_id ne null}">   </c:when></c:choose>
       <div class="container"> 
         <div class="row mb-5">
-          <div class="col-md-12 order-2">
+          <div class="col-md-12 order-2" id="reviewstart">
        
          
-            <c:forEach var="recVO" items="${recVO}" begin="0" end="10" step="1" varStatus="status">           
+            <c:forEach var="recVO" items="${recVO}" begin="0" end="8" step="1" varStatus="status">           
                 <hr> 
                 <div class="row imgIdDate" name="imgIdDate">
                  
@@ -414,18 +421,18 @@ body, html {height: 100%;}
 										<div id = "paging-div">
 										<ul class="btn-group pagination">
 											<c:if test="${pageMaker.prev }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}#paging-div"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}#reviewstart"/>'>
 													<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#paging-div"/>'>
+												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#reviewstart"/>'>
 												<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#paging-div"/>'>
+												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#reviewstart"/>'>
 												<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 												
 											</c:forEach>
 											<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}#paging-div"/>'>
+												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}#reviewstart"/>'>
 													<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
 											</c:if>
 										</ul>
@@ -458,14 +465,18 @@ body, html {height: 100%;}
                 	<div class="col-10">
                 	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
                 	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
-                	 <input type="hidden" name="v_like" value="none" id="updatereviewLike">
+              
       	    	 <div>${userVO.m_id}</div>
                 	<div class="col-lg-6 sm-6" id="recommendation">     
           <c:if test = "${oneReview.v_like eq 'none'}">   
        <a title="noselected"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like()'/></a>
+       <input type="hidden" name="v_like" value="none"
+		id="updatereviewLike">   
           </c:if>
            <c:if test = "${oneReview.v_like ne 'none'}">  	 
-		<a title="likes"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'likeCancel()'/></a>      
+		<a title="likes"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'likeCancel()'/></a>
+		<input type="hidden" name="v_like" value="like"
+		id="updatereviewLike">
 		   </c:if>
 	   </div>
                	 	
@@ -487,8 +498,8 @@ body, html {height: 100%;}
         
         <!-- Modal footer -->
         <div class="modal-footer">
-        <input type="submit" class="btn btn-secondary" value="확인"/>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <input type="submit" class="btn btn-primary" value="확인"/>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
         </div>
          </form>
       </div>
@@ -526,7 +537,8 @@ body, html {height: 100%;}
 
 	<script language="JavaScript">
 	  
-//개수에 따라서 가격변동시키는거.
+//개수에 따라서 가격변동시키는거. 렌탈리스트들
+var original_price;
 var sell_price;
 var rent_price;
 var amount;
@@ -534,8 +546,41 @@ var selectDate;
 var stateSelect;
 var selectValue;
 var recommendCount;
+var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+var rentalIdNowListLength = rentalIdNowList.length;
+var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
+var rentamount = document.getElementById("productCanRent").value;
 
 window.onload = function() {
+
+	
+	
+	
+		$("#datepicker").change(function (e) {
+			var choi = document.getElementById("buyType").options[document.getElementById("buyType").selectedIndex].value; 
+			if (choi == "대여") {
+			var canRental=0;
+			if(e.target==document.getElementById("datepicker")){
+				var count=0;
+				for(var k=0;k<rentalIdNowListLength;k++){
+					var rentd=new Date(document.getElementById("datepicker").value);
+					rentd.setDate(rentd.getDate() + 2);
+					var rentdatenow=new Date(rentaldateNowList[k].value);
+				if(document.getElementById("p_id").value==rentalIdNowList[k].value && rentd<rentdatenow){
+					count+=rentalamountNowList[k].value*1
+					}
+				}
+				canRental=rentamount*1+count;
+				document.getElementById("amount").setAttribute('max',canRental);			
+				document.getElementById("amount").value=1;
+				
+			}			
+		} 
+});	
+	
+	
+	original_price = document.form.original_price.value;
 	sell_price = document.form.sell_price.value;
 	rent_price = document.form.rent_price.value;
 	amount = document.form.amount.value;
@@ -559,7 +604,7 @@ window.onload = function() {
 	        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
 	        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
 	        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-	        ,maxDate: "+3y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+	        ,maxDate: "1M,+0y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
 	 		,showButtonPanel: true
 	 		,currentText: '오늘 날짜'
 	 		,closeText: '닫기'
@@ -572,69 +617,89 @@ document.getElementById("datepicker").removeAttribute('hidden');
 document.getElementById("choice").removeAttribute('hidden');
 
 
-
 }
 
 function add () {
-	hm = document.form.amount;
+	hm = document.form.proamount;
 	buysum = document.form.buysum;
 	rentsum = document.form.rentsum;
+	originalsum = document.form.originalsum;
 	hm.value ++ ;
 
-	sellprice= parseInt(hm.value) * sell_price;
+	sellprice= parseInt(hm.value) * sell_price * 0.95;
 	 buysum.value=sellprice.toLocaleString('ko-KR');
 	rentprice= parseInt(hm.value) * rent_price;
 	rentsum.value =rentprice.toLocaleString('ko-KR');
+	originalprice = parseInt(hm.value) * original_price;
+	originalsum.value =originalprice.toLocaleString('ko-KR');
 }
 
 function del () {
-	hm = document.form.amount;
+	hm = document.form.proamount;
 	buysum = document.form.buysum;
 	rentsum = document.form.rentsum;
+	originalsum = document.form.originalsum;
 		if (hm.value > 1) {
 			hm.value -- ;
-			sellprice= parseInt(hm.value) * sell_price;
+			sellprice= parseInt(hm.value) * sell_price * 0.95;
 			 buysum.value=sellprice.toLocaleString('ko-KR');
 			rentprice= parseInt(hm.value) * rent_price;
 			rentsum.value =rentprice.toLocaleString('ko-KR');
+			originalprice = parseInt(hm.value) * original_price;
+			originalsum.value =originalprice.toLocaleString('ko-KR');
 		}
 		
 }
 
 function change () {
-	hm = document.form.amount;
+	hm = document.form.proamount;
 	buysum = document.form.buysum;
 	rentsum = document.form.rentsum;
 	rent_price = Math.floor(rent_price); //소수점버림
-	
+	originalsum = document.form.originalsum;
 		if (hm.value < 0) {
 			hm.value = 0;
 		}		
-		sellprice= parseInt(hm.value) * sell_price;
+		sellprice= parseInt(hm.value) * sell_price * 0.95;
 		 buysum.value=sellprice.toLocaleString('ko-KR');
 		rentprice= parseInt(hm.value) * rent_price;
 		rentsum.value =rentprice.toLocaleString('ko-KR');
-		
+		originalprice = parseInt(hm.value) * original_price;
+		originalsum.value =originalprice.toLocaleString('ko-KR');
+	
   }//여기까지~~
   
 //고객 상품목록으로가기
 function productList() {
 		location.href = '/member/pro/productList';		 
    }
-  
+ 
+//결제폼으로
 function payment() {
+	var uid = '<%=session.getAttribute("userInfo")%>';
+	var buyType= document.getElementById('buyType').value;
+	var proamount= document.getElementById('amount').value;
+	var rentdate= document.getElementById('datepicker').value;
+	
 	 stateSelect = document.getElementById("buyType"); 
 	 selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	if (selectValue == "optSel") {
 		action_popup.alert('옵션을 선택해주세요');
 	} else { 
-		
+		if (uid == "null") {
+			action_popup.confirm('로그인이 필요한 서비스입니다', function (res) {
+        		if (res) {
+        			location.href = '/member/rent/buy/${productVO.p_id}/${productVO.p_mainImg}/${productVO.p_price}/'+buyType+'/'+proamount+'/'+rentdate;
+       		 } 
+    		})
+    		
+    	} else {
 				action_popup.confirm('결제를 진행하시겠습니까?', function (res) {
         		if (res) {
         			document.form.submit();		
        		 } 
     		})
-		
+    	}
 		
 	}
 }
@@ -683,7 +748,7 @@ function reviewDelete() {
 }
 
 //ajax 위시리스트 추가
-$('#wish').on('click', function(){
+/* $('#wish').on('click', function(){
     var form = {
     		  p_id      : $("#p_id").val()
             , amount    : $("#amount").val()
@@ -699,7 +764,7 @@ $('#wish').on('click', function(){
         	
         	action_popup.confirm('WishList에 추가되었습니다.  확인해볼래요?', function (res) {
                 if (res) {
-                	location.href = '/customer/rent/wishList';
+                	location.href = '/member/rent/wishList';
                 }
             })
         },
@@ -724,17 +789,68 @@ $('#wish').on('click', function(){
       			 });
     	
    				 }		
+}); */
+//ajax 위시리스트 추가
+$('#wish').on('click', function(){
+	var uid = '<%=session.getAttribute("userInfo")%>';
+    var form = {
+    		  p_id      : $("#p_id").val()
+            , amount    : $("#amount").val()
+    }    
+    if ($('span').is(".icon-heart-o") === true){
+    $.ajax({
+        url: "/member/wishListInsert/${productVO.p_id}",
+        type: "POST",
+        data: form,
+        success: function(data){
+        	if (uid == "null") {
+        		action_popup.confirm('로그인이 필요한 서비스입니다', function (res) {
+                    if (res) {
+                    	location.href = '/member/wishListInsert/${productVO.p_id}';
+                    }
+                })
+        		
+        	} else {
+        	
+        	$('.icon-heart-o').attr('class','icon-heart');
+  	     	action_popup.confirm('WishList에 추가되었습니다.  확인해볼래요?', function (res) {
+                if (res) {
+                	location.href = '/member/rent/wishList';
+                }
+            })
+        	}
+        },
+        error: function(){
+        	action_popup.alert("위시리스트추가 실패");
+        }				
+    });                } else{ 
+    	 				
+      
+      				 $.ajax({
+         			  url: "/member/wishListDelete/${productVO.p_id}",
+          			 type: "POST",
+          		 data: form,
+          			 success: function(data){ 
+           	
+          		 },
+          		 error: function(){
+          			$('.icon-heart').attr('class','icon-heart-o');
+          			action_popup.alert("위시리스트에서 삭제됐습니다");
+   		
+          		 }
+      			 });
+    	
+   				 }		
 });
 
-//ajax 장바구니꺼
+/* //ajax 장바구니꺼
 $('#cart').on('click', function(){
-	
 	var stateSelect = document.getElementById("buyType"); 
 	var selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	if (selectValue == "optSel") {
 		action_popup.alert("옵션을 선택하세요");
-  } else  {										
-	  		 
+  } else  {							
+	   
     var form = {
     		  p_id      : $("#p_id").val()
             , amount    : $("#amount").val()
@@ -746,29 +862,81 @@ $('#cart').on('click', function(){
         type: "POST",
         data: form,
         success: function(data){
-        	
-        	action_popup.confirm("장바구니에 추가됐습니다.  장바구니 볼라우?", function (res) {
+        	 action_popup.confirm("장바구니에 추가됐습니다.  장바구니 볼라우?", function (res) {
                 if (res) {
                 	location.href = '/member/rent/cartList';
                 }
             })
-             
-        	   	 
+    	   	 
         },
         error: function(){
         	action_popup.alert("장바구니 추가 :실패!");
 
         }
     });   }  
+}); */
+$('#cart').on('click', function(){
+	var checkCart = "<c:out value='${cartVO}'/>";	
+	var uid = '<%=session.getAttribute("userInfo")%>';
+	var amount = document.getElementById("amount").value;
+	var c_date = document.getElementById("datepicker").value;
+	var c_state = document.getElementById("buyType").value;
+	var stateSelect = document.getElementById("buyType"); 
+	var selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
+	if (selectValue == "optSel") {
+		action_popup.alert("옵션을 선택하세요");
+ 		 } else if (uid != "null" && checkCart != "" ){
+			  action_popup.confirm("장바구니에 이미 제품이 존재합니다. 장바구니를 확인하시겠습니까?", function (res) {
+         		 if (res) {
+          			location.href = '/member/rent/cartList';
+        		  }
+    		  })
+ 	 }	else  {							
+	
+    var form = {
+    		  p_id      : $("#p_id").val()
+            , amount    : $("#amount").val()
+            , c_date    : $("#datepicker").val()
+            , c_state    : $("#buyType").val()
+    }
+    $.ajax({
+        url: "/member/cartInsert",
+        type: "POST",
+        data: form,
+        success: function(data){
+        	if (uid == "null") {
+        		action_popup.confirm("로그인이 필요한 서비스입니다.", function (res) {
+                    if (res) {
+                    	location.href = '/member/cartInsert/${productVO.p_id}/'+amount+'/'+c_date+'/'+c_state;
+                    }
+                })
+        		
+        	} else {
+        	 action_popup.confirm("장바구니에 추가됐습니다.  장바구니 볼라우?", function (res) {
+                if (res) {
+                	location.href = '/member/rent/cartList';
+                }
+            })
+        	}
+        },
+        error: function(){
+        	action_popup.alert("장바구니 추가 :실패!");
+
+        }
+    });   
+    	
+ 	 } 
 });
+
+
+
 //대여 선택했을 때 달력나오게하는거.
 function changeStateSelect(){ 
 	 stateSelect = document.getElementById("buyType"); 
 	 selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
-
-	if (selectValue == "rent") {
+	if (selectValue == "대여") {
 		
-		$('#datepicker').datepicker('setDate', 'today');	
+		
 		 $("#datepicker").datepicker({
 		        dateFormat: 'yy-mm-dd' //달력 날짜 형태
 		        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
@@ -798,8 +966,24 @@ function changeStateSelect(){
 		 document.getElementById("datepicker").removeAttribute('hidden');	
 		document.getElementById("choice").removeAttribute('hidden');
 	
-
-	} 
+		
+		var canRental=0;
+			var count=0;
+			for(var k=0;k<rentalIdNowListLength;k++){
+				var rentd=new Date(document.getElementById("datepicker").value);
+				rentd.setDate(rentd.getDate() + 2);
+				var rentdatenow=new Date(rentaldateNowList[k].value);
+			if(document.getElementById("p_id").value==rentalIdNowList[k].value && rentd<rentdatenow){
+				count+=rentalamountNowList[k].value*1
+				}
+			}
+			canRental=rentamount*1+count;
+			document.getElementById("amount").setAttribute('max',canRental);			
+			document.getElementById("amount").value=1;
+		
+	} else {
+		document.getElementById("amount").setAttribute('max','50');		
+	}
 }
 
 $(function () {
@@ -867,15 +1051,13 @@ var action_popup = {
 	$(window).scroll(function() {
     if($(this).scrollTop() > 2000) {
       $("#locateTop").css('position','fixed');
-     
+      
     }
     else {
       $("#locateTop").css('position','relative');
 
     }
   });
-
-
 
 </script>
   

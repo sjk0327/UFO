@@ -51,7 +51,6 @@
 	</beans:bean>
 	
 	
-	
 	<interceptors>
 		<interceptor>
 			<!-- 입터셉터가 적용될 URL -->
