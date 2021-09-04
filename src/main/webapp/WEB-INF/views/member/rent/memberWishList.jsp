@@ -376,7 +376,7 @@ body, html {height: 100%;}
 
 
                
-                    <div class="price pr right" style="font-size: 12pt;">
+                    <div class="price pr right" style="font-size: 11pt;">
 <strong class="" style="text-decoration: line-through;">원가 : <fmt:formatNumber value="${wishInfo.p_price}" pattern="###,###,###" />원<br/></strong>
 <fmt:parseNumber var="rentprice" value="${wishInfo.p_price*0.05}" integerOnly="true" />
 <fmt:parseNumber var="buyprice" value="${wishInfo.p_price*0.95}" integerOnly="true" />
@@ -467,7 +467,7 @@ body, html {height: 100%;}
     <input type="hidden" id="productId" name="productId" value="1">
      <input id="cartId" name="cartId" type="hidden" value="0"> 
     <div class="row" style="margin-top: 20px;">
-    <div class="col-md-3" id="productImg"><img class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:150px; height: 150px;"></div>
+    <div class="col-md-3"><img id="productImg" class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:200px; height: 150px; margin-left: 50px;"></div>
     <div class="col-md-3" id="productName" style="color: #505050; font-weight: bold;">${wishInfo.p_name}</div>
     <div class="col-md-6">
     <div>
@@ -745,6 +745,7 @@ var proCategoryList=document.querySelectorAll("#proCategory");
 var rentamountList=document.querySelectorAll("#proCanrent");
 var buyamountList=document.querySelectorAll("#proCanbuy");
 var proPriceList=document.querySelectorAll("#proPrice");
+var proImgList=document.querySelectorAll("#proImg");
 
 
 for(var i=0; i < btnrentLength; i++){
@@ -778,6 +779,8 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("rentdate").setAttribute('min',new Date().toISOString().substring(0, 10));
 				document.getElementById("rentdate").setAttribute('type','text');
 				document.getElementById("rdate").classList.remove('hidden');
+				document.getElementById("productImg").setAttribute('src','/resources/Images/'+proImgList[i].value+'.jpg');
+				
 				var price=(proPriceList[i].value)*0.05;	
 				var canRental=0;
 				var count=0;
@@ -905,6 +908,7 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("proamount").addEventListener("input",changeprice);
 				document.getElementById("keepgo").value="구매";
 				document.getElementById("keepgo").addEventListener("click",giveData);
+				document.getElementById("productImg").setAttribute('src','/resources/Images/'+proImgList[i].value+'.jpg');
 					var price=proPriceList[i].value*0.95;
 				function changeprice(ev){
 					document.getElementById("productPrice").value=(document.getElementById("proamount").value)*price;
@@ -941,6 +945,7 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("rentdate").setAttribute('readonly',true);
 				document.getElementById("keepgo").value="장바구니";
 				document.getElementById("keepgo").addEventListener("click",giveData);
+				document.getElementById("productImg").setAttribute('src','/resources/Images/'+proImgList[i].value+'.jpg');
 				$("#rentdate").datepicker("option","showOn","text");
 				
 				if(buyamount==0){

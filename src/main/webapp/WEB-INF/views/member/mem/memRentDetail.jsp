@@ -14,6 +14,8 @@
 	<%@ include file="/WEB-INF/views/adminHeader.jsp" %>
     <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
 <style type="text/css">
+
+
 	#username{
 	color: white;
 	text-decoration: underline;
@@ -174,11 +176,57 @@
     display: table-cell;
 	}
 }
+<!--모달창 css 수정이 추가 --!>
+*{margin:0; padding:0;}
+a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#fff; background:#000; margin:20px;}
+#modal{
+  display:none;
+  position:fixed; 
+  width:100%; height:100%;
+  top:0; left:0; 
+  background:rgba(0,0,0,0.3);
+}
+.modal-con{
+  display:none;
+  position:fixed;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  max-width: 60%;
+  min-height: 30%;
+  background:#fff;
+}
+.modal-con .title{
+  font-size:20px; 
+  padding: 10px; 
+  background : #7971ea;
+  font-weight: bold;
+  color: white;
+}
+.modal-con .con{
+  font-size:15px; line-height:1.3;
+  padding: 30px;
+}
+.modal-con .close{
+  display:block;
+  position:absolute;
+  width:30px; height:30px;
+  border-radius:50%; 
+  border: 3px solid #000;
+  text-align:center; line-height: 30px;
+  text-decoration:none;
+  color:#000; font-size:20px; font-weight: bold;
+  right:10px; top:10px;
+}
+
+
+
+
 </style>
 
 </head>
 
 <body>
+
 <div id="pcoded" class="pcoded">
 <div class="pcoded-overlay-box"></div>
 <div class="pcoded-container navbar-wrapper">
@@ -338,6 +386,10 @@
 										<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
 										${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 										</c:if>
+										<c:if test="${buyInfo.b_state eq '연체료 납부'}">
+						<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+						</c:if>
 										</div>
 									</div>
 								</div>
@@ -365,6 +417,57 @@
 					            </div>
 					           </section>
 					        <!-- alert 모달을 쓸 페이지에 추가 end-->
+					        <!-- 구매확정 모달창 -->
+					        <div id="modal"></div>
+  <div class="modal-con modal1">
+    <a href="javascript:;" class="close">X</a>
+    <p class="title" >옵션을 확인해주세요!</p>
+    <div class="con">
+     <form:form id="buyform" method="post" commandName="BuyInfoVO">
+    <input type="hidden" id="productId" name="productId" value="${proInfo.p_id}">
+    <input type="hidden" id="rid" name="rid" value="${rentInfo.r_id}">
+     <input id="cartId" name="cartId" type="hidden" value="0"> 
+    <div class="row" style="margin-top: 20px;">
+    <div class="col-md-4"><img id="productImg" class="img-fluid" src="/resources/Images/${proInfo.p_mainImg}.jpg" style="width:200px; height: 150px; margin-left: 20px;"></div>
+    <div class="col-md-3" id="productName" style="color: #505050; font-weight: bold;">${proInfo.p_name}</div>
+    <div class="col-md-5">
+    <div>
+    <div class="row">
+    <div class="col-md-5">
+     구매정보</div>
+      <div class="col-md-6">
+      <input id="buyType" name="buyType" type="text" value="구매 확정" size="5px;" readonly="readonly">
+      </div></div></div>
+      <div>
+      <div class="row" style="margin-top:8pt;">
+       <div class="col-md-5">
+       수량</div><div class="col-md-6">
+        <input id="proamount" name="proamount" type="number" min="1" max="${proInfo.p_canBuy }" value="${rentInfo.r_rent }" size="5px;">               
+			</div></div></div>
+		
+			<div>
+      <div class="row" style="margin-top:8pt;">
+       <div class="col-md-5">
+       총 가격</div><div class="col-md-6">
+        <input id="productPrice" name="productPrice" type="text" value="${proInfo.p_price*rentInfo.r_rent }" readonly="readonly"  size="5px;">               
+			</div></div></div>
+			
+			
+			</div></div>
+		<div class="row" style="margin-top: 8pt;">	
+		<div class="col-md-9"></div>
+		<div class="col-md-3">
+		<div class="row">
+		
+    <div class="col-md-6" style="padding-left: 30px;">	
+    <input type="button" id="keepgo" class="btn btn-outline-primary btn-sm" value="구매"></input></div></div></div>
+  </div>
+  </form:form>
+    </div>
+  </div>
+  <!-- 모달창 끝 -->
+					        
+					        
 							<div class="col-sm-12" style="float:right;">
 							<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
 									id="buyButton" style="margin-left:15px; float:right;">구매하기</button>	
@@ -464,16 +567,28 @@ $(document).on("click", "#refundButton", function () {
     });
    
 });
-$(document).on("click", "#buyButton", function () {
-	console.log("구매 스크립트 진입");
-	$(".btn_ok").text("구매");
-    action_popup.confirm("대여하신 상품을 구매 하시겠습니까?", function (res) {
-        if (res) {
 
-        }
-    });
+var state="${rentInfo.r_state}"
+
+$(document).on("click", "#buyButton", function () {
+	if(state=='대여중'){
+		action_popup.confirm('대여 상품이 반납 후 구매 결제가 진행됩니다.\n진행하시겠습니까?', function (res) {
+			 if (res) {
+		openModal('modal1');
+		 } 
+	});
+	}
+	else if(state!='대여중'){
+	 action_popup.confirm("대여하신 상품을 구매 하시겠습니까?", function (res) {
+		 if (res) {
+	openModal('modal1');
+	 }
+	
     
 });
+	}
+	 });
+
 
 $(function () {
     $(".modal_close").on("click", function () {
@@ -536,6 +651,41 @@ var action_popup = {
     }
 }
 
+function openModal(modalname){
+	  document.get
+	  $("#modal").fadeIn(300);
+	  $("."+modalname).fadeIn(300);
+	}
+
+	$("#modal, .close").on('click',function(){
+	  $("#modal").fadeOut(300);
+	  $(".modal-con").fadeOut(300);
+	});
+
+	
+//수정이 추가
+	
+	document.getElementById("proamount").addEventListener("input",changeprice);
+	var price=${proInfo.p_price}
+	function changeprice(ev){
+		document.getElementById("productPrice").value=(document.getElementById("proamount").value)*price;
+	};
+	
+	document.getElementById("keepgo").addEventListener("click",giveData);
+	function giveData(){
+		action_popup.confirm("구매 결제를 진행하시겠습니까?",function(res){
+			if(res){
+				
+				$("#buyform").attr("action", "/member/rent/buy");  
+				$("#buyform").submit();
+				
+			}else{
+				 return;
+				 event.preventDefault();
+			       event.stopPropagation();
+			}
+		})
+	};
 </script>
     <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
     

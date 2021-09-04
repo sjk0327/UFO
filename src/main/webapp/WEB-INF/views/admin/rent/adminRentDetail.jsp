@@ -291,6 +291,10 @@ text-decoration: underline;
 						<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
 						-${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
 						</c:if>
+						<c:if test="${buyInfo.b_state eq '연체료 납부'}">
+						<fmt:parseNumber var="totalprice" value="${buyInfo.b_purchase}" integerOnly="true" />
+						${totalprice}<%="원 (" %>${buyInfo.b_amount }<%="개)" %>
+						</c:if>
 						
 						</div>
 						</span>

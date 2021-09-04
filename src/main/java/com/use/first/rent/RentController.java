@@ -191,6 +191,7 @@ public class RentController {
 		@RequestMapping(value = "/member/rent/wishList")
 		public String customerwishList(HttpSession session, Model model,Criteria cri) {
 
+
 		
 			System.out.println(session.getAttribute("userInfo")+"aaa");
 			UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
@@ -289,6 +290,7 @@ public class RentController {
 					
 			return "/member/rent/memberWishList";
 		}
+
 
 	// 위시리스트 삭제
 	@RequestMapping(value = "/member/rent/deleteWishList", method = RequestMethod.POST)
@@ -480,9 +482,11 @@ public class RentController {
 					ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
 					buyInfoList.add(buyInfoVO);
 					
+					System.out.println(buyInfoVO.getRid());
 					//모델에 저장
 					model.addAttribute("buyInfoList", buyInfoList);
 					model.addAttribute("userVO", userVO);
+					model.addAttribute("r_id", buyInfoVO.getRid());
 					
 					return "member/rent/buy";
 				}
@@ -572,7 +576,12 @@ public class RentController {
 				public String customerWishtoRent(@Param("BuyVO") BuyVO buyVO,@Param("m_id") String m_id, @Param("m_point") String m_point, @Param("m_tel") String m_tel, @Param("m_addr") String m_addr, @RequestParam("total") int total,Model model,HttpServletRequest request){
 
 					
-					
+					System.out.println(buyVO.toString());
+					System.out.println(m_id);
+					System.out.println(m_point);
+					System.out.println(m_tel);
+					System.out.println(m_addr);
+					System.out.println(total);
 					request.setAttribute("total", total);
 					request.setAttribute("m_id", m_id);
 					request.setAttribute("m_point", m_point);

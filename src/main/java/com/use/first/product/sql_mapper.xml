@@ -358,10 +358,6 @@
 	</select>
 	
 	
-	
-	
-	
-	
 	<!-- 수정 추가 -->
 	 <select id="productBestList" parameterType ="String" resultType="com.use.first.product.ProductVO">
 		select

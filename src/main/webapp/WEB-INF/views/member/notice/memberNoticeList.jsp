@@ -105,6 +105,7 @@
 						<th style="text-align: center; width: 25%;">작성날짜</th>
 					</tr>
 				</thead>
+
 				<c:set var="num" value="${totalCount }"></c:set>
             <c:forEach var="notice" items="${noticeList }">
                <tbody>
@@ -117,6 +118,7 @@
                </tbody>
                 <c:set var="num" value="${num-1 }"></c:set>
             </c:forEach>
+
 			</table>
 		</div><br><br><br>
 		</div>

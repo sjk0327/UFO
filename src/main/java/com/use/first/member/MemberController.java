@@ -1059,8 +1059,10 @@ public class MemberController {
 	public String adminLogin(UserVO vo, Model model, HttpSession session) {
 		model.addAttribute("user", vo);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		
 		List<RentVO> returnList = rentDAO.returnList();
 		List<RentVO> lateList = rentDAO.lateList();
+		
 
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
 			return "/enterance/adminLogin";
@@ -1071,12 +1073,14 @@ public class MemberController {
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		UserVO user = dao.memInfo(vo.getM_id());
 
+		
 		if (user != null && vo.getM_id().equals("admin")) {
 			if (vo.getM_id().equals(user.getM_id()) && vo.getM_pw().equals(user.getM_pw())) {
 
 				session.setAttribute("userName", user.getM_name());
 				session.setAttribute("returnList", returnList);
 				session.setAttribute("lateList", lateList);
+				
 				return "redirect:/admin";
 			} else {
 				return "/enterance/adminLogin";
@@ -1096,16 +1100,22 @@ public class MemberController {
 	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(UserVO vo, Model model, Criteria cri,HttpSession session) {
+		//신영,수정 admin 인덱스 몇개 추가
 
-		
-		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+	UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
+		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		int totalBuy = buyDAO.totalPurchase();
+		List<RentVO> rentToBuyList =rentDAO.rentToBuyList();
+		//select month(b_buydate), sum(b_purchase) from buy group by month(b_buydate) order by month(b_buydate) desc;
+System.out.println(rentToBuyList.toString());
+		System.out.println(totalBuy);
+		model.addAttribute("totalBuy",totalBuy);
+		model.addAttribute("rentToBuyList",rentToBuyList);
 		model.addAttribute("user", vo);
 		
-		//신영 admin 인덱스 몇개 추가
-		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
-		
-		
+	
 		List<UserVO> list = dao.memList(cri);
 		int listCount = list.size();
 		model.addAttribute("listCount", listCount);
@@ -1546,7 +1556,7 @@ public class MemberController {
 		//모델에 저장
 		model.addAttribute("buyInfoList", buyInfoList);
 		model.addAttribute("userVO", userVO);
-		
+		model.addAttribute("r_id", r_id);
 		return "member/rent/buy";
 	}
 		
@@ -1590,10 +1600,13 @@ public class MemberController {
 		
 		// 대여 정보 가져오기
 		List<RentVO> rentList = rentDAO.rentListByMidAndSearch(cri, userId, "구매");
+		List<RentVO> rentBuyList= rentDAO.rentbuyListByMid(userId);
 		System.out.println("rentList size : " + rentList.size());
+		System.out.println(rentBuyList.toString());
 	
 		// 모델에 추가
 		model.addAttribute("rentList", rentList);
+		model.addAttribute("rentBuyList", rentBuyList);
 		// PageMaker 객체 생성
 		PageMaker pageMaker = new PageMaker(cri);
 		// 전체 게시물 수를 구함

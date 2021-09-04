@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,9 @@
      <%@ include file="/WEB-INF/views/adminNav.jsp" %>
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
-    	<%@ include file="/WEB-INF/views/adminMenu.jsp" %>
+
+       <%@ include file="/WEB-INF/views/adminMenu.jsp" %>
+
 <div class="pcoded-content">
    <div class="pcoded-inner-content">
           <!-- Main-body start -->
@@ -36,7 +38,9 @@
         <div class="card-block">
             <div class="row align-items-center">
                 <div class="col-8">
+
                     <h4 class="text-c-purple">${listCount}명</h4>
+
                     <h6 class="text-muted m-b-0">회원수</h6>
                 </div>
                 <div class="col-4 text-right">
@@ -62,7 +66,9 @@
         <div class="card-block">
             <div class="row align-items-center">
                 <div class="col-8">
+
                     <h4 class="text-c-green">${VisitCounter.getCount()}</h4>
+
                     <h6 class="text-muted m-b-0">방문자수</h6>
                 </div>
                 <div class="col-4 text-right">
@@ -87,11 +93,15 @@
         <div class="card-block">
             <div class="row align-items-center">
                 <div class="col-8">
-                    <h4 class="text-c-red">${totalRentBuy} </h4>
+
+                    <h4 class="text-c-red"><fmt:formatNumber var="totalbuy" value="${totalBuy}" type="currency"></fmt:formatNumber>
+                    ${totalbuy}
+                    </h4>
                     <h6 class="text-muted m-b-0">총매출액</h6>
                 </div>
                 <div class="col-4 text-right">
-                    <i class="fa fa-calendar-check-o f-28"></i>
+                    <i class="fa fa-bar-chart f-28"></i>
+
                 </div>
             </div>
         </div>
@@ -112,8 +122,10 @@
         <div class="card-block">
             <div class="row align-items-center">
                 <div class="col-8">
+
                     <h4 class="text-c-blue">카테고리명 : ${readList.p_category}<br>조회수 : ${readList.p_readCount}</h4>
                     <h6 class="text-muted m-b-0">최다 조회수</h6>
+
                 </div>
                 <div class="col-4 text-right">
                     <i class="fa fa-hand-o-down f-28"></i>
@@ -140,6 +152,7 @@
         <div class="card-header">
             <h5>UFO 현황</h5>
          <div class="container">
+
          	<div class="row">
 		     
 		                       
@@ -153,15 +166,21 @@
 		          <input type="number" hidden="ture" id="array3" value="${array3 }" >
 		          <input type="number" hidden="ture" id="array4" value="${array4 }" >
 		                  
-		    
-		       
-		          
-		         <canvas id="mySellingChart" style="width:100%;max-width:600px"></canvas>
-		           
-		     
-		      	
-    		  </div>
-    	  </div>
+            
+          <c:forEach var="rentToBuyList" items="${rentToBuyList}">
+          <input type="hidden" id="proId" value="${rentToBuyList.r_pid }" >
+          <input type="hidden" id="proName" value="${rentToBuyList.p_name }" >
+          <input type="hidden" id="proCate" value="${rentToBuyList.p_category }" >
+          <input type="hidden" id="amount" value="${rentToBuyList.total }" >
+          </c:forEach>
+                
+                
+               <canvas id="mySellingChart" style="width:100%;max-width:600px"></canvas>
+                 
+               
+            </div>
+         </div>
+
             <span class="text-muted">Get 15% Off on <a href="https://www.amcharts.com/" target="_blank">amCharts</a> licences. Use code "codedthemes" and get the discount.</span>
             <div class="card-header-right">
                 <ul class="list-unstyled card-option">
@@ -179,6 +198,7 @@
     </div>
 </div>
 <div class="col-xl-4 col-md-12">
+
 <div class="card">
     <div class="card-header"><h5>최근 3개월 매출액</h5></div>
      <div>
@@ -193,6 +213,7 @@
     <div class="card-header">
       
         <h5>카테고리별 월별 매출액</h5>
+
         <h4>$3,9452.50</h4>
         <p class="text-muted">$3,9452.50</p>
         <h5>87</h5>
@@ -203,12 +224,14 @@
 <div class="progress"><div class="progress-bar bg-c-green" style="width: 50%"></div></div>
         </div>
     </div>
+
     
     
     
      <div class="card ">
         <div class="card-header">
             <h5>UFO VIP회원 리스트</h5>
+
             <div class="card-header-right">
                 <ul class="list-unstyled card-option">
                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -218,6 +241,7 @@
                     <li><i class="fa fa-trash close-card"></i></li>
                 </ul>
             </div>
+
            
         </div>
         <div class="card-block">
@@ -231,26 +255,16 @@
             </div>
         </c:forEach>
            
+
+        </div>
+
             <div class="text-center">
                 <a href="#!" class="b-b-primary text-primary">View all Projects</a>
             </div>
         </div>
     </div>
-    
-    
-    
-    
-</div>
-<!--  sale analytics end -->
 
 
-<!-- 회원 리스트 -->
-
-<!--  project and team member start -->
-
-                   
-
-   
 <!--  project and team member end -->
     </div>
 </div>
@@ -264,6 +278,7 @@
     </div>
 </div>
     </div>
+
     
 
 <script>
@@ -282,6 +297,8 @@ var barColors = [
   "#e8c3b9",
   "#1e7145"
 ];
+
+
 
 new Chart("myChart", {
   type: "doughnut",
@@ -302,22 +319,23 @@ new Chart("myChart", {
 });
 
 
-
-
-
-var xValues = ["대여", "구매", "대여>구매"];
-var yValues = [55, 49, 44, 24, 15	];
+var proId=document.querySelectorAll("#proId");
+var proName=document.querySelectorAll("#proName");
+var proCate=document.querySelectorAll("#proCate");
+var amount=document.querySelectorAll("#amount");
+var totalamount=amount[0].value+amount[1].value+amount[2].value+amount[3].value;
+var xValues = [proId[0].value+proName[0].value,proId[1].value+proName[1].value,proId[2].value+proName[2].value,proId[3].value+proName[3].value];
+var yValues = [amount[0].value/totalamount, amount[1].value/totalamount, amount[2].value/totalamount, amount[3].value/totalamount];
 var barColors = [
   "#7971ea",
   "#00aba9",
   "#2b5797",
   "#e8c3b9",
-  "#1e7145"
+  
 ];
-
 new Chart("mySellingChart", {
- 	
-  type: "doughnut",
+    
+  type: "pie",
   data: {
     labels: xValues,
     datasets: [{
@@ -328,10 +346,11 @@ new Chart("mySellingChart", {
   options: {
     title: {
       display: true,
-      text: "2021년 대여&판매 추이"
+      text: "2021년 구매 확정 최다 상품 추이"
     }
   }
 });
+
 </script>
 
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>

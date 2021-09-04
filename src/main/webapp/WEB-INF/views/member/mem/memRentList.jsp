@@ -11,7 +11,7 @@
 <title>내 대여 내역 페이지 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
-
+<link rel="stylesheet" type="text/css" href="/resources/common/css/label.css">
 <style>
 .filebox input[type="file"] {
 	position: absolute;
@@ -250,8 +250,12 @@ body, html {
 												</tr>
 											</thead>
 											<tbody>
+											<c:forEach var="buyList" items="${rentBuyList}">
+											<input id="refId" type="hidden" value="${buyList.r_rid }">
+											</c:forEach>
 											<c:forEach var="list" items="${rentList}">
 												
+													<input id="Id" type="hidden" value="${list.r_id }">
 													<tr onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
 														<td>${list.r_id }</td>
 														<td>${list.r_mid }</td>
@@ -263,16 +267,24 @@ body, html {
 									  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
 									   						<c:set var="now" value="<%=new java.util.Date()%>" />
 									    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+
 															<c:if test="${sdate+3>=today}"><td><label class="btn btn-primary">대 여  중</label></td></c:if>
 															<c:if test="${sdate+3<today}"><td><label class="btn btn-danger">연 체  중</label></td></c:if>
 														</c:if>
-															<c:if test="${list.r_state eq '반납 요청'}"><td><label class="btn btn-warning">반납 요청</label><td></c:if>
-															<c:if test="${list.r_state eq '반납 완료'}"><td><label class="btn btn-success">반납 완료</label><td></c:if>
+															
 															<c:if test="${list.r_state eq '환불 요청(대여)'}"><td><label class="btn btn-inverse">환불 요청</label><td></c:if>
 															<c:if test="${list.r_state eq '환불 완료(대여)'}"><td><label class="btn btn-inverse">환불 완료</label><td></c:if>
-															  
+
+														<c:if test="${list.r_state eq '반납 요청'}">
+															<td><label class="label label-warning" style="font-size: 10pt;">반납 요청</label><label id="state" class="label label-info2" style="font-size: 10pt; background-color: #4285F4;"></label></td>
+														</c:if>
+														<c:if test="${list.r_state eq '반납 완료'}">
+															<td><label class="label label-success" style="font-size: 10pt;">반납 완료</label><label id="state" class="label label-info2" style="font-size: 10pt; background-color: #4285F4;"></label></td>
+														</c:if>
+													
+
 													</tr>
-												
+													
 											</c:forEach>
 											</tbody>
 										</table>
@@ -497,6 +509,30 @@ body, html {
 				}, this.timer);
 			}
 		}
+		 
+		 
+		 //수정이 추가
+		 var refId=document.querySelectorAll("#refId");
+		 var refIdLength = refId.length;
+		 var Id=document.querySelectorAll("#Id");
+		 var IdLength = Id.length;
+		 var state=document.querySelectorAll("#state");
+		 
+		 
+		 $(document).ready(function(){
+		 for(var i=0;i<IdLength;i++){
+			var count=0;
+			 for(var k=0;k<refIdLength;k++){
+				 if(Id[i].value==refId[k].value){
+					 count++;
+				 }
+			 }
+			 if(count>0){
+				 state[i].innerText="구매 확정";
+			 }
+			
+		 }
+		 });
 	</script>
 
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>

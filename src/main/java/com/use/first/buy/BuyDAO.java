@@ -16,9 +16,13 @@ public interface BuyDAO {
 	public int buyInsert(BuyVO buyVO) throws SQLException;
 	public int buyUpdate(BuyVO buyVO);
 	public int purchaseRefund(BuyVO buyVO);
+	public int totalPurchase();
+
 	
 	//신영 추가
 	public List<BuyVO> buyManyList();
 	public String buyPurchase(String string);
+
+
 
 }

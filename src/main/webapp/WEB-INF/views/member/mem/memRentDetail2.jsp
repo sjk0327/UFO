@@ -173,6 +173,7 @@
 								</div>
 							</section>
 							<!-- alert 모달을 쓸 페이지에 추가 end-->
+
 							<div class="col-sm-12" style="float: right;">
 								<button
 									class="btn waves-effect waves-light btn-primary btn-outline-primary"
