@@ -89,7 +89,7 @@
                                                                         </c:when>
                                                                         <c:otherwise>
                                                                         <span id="q_title${status.index }" class="col-md-6 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
-                                                                        data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne"><label class="badge badge-inverse-danger" style="font-size: 10pt;">new</label>&nbsp;&nbsp;${qna.q_title }</a></span>
+                                                                        data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_title } <img class="picture" src="/resources/img/new.png" alt="new"></a></span>
                                                                         </c:otherwise>
                                                                         </c:choose>
 																	    <span id="q_mid${status.index }" class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0;"><a data-toggle="collapse"
@@ -233,7 +233,6 @@ function adminAnswerUpdate(index, qid) {
 	
 	document.getElementById("q_id-2").value = qid;
 	document.getElementById("q_content-2").value = document.getElementById("q_content" + index).value;
-	console.log(document.getElementById("q_content-2").value);
 	
 	if(document.getElementById("q_content-2").value == ""){
 		alert("답변을 입력해 주세요.");

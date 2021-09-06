@@ -155,6 +155,10 @@ body, html {
     border:1px #585858 solid;
 }
 
+.picture{
+	width: 15px;
+}
+
 </style>
 </head>
 <body>
@@ -261,7 +265,12 @@ body, html {
 	                  
 	                     <td>${num-(pageMaker.cri.page-1)*9 }</td>
 	                     <td>${qna.q_type }</td>
-	                     <td>${qna.q_title }</td>
+	                     <c:if test="${qna.q_mname eq '관리자' }">
+	                     <td style="text-align: left;"><img class="picture" src="/resources/img/re4.png" alt="re4">${qna.q_title }</td>
+	                     </c:if>
+	                     <c:if test="${qna.q_mname ne '관리자' }">
+	                     <td style="text-align: left;">${qna.q_title }</td>
+	                     </c:if>
 	                     <td>${qna.q_mname }</td>
 	                     <td>${qna.q_date }</td>
 	                     <td>${qna.q_readCount }</td>
@@ -272,7 +281,7 @@ body, html {
            		</c:when>
            		<c:otherwise>
            			<c:if test="${pageMaker.cri.searchType ne ''}">
-	           			<tr tr style="text-align: center; color: #555555;" >
+	           			<tr style="text-align: center; color: #555555;" >
 	           				<td colspan="6"> 결과가 없습니다. </td>
 	           			</tr>
            			</c:if>
