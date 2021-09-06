@@ -2,6 +2,7 @@ package com.use.first.rent;
 
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,7 +141,16 @@ public class RentController {
 	@RequestMapping(value = "/admin/rent/returnConfirm")
 	public String adminRentReturnConfirm(@RequestParam int r_id, Model model, HttpSession session) {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		rentDAO.rentReturn(r_id);
+		RentVO rentVO=rentDAO.rentInfo(r_id);
+		
+		ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
+		  int b_amount1 = (productVO.getP_canRent() + rentVO.getR_rent());
+		  int b_amount2 = (productVO.getP_canBuy() - 0);
+		  
+		  productDAO.productUpdatebuy(b_amount1, b_amount2, rentVO.getR_pid());
+		  
 		List<RentVO> returnList = rentDAO.returnList();
 		model.addAttribute("r_id", r_id);
 		session.setAttribute("returnList", returnList);
@@ -448,6 +458,15 @@ public class RentController {
 				public String customerCartUpdate(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model){
 					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 					System.out.println(buyInfoVO.toString());
+					if(buyInfoVO.getRentdate()==null) {
+						
+				      Date today = new java.sql.Date(0);
+				      SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				      String now = transFormat.format(today);
+
+						buyInfoVO.setRentdate(now);
+					}
 					rentDAO.updateCart(buyInfoVO);
 					
 					
@@ -607,13 +626,14 @@ public class RentController {
 					String r_state=rentbeforeVO.getR_state();
 					String r_mid = rentbeforeVO.getR_mid();
 					ProductVO productVO=productDAO.productInfo(rentbeforeVO.getR_pid());
-					
+					int b_amount1=0;
+					int b_amount2=0;
 					rentVO.setR_id(r_id);
 					if(r_state.equals("환불 요청(대여)")) {
 						rentVO.setR_state("환불 완료(대여)");
 					}
 					else if(r_state.equals("환불 요청(구매 확정)")) {
-						rentVO.setR_state("반납 완료");
+						rentVO.setR_state("환불 완료(구매 확정)");
 					}
 					else if(r_state.equals("환불 요청(즉시 구매)")) {
 						rentVO.setR_state("환불 완료(즉시 구매)");
@@ -624,20 +644,30 @@ public class RentController {
 					List<BuyVO> buyList=buyDAO.buyList(r_id);
 					int lastIndex=buyList.size()-1;
 					BuyVO buyVO=buyList.get(lastIndex);
+					
+					System.out.println(buyVO.toString());
 					buyVO.setB_how("관리자 승인 환불");
 					if(r_state.equals("환불 요청(대여)")) {
 						buyVO.setB_state("대여 환불");
+						b_amount1 = (productVO.getP_canRent() + Integer.parseInt(buyVO.getB_amount()));
+			    		b_amount2 = (productVO.getP_canBuy() - 0);
+			    		  
 					}
 					else if(r_state.equals("환불 요청(구매 확정)")) {
 						buyVO.setB_state("구매 확정 환불");
+						b_amount1 = (productVO.getP_canRent() - 0);
+			    		b_amount2 = (productVO.getP_canBuy() + Integer.parseInt(buyVO.getB_amount()));
 					}
 					else if(r_state.equals("환불 요청(즉시 구매)")) {
 						buyVO.setB_state("즉시 구매 환불");
+						b_amount1 = (productVO.getP_canRent() - 0);
+			    		b_amount2 = (productVO.getP_canBuy() + Integer.parseInt(buyVO.getB_amount()));
 					}
 					buyVO.setB_message(null);
 					buyVO.setB_purchase("-"+buyVO.getB_purchase());
 					
 					buyDAO.purchaseRefund(buyVO);
+					 productDAO.productUpdatebuy(b_amount1, b_amount2, buyVO.getB_pid());
 					
 					model.addAttribute("r_id", r_id);
 					

@@ -18,7 +18,8 @@ public class BuyVO {
 	private String b_state;
 	private String b_purchase;
 	private String b_message;
-	
+	private String r_sdate;
+	private String b_month;
 	public int getB_id() {
 		return b_id;
 	}
@@ -97,12 +98,28 @@ public class BuyVO {
 	public void setB_message(String b_message) {
 		this.b_message = b_message;
 	}
+	public String getR_sdate() {
+		return r_sdate;
+	}
+	public void setR_sdate(String r_sdate) {
+		this.r_sdate = r_sdate;
+	}
+	public String getB_month() {
+		return b_month;
+	}
+	public void setB_month(String b_month) {
+		this.b_month = b_month;
+	}
 	@Override
 	public String toString() {
 		return "BuyVO [b_id=" + b_id + ", b_rid=" + b_rid + ", b_mid=" + b_mid + ", b_pid=" + b_pid + ", b_mname="
 				+ b_mname + ", b_maddr=" + b_maddr + ", b_mtel=" + b_mtel + ", b_buydate=" + b_buydate + ", b_amount="
 				+ b_amount + ", b_how=" + b_how + ", b_state=" + b_state + ", b_purchase=" + b_purchase + ", b_message="
-				+ b_message + "]";
+				+ b_message + ", r_sdate=" + r_sdate + ", b_month=" + b_month + "]";
 	}
+	
+	
+	
+	
 
 }

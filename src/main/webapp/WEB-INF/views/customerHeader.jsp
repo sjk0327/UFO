@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="/resources/common/css/jquery-ui.css">
     <link rel="stylesheet" href="/resources/common/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/resources/common/css/owl.theme.default.min.css">
-
+<!-- Favicon icon -->
+<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />  
 
     <link rel="stylesheet" href="/resources/common/css/aos.css">
 
@@ -28,7 +29,6 @@
  	<script src="/resources/common/js/aos.js"></script>
  	<script src="/resources/common/js/main.js"></script>
   	<script src="http://code.jquery.com/jquery-latest.js"></script>
-  
   
 	
   
@@ -56,8 +56,9 @@
             </div>
 
             <div class="mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
-              <div class="site-logo" >
-                <a href="/" class="js-logo-clone" style="font-size: 20pt; font-weight: bold;" >UF&#38;O</a>
+              <div >
+                <a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
+										alt="로고" style="width: 200px; height:90px;"></a>
               </div>
             </div>
 

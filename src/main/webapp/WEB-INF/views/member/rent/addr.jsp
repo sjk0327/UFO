@@ -7,7 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>배송지목록</title>
-
+<!-- Favicon icon -->
+<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />  
 <style>
 table.type09 {
 	width: 100%;

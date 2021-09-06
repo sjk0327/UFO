@@ -65,7 +65,7 @@ $(document).ready(function() {
         },
         "dataProvider": [ {
             "date": "2012-07-27",
-            "value": 16
+            "value": 1
         }, {
             "date": "2012-07-28",
             "value": 11

@@ -200,7 +200,7 @@ select::-ms-expand {
 </head>
 
 <body>
-	<div class="bg-light py-3">
+	<div class="py-3" style="background-color: #f4f4f4;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 mb-0">

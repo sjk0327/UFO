@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <!DOCTYPE html>
@@ -122,7 +123,7 @@ text-decoration: underline;
                                         <div class="row">
 
                                             <!--  project and team member start -->
-                                            <div class="col-xl-10 col-md-12">
+                                            <div class="col-xl-12 col-md-12">
                                                 <div class="card table-card">
                                                     <div class="card-header">
                                                         <h5>${rentInfo.r_mid } 님의 ${rentInfo.r_pid } 대여/구매 현황</h5>
@@ -218,7 +219,7 @@ text-decoration: underline;
 						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청(대여)' || rentInfo.r_state eq '환불 완료(대여)'}">
 						<%= "대여" %>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)' || rentInfo.r_state eq '환불 완료(즉시 구매)'}">
+						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)' || rentInfo.r_state eq '환불 완료(즉시 구매)'|| rentInfo.r_state eq '환불 완료(구매 확정)'}">
 						<%= "구매" %>
 						</c:if>
 						
@@ -229,7 +230,7 @@ text-decoration: underline;
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" /> 
 						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
 						</c:if>
-						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)' || rentInfo.r_state eq '환불 완료(즉시 구매)'}">
+						<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매' || rentInfo.r_state eq '환불 요청(구매 확정)' || rentInfo.r_state eq '환불 요청(즉시 구매)' || rentInfo.r_state eq '환불 완료(즉시 구매)'|| rentInfo.r_state eq '환불 완료(구매 확정)'}">
 						<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * rentInfo.r_rent}" integerOnly="true" />
 						${totalprice}<%="원 (" %>${rentInfo.r_rent }<%="개)" %>
 						</c:if>
@@ -251,8 +252,8 @@ text-decoration: underline;
 						<c:if test="${rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
 						<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning">반납 요청</label></c:if>
 						<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success">반납 완료</label></c:if>
-						<c:if test="${rentInfo.r_state eq '환불 요청(대여)'||rentInfo.r_state eq '환불 요청(즉시 구매)'||rentInfo.r_state eq '환불 요청(구매 확정)'}"><label class="btn btn-inverse">환불 요청</label></c:if>
-						<c:if test="${rentInfo.r_state eq '환불 완료(대여)'||rentInfo.r_state eq '환불 완료(즉시 구매)'}"><label class="btn btn-inverse">환불 완료</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 요청(대여)'||rentInfo.r_state eq '환불 요청(즉시 구매)'||rentInfo.r_state eq '환불 요청(구매 확정)'}"><label class="btn btn-inverse">${fn:substring(rentInfo.r_state,0,5)}<br>${fn:substring(rentInfo.r_state,5,12)}</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 완료(대여)'||rentInfo.r_state eq '환불 완료(즉시 구매)'||rentInfo.r_state eq '환불 완료(구매 확정)'}"><label class="btn btn-inverse">${fn:substring(rentInfo.r_state,0,5)}<br>${fn:substring(rentInfo.r_state,5,12)}</label></c:if>
 						</span>
 						<!-- 상태 색깔 변경 로직 부분  끝 -->
 						

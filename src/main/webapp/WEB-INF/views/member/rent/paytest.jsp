@@ -24,6 +24,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- Favicon icon -->
+<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />  
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
@@ -42,6 +44,8 @@
 		<input type="hidden" name="b_state" value="${buyVO.b_state }" />
 		<input type="hidden" name="b_purchase" value="${buyVO.b_purchase }" />
 		<input type="hidden" name="b_message" value="${buyVO.b_message }" />
+		<input type="hidden" name="r_sdate" value="${buyVO.r_sdate }" />
+		<input type="hidden" name="b_rid" value="${buyVO.b_rid }" />
 		</form>
     <script>
     $(function(){

@@ -193,7 +193,18 @@
             </div>
         </div>
         <div class="card-block">
-            <div id="sales-analytics" style="height: 400px;"></div>
+           <c:forEach var="threeMonthList" items="${threeMonthPurchase}">
+          <input type="hidden" id="bPurchase" value="${threeMonthList.b_purchase }" >
+          </c:forEach>
+          <c:forEach var="threeMonthRentList" items="${threeMonthRentPurchase}">
+          <input type="hidden" id="bPurchaseRent" value="${threeMonthRentList.b_purchase }" >
+          </c:forEach>
+          <c:forEach var="threeMonthBuyList" items="${threeMonthBuyPurchase}">
+          <input type="hidden" id="bPurchaseBuy" value="${threeMonthBuyList.b_purchase }" >
+          </c:forEach>
+                
+                
+               <canvas id="threeSellingChart" style="width:100%;max-width:600px"></canvas>
         </div>
     </div>
 </div>
@@ -419,15 +430,15 @@ var proId=document.querySelectorAll("#proId");
 var proName=document.querySelectorAll("#proName");
 var proCate=document.querySelectorAll("#proCate");
 var amount=document.querySelectorAll("#amount");
-var totalamount=amount[0].value+amount[1].value+amount[2].value+amount[3].value;
-var xValues = [proId[0].value+proName[0].value,proId[1].value+proName[1].value,proId[2].value+proName[2].value,proId[3].value+proName[3].value];
-var yValues = [amount[0].value/totalamount, amount[1].value/totalamount, amount[2].value/totalamount, amount[3].value/totalamount];
+var totalamount=amount[0].value+amount[1].value+amount[2].value+amount[3].value+amount[4].value;
+var xValues = [proId[0].value+proName[0].value,proId[1].value+proName[1].value,proId[2].value+proName[2].value,proId[3].value+proName[3].value, proId[4].value+proName[4].value];
+var yValues = [amount[0].value/totalamount, amount[1].value/totalamount, amount[2].value/totalamount, amount[3].value/totalamount,amount[4].value/totalamount];
 var barColors = [
   "#7971ea",
   "#00aba9",
   "#2b5797",
   "#e8c3b9",
-  
+  "#1e7145"
 ];
 new Chart("mySellingChart", {
     
@@ -447,6 +458,62 @@ new Chart("mySellingChart", {
   }
 });
 
+
+var bPurchase=document.querySelectorAll("#bPurchase");
+var bPurchaseRent=document.querySelectorAll("#bPurchaseRent");
+var bPurchaseBuy=document.querySelectorAll("#bPurchaseBuy");
+var size=bPurchase.length;
+var now=new Date().getMonth()+1;
+var parray = new Array();
+var parrayrent = new Array();
+var parraybuy = new Array();
+for(var i=0;i<size;i++){
+	parray.push(bPurchase[i].value/100000);
+	parrayrent.push(bPurchaseRent[i].value/100000);
+	parraybuy.push(bPurchaseBuy[i].value/100000);
+}
+
+
+var xValues = [now-2+"월", now-1+"월",now+"월" ];
+var yValues = parray;
+var vValues = parrayrent;
+var zValues = parraybuy;
+var barColors = [
+  "#7971ea",
+  "#00aba9",
+  "#e8c3b9",
+  "#e8c3b9",
+  "#1e7145"
+];
+new Chart("threeSellingChart", {
+	  type: 'line',
+	  data: {
+	    labels: xValues,
+	    datasets: [{ 
+	        data: yValues,
+	        label: "총 매출",
+	        borderColor: "#3e95cd",
+	        fill: true
+	      }, { 
+	        data: vValues,
+	        label: "대여 매출",
+	        borderColor: "#3cba9f",
+	        fill: false
+	      }, { 
+	        data: zValues,
+	        label: "구매 매출",
+	        borderColor: "#e8c3b9",
+	        fill: false
+	      }
+	    ]
+	  },
+	  options: {
+	    title: {
+	      display: true,
+	      text: '최신 3개월 매출 동향 (단위 : 백만 원)'
+	    }
+	  }
+	});
 </script>
 
     <%@ include file="/WEB-INF/views/adminFooter.jsp" %>

@@ -211,7 +211,10 @@ select::-ms-expand {
                        <input type="hidden" name="beforeUrl" value=${beforeUrl}>
                        <!-- 여기까지 -->
                         <div class="text-center">
-                            <a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
+
+                            <a href="/"><img class="picture" src="/resources/Images/UFO_black.png"
+										alt="로고" style="width: 200px; height:90px;"></a>
+
                         </div>
                         <div class="auth-box card">
                             <div class="card-block">
@@ -352,9 +355,13 @@ select::-ms-expand {
                                         <p class="text-inverse text-left m-b-0">Thank you.</p>
                                         <p class="text-inverse text-left"><a href="/"><b>메인화면으로</b></a></p>
                                     </div>
+<<<<<<< HEAD
                                     <div class="col-md-2">
                                         <a href="/"><img src="/resources/assets/images/Logo-small-bottom.png" width="60" height="58" alt="small-logo.png"></a>
                                     </div>
+=======
+                                    
+>>>>>>> origin/crystal0904
                                 </div>
                             </div>
                         </div>

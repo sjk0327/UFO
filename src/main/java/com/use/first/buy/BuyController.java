@@ -1,6 +1,8 @@
 package com.use.first.buy;
 
+
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +37,6 @@ public class BuyController {
       RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
       ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
       
-      System.out.println(buyVO.toString());
-      System.out.println(m_point);
       
       String[] b_mid = buyVO.getB_mid().split(",");
       String[] b_pid = buyVO.getB_pid().split(",");
@@ -49,9 +49,11 @@ public class BuyController {
       String[] b_purchase = buyVO.getB_purchase().split(",");
       String[] b_message = buyVO.getB_message().split(",");
       String[] b_ridArray = Integer.toString(buyVO.getB_rid()).split(",");
+      String[] r_sdate=buyVO.getR_sdate().split(",");
+     
+      System.out.println(r_sdate.toString()+"날짜");
       int[] b_amount=new int[b_amountArray.length];
       int[] b_rid=new int[b_ridArray.length];
-      
       for(int i=0;i<b_amountArray.length;i++) {
     	  int amount=Integer.parseInt(b_amountArray[i]);   	  
     	  b_amount[i]=amount;
@@ -60,7 +62,7 @@ public class BuyController {
       for(int i=0;i<b_ridArray.length;i++) {
     	  int rid=Integer.parseInt(b_ridArray[i]);
     	  b_rid[i]=rid;
-    	  System.out.println(b_rid[i]);
+    	  System.out.println(b_rid[i]+"컨트롤러 진입");
       }
       
       
@@ -74,23 +76,25 @@ public class BuyController {
             rentVO.setR_pid(b_pid[i]);
             rentVO.setR_rent(b_amount[i]);
             rentVO.setR_state("대여중");
+            rentVO.setR_sdate(Date.valueOf(r_sdate[i]));
             
          } else if(b_state[i].equals("구매")) {
-            
             rentVO.setR_mid(b_mid[i]);
             rentVO.setR_pid(b_pid[i]);
             rentVO.setR_rent(b_amount[i]);
             rentVO.setR_state("즉시 구매");
+            rentVO.setR_sdate(Date.valueOf(r_sdate[i]));
             
          }else if(b_state[i].equals("연체료 납부")) {
         	 rentVO.setR_id(b_rid[i]);
-             rentVO.setR_state("반납 완료");
+             rentVO.setR_state("반납 요청");
+             
              
           }else if(b_state[i].equals("구매 확정")) {
         	  
         	  RentVO rentVObefore = new RentVO();
         	  rentVObefore=rentDAO.rentInfo(b_rid[i]);
-        	  System.out.println(rentVObefore.toString());
+        	  System.out.println(rentVObefore.toString()+"참조받는 데이터");
         	  String beforeState=rentVObefore.getR_state();
         	  System.out.println(beforeState);
         	  if(beforeState.equals("대여중")) {
@@ -104,12 +108,14 @@ public class BuyController {
               rentVO.setR_pid(b_pid[i]);
               rentVO.setR_rent(b_amount[i]);
              rentVO.setR_state("구매 확정");
+             rentVO.setR_sdate(Date.valueOf(r_sdate[i]));
              
           }
          
          if(b_state[i].equals("대여") | b_state[i].equals("구매")) {
          rentDAO.rentInsert(rentVO);
          int rid = rentDAO.rentSelect();
+         rentDAO.rentUpdaterid(rid);
          
          buyVO = new BuyVO();
          
@@ -189,14 +195,6 @@ public class BuyController {
     		  ProductVO productVO = productDAO.productInfo(b_pid[i]);
     		  int b_amount1 = (productVO.getP_canRent() - 0);
     		  int b_amount2 = (productVO.getP_canBuy() - b_amount[i]);
-    		  
-    		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
-    		  
-    	  }else if(b_state[i].equals("연체료 납부")) {
-    		  
-    		  ProductVO productVO = productDAO.productInfo(b_pid[i]);
-    		  int b_amount1 = (productVO.getP_canRent() + b_amount[i]);
-    		  int b_amount2 = (productVO.getP_canBuy() - 0);
     		  
     		  productDAO.productUpdatebuy(b_amount1, b_amount2, b_pid[i]);
     		  

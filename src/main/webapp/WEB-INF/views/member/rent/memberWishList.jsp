@@ -24,6 +24,11 @@
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="/resources/common/js/main.js"></script>
 <style type="text/css">
+.ui-datepicker {
+  position: fixed !important;
+  left: calc(50vw + 350px) !important;
+  top: 240px !important; 
+}
  
 table {
     width: 100%;
@@ -118,11 +123,15 @@ border-color: #4e5a72;
           background-color: rgba(0, 0, 0, 0.6);
         }
 
-        .modalBox {
-          position: absolute;
-          background-color: #fff;
-          padding: 15px;
-        }
+.modal-con{  
+  position:fixed;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  max-width: 60%;
+  min-height: 30%;
+  background:#fff;
+}
+ 
 
         .hidden {
           display: none;
@@ -133,6 +142,33 @@ border-color: #4e5a72;
         width:100px;
         height: 100px;
         }
+        
+*{margin:0; padding:0;}
+a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#fff; background:#000; margin:20px;}
+
+.modal-con .title{
+  font-size:20px; 
+  padding: 10px; 
+  background : #7971ea;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+.modal-con .con{
+  font-size:15px; line-height:1.3;
+  padding: 30px;
+}
+.modal-con .close{
+  display:block;
+  position:absolute;
+  width:30px; height:30px;
+  border-radius:50%; 
+  border: 3px solid #000;
+  text-align:center; line-height: 30px;
+  text-decoration:none;
+  color:#000; font-size:20px; font-weight: bold;
+  right:10px; top:10px;
+}
 @media only screen and (max-width:600px) {
 
 tr{
@@ -460,21 +496,22 @@ body, html {height: 100%;}
                <!-- 모달창 시작 -->
                 <div class="modal hidden">
   <div class="bg"></div>
-  <div class="modalBox container">
-  <h4 style="text-align: center">옵션 선택</h4>
-  ${array.length }
+  <div class="modal-con">
+  <a href="javascript:;" class="close">X</a>
+  <p class="title" >옵션을 확인해주세요!</p>
+  <div class="con">
  	<form:form id="buyform" method="post" commandName="BuyInfoVO">
     <input type="hidden" id="productId" name="productId" value="1">
      <input id="cartId" name="cartId" type="hidden" value="0"> 
     <div class="row" style="margin-top: 20px;">
-    <div class="col-md-3"><img id="productImg" class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:200px; height: 150px; margin-left: 50px;"></div>
+    <div class="col-md-4"><img id="productImg" class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:200px; height: 150px; margin-left: 20px;"></div>
     <div class="col-md-3" id="productName" style="color: #505050; font-weight: bold;">${wishInfo.p_name}</div>
-    <div class="col-md-6">
+    <div class="col-md-5">
     <div>
     <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
       구매정보</div>
-      <div class="col-md-8">
+      <div class="col-md-7">
       <select id="buyType" name="buyType">
       <option value="선택">선택해주세요</option>
       <option value="대여">대여</option>
@@ -483,21 +520,21 @@ body, html {height: 100%;}
       </div></div></div>
       <div>
       <div class="row" style="margin-top:8pt;">
-       <div class="col-md-4">
-       수량</div><div class="col-md-8">
-        <input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="1" max="100" value="1">               
+       <div class="col-md-5">
+       수량</div><div class="col-md-7">
+        <input id="proamount" name="proamount" type="number" min="1" max="100" value="1" style="width:83.2px;">               
 			</div></div></div>
 			  <div>
       <div class="row" style="margin-top:8pt;">
-       <div class="col-md-4" id="rdate">
-       날짜</div><div class="col-md-8">
-        <input id="rentdate" name="rentdate" type="text" value="">            
+       <div class="col-md-5" id="rdate">
+       날짜</div><div class="col-md-7">
+        <input id="rentdate" name="rentdate" type="text" value="" size="7px;">            
 			</div></div></div>
 			<div>
-      <div class="row" style="margin-top:3pt;">
-       <div class="col-md-4">
-       총 가격</div><div class="col-md-8">
-        <input id="productPrice" name="productPrice" type="text" value="1" readonly="readonly" style="margin-right: 8pt;">               
+      <div class="row" style="margin-top:8pt;">
+       <div class="col-md-5">
+       총 가격</div><div class="col-md-7">
+        <input id="productPrice" name="productPrice" type="text" value="1" readonly="readonly" style="margin-right: 8pt;" size="7px;">               
 			</div></div></div>
 			
 			
@@ -506,12 +543,11 @@ body, html {height: 100%;}
 		<div class="col-md-9"></div>
 		<div class="col-md-3">
 		<div class="row">
-		<div class="col-md-6" style="padding-left: 50px;">	
-    <input type="button" class="closeBtn btn btn-outline-primary btn-sm" value="취소"></input></div>
+		
     <div class="col-md-6" style="padding-left: 30px;">	
     <input type="button" id="keepgo" class="btn btn-outline-primary btn-sm" value=""></input></div></div></div>
   </div>
-  </form:form></div>	
+  </form:form></div></div>	
 </div>
 <!-- 모달창 끝 -->
                 
@@ -551,7 +587,7 @@ body, html {height: 100%;}
             </div>
         </section>
         <!-- alert 모달을 쓸 페이지에 추가 end-->
-                
+      
                 
 
 <c:if test="${empty wishList }">
@@ -902,8 +938,8 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("buyType").setAttribute('disabled','disabled');
 				document.getElementById("proamount").setAttribute('max',buyamountList[i].value);
 				document.getElementById("rentdate").value=new Date().toISOString().substring(0, 10);
-				document.getElementById("rentdate").setAttribute('type','hidden');
-				document.getElementById("rdate").classList.add('hidden');
+				$("#rentdate").datepicker("option","showOn","text");
+				
 				document.getElementById("productPrice").value=proPriceList[i].value*0.95;
 				document.getElementById("proamount").addEventListener("input",changeprice);
 				document.getElementById("keepgo").value="구매";
@@ -1080,7 +1116,7 @@ for(var i=0; i < btnrentLength; i++){
 		};	
 		
 		
-		document.querySelector(".closeBtn").addEventListener("click",close);
+		document.querySelector(".close").addEventListener("click",close);
 		function close(){
 			action_popup.confirm("진행창을 닫으시겠습니까?",function(res){
 				if(res){

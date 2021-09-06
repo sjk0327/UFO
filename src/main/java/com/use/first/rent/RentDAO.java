@@ -39,6 +39,8 @@ public interface RentDAO {
 	public void rentBuyInsert(RentVO rentVO);
 	public List<RentVO> rentbuyListByMid(String userId);
 	public List<RentVO> rentToBuyList();
+	public RentVO rentToBuyListByrid(int r_rid);
+	public void rentUpdaterid(int r_id);
 	// 성훈 시작
 	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
 	   public List<RentVO> purchaseListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);

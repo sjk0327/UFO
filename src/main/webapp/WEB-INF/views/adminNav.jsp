@@ -8,7 +8,8 @@
         	<a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
         		<i class="ti-menu"></i>
        		</a>
-       		UFO
+       		<a href="/admin">&nbsp;&nbsp;&nbsp;<img class="picture" src="/resources/Images/UFO_black.png"
+										alt="로고" style="width: 90px; height:40px;"></a>
         </div>
         <div class="navbar-container container-fluid">
             <ul class="nav-left">

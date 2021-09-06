@@ -352,13 +352,44 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
 									<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success return-state-btn-label">반납 완료</label></c:if>
 									<c:if test="${rentInfo.r_state eq '환불 요청'}"><label class="btn btn-warning return-state-btn-label">환불 요청</label></c:if>
 									<c:if test="${rentInfo.r_state eq '환불 완료'}"><label class="btn btn-success return-state-btn-label">환불 완료</label></c:if>
+									
 									</span>
 									<!-- 상태 색깔 변경 로직 부분  끝 -->
 			       					</td>
 			       				</tr>
+			       				<c:if test="${!empty rentBuy}">
+			       			<tr>
+			       					<td>${proInfo.p_id }</td>
+			     					<td>${proInfo.p_name }</td>
+			     					<td>
+			     						
+										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentBuy.r_rent}" integerOnly="true" />
+										${totalprice}<%="원" %>
+										
+									
+									</td>
+			     					<td>${rentBuy.r_rent }<%="개" %></td>
+			     					<td style="padding: 9.6px 0px;">
+			     						<!-- 상태 색깔 변경 로직 부분  추가-->
+									<span class="col-md-2"> 
+									
+									<label class='btn btn-info2' style= 'background-color: #4285F4;'>구매 확정</label>
+									</span>
+									<!-- 상태 색깔 변경 로직 부분  끝 -->
+			       					</td>
+			       				</tr>
+			       			</c:if>
 			       			</tbody>
 			       			</table>
+			       			
 			       			</div>
+			       			<c:if test="${!empty rentBuy}">
+			       			<div class="col-sm-12" style="float:right;">
+							<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
+									id="rentbuyButton" style="margin-left:15px; float:right;" onClick="location.href='/member/mem/memBuyDetail/${rentBuy.r_id}'">구매 확정 내역 보기</button>		
+							</div>
+			       			</c:if>
+			       			
 					       	<div class="col-sm-12" style="padding:0px 0px 15px 0px;">		
 								<div style="border-bottom:solid 1px; text-align: center; font-weight: bold; font-size: 15pt;">결제 정보 확인</div>
 							</div>
@@ -442,7 +473,7 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
       <div class="row" style="margin-top:8pt;">
        <div class="col-md-5">
        수량</div><div class="col-md-6">
-        <input id="proamount" name="proamount" type="number" min="1" max="${proInfo.p_canBuy }" value="${rentInfo.r_rent }" size="5px;">               
+        <input id="proamount" name="proamount" type="number" min="1" max="${proInfo.p_canBuy }" value="${rentInfo.r_rent }" style="size:5px;">               
 			</div></div></div>
 		
 			<div>

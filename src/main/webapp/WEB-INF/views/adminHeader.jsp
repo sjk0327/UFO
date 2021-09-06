@@ -9,7 +9,7 @@
     content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
 <meta name="author" content="codedthemes" />
 <!-- Favicon icon -->
-<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufopico.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />
 
 <!-- Google font-->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
