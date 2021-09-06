@@ -5,10 +5,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+    <title>UFO</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+<!-- Favicon icon -->
+<link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"> 
     <link rel="stylesheet" href="resources/common/fonts/icomoon/style.css">
 

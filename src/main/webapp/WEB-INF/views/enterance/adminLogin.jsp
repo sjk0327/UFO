@@ -98,7 +98,8 @@
                     
                         <form:form class="md-float-material form-material" name="loginForm" action="/adminLogin" method="post"  modelAttribute="user">
                             <div class="text-center">
-                                <img src="/resources/assets/images/logo.png" alt="logo.png">
+                                  <a href="/"><img class="picture" src="/resources/Images/UFO_black.png"
+										alt="로고" style="width: 200px; height:90px;"></a>
                             </div>
                             <div class="auth-box card">
                                 <div class="card-block">

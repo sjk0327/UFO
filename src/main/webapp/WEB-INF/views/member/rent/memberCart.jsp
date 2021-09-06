@@ -20,6 +20,9 @@
 <link rel="stylesheet" type="text/css" href="/ind-script/optimizer.php?filename=rczLDcMgEEXRAsjWdTwpizThKvi8GBRgImZQ5O5t1-Bsr3QPsjSC0U3lUAT2YtK8Gge-M9QSXbZWoYkuUcvWoZ_Sny9EVcTsh63cfzLS4wwLbnFbD39QmqRZiep3mYa3yLld7AE&type=css&k=04827dcf247ed9d72d23c4e72d4402951c293c7b&t=1627969594" />
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <style type="text/css">
+.hidden {
+          display: none;
+        }
 @media only screen and (min-width: 768px){
 .col-md-10 {
     flex: 0 0 78.33333%;
@@ -44,7 +47,14 @@ border-left : none;
 border-right : none;
 padding : 10px;
 }
-
+td{
+border-top:none;
+border-bottom:none;
+}
+tr{
+border-bottom:1px solid;
+border-color: #d3d3d3;
+}
 .wrapper {
     width: 1280px;
 }
@@ -258,7 +268,7 @@ body, html {height: 100%;}
                     <th class="selth col-md-1">선택</th>
                 </tr></thead>
                 
-                <tbody class="tablebody" style="border-top: 0;">
+                <tbody class="tablebody" style="border-top: 0; border-bottom: 0">
                 <c:if test="${!empty cartList}">
                <c:forEach var="cartInfo" items="${cartList}">
               
@@ -383,9 +393,14 @@ body, html {height: 100%;}
                         <input type="hidden" id="canrent" value="${cartInfo.p_canrent}">
                         <input type="hidden" id="canbuy" value="${cartInfo.p_canbuy}">
                         <c:if test="${cartInfo.c_state eq '대여'}">
-                        
+                        <c:if test="${cartInfo.p_canrent<cartInfo.c_amount}">
+						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.p_canrent}">
+						<div class="msg" id="msg" style="font-weight: bold; font-size: 6pt; color: red; text-align: center;">※ 지정 수량 ${cartInfo.c_amount}개보다 재고가 부족합니다!</div>
+						</c:if>
+						 <c:if test="${cartInfo.p_canrent>=cartInfo.c_amount}">
 						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canrent}" value="${cartInfo.c_amount}">
-						
+						<div class="msg" id="msg"></div>
+						</c:if>
 						</c:if>
 						
 						<c:if test="${cartInfo.c_state eq '구매'}">
@@ -395,7 +410,14 @@ body, html {height: 100%;}
 						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.c_amount}" disabled="disabled">
 						</c:when>
 						<c:otherwise>
+						 <c:if test="${cartInfo.p_canbuy<cartInfo.c_amount}">
+						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.p_canbuy}">
+						<div class="msg" id="msg" style="font-weight: bold; font-size: 6pt; color: red; text-align: center;">※ 지정 수량 ${cartInfo.c_amount}개보다 재고가 부족합니다!</div>
+						</c:if>
+						 <c:if test="${cartInfo.p_canbuy>=cartInfo.c_amount}">
 						<input id="proamount" name="proamount" type="number" style="width:56.67px; height: 30px" min="0" max="${cartInfo.p_canbuy}" value="${cartInfo.c_amount}">
+						<div class="msg" id="msg"></div>
+						</c:if>
 						</c:otherwise>
 						</c:choose>
 						</c:if>
@@ -421,7 +443,8 @@ body, html {height: 100%;}
 						</c:when>
 						<c:otherwise>
 						<div class="rdate" style="margin-top: 3pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여날짜
-						<input id="rentdate" name="rentdate" type="date" value="" disabled="disabled"></div>
+						<input id="rentdate" name="rentdate" type="date" value="" disabled="disabled">
+						<input id="rentdatehidden" name="rentdate" type="hidden" value="${todaydate }"></div>
 						</c:otherwise>
 						</c:choose>
                         
@@ -633,6 +656,9 @@ body, html {height: 100%;}
 
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
 <script type="text/javascript">
+
+
+
 $(document).ready(function() {
 	$('#myCarousel').carousel('cycle');
 	$('#myCarousel2').carousel('cycle');
@@ -716,6 +742,7 @@ function allChk(obj){
 		var deletecartList=document.querySelectorAll(".deletecart");
 		var deleteSepFormList=document.querySelectorAll("#deleteSepForm");
 		var zerodeleteFormList=document.querySelectorAll("#zerodelete");
+		var msgList=document.querySelectorAll("#msg");
 		//rental table
 		var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
 		var rentalIdNowListLength = rentalIdNowList.length;
@@ -816,9 +843,12 @@ function onStateCountHandler(ev) {
 								     ev.stopPropagation();
 								}
 							}
+							
 					rentdateList[i].removeAttribute('disabled');
 					rentdateList[i].value=new Date().toISOString().substring(0, 10);
 					rentdateList[i].setAttribute('min',new Date().toISOString().substring(0, 10));
+					msgList[i].classList.add('hidden');
+					
 							var canRental=0;
 							var count=0;
 							for(var k=0;k<rentalIdNowListLength;k++){
@@ -878,15 +908,16 @@ function onStateCountHandler(ev) {
 								}
 							}
 							
-							
+							msgList[i].classList.add('hidden');
 							amountList[i].setAttribute('max',buyamountList[i].value);
 							amountList[i].value=1;
 							priceList[i].value=originprice[i].value*amountList[i].value*0.95;
-							rentdateList[i].value=new Date().toISOString().substring(0, 10);
-							rentdateList[i].setAttribute('readonly','readonly');
+							rentdateList[i].value="";
+							rentdateList[i].setAttribute('disabled','disabled');
 							pointList[i].innerText=AddComma(priceList[i].value*0.01);
 							totalpriceList[i].innerText=AddComma(priceList[i].value*1+2500);
 							priceList[i].value=AddComma(priceList[i].value);
+							
 							
 							if(buyamountList[i].value==0){
 								amountList[i].disabled=true;
@@ -917,6 +948,8 @@ function selectBuy() {
 	var array4 = new Array();
 	for(var i=0; i< amountLength;i++){
 		if(checkBoxList[i].checked==true){
+		
+			
 			array1.push(productIdList[i].value);
 			array2.push(stateList[i].value);
 			array3.push(amountList[i].value);
@@ -1021,7 +1054,7 @@ function deleteCartList(e) {
 			count=i;
 		}
 	}
-	alert(count);	
+		
 	action_popup.confirm("해당 상품을 장바구니에서 삭제하시겠습니까?",function(res){
 		if(res){
 		action_popup.alert("상품이 장바구니에서 삭제되었습니다!");
@@ -1128,10 +1161,8 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 					var rentdatenow=new Date(rentaldateNowList[k].value);
 				if(productIdList[i].value==rentalIdNowList[k].value && rentdate<rentdatenow){
 					count+=rentalamountNowList[k].value*1
-					alert(productIdList[i].value);
-					alert(rentdate);
-					alert(rentdatenow);
-					alert(count);
+					
+				
 				}}
 				canRental=rentamountList[i].value*1+count;
 

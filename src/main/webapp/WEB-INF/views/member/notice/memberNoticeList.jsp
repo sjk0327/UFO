@@ -16,6 +16,8 @@
 <html lang="en">
 <head>
 <title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+<%@ include file="/WEB-INF/views/adminHeader.jsp"%>
+	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,8 +53,7 @@
 </style>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/adminHeader.jsp"%>
-	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
+
 	<div style="text-align: center;">
 		<br><br>
 		<h2 style="color: #666666; font-weight: bold;">공 지 사 항</h2>

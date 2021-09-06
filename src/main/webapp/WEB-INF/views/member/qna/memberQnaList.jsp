@@ -16,6 +16,8 @@
 <html lang="en">
 <head>
 <title>UFO - QnA</title>
+<%@ include file="/WEB-INF/views/adminHeader.jsp"%>
+	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -158,8 +160,7 @@ body, html {
 </style>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/adminHeader.jsp"%>
-	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
+	
 	<div style="text-align: center;">
 		<br><br>
 		<h2 style="color: #666666; font-weight: bold;">Q &#38; A</h2>

@@ -300,6 +300,12 @@
 			       			</tbody>
 			       			</table>
 			       			</div>
+			       			<c:if test="${rentInfo.r_state eq '구매 확정'}">
+			       			<div class="col-sm-12" style="float:right;">
+							<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
+									id="rentbuyButton" style="margin-left:15px; float:right;" onClick="location.href='/member/mem/memRentDetail/${rentInfo.r_rid}'">대여 내역 보기</button>		
+							</div>
+			       			</c:if>
 					       	<div class="col-sm-12" style="padding:0px 0px 15px 0px;">		
 								<div style="border-bottom:solid 1px; text-align: center; font-weight: bold; font-size: 15pt;">결제 정보 확인</div>
 							</div>
@@ -342,11 +348,10 @@
 							</c:forEach>
 							<div class="col-sm-12" style="float:right;">
 							<c:if test="${pdate+1>=today}">
-								<form:form method="post" action="/member/mem/memRentRefund" modelAttribute="rentInfo" style="float:right;">
-								<form:hidden path="r_id"/>
-								<button type="submit" id="button"
-								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px">환불하기</button>
-								</form:form>
+								
+								<button id="refundButton"
+								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px; float:right;">환불하기</button>
+								
 			     			</c:if>
 							</div>
 						</div>    
@@ -361,6 +366,27 @@
                     <!--  project and team member end -->
 				</div>
 			</div>
+			<!-- confirm 모달을 쓸 페이지에 추가 start-->
+					        <section class="mocdal modal-section type-confirm">
+					            <div class="enroll_box">
+					                <p class="menu_msg"></p>
+					            </div>
+					            <div class="enroll_btn">
+					                <button class="btn pink_btn btn_ok">확인</button>
+					                <button class="btn gray_btn modal_close">취소</button>
+					            </div>
+					        </section>
+				    	    <!-- confirm 모달을 쓸 페이지에 추가 end-->
+				    	    <!-- alert 모달을 쓸 페이지에 추가 start-->
+					        <section class="mocdal modal-section type-alert">
+					            <div class="enroll_box">
+					                <p class="menu_msg"></p>
+					            </div>
+					            <div class="enroll_btn">
+					            	<button class="btn pink_btn modal_close">확인</button>
+					            </div>
+					           </section>
+					        <!-- alert 모달을 쓸 페이지에 추가 end-->
             <!-- Page-body end -->
 		</div>
                      
@@ -413,8 +439,77 @@
 
 	  	  };	
 		});
-    
-   
+    var rid = ${r_id};
+    $(document).on("click", "#refundButton", function () {
+    	console.log("환불 스크립트 진입");
+    	 $(".btn_ok").text("환불");
+        action_popup.confirm("구매하신 상품을 환불 하시겠습니까?", function (res) {
+            if (res) {
+            	window.location.replace("/member/mem/memRentRefund/" + rid);
+            }
+        });
+       
+    });  
+    $(function () {
+        $(".modal_close").on("click", function () {
+            action_popup.close(this);
+        });
+
+    });
+
+    var action_popup = {
+        timer: 500,
+        confirm: function (txt, callback) {
+            if (txt == null || txt.trim() == "") {
+                console.warn("confirm message is empty.");
+                return;
+            } else if (callback == null || typeof callback != 'function') {
+                console.warn("callback is null or not function.");
+                return;
+            } else {
+                $(".type-confirm .btn_ok").on("click", function () {
+                    $(this).unbind("click");
+                    callback(true);
+                    action_popup.close(this);
+                });
+                this.open("type-confirm", txt);
+            }
+        },
+
+        alert: function (txt) {
+            if (txt == null || txt.trim() == "") {
+                console.warn("confirm message is empty.");
+                return;
+            } else {
+                this.open("type-alert", txt);
+            }
+        },
+
+        open: function (type, txt) {
+            var popup = $("." + type);
+            popup.find(".menu_msg").text(txt);
+            $("body").append("<div class='dimLayer'></div>");
+            $(".dimLayer").css('height', $(document).height()).attr("target", type);
+            popup.fadeIn(this.timer);
+        },
+
+        close: function (target) {
+            var modal = $(target).closest(".modal-section");
+            var dimLayer;
+            if (modal.hasClass("type-confirm")) {
+                dimLayer = $(".dimLayer[target=type-confirm]");
+            } else if (modal.hasClass("type-alert")) {
+                dimLayer = $(".dimLayer[target=type-alert]")
+            } else {
+                console.warn("close unknown target.")
+                return;
+            }
+            modal.fadeOut(this.timer);
+            setTimeout(function () {
+                dimLayer != null ? dimLayer.remove() : "";
+            }, this.timer);
+        }
+    }
    
     </script>
    

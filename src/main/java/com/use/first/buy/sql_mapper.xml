@@ -8,7 +8,7 @@
 	
 	<select id="buyList" resultType="com.use.first.buy.BuyVO" parameterType="map">
 		<![CDATA[
-		select b_id, b_rid, b_mid, b_pid, b_maddr, b_buydate, b_amount, b_how, b_state, b_purchase from buy where b_rid=#{b_rid}
+		select b_id, b_rid, b_mid, b_pid, b_mname, b_maddr, b_mtel, b_buydate, b_amount, b_how, b_state, b_purchase from buy where b_rid=#{b_rid}
 		]]>
 	</select>
 	
@@ -38,14 +38,35 @@
 	</update>
 	
 	<insert id="purchaseRefund" parameterType="com.use.first.buy.BuyVO">
-		insert into buy (b_rid, b_mid, b_pid, b_buydate, b_amount, b_how, b_state, b_purchase, b_message) 
+		insert into buy (b_rid, b_mid, b_mname, b_maddr, b_mtel, b_pid, b_buydate, b_amount, b_how, b_state, b_purchase, b_message) 
 		VALUES 
-		(#{b_rid}, #{b_mid}, #{b_pid}, now(), #{b_amount}, #{b_how}, #{b_state}, #{b_purchase}, #{b_message})
+		(#{b_rid}, #{b_mid},#{b_mname},#{b_maddr},#{b_mtel}, #{b_pid}, now(), #{b_amount}, #{b_how}, #{b_state}, #{b_purchase}, #{b_message})
 	</insert>
 
+	<select id="threeMonthPurchase" resultType="com.use.first.buy.BuyVO">
+		<![CDATA[
+		select month(b_buydate) as b_month, sum(b_purchase) as b_purchase from buy where month(b_buydate) between #{param2} and #{param1} group by month(b_buydate) order by b_buydate
+
+		]]>
+	</select>
+	
 	<select id="totalPurchase" resultType="int">
 		<![CDATA[
 		select sum(b_purchase) from buy
+		]]>
+	</select>
+	
+	<select id="threeMonthRentPurchase" resultType="com.use.first.buy.BuyVO">
+		<![CDATA[
+		select month(b_buydate) as b_month, sum(b_purchase) as b_purchase from buy where b_state like '%대여%' and month(b_buydate) between #{param2} and #{param1} group by month(b_buydate) order by b_buydate
+
+		]]>
+	</select>
+	
+	<select id="threeMonthBuyPurchase" resultType="com.use.first.buy.BuyVO">
+		<![CDATA[
+		select month(b_buydate) as b_month, sum(b_purchase) as b_purchase from buy where b_state like '%구매%' and month(b_buydate) between #{param2} and #{param1} group by month(b_buydate) order by b_buydate
+
 		]]>
 	</select>
 

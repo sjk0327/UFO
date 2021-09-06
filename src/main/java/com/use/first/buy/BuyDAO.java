@@ -17,7 +17,9 @@ public interface BuyDAO {
 	public int buyUpdate(BuyVO buyVO);
 	public int purchaseRefund(BuyVO buyVO);
 	public int totalPurchase();
-
+	public List<BuyVO> threeMonthPurchase(String thisMonth, String monthago);
+	public List<BuyVO> threeMonthRentPurchase(String thisMonth, String monthago);
+	public List<BuyVO> threeMonthBuyPurchase(String thisMonth, String monthago);
 	
 	//신영 추가
 	public List<BuyVO> buyManyList();

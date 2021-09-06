@@ -100,7 +100,8 @@
 
 					
 						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
+							<a href="/"><img class="picture" src="/resources/Images/UFO_black.png"
+										alt="로고" style="width: 200px; height:90px;"></a>
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
@@ -190,10 +191,7 @@
 										</p>
 										
 									</div>
-									<div class="col-md-2">
-										<img src="resources/assets/images/auth/Logo-small-bottom.png"
-											alt="small-logo.png">
-									</div>
+									
 								</div>
 							</div>
 						</div>

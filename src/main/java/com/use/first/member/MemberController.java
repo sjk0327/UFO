@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1101,6 +1103,13 @@ public class MemberController {
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(UserVO vo, Model model, Criteria cri,HttpSession session) {
 		//신영,수정 admin 인덱스 몇개 추가
+		
+	//수정 시작	
+		DecimalFormat df = new DecimalFormat("00");
+        Calendar currentCalendar = Calendar.getInstance();
+      //이번달
+        String month  = df.format(currentCalendar.get(Calendar.MONTH) + 1);
+        String monthago  = df.format(currentCalendar.get(Calendar.MONTH) - 1);
 
 	UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
@@ -1108,13 +1117,206 @@ public class MemberController {
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		int totalBuy = buyDAO.totalPurchase();
 		List<RentVO> rentToBuyList =rentDAO.rentToBuyList();
-		//select month(b_buydate), sum(b_purchase) from buy group by month(b_buydate) order by month(b_buydate) desc;
-System.out.println(rentToBuyList.toString());
-		System.out.println(totalBuy);
+		List<BuyVO> threeMonthPurchase=buyDAO.threeMonthPurchase(month,monthago);
+		List<BuyVO> threeMonthRentPurchase=buyDAO.threeMonthRentPurchase(month,monthago);
+		List<BuyVO> threeMonthBuyPurchase=buyDAO.threeMonthBuyPurchase(month,monthago);
+		BuyVO temp=new BuyVO();
+		BuyVO temp2=new BuyVO();
+		BuyVO temp3=new BuyVO();
+		List<BuyVO> threeMonthPurchase2=new ArrayList<BuyVO>();
+		List<BuyVO> threeMonthRentPurchase2=new ArrayList<BuyVO>();
+		List<BuyVO> threeMonthBuyPurchase2=new ArrayList<BuyVO>();
+		//3개월 총매출 리스트
+		if(threeMonthPurchase.size()==0) {
+			temp.setB_month(monthago);
+			temp.setB_purchase("0");
+			threeMonthPurchase2.add(0,temp);
+			temp2.setB_month(Integer.toString(Integer.parseInt(monthago)+1));
+			temp2.setB_purchase("0");
+			threeMonthPurchase2.add(1,temp2);
+			temp3.setB_month(month);
+			temp3.setB_purchase("0");
+			threeMonthPurchase2.add(2,temp3);
+		}else {
+			int count=-1;
+			for(int k=0;k<threeMonthPurchase.size();k++) {
+				if(threeMonthPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(month)-2))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+				
+				temp.setB_month(monthago);
+				temp.setB_purchase("0");
+				threeMonthPurchase2.add(0,temp);
+			}else {
+				threeMonthPurchase2.add(0,threeMonthPurchase.get(count));
+			}
+			
+			count=-1;
+			for(int k=0;k<threeMonthPurchase.size();k++) {
+				if(threeMonthPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+1))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+				temp2.setB_month(Integer.toString(Integer.parseInt(monthago)+1));
+				temp2.setB_purchase("0");
+				threeMonthPurchase2.add(1,temp2);
+			}else {
+				threeMonthPurchase2.add(1,threeMonthPurchase.get(count));
+			}
+			System.out.println(threeMonthPurchase2.toString());
+			count=-1;
+			
+			for(int k=0;k<threeMonthPurchase.size();k++) {
+				if(threeMonthPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+2))) {
+				
+					count=k;
+				}
+			}
+			if(count==-1) {
+			
+				temp3.setB_month(month);
+				temp3.setB_purchase("0");
+				threeMonthPurchase2.add(2,temp3);
+			}else {
+				
+				threeMonthPurchase2.add(2,threeMonthPurchase.get(count));
+				
+			}
+	
+		}
+
+		//3개월 대여 매출 리스트
+		if(threeMonthRentPurchase.size()==0) {
+			temp.setB_month(monthago);
+			temp.setB_purchase("0");
+			threeMonthRentPurchase2.add(0,temp);
+			temp2.setB_month(Integer.toString(Integer.parseInt(monthago)+1));
+			temp2.setB_purchase("0");
+			threeMonthRentPurchase2.add(1,temp2);
+			temp3.setB_month(month);
+			temp3.setB_purchase("0");
+			threeMonthRentPurchase2.add(2,temp3);
+		}else {
+			int count=-1;
+			for(int k=0;k<threeMonthRentPurchase.size();k++) {
+				if(threeMonthRentPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(month)-2))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+				
+				temp.setB_month(monthago);
+				temp.setB_purchase("0");
+				threeMonthRentPurchase2.add(0,temp);
+			}else {
+				threeMonthRentPurchase2.add(0,threeMonthRentPurchase.get(count));
+			}
+			
+			count=-1;
+			for(int k=0;k<threeMonthRentPurchase.size();k++) {
+				if(threeMonthRentPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+1))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+				temp2.setB_month(Integer.toString(Integer.parseInt(monthago)+1));
+				temp2.setB_purchase("0");
+				threeMonthRentPurchase2.add(1,temp2);
+			}else {
+				threeMonthRentPurchase2.add(1,threeMonthRentPurchase.get(count));
+			}
+			count=-1;
+			
+			for(int k=0;k<threeMonthRentPurchase.size();k++) {
+				if(threeMonthRentPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+2))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+			
+				temp3.setB_month(month);
+				temp3.setB_purchase("0");
+				threeMonthRentPurchase2.add(2,temp3);
+			}else {
+				
+				threeMonthRentPurchase2.add(2,threeMonthRentPurchase.get(count));
+				
+			}
+			
+			
+		}
+		
+		//3개월 구매 매출 리스트
+		if(threeMonthBuyPurchase.size()==0) {
+			temp.setB_month(monthago);
+			temp.setB_purchase("0");
+			threeMonthBuyPurchase2.add(0,temp);
+			temp2.setB_month(Integer.toString(Integer.parseInt(monthago)+1));
+			temp2.setB_purchase("0");
+			threeMonthBuyPurchase2.add(1,temp2);
+			temp3.setB_month(month);
+			temp3.setB_purchase("0");
+			threeMonthBuyPurchase2.add(2,temp3);
+		}else {
+			int count=-1;
+			for(int k=0;k<threeMonthBuyPurchase.size();k++) {
+				if(threeMonthBuyPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(month)-2))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+				
+				temp.setB_month(monthago);
+				temp.setB_purchase("0");
+				threeMonthBuyPurchase2.add(0,temp);
+			}else {
+				threeMonthBuyPurchase2.add(0,threeMonthBuyPurchase.get(count));
+			}
+			System.out.println(threeMonthBuyPurchase2.toString()+"7");
+			count=-1;
+			for(int k=0;k<threeMonthBuyPurchase.size();k++) {
+				if(threeMonthBuyPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+1))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+				System.out.println("어디로");
+				temp2.setB_month(Integer.toString(Integer.parseInt(monthago)+1));
+				temp2.setB_purchase("0");
+				threeMonthBuyPurchase2.add(1,temp2);
+			}else {
+				
+				threeMonthBuyPurchase2.add(1,threeMonthBuyPurchase.get(count));
+			}
+			System.out.println(threeMonthBuyPurchase2.toString()+"8");
+			count=-1;
+			
+			for(int k=0;k<threeMonthBuyPurchase.size();k++) {
+				if(threeMonthBuyPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+2))) {
+					count=k;
+				}
+			}
+			if(count==-1) {
+			
+				temp3.setB_month(month);
+				temp3.setB_purchase("0");
+				threeMonthBuyPurchase2.add(2,temp3);
+			}else {
+				
+				threeMonthBuyPurchase2.add(2,threeMonthBuyPurchase.get(count));		
+			}
+		}
+
+		model.addAttribute("threeMonthBuyPurchase",threeMonthBuyPurchase2);
+		model.addAttribute("threeMonthRentPurchase",threeMonthRentPurchase2);
+		model.addAttribute("threeMonthPurchase",threeMonthPurchase2);
 		model.addAttribute("totalBuy",totalBuy);
 		model.addAttribute("rentToBuyList",rentToBuyList);
 		model.addAttribute("user", vo);
-		
+	//수정 끝	
 	
 		List<UserVO> list = dao.memList(cri);
 		int listCount = list.size();
@@ -1438,6 +1640,8 @@ System.out.println(rentToBuyList.toString());
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 
+		//선택한 대여정보의 구매확정 내역 확인
+		RentVO rentBuy=rentDAO.rentToBuyListByrid(r_id);
 		// 선택한 대여 정보 가져오기
 		RentVO rentVO = rentDAO.rentInfo(r_id);
 		System.out.println("memController - memRentDetail - rentVO : " + rentVO.toString());
@@ -1445,14 +1649,13 @@ System.out.println(rentToBuyList.toString());
 		ProductVO productVO = productDAO.productInfo(rentVO.getR_pid());
 		System.out.println("memController - memRentDetail - productVO : " + productVO.toString());
 		// 선택한 대여의 결제 정보 가져오기
-
 		List<BuyVO> buyList=buyDAO.buyList(rentVO.getR_id());
 		if(!buyList.isEmpty() && buyList.size() != 0) {
 			for(int i = 0; i < buyList.size(); i++) {
 				System.out.println("memController - memRentDetail - buyInfo : " + buyList.get(i).toString());
 			}
 		}
-
+		model.addAttribute("rentBuy", rentBuy);
 		model.addAttribute("rentInfo", rentVO);
 		model.addAttribute("proInfo", productVO);
 		model.addAttribute("buyList", buyList);

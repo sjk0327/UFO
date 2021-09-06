@@ -10,6 +10,7 @@
 <html lang="en">
 <head>
 <title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -267,7 +268,7 @@ body, html {
 <body>
 
 	<div class="site-wrap">
-		<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
+		
 		<br> <br>
 		<div class="titleArea" style="text-align: center;">
 			<h2 style="color: #566963;">주문 / 결제</h2>
@@ -347,7 +348,16 @@ body, html {
 												<c:if test="${buyInfo.buyType eq '연체료 납부' }">
 												<td><fmt:formatNumber pattern="###,###,###">${buyInfo.productPrice}</fmt:formatNumber>원</td>
 											</c:if>
-												<td>${buyInfo.rentdate }</td>
+											<c:if test="${buyInfo.buyType eq '대여' }">
+													<td>${buyInfo.rentdate }</td>
+												</c:if>
+												<c:if test="${buyInfo.buyType eq '구매' or buyInfo.buyType eq '구매 확정'}">
+													<td></td>
+												</c:if>
+												<c:if test="${buyInfo.buyType eq '연체료 납부' }">
+												<td></td>
+											</c:if>
+												
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -733,6 +743,8 @@ body, html {
 					</div>
 					<br>
 					<div class="form-group" style="text-align: center;">
+					<c:set var="now" value="<%=new java.util.Date()%>" />
+   						<c:set var="todaydate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set>
 						<form:form name="buyInsert" action="/member/rent/buyKakao" commandName="BuyVO" method="post">
 							<input type="hidden" id="m_id2" name="m_id" value="${userVO.m_id }" />
 							
@@ -757,9 +769,11 @@ body, html {
 								
 								<c:if test="${buyInfo.buyType eq '대여' }">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+									<input type="hidden" id="r_sdate" name="r_sdate" value="${buyInfo.rentdate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '구매'}">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+								<input type="hidden" id="r_sdate" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${buyInfo.productPrice}" />
@@ -768,11 +782,12 @@ body, html {
 								<c:if test="${buyInfo.buyType eq '구매 확정' }">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+									<input type="hidden" id="r_sdate" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<input type="hidden" id="b_message" name="b_message" value="안전하게 배송해 주세요." />
-								<input type="hidden" id="sp1" name="m_point" value="${p + userVO.m_point }" /> 
 								
 							</c:forEach>
+								<input type="hidden" id="sp1" name="m_point" value="${p + userVO.m_point }" /> 
 
 							
 							<h6 style="font-weight: bold;">※ 100만원이
@@ -806,9 +821,11 @@ body, html {
 								<input type="hidden" id="b_state2" name="b_state" value="${buyInfo.buyType }" />
 								<c:if test="${buyInfo.buyType eq '대여' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+									<input type="hidden" id="r_sdate2" name="r_sdate" value="${buyInfo.rentdate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '구매' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+								<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${buyInfo.productPrice}" />
@@ -818,6 +835,7 @@ body, html {
 								<c:if test="${buyInfo.buyType eq '구매 확정' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
 									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+									<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<input type="hidden" id="b_message2" name="b_message" value="안전하게 배송해 주세요." />
 							</c:forEach>

@@ -23,7 +23,7 @@
 			<if test="searchType == 'tc'.toString()">
 				AND r_state LIKE CONCAT('%', #{keyword},'%')
 			</if>
-		ORDER BY r_id desc
+		ORDER BY r_rid desc, r_id
 		limit #{pageStart}, #{perPageNum}
 	</select>
 
@@ -57,13 +57,13 @@
 	<insert id="rentInsert" parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
 		insert into rental(r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate)
-		values(#{r_id},#{r_mid},#{r_pid}, now(), #{r_rent}, #{r_state}, now())
+		values(#{r_id}, #{r_mid},#{r_pid}, #{r_sdate}, #{r_rent}, #{r_state}, now())
 		]]>
 	</insert>
 
 	<select id="rentInfo" resultType="com.use.first.rent.RentVO">
 		<![CDATA[
-		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_id=#{r_id}
+		select  r_id, r_rid, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_id=#{r_id}
 		]]>
 	</select>
 
@@ -235,9 +235,23 @@
    
    <select id="rentToBuyList"  resultType="com.use.first.rent.RentVO">
       <![CDATA[
-      select r_pid, product.p_name, product.p_category, sum(r_rent) as total, r_state from rental,product where product.p_id = rental.r_pid and r_state="구매 확정" group by r_pid order by sum(r_rent) desc limit 4;
+      select r_pid, product.p_name, product.p_category, sum(r_rent) as total, r_state from rental,product where product.p_id = rental.r_pid and r_state="구매 확정" group by r_pid order by sum(r_rent) desc limit 5;
       ]]>
    </select>
+   
+   <select id="rentToBuyListByrid"  resultType="com.use.first.rent.RentVO">
+      <![CDATA[
+      select rental.r_id, rental.r_rid, product.p_name, product.p_category, rental.r_rent, rental.r_sdate, rental.r_state, rental.r_pdate from rental, product
+      where product.p_id = rental.r_pid and r_rid = #{r_rid} and r_state = "구매 확정" 
+      ]]>
+   </select>
+   
+   <update id="rentUpdaterid"
+		parameterType="com.use.first.rent.RentVO">
+		<![CDATA[
+		update rental set r_rid = r_id where r_id = #{r_id}
+		]]>
+	</update>
 	
 	<!-- 08/10 : 성훈 추가 product.p_category -->
 	<!-- 성훈 시작 -->
