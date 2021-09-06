@@ -79,7 +79,7 @@
                            href="/member/noticeList" role="tab" style="font-weight: bold;">공지사항</a>
                            <div class="slide"></div></li>
                         <li class="nav-item"><a id="menu-2" class="nav-link "
-                           href="/member/qnaList" role="tab" style="font-weight: bold;">Q&A</a>
+                           href="/member/qna/qnaList" role="tab" style="font-weight: bold;">Q&A</a>
                            <div class="slide"></div></li>
 							</ul>
 						</div>

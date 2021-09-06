@@ -140,7 +140,7 @@ public class QnaController {
 		model.addAttribute("qnaAnswer", qnaAnswer);
 		PageMaker pageMaker = new PageMaker(cri);
 
-		int totalCount = qnaDAO.getQnaTotalCount(cri);
+		int totalCount = qnaDAO.getQnaTotalCount1(cri);
 		pageMaker.setTotalCount(totalCount);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("pageMaker", pageMaker);
@@ -171,7 +171,7 @@ public class QnaController {
 	@RequestMapping(value = "/admin/qnaDelete", method = RequestMethod.POST)
 	public String adminQnaDelete(QnaVO qnaVO, Model model) {
 		QnaDAO qnaDAO = sqlSessionTemplate.getMapper(QnaDAO.class);
-		qnaDAO.adminQnaUpdate(qnaVO.getQ_answer(), qnaVO.getQ_reference());
+		qnaDAO.adminQnaUpdate(qnaVO.getQ_answer(), qnaVO.getQ_id());
 		int n = qnaDAO.adminAnswerDelete(qnaVO);
 		if (n != 1) {
 			System.out.println("삭제 실패  :: " + qnaVO.toString());

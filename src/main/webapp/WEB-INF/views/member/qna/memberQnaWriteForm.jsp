@@ -241,16 +241,16 @@
 			<form:form name="qnaWriteForm" action="/member/qna/qnaWrite" method="post" modelAttribute="qnaVO">
 				<input type="hidden" name="q_mid" value="${userInfo.m_id }">
 				<input type="hidden" name="q_mname"  value="${userInfo.m_name }">
-				<table class="table table-sm">
+				<table class="table table-striped table-sm">
 					<tr>
-						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">글번호</td>
+						<td class="danger" style="font-weight: bold; color: #555555;">글번호</td>
 						
 						<td style="text-align: center; background-color: white; color: #555555;">${lastIndex }</td>
-						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성자</td>
+						<td class="danger" style="font-weight: bold; color: #555555;">작성자</td>
 						<td style="text-align: center; background-color: white; color: #555555;">${userInfo.m_name }</td>
 					</tr>
 					<tr>
-						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">카테고리</td>
+						<td class="danger" style="font-weight: bold; color: #555555;">카테고리</td>
 						<td style="color: #555555;">
 							<select name="q_type" class="form-control" style="width:fit-content">
 								<option value="">선택해주세요</option>
@@ -262,13 +262,13 @@
 						<c:set var="now" value="<%=new java.util.Date()%>" />
 						<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 						
-						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성일</td>
+						<td class="danger" style="font-weight: bold; color: #555555;">작성일</td>
 						<td style="text-align: center; background-color: white; color: #555555;">${today }</td>
 					</tr>
 					<tr>
-						<td class="danger" style="font-weight: bold; color: #555555;"></td>
-						<td style="color: #555555;"></td>	
-						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">조회수</td>
+						<td class="danger" style="font-weight: bold; color: #555555; background-color: white;"></td>
+						<td style="color: #555555; background-color: white;"></td>	
+						<td class="danger" style="font-weight: bold; color: #555555;">조회수</td>
 						<td style="text-align: center; background-color: white; color: #555555;">0</td>
 					</tr>
 					<tr>
@@ -279,7 +279,7 @@
 					</tr>
 
 					<tr>
-						<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE; vertical-align:middle;">글내용</td>
+						<td class="danger" style="font-weight: bold; color: #555555; vertical-align:middle;">글내용</td>
 						<td colspan="3"><textarea name="q_content" class="form-control" rows="18" style="resize: none; background-color: white;"></textarea></td>
 					</tr>
 				</table>
