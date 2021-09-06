@@ -133,21 +133,12 @@ body, html {
 			<div class="row">
 				<div class="col-sm-12">
 				
-				
-				
-									
-				
-				
-				
-				
-				
-				
 					<!-- Authentication card start -->
 
 					<form class="md-float-material form-material" name="find"
 						action="/member/mem/pw_auth" method="post">
 						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
+							<a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
 						</div>			
 						<div class="auth-box card">
 							<div class="card-block">
@@ -230,8 +221,8 @@ body, html {
 										</p>
 									</div>
 									<div class="col-md-2">
-										<img src="resources/assets/images/auth/Logo-small-bottom.png"
-											alt="small-logo.png">
+										<a href="/"><img src="/resources/assets/images/Logo-small-bottom.png" width="60" height="58"
+											alt="small-logo.png"></a>
 									</div>
 								</div>
 							</div>

@@ -119,6 +119,15 @@
 	]]>
 	</select>
 	
+	<!-- 탈퇴시 비밀번호찾기  -->
+	<select id="pwMember" parameterType="String"
+		resultType="com.use.first.member.UserVO">
+		select m_id, m_name, m_pw, m_gender, m_addr, m_tel, m_email, m_point,
+		m_img, m_regdate, m_regtype 
+		from member 
+		where m_id = #{m_id};
+	</select>
+	
 	
 	
 	
@@ -170,7 +179,8 @@
 		UPDATE rental SET r_mid="탈퇴한 회원입니다."
 		WHERE r_mid =#{r_mid}
 	]]>
-	</update>
+	</update> 
+	
 	
 	
 	

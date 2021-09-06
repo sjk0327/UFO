@@ -93,7 +93,7 @@ body, html {
 	background: #ffffff;
 	box-sizing: border-box;
 	display: none;
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);
@@ -331,7 +331,7 @@ select::-ms-expand {
 																					</div>
 																					</c:if>
 																					
-																					<!-- 비밀번호 변경 소셜은 못 함! -->
+																					<!-- 비밀번호 변경  일반회원 가능 -->
 																					<c:if test="${userInfo.m_regtype eq '유에프오'}">
 
 																					<div class="form-group row">
@@ -590,7 +590,7 @@ select::-ms-expand {
 																				<c:otherwise>
 
 																					<table class="table table-hover">
-
+																						<c:set var="toRent" value="false"/>
 																						<c:forEach var="list" items="${rentList }">
 																							<tbody>
 
@@ -614,8 +614,11 @@ select::-ms-expand {
 																									<td>
 																										<div>D - ${list.r_sdate}</div>
 																									</td>
-																									<td class="text-right"><c:if
+																									<td class="text-right">
+																									
+																									<c:if
 																											test="${list.r_state eq '대여중'}">
+																											<c:set var="toRent" value="true"/>
 																											<fmt:parseDate var="tempToday"
 																												value="${list.r_sdate}" pattern="yyyy-MM-dd" />
 																											<fmt:parseNumber var="sdate"
@@ -633,6 +636,7 @@ select::-ms-expand {
 																												<label class="btn btn-danger">연 체 중</label>
 																											</c:if>
 																										</c:if> <c:if test="${list.r_state eq '반납 요청'}">
+																											<c:set var="toRent" value="true"/>
 																											<label class="btn btn-warning">반납 요청</label>
 																										</c:if> <c:if test="${list.r_state eq '반납 완료'}">
 																											<label class="btn btn-success">반납 완료</label>
@@ -792,7 +796,7 @@ select::-ms-expand {
 												<!-- Page-body end -->
 												<c:if test="${userInfo.m_regtype eq '카카오' || rentInfo.r_state eq '네이버'}">
 												<div style="float: right; padding-bottom: 100px"><a href="/member/mem/accountDelete">
-													<input type="hidden" id="confirm" value="회원탈퇴"
+													<input type="hidden" id="alert" value="회원탈퇴"
 															class="btn waves-effect waves-light btn-primary btn-outline-primary">
 													<input type="hidden" id="confirm" value="userVO.m_id">
 															</a>
@@ -800,11 +804,12 @@ select::-ms-expand {
 												
 												</c:if>
 												<c:if test="${userInfo.m_regtype eq '유에프오'}">
-												<div style="float: right; padding-bottom: 100px"><a href="/member/mem/accountDelete">
-													<input type="button" id="confirm" value="회원탈퇴"
+												<div style="float: right; padding-bottom: 100px">
+												<form name="accountDelete" action="/member/mem/accountDelete">
+													<input type="button" id="accountDeleteBtn" value="회원탈퇴"
 															class="btn waves-effect waves-light btn-primary btn-outline-primary">
 													<input type="hidden" id="confirm" value="userVO.m_id">
-															</a>
+												</form>
 												</div>
 												</c:if>
 
@@ -850,7 +855,6 @@ select::-ms-expand {
 	</section>
 	<!-- confirm 모달을 쓸 페이지에 추가 end-->
 
-
 	<!-- alert 모달을 쓸 페이지에 추가 start-->
 	<section class="mocdal modal-section type-alert">
 		<div class="enroll_box">
@@ -873,13 +877,10 @@ select::-ms-expand {
 	<script>
 		//비밀번호 수정 팝업창 띄우기
 		function showPopUp() {
-
 			var url = "/member/mem/pw_change/1";
 			var name = "addrPopup";
 			var option = "width = 450, height = 560 left = 200, top=50, location=no";
-
 			window.open(url, name, option);
-
 		}
 		//전화번호 자동 - 추가
 		var autoHypenPhone = function(str) {
@@ -907,17 +908,13 @@ select::-ms-expand {
 				tmp += str.substr(7);
 				return tmp;
 			}
-
 			return str;
 		}
-
 		var phoneNum = document.getElementById('phoneNum');
-
 		phoneNum.onkeyup = function() {
 			console.log(this.value);
 			this.value = autoHypenPhone(this.value);
 		}
-
 		$(document).ready(
 				function() {
 					var size = $(window)[0].innerWidth;
@@ -928,7 +925,6 @@ select::-ms-expand {
 						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
 					}
 				});
-
 		$(window).resize(
 				function() {
 					var size = $(window)[0].innerWidth;
@@ -939,7 +935,6 @@ select::-ms-expand {
 						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
 					}
 				});
-
 		function goRentDetailPage(r_id) {
 			var url = '/member/mem/memRentDetail/' + r_id;
 			$("#tempPage").load(url, function() {
@@ -947,7 +942,6 @@ select::-ms-expand {
 				$("#tempPage").html("");
 			});
 		}
-
 		function goBuyDetailPage(r_id) {
 			var url = '/member/mem/memBuyDetail/' + r_id;
 			$("#tempPage").load(url, function() {
@@ -955,7 +949,6 @@ select::-ms-expand {
 				$("#tempPage").html("");
 			});
 		}
-
 		/*사진 미리 보여주기 함수 memberDetail*/
 		$(document).ready(
 				function() {
@@ -970,51 +963,41 @@ select::-ms-expand {
 						$(this).siblings('.upload-name').val(filename);
 					});
 				});
-
 		var imgTarget = $('.upload-hidden');
-
 		imgTarget
 				.on(
 						'change',
 						function() {
 							var parent = $(this).parent();
 							parent.children('.m_imgPreview').remove();
-
 							if (window.FileReader) {
 								if (!$(this)[0].files[0].type.match(/image\//))
 									return;
-
 								var reader = new FileReader();
 								reader.onload = function(e) {
 									var src = e.target.result;
 									parent
 											.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>');
-
 								}
 								reader.readAsDataURL($(this)[0].files[0]);
 							}
 						});
-
 		/*다음 우편번호 찾기 javaScript */
-
 		function daumPostcode() {
 			new daum.Postcode(
 					{
 						oncomplete : function(data) {
 							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
 							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
 							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
 							var addr = ''; // 주소 변수
 							var extraAddr = ''; // 참고항목 변수
-
 							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
 							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
 								addr = data.roadAddress;
 							} else { // 사용자가 지번 주소를 선택했을 경우(J)
 								addr = data.jibunAddress;
 							}
-
 							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
 							if (data.userSelectedType === 'R') {
 								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
@@ -1036,11 +1019,9 @@ select::-ms-expand {
 								}
 								// 조합된 참고항목을 해당 필드에 넣는다.
 								document.getElementById("extraAddress").value = extraAddr;
-
 							} else {
 								document.getElementById("extraAddress").value = '';
 							}
-
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
 							document.getElementById('postcode').value = data.zonecode;
 							document.getElementById("address").value = addr;
@@ -1050,7 +1031,6 @@ select::-ms-expand {
 						}
 					}).open();
 		}
-
 		$('#detailAddress').focusout(
 				function() {
 					var realAddr = $('input[name=addr]').eq(0).val() + "|"
@@ -1059,22 +1039,23 @@ select::-ms-expand {
 							+ $('input[name=addr]').eq(2).val();
 					$('#realAddress').val(realAddr);
 				});
-
 		//승빈
-
 		$(function() {
 			//사용 예시 **************************
-			$(document).on("click", "#confirm", function() {
-				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
-					if (res) {
-						document.delete2.submit();
-						action_popup.alert("탈퇴가 되었습니다.");
-					} else {
-						action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
-					}
-				})
+			$(document).on("click", "#accountDeleteBtn", function() {
+				var toRent = "${toRent}";
+				
+				if(toRent == "true"){
+					action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
+					
+				}else {
+					action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
+						if (res) {
+							document.accountDelete.submit();
+						}
+					});
+				} 
 			});
-
 			$(document).on("click", "#update", function() {
 				action_popup.confirm("수정 하시겠습니까?", function(upd) {
 					if (upd) {
@@ -1085,17 +1066,21 @@ select::-ms-expand {
 					}
 				})
 			});
-
 			$(document).on("click", "#alert", function() {
-				action_popup.alert("경고창 테스트!!!");
+				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
+					if (res) {
+						
+						action_popup.alert("정보 약관에 동의해주세요.");
+					} else {
+						action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
+					}
+				})
 			});
-
 			$(".modal_close").on("click", function() {
 				action_popup.close(this);
 			});
 			//사용 예시 **************************
 		});
-
 		/**
 		 *  alert, confirm 대용 팝업 메소드 정의 <br/>
 		 *  timer : 애니메이션 동작 속도 <br/>
@@ -1122,7 +1107,6 @@ select::-ms-expand {
 					this.open("type-confirm", txt);
 				}
 			},
-
 			alert : function(txt) {
 				if (txt == null || txt.trim() == "") {
 					console.warn("confirm message is empty.");
@@ -1131,7 +1115,6 @@ select::-ms-expand {
 					this.open("type-alert", txt);
 				}
 			},
-
 			open : function(type, txt) {
 				var popup = $("." + type);
 				popup.find(".menu_msg").text(txt);
@@ -1140,7 +1123,6 @@ select::-ms-expand {
 						"target", type);
 				popup.fadeIn(this.timer);
 			},
-
 			close : function(target) {
 				var modal = $(target).closest(".modal-section");
 				var dimLayer;

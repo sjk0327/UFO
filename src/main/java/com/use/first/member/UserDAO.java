@@ -32,6 +32,7 @@ public interface UserDAO {
 	
 
 	public UserVO selectMember(String m_id);
+	public UserVO pwMember(String m_id);
 	public int pwUpdate_M(UserVO user);
 
 	public int pwUpdateId(String id, String pw);
