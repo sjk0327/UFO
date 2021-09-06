@@ -31,6 +31,23 @@
 		<include refid="searchCondition"></include>
 	</select>
 	
+	<sql id="searchCondition">
+		<if test="searchType != null">
+			<if test="searchType == 'c'.toString()">
+				AND q_type LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 't'.toString()">
+				AND q_title LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'n'.toString()">
+				AND q_mname LIKE CONCAT('%', #{keyword},'%')
+			</if>
+			<if test="searchType == 'i'.toString()">
+				AND q_mid LIKE CONCAT('%', #{keyword},'%')
+			</if>
+		</if>
+	</sql>
+	
 	
 
 	<select id="qnaInfo" resultType="com.use.first.qna.QnaVO">
@@ -76,9 +93,6 @@
 		UPDATE qna SET q_reference = #{q_reference} WHERE q_id = #{q_reference}
 	</update>
 	
-	
-	
-
 	<insert id="adminQnaInsert" parameterType="com.use.first.qna.QnaVO">
 		insert into qna (q_mid, q_mname, q_type, q_title, q_content, q_date, q_reference, q_answer) 
 		VALUES 
@@ -92,30 +106,39 @@
 	<select id="adminQnaAnswer" resultType="com.use.first.qna.QnaVO" >
 		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
 		FROM qna
-		where q_mid = 'admin'
+		where q_mname = '관리자'
 		ORDER BY q_id DESC
-		limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<select id="adminQnaList" resultType="com.use.first.qna.QnaVO" >
 		SELECT q_id, q_mid, q_mname, q_type, q_title, q_content, q_date, q_readCount, q_reference, q_answer
 		FROM qna
-		where not q_mid = 'admin'
-		<if test="searchType == 't'.toString()">
+		where not q_mname = '관리자'
+			<if test="searchType == 'a'.toString()">
 			and	q_answer = true
 			</if>
-			<if test="searchType == 'c'.toString()">
+			<if test="searchType == 'b'.toString()">
 			and	q_answer = false
 			</if>
 		ORDER BY q_id DESC
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	
-
 	<select id="getQnaTotalCount1" resultType="int">
 		SELECT count(*) FROM qna where not q_mname = '관리자'
-		<include refid="searchCondition"></include>
+		<include refid="searchCondition2"></include>
 	</select>
+	
+	<sql id="searchCondition2">
+		<if test="searchType != null">
+			<if test="searchType == 'a'.toString()">
+			and	q_answer = true
+			</if>
+			<if test="searchType == 'b'.toString()">
+			and	q_answer = false
+			</if>
+		</if>
+	</sql>
 	
 	
 	<update id="adminQnaUpdate">
@@ -123,28 +146,17 @@
 	</update>
 	
 	<update id="adminAnswerUpdate" parameterType="com.use.first.qna.QnaVO">
-		update qna set q_content = #{q_content} where q_reference = #{q_reference}
+		update qna set q_content = #{q_content} where q_id = #{q_id}
 	</update>
 	
 	<delete id="adminAnswerDelete" parameterType="com.use.first.qna.QnaVO">
 		delete from qna where q_reference = #{q_reference}
 	</delete>
 	
-
 	<update id="advertisementDelete">
 		update qna set q_title = #{param1}, q_content = #{param2} where q_id = #{param3}
 	</update>
 	
-	<sql id="searchCondition">
-		<if test="searchType != null">
-			<if test="searchType == 't'.toString()">
-			and	q_answer = true
-			</if>
-			<if test="searchType == 'c'.toString()">
-			and	q_answer = false
-			</if>
-		</if>
-	</sql>
-
+	
 	
 </mapper>

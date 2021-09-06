@@ -249,23 +249,23 @@
 				<c:choose>
 				<c:when test="${userInfo.m_id eq qnaVO.q_mid }">
 				
-					<table class="table table-sm">
+					<table class="table table-striped table-sm">
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">글번호</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">글번호</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_id }</td>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성자</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">작성자</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_mname }</td>
 						</tr>
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">카테고리</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">카테고리</td>
 							<td style="color: #555555;">${qnaVO.q_type }</td>	
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성일</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">작성일</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_date }</td>
 						</tr>
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555;"></td>
-							<td style="color: #555555;"></td>	
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">조회수</td>
+							<td class="danger" style="font-weight: bold; color: #555555; background-color: white;"></td>
+							<td style="color: #555555; background-color: white;"></td>	
+							<td class="danger" style="font-weight: bold; color: #555555;">조회수</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${qnaVO.q_readCount }</td>
 						</tr>
 						<tr>
@@ -274,7 +274,7 @@
 						</tr>
 	
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE; vertical-align:middle;">글내용</td>
+							<td class="danger" style="font-weight: bold; color: #555555; vertical-align:middle;">글내용</td>
 							<td colspan="3"><textarea name="q_content" class="form-control" rows="18" style="resize: none; background-color: white;" readOnly="readOnly">${qnaVO.q_content }</textarea></td>
 						</tr>
 					</table>

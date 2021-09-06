@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,25 +30,23 @@
 							<div class="main-body">
 								<div class="page-wrapper">
 									<div class="page-body">
-
 										<form id="sort1" name="qnaListY" method="post" action="/admin/qnaList">
 										<select id="searchType1" name="searchType" style="display: none;">
-		                                    <option value="t" selected></option>
-		                                    <option value="c"></option>
+		                                    <option value="a" selected></option>
+		                                    <option value="b"></option>
 		                                 </select>&nbsp;
 											<input type="hidden" id="keyword1" name="keyword" value="true" />
 										</form>
 										<form id="sort2" name="qnaListN" method="post" action="/admin/qnaList">
-										<select id="searchType1" name="searchType" style="display: none;">
-		                                    <option value="t"></option>
-		                                    <option value="c" selected></option>
+										<select id="searchType2" name="searchType" style="display: none;">
+		                                    <option value="a"></option>
+		                                    <option value="b" selected></option>
 		                                 </select>&nbsp;
 											<input type="hidden" id="keyword2" name="keyword" value="false" />
 										</form>
 										<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="location.href='/admin/qnaList';">전제보기</button>
 										<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="answerY()">답변 Y</button>
 										<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="answerN()">답변 N</button>
-
 									<br><br>
 										<div class="card">
 											<div class="row">
@@ -58,42 +57,53 @@
                                                         <h5 class="card-header-text">Q&A 리스트</h5>
                                                     </div>
                                                     <div class="card-block accordion-block">
-
                                                         <div id="accordion" role="tablist" aria-multiselectable="true">
                                                             <div class="accordion-panel">
                                                             <div class="row">
-                                                            <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">번호</span>
-                                                            <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">카테고리</span>
-                                                            <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">제목</span>
-                                                            <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">ID</span>
+                                                            <span class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">번호</span>
+                                                            <span class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0; font-weight: bold; font-size: 17px;">카테고리</span>
+                                                            <span class="col-md-6 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">제목</span>
+                                                            <span class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0; font-weight: bold; font-size: 17px;">ID</span>
                                                             <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">날짜</span>
-                                                            <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center; font-weight: bold; font-size: 17px;">답변여부</span>
+                                                            <span class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0; font-weight: bold; font-size: 17px;">답변여부</span>
                                                             </div>
                                                                 <c:forEach var="qna" items="${qnaList}" varStatus="status">
                                                                 <div class="accordion-heading" role="tab" id="headingOne">
                                                                 	<div class="row">
-                                                                        <span id="q_id${status.index }" class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
+                                                                        <span id="q_id${status.index }" class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_id }</a></span>
                                                                         
-																	    <span id="q_type${status.index }" class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
+																	    <span id="q_type${status.index }" class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_type }</a></span>
                                                                         
-																	    <span id="q_title${status.index }" class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
+                                                                        <fmt:parseDate var="tempToday" value="${qna.q_date}" pattern="yyyy-MM-dd"/>
+  																		<fmt:parseNumber var="cdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
+  																		<c:set var="now" value="<%=new java.util.Date()%>" />
+												   						<c:set var="todaydate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set>
+												    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+												    					
+												    					<c:choose>
+												    					<c:when test="${cdate + 1 < today || qna.q_answer eq true || qna.q_content eq '관리자에 의해 삭제된 코멘트 입니다.' && qna.q_title eq '광고글 삭제'}">
+																	    <span id="q_title${status.index }" class="col-md-6 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_title }</a></span>
-                                                                        
-																	    <span id="q_mid${status.index }" class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                        <span id="q_title${status.index }" class="col-md-6 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
+                                                                        data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_title } <img class="picture" src="/resources/img/new.png" alt="new"></a></span>
+                                                                        </c:otherwise>
+                                                                        </c:choose>
+																	    <span id="q_mid${status.index }" class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_mid }</a></span>
                                                                         
 																	    <span class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">${qna.q_date }</a></span>
                                                                         
                                                                         
-																	    <span id="q_answer" class="col-md-2 accordion-msg waves-effect waves-dark" style="text-align: center;"><a data-toggle="collapse"
+																	    <span id="q_answer" class="col-md-1 accordion-msg waves-effect waves-dark" style="text-align: center; padding-left:0; padding-right:0;"><a data-toggle="collapse"
                                                                         data-parent="#accordion" href="#collapseOne${qna.q_id }" aria-expanded="true" aria-controls="collapseOne">
-
-                                                                        <c:if test="${qna.q_answer eq 'true'}"><label class="label label-primary" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
-                                                                        <c:if test="${qna.q_answer eq 'false'}"><label class="label label-danger" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
-
+                                                                        <c:if test="${qna.q_answer eq true}"><label class="label label-primary" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
+                                                                        <c:if test="${qna.q_content eq '관리자에 의해 삭제된 코멘트 입니다.' && qna.q_title eq '광고글 삭제'}"><label class="label label-info" style="font-size: 10pt;">광고삭제</label></c:if>
+                                                                        <c:if test="${qna.q_title ne '광고글 삭제' && qna.q_answer eq false}"><label class="label label-danger" style="font-size: 10pt;">${qna.q_answer }</label></c:if>
                                                                         </a></span>
 																	</div>
 																	      
@@ -112,23 +122,19 @@
                                                                 <c:if test="${qna.q_id eq answer.q_reference }">
                                                                 <textarea id="q_content${status.index }" name="q_content" rows="5" class="form-control" style="resize: none; font-size:15px; background-color: white; color: #666666; text-align: center; border:1px solid #aaaaaa; border-radius: 10px;">${answer.q_content }</textarea> 
                                                                 <br>
-                                                                <button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="adminAnswerUpdate(${status.index },${answer.q_reference } )">수정</button>
+                                                                <button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="adminAnswerUpdate(${status.index },${answer.q_id } )">수정</button>
                                                                 <button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="adminAnswerDelete(${answer.q_reference })">삭제</button>
                                                                 </c:if>
                                                                 
                                                                 </c:forEach>
                                                                 </c:when>
-
                                                                 <c:when test="${qna.q_title eq '광고글 삭제' }">
                                                                 </c:when>
-
                                                                 <c:otherwise>
                                                                 	<textarea id="q_content${status.index }" name="q_content" rows="5" class="form-control" style="resize: none; font-size:15px; background-color: white; color: #666666; text-align: center; border:1px solid #aaaaaa; border-radius: 10px;"></textarea> 
                                                                 	<br>
                                                                 	<input type="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="등록" onClick="adminQna(${status.index })">
-
                                                                 	<button class="btn waves-effect waves-light btn-primary btn-outline-primary" onClick="advertisementDelete(${qna.q_id })">광고글 삭제</button>
-
                                                                 </c:otherwise>
                                                                 </c:choose>
                                                                
@@ -138,11 +144,7 @@
                                                         </div>
                                                         </div>
                                                         <form:form name="adminQnaInsert" action="/admin/qnaInsert" commandName="QnaVO" method="post">
-
                                                         		<input type="hidden" id="q_mid-1" name="q_mid"/>
-
-                                                        		<input type="hidden" name="q_mid" value="admin" />
-
                                                                 <input type="hidden" name="q_mname" value="관리자" />
                                                                 <input type="hidden" id="q_type-1" name="q_type" />
                                                                 <input type="hidden" id="q_title-1" name="q_title" />
@@ -152,7 +154,7 @@
                                                         </form:form>
                                                         
                                                         <form:form name="adminQnaUpdate" action="/admin/qnaUpdate" commandName="QnaVO" method="post">
-                                                                <input type="hidden" id="q_reference-2" name="q_reference" />
+                                                                <input type="hidden" id="q_id-2" name="q_id" />
                                                                 <input type="hidden" id="q_content-2" name="q_content" />
                                                         </form:form>
                                                         
@@ -160,12 +162,10 @@
                                                         		<input type="hidden" name="q_answer" value="false" />
                                                                 <input type="hidden" id="q_reference-3" name="q_reference" />
                                                         </form:form>
-
                                                         
                                                         <form:form name="adminAdvertisementDelete" action="/admin/advertisementDelete" commandName="QnaVO" method="post">
                                                         		<input type="hidden" id="q_id-1" name="q_id" />
                                                         </form:form>
-
 		                                            </div>
 		                                        </div>
 		                                    </div>
@@ -173,7 +173,7 @@
                                 <!-- Multiple Open Accordion ends -->
 											</div>
 										</div>
-
+										
 										<!-- 페이징 start -->
 										<div id = "paging-div">
 										<ul class="btn-group pagination">
@@ -211,12 +211,13 @@
 
 function adminQna(index) {
 	
-
 	document.getElementById("q_mid-1").value = document.getElementById("q_mid" + index).innerText;
 	document.getElementById("q_type-1").value = document.getElementById("q_type" + index).innerText;
 	document.getElementById("q_title-1").value = "[RE]" + document.getElementById("q_title" + index).innerText;
 	document.getElementById("q_reference-1").value = document.getElementById("q_id" + index).innerText;
 	document.getElementById("q_content-1").value = document.getElementById("q_content" + index).value;
+	
+	console.log(document.getElementById("q_content-1").value);
 	
 	if(document.getElementById("q_content-1").value == ""){
 		alert("답변을 입력해 주세요.");
@@ -228,14 +229,18 @@ function adminQna(index) {
 	}
 }
 
-function adminAnswerUpdate(index, reference) {
+function adminAnswerUpdate(index, qid) {
 	
-	document.getElementById("q_reference-2").value = reference;
+	document.getElementById("q_id-2").value = qid;
 	document.getElementById("q_content-2").value = document.getElementById("q_content" + index).value;
 	
-	var con = confirm("수정하시겠습니까?");
-	if(con == true){
-		document.adminQnaUpdate.submit();
+	if(document.getElementById("q_content-2").value == ""){
+		alert("답변을 입력해 주세요.");
+	} else {
+		var con = confirm("수정하시겠습니까?");
+		if(con == true){
+			document.adminQnaUpdate.submit();
+		}
 	}
 }
 
@@ -248,7 +253,6 @@ function adminAnswerDelete(reference) {
 		document.adminQnaDelete.submit();
 	}
 }
-
 
 function advertisementDelete(q_id) {
 	
@@ -268,7 +272,6 @@ function answerY(){
 function answerN(){
 	document.qnaListN.submit();
 }
-
 
 
    	
