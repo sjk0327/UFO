@@ -154,7 +154,7 @@
 					<form class="md-float-material form-material" name="mach"
 						action="/member/mem/pw_change" method="post" >
 						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
+							<a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">

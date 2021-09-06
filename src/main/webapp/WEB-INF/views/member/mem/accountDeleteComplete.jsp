@@ -9,7 +9,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
+<title>회원 탈퇴</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
 <script src="https://ajax.googleapis .com /ajax/libs/jquery/3 .5 .1 /jquery .min .js "></script >
 
@@ -149,32 +149,30 @@
 					<!-- Authentication card start -->
 
 						<div class="text-center">
-							<img src="/resources/assets/images/ufologo.png" alt="logo.png">
+							<img src="/resources/assets/images/logo.png" width="270px" height="135px" alt="logo.png">
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
 								<div class="row m-b-20">
 									<div class="col-md-12">
-										<h3 class="text-center">회원가입 완료</h3>
+										<h3 class="text-center">회원탈퇴 완료</h3>
 									</div>
 								</div>
 
 								<div class="form-group form-primary" style="text-align:center;">
-									<h5 >회원 가입이 완료 되었습니다.</h5>
+									<h5 >지금까지 UFO를 이용해 주셔서 감사합니다.</h5><br>
+									<h5 >다시 만날 그날을 기약하며 Au Revoir </h5>
 									
 								</div>
 								<div class="row m-t-25 text-left">
 									<div class="col-12"></div>
 								</div>
 								<div class="row m-t-30">
-									<div class="col-md-6">
+									<div class="col-md-12">
 										<input type="button" value="홈으로" onClick="location.href='/'"
 											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 									</div>
-									<div class="col-md-6">
-										<input type="button" value="로그인" onClick="location.href='/login'"
-											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
-									</div>
+									
 								
 								</div>
 								

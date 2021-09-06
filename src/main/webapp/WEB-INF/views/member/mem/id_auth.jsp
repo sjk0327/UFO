@@ -106,27 +106,9 @@ body, html {
 .card {
 	width: 450px;
 }
-<
-script
-
-	
-src
-="https
-:
-//ajax
-.googleapis
-.com
-/ajax/libs/jquery/3
-.5
-.1
-/jquery
-.min
-.js
-"
->
-</
-script
->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
 </style>
 
 
@@ -145,7 +127,7 @@ script
 					<form class="md-float-material form-material" name="mach"
 						action="/member/mem/id_set" method="post">
 						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
+							<a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
@@ -212,8 +194,8 @@ script
 									</div>
 
 									<div class="col-md-2">
-										<img src="resources/assets/images/auth/Logo-small-bottom.png"
-											alt="small-logo.png">
+										<a href="/"><img src="/resources/assets/images/Logo-small-bottom.png" width="60" height="58"
+											alt="small-logo.png"></a>
 									</div>
 								</div>
 							</div>

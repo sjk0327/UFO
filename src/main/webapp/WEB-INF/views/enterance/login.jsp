@@ -100,7 +100,7 @@
 
 					
 						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
+							<a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
@@ -147,7 +147,7 @@
 									<div class="col-md-12">
 										<a
 											href="https://kauth.kakao.com/oauth/authorize?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&redirect_uri=http://localhost:8090/kakaoLogin&response_type=code"><img
-											src="/resources/img/kakaologin.png" width="75%"
+											src="/resources/img/kakaologin.png" width="100%"
 											style="display: block; margin-left: auto; margin-right: auto;"></a>
 									</div>
 								</div>
@@ -166,7 +166,7 @@
 												session.setAttribute("state", state);
 										%>
 										<a href="${url }"><img src="/resources/img/naverlogin.png"
-											width="75%"
+											width="100%" height="80%"
 											style="display: block; margin-left: auto; margin-right: auto;"></a>
 									</div>
 								</div>
@@ -191,8 +191,8 @@
 										
 									</div>
 									<div class="col-md-2">
-										<img src="resources/assets/images/auth/Logo-small-bottom.png"
-											alt="small-logo.png">
+										<a href="/"><img src="/resources/assets/images/Logo-small-bottom.png" width="60" height="58"
+											alt="small-logo.png"></a>
 									</div>
 								</div>
 							</div>

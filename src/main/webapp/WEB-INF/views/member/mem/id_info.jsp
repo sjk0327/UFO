@@ -106,27 +106,9 @@ body, html {
 .card {
 	width: 450px;
 }
-<
-script
-
-	
-src
-="https
-:
-//ajax
-.googleapis
-.com
-/ajax/libs/jquery/3
-.5
-.1
-/jquery
-.min
-.js
-"
->
-</
-script
->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
 </style>
 
 
@@ -144,7 +126,7 @@ script
 
 					
 						<div class="text-center">
-							<img src="resources/assets/images/logo.png" alt="logo.png">
+							<a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
 						</div>
 						<div class="auth-box card">
 							<div class="card-block">
@@ -175,7 +157,7 @@ script
 
 
 									<div class="col-md-12">
-										<h3 class="text-center">아이디 찾기 검색결과</h3>
+										<h3 class="form-group form-primary" style="text-align:center;">아이디 찾기 검색결과</h3>
 									</div>
 								</div>
 
@@ -194,19 +176,19 @@ script
 								<div class="col-md-10">
 									<p class="text-inverse text-left m-b-0"></p>
 									<p class="text-inverse text-left">
-										<a href="/"><b>처음으로</b></a>
+										<a href="/"><b>&nbsp;처음으로</b></a>
 									</p>
 									<p class="text-inverse text-left">
-										<a href="/member/mem/memJoin"><b>회원가입</b></a>
+										<a href="/member/mem/memJoin"><b>&nbsp;회원가입</b></a>
 									</p>
 									<p class="text-inverse text-left">
-										<a href="/login"><b>로그인</b></a>
+										<a href="/login"><b>&nbsp;로그인</b></a>
 									</p>
 								</div>
 
 								<div class="col-md-2">
-									<img src="resources/assets/images/auth/Logo-small-bottom.png"
-										alt="small-logo.png">
+									<a href="/"><img src="/resources/assets/images/Logo-small-bottom.png" width="60" height="58"
+										alt="small-logo.png"></a>
 								</div>
 							</div>
 						</div>
