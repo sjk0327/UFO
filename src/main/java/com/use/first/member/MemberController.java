@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,7 @@ import com.use.first.rent.CartVO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 import com.use.first.rent.WishListVO;
+import com.use.first.visitor.VisitCountDAO;
 
 /**
  * 8.12일 성훈 수정 - 성훈 start 밑에는 이걸 우선으로 통합 승빈 start 부분은 로그인 로그아웃 쪽은 성훈이 수정했음 아마
@@ -113,7 +115,8 @@ public class MemberController {
 		String referer =request.getHeader("referer");
 		System.out.println("referer::"+referer);
 		String s1 = referer.substring(21); 
-		System.out.println("s1::"+s1);
+		System.out.println("beforeUrl::"+s1);
+		
 		//병찬추가 여기까지 밑에도 있음
 		if (vo.getM_id() == null || vo.getM_id().equals("")) {
 			return "redirect:/login";
@@ -139,22 +142,22 @@ public class MemberController {
 				//병찬추가
 				ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 				if(s1.contains("/member/cartInsert")) {
+					String[] paramArray = s1.split("/");			
+					for(int i=0;i<paramArray.length;i++) {
+					System.out.println(paramArray[i]);
+					}
+					System.out.println("분해테스트:::"+paramArray[3]);  //c_vid productDetail에서
 					String c_pid = s1.substring(19,25);
-					String c_mid= infoVO.getM_id();
-					
-					CartVO cartVO = productDAO.checkCart(c_pid,c_mid);
-					
-					if (cartVO == null) {return "redirect:"+s1;} else { System.out.println("영?");
-						return	"redirect:/member/pro/productDetail/"+c_pid;
-					}												
+					String c_mid= infoVO.getM_id();					
+					CartVO cartVO = productDAO.checkCart(c_pid,c_mid);				
+					if (cartVO == null) {return "redirect:"+s1;} else { return	"redirect:/member/rent/cartList";}												
 				} else if (s1.contains("/member/wishListInsert")){
-					String w_pid = s1.substring(23,29);
+					String w_pid = s1.substring(23);
 					System.out.println("w_pid:::" + w_pid);
 					String w_mid = infoVO.getM_id();
 					WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
 						if (wishListVO == null) {return "redirect:"+s1;} else {
-							String s2 = s1.substring(23);
-							return "redirect:/member/pro/productDetail/"+s2;
+							return "redirect:/member/pro/productDetail/"+w_pid;
 						}
 							
 					
@@ -1078,21 +1081,21 @@ public class MemberController {
 	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(UserVO vo, Model model, Criteria cri,HttpSession session) {
-		//신영,수정 admin 인덱스 몇개 추가
+		//9월6일 신영,수정 admin 인덱스 몇개 추가
 
 	UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		BuyDAO buyDAO = sqlSessionTemplate.getMapper(BuyDAO.class);
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		VisitCountDAO visitDAO = sqlSessionTemplate.getMapper(VisitCountDAO.class);
 		int totalBuy = buyDAO.totalPurchase();
 		List<RentVO> rentToBuyList =rentDAO.rentToBuyList();
 		//select month(b_buydate), sum(b_purchase) from buy group by month(b_buydate) order by month(b_buydate) desc;
-System.out.println(rentToBuyList.toString());
+		System.out.println(rentToBuyList.toString());
 		System.out.println(totalBuy);
 		model.addAttribute("totalBuy",totalBuy);
 		model.addAttribute("rentToBuyList",rentToBuyList);
-		model.addAttribute("user", vo);
-		
+		model.addAttribute("user", vo);		
 	
 		List<UserVO> list = dao.memList(cri);
 		int listCount = list.size();
@@ -1102,7 +1105,7 @@ System.out.println(rentToBuyList.toString());
 		int countLaptop = productDAO.countLaptop();
 		int countCamera = productDAO.countCamera();
 		int countWatch = productDAO.countWatch();
-		int countTablet = productDAO.countTablet();		
+		int countTablet = productDAO.countTablet();
 		
 		int[] array = {countSmartPhone,countLaptop,countCamera,countWatch,countTablet};		
 		for (int i = 0; i < array.length; i++) {					
@@ -1114,58 +1117,64 @@ System.out.println(rentToBuyList.toString());
 		}
 		
 		List<BuyVO> buyList = buyDAO.buyManyList();
+		Calendar cal = Calendar.getInstance();
+		String format = "yyyy-MM";
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		String date = sdf.format(cal.getTime());
+		System.out.println(date.substring(5));
+		System.out.println(date.substring(5));
+		String thisMonth = date.substring(5);
+		
+		model.addAttribute("thisMonth",Integer.parseInt(thisMonth));
+		model.addAttribute("lastMonth",Integer.parseInt(thisMonth)-01);
+		model.addAttribute("llastMonth",Integer.parseInt(thisMonth)-02);
+		System.out.println(Integer.parseInt(thisMonth)-1);
+		
+		for (int i = 0; i < 3; i++) {		
+			if(i==0) {
+			String aamount = buyDAO.buyPurchase(i);	
+			model.addAttribute("aamount",aamount);
+			}
+			else if(i==1) {
+			String bamount = buyDAO.buyPurchase(i);	
+			model.addAttribute("bamount",bamount);
+			}
+			else if(i==2) {
+			String camount = buyDAO.buyPurchase(i);				
+			model.addAttribute("camount",camount);
+			}
+		
+		}
+		String sm = buyDAO.countSep("h",thisMonth);
+		String ltt = buyDAO.countSep("n",thisMonth);
+		String cm = buyDAO.countSep("c",thisMonth);
+		String wc = buyDAO.countSep("w",thisMonth);
+		String tb = buyDAO.countSep("t",thisMonth);
+		
+		model.addAttribute("sm", sm);
+		model.addAttribute("ltt", ltt);
+		model.addAttribute("cm", cm);
+		model.addAttribute("wc", wc);
+		model.addAttribute("tb", tb);
 		
 		
-		String seven = buyDAO.buyPurchase("07");
-		String eight = buyDAO.buyPurchase("08");
-		String nine = buyDAO.buyPurchase("09");
-		/*
-		DecimalFormat df = new DecimalFormat("00");
-
-        Calendar currentCalendar = Calendar.getInstance();
+		int visitCount = visitDAO.selectVisit();
+		int one = 0;
+		int visitCountToday = visitDAO.selectVisitToday(one);		
 		
-		String thisMonth  = "07";
-		String nextMonth  = df.format(currentCalendar.get(Calendar.MONTH) + 2);
-		String nextAfterMonth  = df.format(currentCalendar.get(Calendar.MONTH) + 3);
-		System.out.println("thisMonth:::" +thisMonth);
-		*/
-		
-		
+		System.out.println("9월 매출액" + sm+ltt+cm+wc+tb);		
 		ProductVO readList = productDAO.adminRead();
 		
-		model.addAttribute("buyList", buyList);
-		model.addAttribute("seven", seven);
-		model.addAttribute("eight", eight);
-		model.addAttribute("nine", nine);
+		System.out.println(readList.toString());
+		model.addAttribute("buyList", buyList);	
 		model.addAttribute("readList", readList);
-		//model.addAttribute("countCamera", countCamera);
-		//model.addAttribute("countWatch", countWatch);
-		//model.addAttribute("countTablet", countTablet);
-	
-		
-		
-		//VisitCountDAO visitDao = sqlSessionTemplate.getMapper(VisitCountDAO.class);
-		
-		
-
+		model.addAttribute("visitCount", visitCount);
+		model.addAttribute("visitCountToday", visitCountToday);
 		System.out.println(session.toString());
 		
-        // 전체 방문자 수 +1
-	 	//int visitCount = visitDao.insertVisit();
-	 	//if(visitCount == 0) System.out.println("visit 실패");
-         
-	 	//int visitCountTotal = visitDao.selectVisit();
-         
-           
-        // 세션 속성에 담아준다.
-        //session.setAttribute("totalCount", totalCount); // 전체 방문자 수
-       // session.setAttribute("todayCount", todayCount); // 오늘 방문자 수
+      
 		
-		
-		
-		
-		
-		return "/enterance/adminIndex";
+	return "/enterance/adminIndex";
 	}
 
 	@RequestMapping(value = "/admin/mem/memList", method = RequestMethod.GET)
@@ -1277,10 +1286,19 @@ System.out.println(rentToBuyList.toString());
 	}
 
 	// 회원 가입 폼
-	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
 	public String menJoinForm(Model model) {
 
 		return "/member/mem/memJoin";
+	}*/
+	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.GET)
+	public String menJoinForm(Model model, HttpServletRequest request) {
+		//병찬추가  (위에 주석된게 원래 있던것임)
+		String referer =request.getHeader("referer");
+		String s1 = referer.substring(21); 
+		model.addAttribute("beforeUrl", s1);	
+		//병찬 여기까지
+		return "/member/mem/memJoin";		
 	}
 
 	// 회원 가입 - 아이디 중복 검사
@@ -1383,8 +1401,8 @@ System.out.println(rentToBuyList.toString());
 
 	// 회원 가입 submit
 	@RequestMapping(value = "/member/mem/memJoin", method = RequestMethod.POST)
-	public String menJoinPro(Model model, UserVO userVO) throws IOException {
-
+	public String menJoinPro(Model model, UserVO userVO, @RequestParam String beforeUrl) throws IOException {
+		
 		System.out.println("시작 전" + userVO.toString());
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 		// 파일 업로드
@@ -1402,9 +1420,17 @@ System.out.println(rentToBuyList.toString());
 			// 업데이트 실패 시
 			System.out.println("menJoinPro // member 회원가입 // " + userVO.toString());
 		}
-
+		//병찬 추가
+		if(beforeUrl.contains("/member/cartInsert")) {
+			return "redirect:"+beforeUrl;
+			} else if (beforeUrl.contains("/member/wishListInsert")){
+			return "redirect:"+beforeUrl;
+			}  else if (beforeUrl.contains("/member/rent/buy")){
+			return "redirect:"+beforeUrl;
+			} else {
 		return "member/mem/join_complete";
-
+			}
+		//병찬추가함 (return에 있던거 else로 감쌈)
 	}
 
 	// 회원 상세 정보 - 대여 상세 정보

@@ -49,21 +49,32 @@
 		]]>
 	</select>
 
-	<!-- 신영추가 -->
-	
+	<!-- 신영추가 -->	
 	<select id="buyManyList" resultType="com.use.first.buy.BuyVO">
 		<![CDATA[	
-		select b_mid,b_purchase from buy order by b_purchase desc
+		select b_mid,b_mname,b_purchase from buy order by b_purchase desc
 		limit 0,5;
 		]]>
 	</select>
-	<select id="buyPurchase" parameterType="String" resultType="String">
+	<select id="buyPurchase" parameterType="int" resultType="String">
+		select sum(b_purchase) from buy	
+	 	where date_format(b_buydate,'%Y-%m') = 
+	 	date_format(date_add(now(), interval -#{i} month),'%Y-%m');
+	 
+	<!--  
 	 select sum(b_purchase) from buy
-     where b_buydate like CONCAT('%',#{0},'%')   
+     where b_buydate like CONCAT('%',#{0},'%')    -->
+    </select>
+    <select id="countSep" parameterType="String" resultType="String">
+	 select sum(b_purchase) from buy	 
+     where b_buydate like CONCAT('%',#{1},'%')   
+     and b_pid like CONCAT('%',#{0},'%')  
     </select>
 
 
 </mapper>
+
+
 
 
 

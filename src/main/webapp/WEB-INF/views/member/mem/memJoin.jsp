@@ -207,6 +207,9 @@ select::-ms-expand {
             <div class="row">
                 <div class="col-sm-12">
                     <form name="signIn_form" class="md-float-material form-material" action="/member/mem/memJoin" method="post" enctype="multipart/form-data">
+                       <!-- 병찬추가 -->
+                       <input type="hidden" name="beforeUrl" value=${beforeUrl}>
+                       <!-- 여기까지 -->
                         <div class="text-center">
                             <a href="/"><img src="/resources/assets/images/logo.png" width="200px" height="90px" alt="logo.png"></a>
                         </div>

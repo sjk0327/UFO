@@ -122,10 +122,8 @@ body, html {
 	cursor: pointer;
 	}
 	.profile img{ 
-	height: 60px;
-	  max-width: 60px;
-	  min-width: 60px;
-	  display: block;
+	min-width: 150px;
+	display: block;
 	border-radius: 10px; 
 	}
 	.imgIdDate {
@@ -220,7 +218,7 @@ body, html {
 																					title="${oneRecommend.p_mainimg}"
 																					class="img-fluid img-circle">
 																			</div>
-																			<div class="col-9" align="left">
+																			<div class="col-9" id="nameLike" align="left">
 																				<input type="hidden" name="v_id"
 																					value="${oneRecommend.v_id}" /> 
 																				<div>${oneRecommend.p_name}</div>														
@@ -333,8 +331,10 @@ body, html {
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+			$('#nameLike').css('text-align' , "left");
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+			$('#nameLike').css('text-align' , "center");
 		}
 	});
 
@@ -343,8 +343,10 @@ body, html {
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
+			$('#nameLike').css('text-align' , "left");
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+			$('#nameLike').css('text-align' , "center");
 		}
 	});
 	
