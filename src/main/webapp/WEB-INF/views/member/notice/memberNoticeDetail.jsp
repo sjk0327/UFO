@@ -148,7 +148,7 @@
                            href="/member/noticeList" role="tab" style="font-weight: bold;">공지사항</a>
                            <div class="slide"></div></li>
                         <li class="nav-item"><a id="menu-2" class="nav-link "
-                           href="/member/qnaList" role="tab" style="font-weight: bold;">Q&A</a>
+                           href="/member/qna/qnaList" role="tab" style="font-weight: bold;">Q&A</a>
                            <div class="slide"></div></li>
 							</ul>
 						</div>
@@ -167,11 +167,11 @@
 			<div class="card-block table-border-style">
 					<table class="table table-striped table-sm">
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">글번호</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">글번호</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${noticeVO.n_id }</td>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성자</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">작성자</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${noticeVO.n_name }</td>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE;">작성일</td>
+							<td class="danger" style="font-weight: bold; color: #555555;">작성일</td>
 							<td style="text-align: center; background-color: white; color: #555555;">${noticeVO.n_date }</td>
 							
 						</tr>
@@ -181,7 +181,7 @@
 						</tr>
 	
 						<tr>
-							<td class="danger" style="font-weight: bold; color: #555555; background-color: #F2DEDE; vertical-align: middle;">내용</td>
+							<td class="danger" style="font-weight: bold; color: #555555; vertical-align: middle;">내용</td>
 							<td colspan="5"><textarea name="n_content" class="form-control" rows="18" style="resize: none; background-color: white;" disabled>${noticeVO.n_content }</textarea></td>
 						</tr>
 	
