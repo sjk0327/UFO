@@ -20,9 +20,10 @@ public interface BuyDAO {
 
 	
 	//신영 추가
-	public List<BuyVO> buyManyList();
-	public String buyPurchase(String string);
+		public List<BuyVO> buyManyList();
+		public String buyPurchase(int i);
+		public String countSep(String string, String string2);
 
 
 
-}
+	}

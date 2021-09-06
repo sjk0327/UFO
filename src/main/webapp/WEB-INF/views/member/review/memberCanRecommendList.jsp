@@ -125,8 +125,9 @@ body, html {
 	cursor: pointer;
 	}
 	.profile img{ 
-
-	  min-width: 130px;
+	height: 90px;
+	  max-width: 90px;
+	  min-width: 90px;
 	  display: block;
 	border-radius: 10px; 
 	}
@@ -213,14 +214,35 @@ body, html {
 										<c:choose>				
 										<c:when test="${recommendList[0].v_id eq null}"><h1>등록된 추천글이 없어요</h1></c:when>
 										<c:when test="${recommendList[0].v_id ne null}">
-															</c:when></c:choose>
+															<form id="sort" name="recSearch" method="post" 
+																action="/member/rec/recommendList">
+
+																<select id="searchType" name="searchType">
+																	<option value="">검색조건</option>
+																	<option value="t"
+																		<c:if test="${pageMaker.cri.searchType eq 't'}"> selected </c:if>>회원ID</option>
+																	<option value="c"
+																		<c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>제품ID</option>
+																	<option value="w"
+																		<c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
+																</select>&nbsp; <input type="text" id="keyword" name="keyword"
+																	value="${pageMaker.cri.keyword}"
+																	placeholder="검색어를 입력하세요" />&nbsp;
+
+																<button id="button"
+																	class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>
+																&nbsp; <input type="button" id="button"
+																	class="btn waves-effect waves-light btn-primary btn-outline-primary"
+																	value="전체보기"
+																	onClick="location.href='/admin/rec/recList';">&nbsp;
+															</form></c:when></c:choose>
 															<div>
 																<br>
 															</div>
 															<!-- 리스트 나오는 부분 시작 -->
 															<div class="container" id="recList">
 																<div class="row mb-5">
-																	<div class="col-md-12 order-2" >
+																	<div class="col-md-12 order-2" id="namedate">
 
 
 																		<c:forEach var="recVO" items="${recommendList}"
@@ -228,14 +250,14 @@ body, html {
 																			
 																			<div class="row imgIdDate" name="imgIdDate" >
 
-																				<div class="col-4 profile" align="center">
+																				<div class="col-2 profile" align="center">
 																					<img
 																						src=/resources/Images/product/${recVO.p_mainimg}
 																						alt="${recVO.p_mainimg}"
 																						title="${recVO.p_mainimg}"
 																						class="img-fluid img-circle">
 																				</div>
-																				<div class="col-6 namedate" id="namedate" align="left">					
+																				<div class="col-6">
 																					<div>${recVO.p_name}</div>
 																					<div>${recVO.v_date}</div>	
 																					<c:choose>
@@ -253,8 +275,8 @@ body, html {
 																						</c:when>
 																					</c:choose>
 																				</div>
-																				<div class="col-2">
-																					<button type="button" id="editButton" class="btn btn-primary" onclick='recommendEdit(${recVO.v_id})'>편집하기</button>																
+																				<div class="col-4">
+																					<button type="button" id="editButton" class="btn btn-primary" onclick='recommendEdit(${recVO.v_id})'>편집하기</button>																					
 																				</div>
 																			</div>
 <hr>
@@ -373,10 +395,10 @@ body, html {
 
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-			$('.namedate').css('text-align' , "left");
+			$('#namedate').remove('text-align');
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('.namedate').css('text-align' , "right");
+			$('#namedate').css('text-align' , "right");
 		}
 	});
 
@@ -385,10 +407,10 @@ body, html {
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-			$('.namedate').css('text-align' , "left");
+			$('#namedate').remove('text-align');
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('.namedate').css('text-align' , "right");
+			$('#namedate').css('text-align' , "right");
 		}
 	});
 	

@@ -6,27 +6,34 @@
 <mapper namespace="com.use.first.visitor.VisitCountDAO">
 
 
-	 <insert id="insertVisit" parameterType="com.use.first.visitor.VisitCountVO">
+	 <insert id="insertVisitor" parameterType="com.use.first.visitor.VisitCountVO">
             INSERT
             INTO VISITOR
-            (
-                VISIT_ID,
+            (               
                 VISIT_IP,
                 VISIT_TIME,                
                 VISIT_AGENT
             )
             VALUES
             (
-                VISITOR_SEQ.NEXTVAL,
+               
                 #{visit_ip},
-                SYSDATETIME,              
+                now(),              
                 #{visit_agent}
             )
         </insert>
-        <select id="selectVisit" resultType="int" parameterType="com.use.first.visitor.VisitCountVO">
-            SELECT VISIT_ID, VISIT_IP,VISIT_TIME,VISIT_REFER, VISIT_AGENT
-            from VISITOR
+        
+        <select id="selectVisit" resultType="int">
+            SELECT count(*)
+            from VISITOR 
             
+        </select>
+        
+        <select id="selectVisitToday" parameterType="int" resultType="int">
+            SELECT count(*)
+            from VISITOR       
+            where date_format(visit_time,'%Y-%m-%d') = 
+	 		date_format(date_add(now(), interval #{i} day),'%Y-%m-%d');
         </select>
     </mapper>
 

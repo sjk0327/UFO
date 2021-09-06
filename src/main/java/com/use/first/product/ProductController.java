@@ -311,12 +311,11 @@ public class ProductController {
 		
 		System.out.println("cri.getPage():::" + cri.getPage());
 		
-		if(cri.getPage() == 0) {
-			cri.setPage(0);
-		}else {
-			cri.setPage((cri.getPage()*10-11));
-		}
-		cri.setPerPageNum(9);
+		/*
+		 * if(cri.getPage() == 0) { cri.setPage(0); }else {
+		 * cri.setPage((cri.getPage()*10-11)); }
+		 */
+		//cri.setPerPageNum(9);
 		List<ProductVO> list = productDAO.productSmartPhoneList(cri);		
 		
 		System.out.println("list/size:::" + list.size());
@@ -502,7 +501,6 @@ public class ProductController {
 	  ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 	  System.out.println(minPrice + maxPrice);
 	  List<ProductVO> pslist = productDAO.productMenubarPriceSearchRent(minPrice,maxPrice);
-	
 	  model.addAttribute("productList", pslist);		  
 	  return "member/pro/memberProductList2";
 	  }	
@@ -511,14 +509,11 @@ public class ProductController {
 	  @RequestMapping(value = "/member/pro/productList/priceSearchBuy/{minPrice}/{maxPrice}", method = RequestMethod.GET)
 	  public String sortlist(Model model,Criteria cri, @PathVariable String minPrice,@PathVariable String maxPrice) { 		  
 	  ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-	  System.out.println(minPrice + maxPrice);
-	 
+	  System.out.println(minPrice + maxPrice);	 
 	  List<ProductVO> pslist = productDAO.productMenubarPriceSearch(minPrice,maxPrice);
 	  model.addAttribute("productList", pslist);		  
 	  return "member/pro/memberProductList2";
-	  }	
-	  
-	  
+	  }
 	  
 	  // 신영-관리자 상품 클릭 시, 조회수 증가
 	  @RequestMapping(value = "/member/pro/productList/readUpdate/{p_id}", method = RequestMethod.GET)
@@ -634,7 +629,6 @@ public class ProductController {
 			//비로그인에서 장바구니추가
 			@RequestMapping(value = "/member/cartInsert/{p_id}/{amount}/{requestRentDate}/{c_state}", method = RequestMethod.GET)
 			public String CartLoginInsert(CartVO cartVO, HttpSession session, @PathVariable String p_id, @PathVariable int amount,@PathVariable String c_state,@PathVariable String requestRentDate ) {
-				System.out.println("요로코롬");
 				UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
 				String userId=userInfo.getM_id();				
 				String c_mid = userId;
@@ -779,10 +773,14 @@ public class ProductController {
 					  	String w_mid = userId;
 						String w_pid = v_pid;
 						String r_pid = v_pid; 
+						String c_pid =  v_pid;
+						String c_mid =  userId;
 						cri.setV_pid(v_pid);	
 						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 						ProductVO productVO = productDAO.productInfo(v_pid);
 						WishListVO wishListVO = productDAO.checkWishList(w_pid,w_mid);
+						CartVO cartVO = productDAO.checkCart(c_pid,c_mid);
+						model.addAttribute("cartVO", cartVO);
 						int reviewCount = productDAO.reviewCount(v_pid);
 						//리뷰용 추가
 						

@@ -77,7 +77,7 @@
 	
 	}
 	#info div {
-	margin-top: 5px;}
+	margin-top: 1px;}
 	
 	#like-o, #like {
 	cursor: pointer;
@@ -148,14 +148,14 @@ body, html {height: 100%;}
   </head>
 
   <body>
- 
+
  <c:forEach var="rentalList" items="${rentalListNow}">
 	<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
 	<input id="rentaldateNow" type="hidden" value="${rentalList.r_sdate}">
 	<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
 	<input id="productCanRent" type="hidden" value="${rentalList.p_canRent}">
 	</c:forEach>
- 
+
   <div class="site-wrap">
  
     <div class="site-section">
@@ -205,9 +205,9 @@ body, html {height: 100%;}
      
       	  
 <form:input type="text" path="productPrice" id="productPrice" value="${productVO.p_price}" hidden="true"/> 
-<div class="row"><div class="col-lg-5"><label>제품가격</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
-<div class="row"><div class="col-lg-5"><label>대여금액</label></div><div class="col-lg-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
-<div class="row"><div class="col-lg-5"><label>옵션선택</label></div><div class="col-lg-7" style="text-align:right;" >
+<div class="row"><div class="col-5"><label>제품가격</label></div><div class="col-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
+<div class="row"><div class="col-5"><label>대여금액</label></div><div class="col-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
+<div class="row"><div class="col-5"><label>옵션선택</label></div><div class="col-7" style="text-align:right;" >
   <select id="buyType" name="buyType" onchange="changeStateSelect()">
   	<option value="optSel">옵션</option>
   	<option disabled>------</option>
@@ -216,16 +216,16 @@ body, html {height: 100%;}
   	
   </select>
   </div></div>
-<div class="row"><div class="col-lg-5"><label for="amount">수량</labeL></div><div class="col-lg-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/><input type=hidden name="original_price" value="${productVO.p_price}"/>
+<div class="row"><div class="col-5"><label for="amount">수량</labeL></div><div class="col-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/><input type=hidden name="original_price" value="${productVO.p_price}"/>
 <input style="cursor:default;"type="number" id="amount" name="proamount" value="1" min="1" max="50"  onchange="change();"/></div></div>
 
- <div class="row"><div class="col-lg-4" id="selectDate"><label id="choice" for="datepicker" >대여일선택</labeL></div><div class="col-lg-8" style="text-align:right;"><input type="text" name="rentdate"  readonly="readonly" required="required" placeholder="날짜를 선택해주세요" id="datepicker" hidden="false"></div></div>
+ <div class="row"><div class="col-4" id="selectDate"><label id="choice" for="datepicker" >대여일선택</labeL></div><div class="col-8" style="text-align:right;"><input type="text" name="rentdate"  readonly="readonly" required="required" placeholder="날짜를 선택해주세요" id="datepicker" hidden="false"></div></div>
 
- <div class="row"><div class="col-lg-5"><label>배송방법</label></div><div class="col-lg-7" style="text-align:right;" >택배</div></div>
-  <div class="row"><div class="col-lg-5"><label>배송비</label></div><div class="col-lg-7" style="text-align:right;">2500원</div></div><hr>   
- <div class="row"><div class="col-lg-5"><label></label></div><div class="col-lg-7" style="text-align:right;">총액</div></div><hr>
-<div class="row"><div class="col-lg-5"><label>즉시구매</label></div><div class="col-lg-7" style="text-align:right;"> <input style="text-decoration:line-through;" type="text" name="originalsum" size="11" readonly/>원 (-5%)<input type="text" name="buysum" size="11" readonly/>원</div></div>
-<div class="row"><div class="col-lg-5"><label>대여가격</label></div><div class="col-lg-7" style="text-align:right;"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
+ <div class="row"><div class="col-5"><label>배송방법</label></div><div class="col-7" style="text-align:right;" >택배</div></div>
+  <div class="row"><div class="col-5"><label>배송비</label></div><div class="col-7" style="text-align:right;">2500원</div></div><hr>   
+ <div class="row"><div class="col-5"><label></label></div><div class="col-7" style="text-align:right;">총액</div></div><hr>
+<div class="row"><div class="col-5"><label>즉시구매</label></div><div class="col-7" style="text-align:right;"> <input style="text-decoration:line-through;" type="text" name="originalsum" size="11" readonly/>원 (-5%)<input type="text" name="buysum" size="11" readonly/>원</div></div>
+<div class="row"><div class="col-5"><label>대여가격</label></div><div class="col-7" style="text-align:right;"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
   
                
             <div id="buttonGroup" class="row">
@@ -282,20 +282,32 @@ body, html {height: 100%;}
                 
          <div class="site-section">
          
-    	<div name="sortReview">
+    	<div id="reviewTop" style="text-align: right; margin-top: 20px;">
       <ul class="nav nav-tabs centered">
   <li class="nav-item">
     <a class="nav-link " href="#productInfo">상세정보</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="#reviewTop" id="reviewTop">리뷰게시판 [${reviewCount}]</a>
+    <a class="nav-link active" href="#reviewTop" >리뷰게시판 [${reviewCount}]</a>
   </li>
  
 </ul>
-     
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+     <c:if test="${userVO ne null && oneReview eq null}">
+      <button type="button"  style="margin-top:20px;" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     추천글작성
   </button>
+  	</c:if>
+  	<c:if test="${userVO eq null}">
+      <button type="button"  style="visibility:hidden;">
+    추천글작성
+  </button>
+  	</c:if>
+  	 <c:if test="${userVO ne null && oneReview ne null}">
+      <button type="button" style="visibility:hidden;" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    추천글작성
+  </button>
+  	</c:if>
+  	
 
     	</div>			<!-- 리뷰모달 위에 버튼 태그도 -->
     	<div class="modal fade" id="myModal">
@@ -370,7 +382,7 @@ body, html {height: 100%;}
        
          
             <c:forEach var="recVO" items="${recVO}" begin="0" end="8" step="1" varStatus="status">           
-                <hr> 
+               
                 <div class="row imgIdDate" name="imgIdDate">
                  
                 	<div class="col-2 profile" align="center">  
@@ -388,9 +400,9 @@ body, html {height: 100%;}
 						 </c:when>	
 					  </c:choose>	       
                 	</div>      		
-          				 <div class="col-6">        		 
+          				 <div class="col-6" style="text-align:right;">        		 
 		 				 <c:if test = "${recVO.v_mid eq userId}">
-		  				     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
+		  				     <button type="button" style="margin-bottom:10px;" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
 		   				    <form method="post" name="reviewDeleteForm" action="/member/pro/reviewDelete/${oneReview.v_mid}/${oneReview.v_pid}">
 		    				   <input type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
 		     				</form>  	  
@@ -415,7 +427,7 @@ body, html {height: 100%;}
                     <p class="text-primary font-weight-bold" >${reviewList.v_content}</p>
                      </div>
                 </div>  
-                -->          
+                -->    <hr>      
              </c:forEach> 
                 <!-- 페이징 start -->
 										<div id = "paging-div">
@@ -546,14 +558,14 @@ var selectDate;
 var stateSelect;
 var selectValue;
 var recommendCount;
-var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
-var rentalIdNowListLength = rentalIdNowList.length;
-var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
-var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
-var rentamount = document.getElementById("productCanRent").value;
+
 
 window.onload = function() {
-
+	var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+	var rentalIdNowListLength = rentalIdNowList.length;
+	var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+	var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
+	var rentamount = document.getElementById("productCanRent").value;
 	
 	
 	
@@ -932,6 +944,11 @@ $('#cart').on('click', function(){
 
 //대여 선택했을 때 달력나오게하는거.
 function changeStateSelect(){ 
+	var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+	var rentalIdNowListLength = rentalIdNowList.length;
+	var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+	var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
+	var rentamount = document.getElementById("productCanRent").value;
 	 stateSelect = document.getElementById("buyType"); 
 	 selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	if (selectValue == "대여") {
@@ -1049,13 +1066,14 @@ var action_popup = {
 
 //스크롤하면 '맨위로' 링크 나오게
 	$(window).scroll(function() {
-    if($(this).scrollTop() > 2000) {
+    if($(this).scrollTop() > 1000) {
       $("#locateTop").css('position','fixed');
+      $("#locateTop").css('display','inline');
       
     }
     else {
       $("#locateTop").css('position','relative');
-
+      $("#locateTop").css('display','none');
     }
   });
 

@@ -22,32 +22,173 @@
     <link rel="stylesheet" href="resources/common/css/aos.css">
 
     <link rel="stylesheet" href="resources/common/css/style.css">
+    
+    
+    
+    
     <style type="text/css">
+   #container {
+	width:210px;
+	margin:0 auto;
+	text-align:left;
+}
+.tab {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+/* Float the list items side by side */
+.tab li {
+	float: left;
+}
+/* Style the links inside the list items */
+.tab li a {
+	display: inline-block;
+	color: #000;
+	text-align: center;
+	text-decoration: none;
+	padding: 9px 13px;
+	font-size: 12px;
+	transition:0.3s;
+}
+/* Style the tab content */
+.tabcontent {
+	display: none;
+	background-color: rgb(246,246,246);
+	padding: 6px -20px;
+	color:#F6F6F6;
+	text-align:left;
+}
+ul.tab li.current{
+	background-color: rgb(246,246,246);
+	color: #F6F6F6;
+}
+.tabcontent.current {
+	display: block;
+}
+
+.small1 { width: 100px; height: 100px; }
+.small2 { width: 80px; height: 80px; align:center;}
+.mb-1 { font-size : 18px; }
+.blackColoer { color : red;}
+#searchType {
+   width: 85px;
+   height: 38px;
+   padding-left: 8px;
+   font-size: 13px;
+   color: #585858;
+   border-radius: 5px;
+}
+#slidemenu{background:#12cf3d;position:absolute;width:100px;top:50px;right:10px;}
+#imghover:hover { margin:0px ; border:2px solid #888; }  
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+#mainMenuList {text-align: center; width:100%; height:94px; background-color:#f4f4f4; padding-bottom: -15px;}
+#mainMenuList ul {text-align: center; width:1200px; margin:0 auto; padding:-16px 0;}
+#mainMenuList ul:after {content:""; display:block; clear:both;}
+#mainMenuList ul li {float:left; height:120px; width:15%; text-align:center;}
+#mainMenuList ul li p {padding:10px 0 12px 0; text-align:center; font-weight:700;}
+#mainMenuList ul li a {display:block; font-size:18px; letter-spacing:-1px; font-weight:700;}
+#mainMenuList ul li a:hover {color:#8A2BE2; text-decoration:none;}
+#listClick:hover { border: solid 2px #4B0082; color:#f26617; }
+ul{ list-style:none;}
+.mb-1 {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.5s ease-in-out;  /* 서서히 확대 */
+}
+.mb-1:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
+.inp_division { font-weight:700; }
+#margin { margin:20px; padding:80px; }
+#minPrice { height: 32px; width: 81px; }
+#maxPrice { height: 32px; width: 81px; }
+#minPriceBuy{ height: 32px; width: 81px; }
+#maxPriceBuy{ height: 32px; width: 81px; }
+#selfminprice{ height: 32px; width: 81px; }
+#selfmaxprice{ height: 32px; width: 81px; }
+#priceSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearchRent { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#priceSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#selfSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
+#textdeco {text-decoration: line-through;}
     .site-navbar{
     position:sticky;
     top: 0px;
     }
     .js-logo-clone{
+    
     font-size:50pt;
     }
-    
+    .site-navigation text-right text-md-center{
+    padding : -50px;
+    }
     </style>
   </head>
   <body>
   
   <div class="site-wrap">
    <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
-
-
-    <div class="site-blocks-cover"  data-aos="fade">
-      <div class="container">
-        <div class="row align-items-start align-items-md-center justify-content-end">
+    <header class="site-navbar" role="banner">
+      <nav class="site-navigation text-right text-md-center" role="navigation" style="background-color:#f4f4f4;">
+        <div class="container">
+          <ul class="site-menu js-clone-nav d-none d-md-block">
+            <li class="has-children">
+              <div class="row">
+          <div class="col-md-12">
+            <div class="site-section site-blocks-2">
+                <div class="row justify-content-center text-center mb-5">
+                  <div class="col-md-7 site-section-heading pt-4">
+                    <h2></h2>
+                  </div>
+                </div>
+                <div class="container">
+                 <div class="row">
+                 <div class="col-md-12">
+  <div id="mainMenuList" style="text-align:center;" >
+	<ul>		
+		<li class="mb-1"><a href="/member/pro/productList/" ><img src="/resources/common/images/total.png" /><p>전체리스트</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList/스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList/노트북" ><img src="/resources/common/images/laptop.png" /><p>노트북</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList/카메라" ><img src="/resources/common/images/camera.png" /><p>카메라</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList/스마트워치" ><img src="/resources/common/images/watch.png" /><p>스마트워치</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList/태블릿" ><img src="/resources/common/images/tablet.png" /><p>태블릿PC</p></a></li>  		
+  </ul>   
+</div>
+        </div>   </div>   </div>
+            </div>
+          </div>
+        </div>
+        
+      </nav>
+    </header>
+       <!--  <div class="row align-items-start align-items-md-center justify-content-end">
           <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
             <h1 class="mb-2">Finding Your Perfect Shoes</h1>
             <div class="intro-text text-center text-md-left">
               <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla. </p>
-              <p>
-                <a href="/member/pro/productList" class="btn btn-sm btn-primary">Shop Now</a>
+              <p> -->
+                <!-- <a href="/member/pro/productList" class="btn btn-sm btn-primary">Shop Now</a> -->
               </p>
             </div>
           </div>
@@ -129,7 +270,7 @@
       </div>
     </div>
 
-    <div class="site-section block-3 site-blocks-2 bg-light">
+   <div class="site-section block-3 site-blocks-2 bg-light">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
@@ -142,7 +283,7 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="resources/common/images/mac.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="resources/common/Images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="#">Tank Top</a></h3>
@@ -154,7 +295,7 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="resources/common/images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="resources/common/Images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="#">Corater</a></h3>
@@ -166,7 +307,7 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="resources/common/images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="resources/common/Images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="#">Polo Shirt</a></h3>
@@ -178,7 +319,7 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="resources/common/images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="resources/common/Images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="#">T-Shirt Mockup</a></h3>
@@ -190,7 +331,7 @@
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="resources/common/images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="resources/common/Images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="#">Corater</a></h3>
