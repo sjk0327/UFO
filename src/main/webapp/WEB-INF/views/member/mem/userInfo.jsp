@@ -451,19 +451,31 @@ select::-ms-expand {
 																						class="form-bar"></span>
 																					<div class="row">
 																						<div class="col-sm-6">
+																						<c:choose>
+																						<c:when test="${fn:split(userInfo.m_addr,'|')[2] eq ' ' }">
+																							<input type="text" id="detailAddress"
+																								value=""
+																								class="form-control" placeholder="상세주소"
+																								required="required"> <span
+																								class="form-bar"></span>
+																						</c:when>
+																						<c:otherwise>
 																							<input type="text" id="detailAddress"
 																								value="${fn:split(userInfo.m_addr,'|')[2]}"
 																								class="form-control" placeholder="상세주소"
 																								required="required"> <span
 																								class="form-bar"></span>
+																						</c:otherwise>
+																						</c:choose>			
 																						</div>
 																						<div class="col-sm-6">
+																					
 																							<input type="text" id="extraAddress" name="addr"
 																								value="${fn:split(userInfo.m_addr,'|')[3]}"
 																								class="form-control" placeholder="참고항목"
 																								readonly="readonly"> <span
 																								class="form-bar"></span>
-
+																			
 																						</div>
 																					</div>
 																				</div>
@@ -476,7 +488,7 @@ select::-ms-expand {
 																					<form:input type="text" id="phoneNum" path="m_tel"
 																						value="${userInfo.m_tel }"
 																						class="form-control form-control-center form-control-round form-control-bold"
-																						placeholder="'-'을 빼고 적어주세요." required="required" />
+																						placeholder="'-'을 빼고 적어주세요." required="required" maxlength="13"/>
 
 																					<span class="form-bar"></span>
 																				</div>
@@ -485,17 +497,16 @@ select::-ms-expand {
 																				<input type="hidden" name="m_email" id="realEmail"
 																					value="${userInfo.m_email }" />
 																				<div class="col-sm-2 col-form-label">이메일</div>
-																				<div
-																					class="form-group form-primary form-static-label col-sm-5">
+																				<div class="form-group form-primary form-static-label col-sm-3">
 																					<input type="text" id="frontEmail"
 																						value="${fn:split(userInfo.m_email,'@')[0] }"
 																						onchange="emailSum()"
 																						class="form-control form-control-center form-control-round form-control-bold"
-																						placeholder="필수 항목 입니다." required="required" /> <span
-																						class="form-bar"></span>
+																						placeholder="필수 항목 입니다." required="required" /> 
+																						<span id="check_email" class="form-bar"></span>
 																				</div>
 																				@
-																				<div class="col-sm-4"
+																				<div class="col-sm-3"
 																					style="padding: 0px 0px 0px 15px;">
 																					<select id="backEmail" onchange="emailSum()">
 																						<option value="">선택해주세요.</option>
@@ -513,23 +524,12 @@ select::-ms-expand {
 																						</c:forTokens>
 																					</select>
 																				</div>
+																				<div class="col-sm-3">
+																					<input type="button" value="중복확인" onclick="duplicatedCheck()"
+																						class="btn btn-mat waves-effect waves-light btn-info " style="background-color: #7971ea;">
+																				</div>
 																			</div>
-																			<script>
-																				function emailSum() {
-																					var front = document
-																							.getElementById("frontEmail").value;
-																					var back = document
-																							.getElementById("backEmail");
-																					var email = "";
-																					var hidInput = document
-																							.getElementById("realEmail");
-																					email = front
-																							+ "@"
-																							+ back.options[back.selectedIndex].value;
-																					hidInput.value = email;
-
-																				}
-																			</script>
+																			
 																			<div class="form-group row">
 																				<div class="col-sm-2 col-form-label">포인트</div>
 																				<div
@@ -556,8 +556,7 @@ select::-ms-expand {
 																			</div>
 																			<div class="row" style="float: right;">
 																				<div>
-																					<input type="button" id="update" value="수정"
-																						class="btn waves-effect waves-light btn-primary btn-outline-primary">
+																					<input type="button" id="update" value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary">
 																				</div>
 
 																			</div>
@@ -815,12 +814,7 @@ select::-ms-expand {
 
 											</div>
 										</div>
-
-
-
-
 									</div>
-
 								</div>
 							</div>
 						</div>
@@ -829,19 +823,6 @@ select::-ms-expand {
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="mocdal modal-section type-confirm">
@@ -875,188 +856,279 @@ select::-ms-expand {
 		
 	</script>
 	<script>
-		//비밀번호 수정 팝업창 띄우기
-		function showPopUp() {
-			var url = "/member/mem/pw_change/1";
-			var name = "addrPopup";
-			var option = "width = 450, height = 560 left = 200, top=50, location=no";
-			window.open(url, name, option);
-		}
-		//전화번호 자동 - 추가
-		var autoHypenPhone = function(str) {
-			str = str.replace(/[^0-9]/g, '');
-			var tmp = '';
-			if (str.length < 4) {
-				return str;
-			} else if (str.length < 7) {
-				tmp += str.substr(0, 3);
-				tmp += '-';
-				tmp += str.substr(3);
-				return tmp;
-			} else if (str.length < 11) {
-				tmp += str.substr(0, 3);
-				tmp += '-';
-				tmp += str.substr(3, 3);
-				tmp += '-';
-				tmp += str.substr(6);
-				return tmp;
-			} else {
-				tmp += str.substr(0, 3);
-				tmp += '-';
-				tmp += str.substr(3, 4);
-				tmp += '-';
-				tmp += str.substr(7);
-				return tmp;
-			}
-			return str;
-		}
-		var phoneNum = document.getElementById('phoneNum');
-		phoneNum.onkeyup = function() {
-			console.log(this.value);
-			this.value = autoHypenPhone(this.value);
-		}
-		$(document).ready(
-				function() {
-					var size = $(window)[0].innerWidth;
-					if (size > 1200) {
-						$('#menuBar').attr('class',
-								"nav nav-tabs md-tabs tabs-left b-none");
-					} else {
-						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
-					}
-				});
-		$(window).resize(
-				function() {
-					var size = $(window)[0].innerWidth;
-					if (size > 1200) {
-						$('#menuBar').attr('class',
-								"nav nav-tabs md-tabs tabs-left b-none");
-					} else {
-						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
-					}
-				});
-		function goRentDetailPage(r_id) {
-			var url = '/member/mem/memRentDetail/' + r_id;
-			$("#tempPage").load(url, function() {
-				$("#changedPage").html($("#tempPage").html());
-				$("#tempPage").html("");
-			});
-		}
-		function goBuyDetailPage(r_id) {
-			var url = '/member/mem/memBuyDetail/' + r_id;
-			$("#tempPage").load(url, function() {
-				$("#changedPage").html($("#tempPage").html());
-				$("#tempPage").html("");
-			});
-		}
-		/*사진 미리 보여주기 함수 memberDetail*/
-		$(document).ready(
-				function() {
-					var fileTarget = $('.upload-hidden');
-					fileTarget.on('change', function() { // 값이 변경되면 
-						if (window.FileReader) { // modern browser 
-							var filename = $(this)[0].files[0].name;
-						} else { // old IE 
-							var filename = $(this).val().split('/').pop()
-									.split('\\').pop(); // 파일명만 추출 
-						} // 추출한 파일명 삽입 
-						$(this).siblings('.upload-name').val(filename);
-					});
-				});
-		var imgTarget = $('.upload-hidden');
-		imgTarget
-				.on(
-						'change',
-						function() {
-							var parent = $(this).parent();
-							parent.children('.m_imgPreview').remove();
-							if (window.FileReader) {
-								if (!$(this)[0].files[0].type.match(/image\//))
-									return;
-								var reader = new FileReader();
-								reader.onload = function(e) {
-									var src = e.target.result;
-									parent
-											.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>');
-								}
-								reader.readAsDataURL($(this)[0].files[0]);
-							}
-						});
-		/*다음 우편번호 찾기 javaScript */
-		function daumPostcode() {
-			new daum.Postcode(
-					{
-						oncomplete : function(data) {
-							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
-							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-							var addr = ''; // 주소 변수
-							var extraAddr = ''; // 참고항목 변수
-							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-								addr = data.roadAddress;
-							} else { // 사용자가 지번 주소를 선택했을 경우(J)
-								addr = data.jibunAddress;
-							}
-							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-							if (data.userSelectedType === 'R') {
-								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-								// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-								if (data.bname !== ''
-										&& /[동|로|가]$/g.test(data.bname)) {
-									extraAddr += data.bname;
-								}
-								// 건물명이 있고, 공동주택일 경우 추가한다.
-								if (data.buildingName !== ''
-										&& data.apartment === 'Y') {
-									extraAddr += (extraAddr !== '' ? ', '
-											+ data.buildingName
-											: data.buildingName);
-								}
-								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-								if (extraAddr !== '') {
-									extraAddr = ' (' + extraAddr + ')';
-								}
-								// 조합된 참고항목을 해당 필드에 넣는다.
-								document.getElementById("extraAddress").value = extraAddr;
-							} else {
-								document.getElementById("extraAddress").value = '';
-							}
-							// 우편번호와 주소 정보를 해당 필드에 넣는다.
-							document.getElementById('postcode').value = data.zonecode;
-							document.getElementById("address").value = addr;
-							// 커서를 상세주소 필드로 이동한다.
-							document.getElementById("detailAddress").value = '';
-							document.getElementById("detailAddress").focus();
-						}
-					}).open();
-		}
-		$('#detailAddress').focusout(
-				function() {
-					var realAddr = $('input[name=addr]').eq(0).val() + "|"
-							+ $('input[name=addr]').eq(1).val() + "|"
-							+ $('#detailAddress').val() + "|"
-							+ $('input[name=addr]').eq(2).val();
-					$('#realAddress').val(realAddr);
-				});
-		//승빈
-		$(function() {
-			//사용 예시 **************************
-			$(document).on("click", "#accountDeleteBtn", function() {
-				var toRent = "${toRent}";
+	function emailSum() {
+		var front = document
+				.getElementById("frontEmail").value;
+		var back = document
+				.getElementById("backEmail");
+		var email = "";
+		var hidInput = document
+				.getElementById("realEmail");
+		email = front
+				+ "@"
+				+ back.options[back.selectedIndex].value;
+		hidInput.value = email;
+
+	}
+	
+	var emailCheck = false;
+	function duplicatedCheck(){
+		var realEmail = $('input#realEmail');
+		var inputed = $('input#frontEmail').val();
+		var select = $('select#backEmail').val();
+		var checkInput = $('input#checkKey');
 				
-				if(toRent == "true"){
-					action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
-					
-				}else {
-					action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
-						if (res) {
-							document.accountDelete.submit();
+		var SC = ["!","@","#","$","%","`","~","^","&","*","(",")","+","=","\\","|","{","}",":",";","\"","\'",",","<",">","/","?"];
+        var check_SC = 0;
+		
+        for(var i = 0; i < SC.length; i++){
+            if(inputed.indexOf(SC[i]) != -1) check_SC = 1;
+        }
+		
+		if(check_SC == 1 || select == "" || inputed == ""){
+			$("#check_email").css("color","red");
+			$("#check_email").text("이메일을 제대로 입력해주세요.");
+			emailFormCheck = false;
+		}else{
+			$("#check_email").text("");
+			emailFormCheck = true;
+		}
+		
+		if(emailFormCheck && (inputed.length > 0 || inputed != "")) {
+			$.ajax({
+				data : inputed+"@"+select,
+				url : "/member/mem/emailCheck",
+				type : "POST",
+				dataType : "JSON",
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					console.log("emailCheck : " + inputed+"@"+select);
+
+					if(data.ufo || data.kakao || data.naver){
+						var savedEmail = "${userInfo.m_email}";
+						emailSum();
+						var hidInput = document.getElementById("realEmail").value;
+						if(savedEmail == hidInput){
+							$("#check_email").css("color","green");
+							$("#check_email").text("현재 이메일 입니다.");
+							emailCheck = true;
+						}else{
+							$("#check_email").css("color","red");
+							$("#check_email").text("이미 사용중인 이메일 입니다.");
+							emailCheck = false;
+						}
+					} else{
+						$("#check_email").css("color","blue");
+						$("#check_email").text("사용가능한 이메일 입니다.");
+						emailCheck = true;
+					}
+				}
+			});
+		}
+
+	};
+	
+	var hidInput = document
+	.getElementById("realEmail");
+	
+	
+	
+	//비밀번호 수정 팝업창 띄우기
+	function showPopUp() {
+		var url = "/member/mem/pw_change/1";
+		var name = "addrPopup";
+		var option = "width = 450, height = 560 left = 200, top=50, location=no";
+		window.open(url, name, option);
+	}
+	//전화번호 자동 - 추가
+	var autoHypenPhone = function(str) {
+		str = str.replace(/[^0-9]/g, '');
+		var tmp = '';
+		if (str.length < 4) {
+			return str;
+		} else if (str.length < 7) {
+			tmp += str.substr(0, 3);
+			tmp += '-';
+			tmp += str.substr(3);
+			return tmp;
+		} else if (str.length < 11) {
+			tmp += str.substr(0, 3);
+			tmp += '-';
+			tmp += str.substr(3, 3);
+			tmp += '-';
+			tmp += str.substr(6);
+			return tmp;
+		} else {
+			tmp += str.substr(0, 3);
+			tmp += '-';
+			tmp += str.substr(3, 4);
+			tmp += '-';
+			tmp += str.substr(7);
+			return tmp;
+		}
+		return str;
+	}
+	var phoneNum = document.getElementById('phoneNum');
+	phoneNum.onkeyup = function() {
+		console.log(this.value);
+		this.value = autoHypenPhone(this.value);
+	}
+	$(document).ready(
+			function() {
+				var size = $(window)[0].innerWidth;
+				if (size > 1200) {
+					$('#menuBar').attr('class',
+							"nav nav-tabs md-tabs tabs-left b-none");
+				} else {
+					$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+				}
+			});
+	$(window).resize(
+			function() {
+				var size = $(window)[0].innerWidth;
+				if (size > 1200) {
+					$('#menuBar').attr('class',
+							"nav nav-tabs md-tabs tabs-left b-none");
+				} else {
+					$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+				}
+			});
+	function goRentDetailPage(r_id) {
+		var url = '/member/mem/memRentDetail/' + r_id;
+		$("#tempPage").load(url, function() {
+			$("#changedPage").html($("#tempPage").html());
+			$("#tempPage").html("");
+		});
+	}
+	function goBuyDetailPage(r_id) {
+		var url = '/member/mem/memBuyDetail/' + r_id;
+		$("#tempPage").load(url, function() {
+			$("#changedPage").html($("#tempPage").html());
+			$("#tempPage").html("");
+		});
+	}
+	/*사진 미리 보여주기 함수 memberDetail*/
+	$(document).ready(
+			function() {
+				var fileTarget = $('.upload-hidden');
+				fileTarget.on('change', function() { // 값이 변경되면 
+					if (window.FileReader) { // modern browser 
+						var filename = $(this)[0].files[0].name;
+					} else { // old IE 
+						var filename = $(this).val().split('/').pop()
+								.split('\\').pop(); // 파일명만 추출 
+					} // 추출한 파일명 삽입 
+					$(this).siblings('.upload-name').val(filename);
+				});
+			});
+	var imgTarget = $('.upload-hidden');
+	imgTarget
+			.on(
+					'change',
+					function() {
+						var parent = $(this).parent();
+						parent.children('.m_imgPreview').remove();
+						if (window.FileReader) {
+							if (!$(this)[0].files[0].type.match(/image\//))
+								return;
+							var reader = new FileReader();
+							reader.onload = function(e) {
+								var src = e.target.result;
+								parent
+										.prepend('<div class="m_imgPreview"><img src="' + src +'" class="img-fluid img-circle"></div>');
+							}
+							reader.readAsDataURL($(this)[0].files[0]);
 						}
 					});
-				} 
+	
+	/*다음 우편번호 찾기 javaScript */
+	function daumPostcode() {
+		new daum.Postcode(
+				{
+					oncomplete : function(data) {
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+						// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+						var addr = ''; // 주소 변수
+						var extraAddr = ''; // 참고항목 변수
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+						// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+						if (data.userSelectedType === 'R') {
+							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+							if (data.bname !== ''
+									&& /[동|로|가]$/g.test(data.bname)) {
+								extraAddr += data.bname;
+							}
+							// 건물명이 있고, 공동주택일 경우 추가한다.
+							if (data.buildingName !== ''
+									&& data.apartment === 'Y') {
+								extraAddr += (extraAddr !== '' ? ', '
+										+ data.buildingName
+										: data.buildingName);
+							}
+							// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+							if (extraAddr !== '') {
+								extraAddr = ' (' + extraAddr + ')';
+							}
+							// 조합된 참고항목을 해당 필드에 넣는다.
+							document.getElementById("extraAddress").value = extraAddr;
+						} else {
+							document.getElementById("extraAddress").value = '';
+						}
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						document.getElementById('postcode').value = data.zonecode;
+						document.getElementById("address").value = addr;
+						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById("detailAddress").value = '';
+						document.getElementById("detailAddress").focus();
+					}
+				}).open();
+	}
+	$('#detailAddress').focusout(
+			function() {
+				var detail =  $('#detailAddress').val();
+				if(detail == ""){
+					detail = " ";
+				}
+				var realAddr = $('input[name=addr]').eq(0).val() + "|"
+						+ $('input[name=addr]').eq(1).val() + "|"
+						+ detail + "|"
+						+ $('input[name=addr]').eq(2).val();
+				$('#realAddress').val(realAddr);
 			});
-			$(document).on("click", "#update", function() {
+	//승빈
+	$(function() {
+		//사용 예시 **************************
+		$(document).on("click", "#accountDeleteBtn", function() {
+			var toRent = "${toRent}";
+			
+			if(toRent == "true"){
+				action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
+				
+			}else {
+				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
+					if (res) {
+						document.accountDelete.submit();
+					}
+				});
+			} 
+		});
+		$(document).on("click", "#update", function() {
+			var savedEmail = "${userInfo.m_email}";
+			emailSum();
+			var hidInput = document.getElementById("realEmail").value;
+			
+			if(savedEmail == hidInput){
+				emailCheck = false;
+			}
+			
+			if(emailCheck){
 				action_popup.confirm("수정 하시겠습니까?", function(upd) {
 					if (upd) {
 						action_popup.alert("수정이 되었습니다.");
@@ -1065,81 +1137,88 @@ select::-ms-expand {
 						action_popup.alert("수정에 실패하였습니다.");
 					}
 				})
-			});
-			$(document).on("click", "#alert", function() {
-				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
-					if (res) {
-						
-						action_popup.alert("정보 약관에 동의해주세요.");
-					} else {
-						action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
-					}
-				})
-			});
-			$(".modal_close").on("click", function() {
-				action_popup.close(this);
-			});
-			//사용 예시 **************************
-		});
-		/**
-		 *  alert, confirm 대용 팝업 메소드 정의 <br/>
-		 *  timer : 애니메이션 동작 속도 <br/>
-		 *  alert : 경고창 <br/>
-		 *  confirm : 확인창 <br/>
-		 *  open : 팝업 열기 <br/>
-		 *  close : 팝업 닫기 <br/>
-		 */
-		var action_popup = {
-			timer : 500,
-			confirm : function(txt, callback) {
-				if (txt == null || txt.trim() == "") {
-					console.warn("confirm message is empty.");
-					return;
-				} else if (callback == null || typeof callback != 'function') {
-					console.warn("callback is null or not function.");
-					return;
-				} else {
-					$(".type-confirm .btn_ok").on("click", function() {
-						$(this).unbind("click");
-						callback(true);
-						action_popup.close(this);
-					});
-					this.open("type-confirm", txt);
-				}
-			},
-			alert : function(txt) {
-				if (txt == null || txt.trim() == "") {
-					console.warn("confirm message is empty.");
-					return;
-				} else {
-					this.open("type-alert", txt);
-				}
-			},
-			open : function(type, txt) {
-				var popup = $("." + type);
-				popup.find(".menu_msg").text(txt);
-				$("body").append("<div class='dimLayer'></div>");
-				$(".dimLayer").css('height', $(document).height()).attr(
-						"target", type);
-				popup.fadeIn(this.timer);
-			},
-			close : function(target) {
-				var modal = $(target).closest(".modal-section");
-				var dimLayer;
-				if (modal.hasClass("type-confirm")) {
-					dimLayer = $(".dimLayer[target=type-confirm]");
-				} else if (modal.hasClass("type-alert")) {
-					dimLayer = $(".dimLayer[target=type-alert]")
-				} else {
-					console.warn("close unknown target.")
-					return;
-				}
-				modal.fadeOut(this.timer);
-				setTimeout(function() {
-					dimLayer != null ? dimLayer.remove() : "";
-				}, this.timer);
+			}else{
+				action_popup.alert("이메일 중복확인을 해주세요.");
 			}
+			
+			
+		});
+		
+		
+		$(document).on("click", "#alert", function() {
+			action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
+				if (res) {
+					
+					action_popup.alert("정보 약관에 동의해주세요.");
+				} else {
+					action_popup.alert("대여 중인 상품이 있습니다. 다시 확인해 주세요.");
+				}
+			})
+		});
+		$(".modal_close").on("click", function() {
+			action_popup.close(this);
+		});
+		//사용 예시 **************************
+	});
+	/**
+	 *  alert, confirm 대용 팝업 메소드 정의 <br/>
+	 *  timer : 애니메이션 동작 속도 <br/>
+	 *  alert : 경고창 <br/>
+	 *  confirm : 확인창 <br/>
+	 *  open : 팝업 열기 <br/>
+	 *  close : 팝업 닫기 <br/>
+	 */
+	var action_popup = {
+		timer : 500,
+		confirm : function(txt, callback) {
+			if (txt == null || txt.trim() == "") {
+				console.warn("confirm message is empty.");
+				return;
+			} else if (callback == null || typeof callback != 'function') {
+				console.warn("callback is null or not function.");
+				return;
+			} else {
+				$(".type-confirm .btn_ok").on("click", function() {
+					$(this).unbind("click");
+					callback(true);
+					action_popup.close(this);
+				});
+				this.open("type-confirm", txt);
+			}
+		},
+		alert : function(txt) {
+			if (txt == null || txt.trim() == "") {
+				console.warn("confirm message is empty.");
+				return;
+			} else {
+				this.open("type-alert", txt);
+			}
+		},
+		open : function(type, txt) {
+			var popup = $("." + type);
+			popup.find(".menu_msg").text(txt);
+			$("body").append("<div class='dimLayer'></div>");
+			$(".dimLayer").css('height', $(document).height()).attr(
+					"target", type);
+			popup.fadeIn(this.timer);
+		},
+		close : function(target) {
+			var modal = $(target).closest(".modal-section");
+			var dimLayer;
+			if (modal.hasClass("type-confirm")) {
+				dimLayer = $(".dimLayer[target=type-confirm]");
+			} else if (modal.hasClass("type-alert")) {
+				dimLayer = $(".dimLayer[target=type-alert]")
+			} else {
+				console.warn("close unknown target.")
+				return;
+			}
+			modal.fadeOut(this.timer);
+			setTimeout(function() {
+				dimLayer != null ? dimLayer.remove() : "";
+			}, this.timer);
 		}
+	}
 	</script>
 
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>

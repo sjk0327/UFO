@@ -111,13 +111,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <form:input id="idInput" path="m_id" class="form-control" required="required" />
+                                        <form:input id="idInput" path="m_id" class="form-control" required="required" tabindex="1" />
                                         <span class="form-bar"></span>
                                         <label class="float-label">ID</label>
                                         <span id="id-checker"></span>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <form:password id="pwdInput" path="m_pw" class="form-control" required="required"/>
+                                        <form:password id="pwdInput" path="m_pw" class="form-control" required="required" tabindex="2"/>
                                         <span class="form-bar"></span>
                                         <label class="float-label">Password</label>
                                         <span id="pwd-checker"></span>
@@ -131,7 +131,7 @@
                                     
                                     <div class="row m-t-30">
                                         <div class="col-md-12">
-                                            <input type="button" value="로그인" onclick="loginCheck()"
+                                            <input type="button" value="로그인" onclick="loginCheck()" tabindex="3"
                                             class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
                                         </div>
                                     </div>
@@ -139,7 +139,7 @@
                                     <div class="row">
                                         <div class="col-md-10">
                                             <p class="text-inverse text-left m-b-0"></p>
-                                            <p class="text-inverse text-left"><a href="/"><b>고객 페이지로</b></a></p>
+                                            <p class="text-inverse text-left"><a href="/" tabindex="4"><b>고객 페이지로</b></a></p>
                                         </div>
                                         <div class="col-md-2">
                                             <img src="/resources/assets/images/auth/Logo-small-bottom.png" width="60" height="58" alt="small-logo.png">
@@ -296,6 +296,7 @@ var action_popup = {
 		$(".dimLayer").css('height', $(document).height()).attr(
 				"target", type);
 		popup.fadeIn(this.timer);
+		$('.pink_btn').focus();
 	},
 
 	close : function(target) {

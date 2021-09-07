@@ -292,7 +292,7 @@ public class MemberController {
 		else
 			gender = "선택안함";
 		user.setM_gender(gender);
-
+		user.setM_addr("");
 		int n = dao.kakaoJoin(user);
 
 		if (n == 0) {
@@ -429,7 +429,7 @@ public class MemberController {
 			gender = "선택안함";
 		user.setM_gender(gender);
 		user.setM_tel(mobile);
-
+		user.setM_addr("");
 		int n = dao.naverJoin(user);
 
 		if (n == 0) {

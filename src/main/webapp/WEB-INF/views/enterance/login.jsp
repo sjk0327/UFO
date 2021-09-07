@@ -34,7 +34,7 @@
 	z-index: 9998;
 }
 
-.modal {
+.mocdal {
 	width: 600px;
 	height: 252px;
 	border-radius: 10px;
@@ -115,13 +115,14 @@
 									</div>
 								</div>
 								<div class="form-group form-primary">
-									<input type="text" id="idInput" name="m_id" class="form-control" required="required" />
+									<input type="text" id="idInput" name="m_id" class="form-control" onkeyup="if(window.event.keyCode==13){inputEnter()}" 
+									required="required" tabindex="1" />
 									<span class="form-bar"></span> <label class="float-label">ID</label>
 									<span id="id-checker"></span>
 								</div>
 								<div class="form-group form-primary">
-									<input type="password" id="pwdInput" name="m_pw" class="form-control"
-										required="required" />
+									<input type="password" id="pwdInput" name="m_pw" class="form-control" onkeyup="if(window.event.keyCode==13){inputEnter()}"
+										required="required" tabindex="2"/>
 									<span class="form-bar"></span> <label class="float-label">Password</label>
 									<span id="pwd-checker"></span>
 								</div>
@@ -139,7 +140,7 @@
 
 								<div class="row m-t-30">
 									<div class="col-md-12">
-										<input type="button" value="로그인" onclick="loginCheck()"
+										<input type="button" value="로그인" onclick="loginCheck()" tabindex="3"
 											class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
 									</div>
 								</div>
@@ -207,7 +208,7 @@
 	</section>
 
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-confirm">
+	<section class="mocdal modal-section type-confirm">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
 		</div>
@@ -219,7 +220,7 @@
 	<!-- confirm 모달을 쓸 페이지에 추가 end-->
 	
 	<!-- confirmEdit 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-confirmEdit">
+	<section class="mocdal modal-section type-confirmEdit">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
 		</div>
@@ -230,7 +231,7 @@
 	<!-- confirmEdit 모달을 쓸 페이지에 추가 end-->
 
 	<!-- alert 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-alert">
+	<section class="mocdal modal-section type-alert">
 		<div class="enroll_box">
 			<p class="menu_msg"></p>
 		</div>
@@ -242,16 +243,22 @@
 
 	<%@ include file="/WEB-INF/views/adminFooter.jsp"%>
 <script>
+function inputEnter(){
+	loginCheck();
+}
+
 function loginCheck(){
 	var idInput = $('#idInput').val();
 	var pwdInput = $('#pwdInput').val();
 	console.log(idInput + " . " + pwdInput);
 	
 	if(idInput.length <= 0){
+		document.getElementById('idInput').focus();
 		document.getElementById('pwd-checker').innerHTML='';
 		document.getElementById('id-checker').innerHTML='아이디를 입력해주세요.';
 		document.getElementById('id-checker').style.color='red';
 	}else if(pwdInput.length <= 0){
+		document.getElementById('pwdInput').focus();
 		document.getElementById('id-checker').innerHTML='';
 		document.getElementById('pwd-checker').innerHTML='비밀번호를 입력해주세요.';
 		document.getElementById('pwd-checker').style.color='red';
@@ -345,6 +352,7 @@ var action_popup = {
 		$(".dimLayer").css('height', $(document).height()).attr(
 				"target", type);
 		popup.fadeIn(this.timer);
+		$('.pink_btn').focus();
 	},
 
 	close : function(target) {
