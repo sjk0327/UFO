@@ -356,6 +356,7 @@ select::-ms-expand {
                                         <p class="text-inverse text-left"><a href="/"><b>메인화면으로</b></a></p>
                                     </div>
 
+
                                 </div>
                             </div>
                         </div>

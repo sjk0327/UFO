@@ -240,8 +240,8 @@ body, html {
 											<thead>
 												<tr>
 													<th style="width: 50px">번호</th>
-													<th>회원 ID</th>
-													<th>제품ID</th>
+													<th>카테고리</th>
+													<th>제품 ID</th>
 													<th>제품명</th>
 													<th>대여날짜</th>
 													<th>상태</th>
@@ -252,7 +252,7 @@ body, html {
 												
 													<tr onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
 														<td>${list.r_id }</td>
-														<td>${list.r_mid }</td>
+														<td>${list.p_category }</td>
 														<td>${list.r_pid }</td>
 														<td>${list.p_name }</td>
 														<td>${list.r_sdate }</td>
