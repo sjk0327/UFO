@@ -265,13 +265,13 @@ body, html {
 																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td>
 																				</c:if>
 																				<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}">
-																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></label></td>
+																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></td>
 																				</c:if>
 																				<c:if test="${list.r_state eq '환불 요청(구매 확정)'}">
 																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td>
 																				</c:if>
 																				<c:if test="${list.r_state eq '환불 완료(구매 확정)'}">
-																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></label></td>
+																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></td>
 																				</c:if>
 
 													</tr>
@@ -292,15 +292,18 @@ body, html {
 									<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
 							</c:if>
 							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-								<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
-								<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+								<c:if test="${pageNum eq pageMaker.cri.page}">
+									<li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
+									<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li>
+									<span class="col-md-1"></span>
+								</c:if>
 								<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
 								<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
 								
 							</c:forEach>
 							<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
 								<li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-									<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
+									<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
 							</c:if>
 						</ul>
 						</div>
@@ -367,7 +370,7 @@ body, html {
 		var searchTypeSelect = $('#searchType option:selected').val();
 		var searchWordInput = $('#searchWord').val();
 		var buyListSize = ${buyList.size()};
-		console.log(searchTypeSelect + "+" + searchWordInput + "+" +rentListSize)
+		console.log(searchTypeSelect + "+" + searchWordInput + "+" +buyListSize)
 		if(searchTypeSelect != "" || searchWordInput != ""){
 			if(buyListSize <= 0){
 				action_popup.alert("검색하신 조건에 맞는게 없습니다.")

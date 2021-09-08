@@ -111,13 +111,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <form:input id="idInput" path="m_id" class="form-control" required="required" tabindex="1" />
+                                        <form:input id="idInput" path="m_id" class="form-control" required="required" onkeyup="if(window.event.keyCode==13){inputEnter()}" tabindex="1" />
                                         <span class="form-bar"></span>
                                         <label class="float-label">ID</label>
                                         <span id="id-checker"></span>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <form:password id="pwdInput" path="m_pw" class="form-control" required="required" tabindex="2"/>
+                                        <form:password id="pwdInput" path="m_pw" class="form-control" required="required" onkeyup="if(window.event.keyCode==13){inputEnter()}" tabindex="2"/>
                                         <span class="form-bar"></span>
                                         <label class="float-label">Password</label>
                                         <span id="pwd-checker"></span>
@@ -193,16 +193,21 @@
 
 	<%@ include file="/WEB-INF/views/adminFooter.jsp"%>
 <script>
+function inputEnter(){
+	loginCheck();
+}
 function loginCheck(){
 	var idInput = $('#idInput').val();
 	var pwdInput = $('#pwdInput').val();
 	console.log(idInput + " . " + pwdInput);
 	
 	if(idInput.length <= 0){
+		document.getElementById('idInput').focus();
 		document.getElementById('pwd-checker').innerHTML='';
 		document.getElementById('id-checker').innerHTML='아이디를 입력해주세요.';
 		document.getElementById('id-checker').style.color='red';
 	}else if(pwdInput.length <= 0){
+		document.getElementById('pwdInput').focus();
 		document.getElementById('id-checker').innerHTML='';
 		document.getElementById('pwd-checker').innerHTML='비밀번호를 입력해주세요.';
 		document.getElementById('pwd-checker').style.color='red';
