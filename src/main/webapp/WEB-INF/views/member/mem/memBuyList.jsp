@@ -257,14 +257,24 @@ body, html {
 														<td>${list.p_name }</td>
 														<td>${list.r_sdate }</td>
 													
-														<c:if test="${list.r_state eq '즉시 구매'}"><td><label class="btn btn-info">즉시 구매</label></td></c:if>
-														<c:if test="${list.r_state eq '구매 확정'}"><td><label class="btn btn-info2">구매 확정</label></td></c:if>
-														<c:if test="${list.r_state eq '반납 요청'}"><td><label class="btn btn-warning">반납 요청</label></td></c:if>
-														<c:if test="${list.r_state eq '반납 완료'}"><td><label class="btn btn-success">반납 완료</label></td></c:if>
-														<c:if test="${list.r_state eq '환불 요청(즉시 구매)'||list.r_state eq '환불 요청(구매 확정)'}"><td><label class="btn btn-inverse">환불 요청</label></td></c:if>
-														<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}"><td><label class="btn btn-inverse">환불 완료</label></td></c:if>
+														<c:if test="${list.r_state eq '즉시 구매'}"><td><label class="label label-info">즉시 구매</label></td></c:if>
+														<c:if test="${list.r_state eq '구매 확정'}"><td><label class="label label-info2">구매 확정</label></td></c:if>
+														<c:if test="${list.r_state eq '반납 요청'}"><td><label class="label label-warning">반납 요청</label></td></c:if>
+														<c:if test="${list.r_state eq '반납 완료'}"><td><label class="label label-success">반납 완료</label></td></c:if>
+														<c:if test="${list.r_state eq '환불 요청(즉시 구매)'}">
+																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td>
+																				</c:if>
+																				<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}">
+																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></label></td>
+																				</c:if>
+																				<c:if test="${list.r_state eq '환불 요청(구매 확정)'}">
+																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td>
+																				</c:if>
+																				<c:if test="${list.r_state eq '환불 완료(구매 확정)'}">
+																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></label></td>
+																				</c:if>
+
 													</tr>
-												
 											</c:forEach>
 											</tbody>
 										</table>

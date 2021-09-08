@@ -31,7 +31,7 @@ public interface RentDAO {
 	public void deleteCartAll(String userId);
 	public void updateCart(BuyInfoVO buyInfoVo);
 	public int rentSelect();
-	public int getWishTotalCount(Criteria cri);
+	public int getWishTotalCount(String userId, Criteria cri);
 	public List<RentVO> rentListNow();
 	public int checkCart(CartVO cartVO);
 	public int rentRefund(RentVO rentVO);

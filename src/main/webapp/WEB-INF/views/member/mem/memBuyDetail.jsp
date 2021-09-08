@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
+   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -278,7 +278,7 @@
 			       					<td>${proInfo.p_id }</td>
 			     					<td>${proInfo.p_name }</td>
 			     					<td>
-										<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'}">
+										<c:if test="${rentInfo.r_state eq '구매 확정' || rentInfo.r_state eq '즉시 구매'||rentInfo.r_state eq '환불 완료(즉시 구매)'||rentInfo.r_state eq '환불 완료(구매 확정)'||rentInfo.r_state eq '환불 요청(즉시 구매)'||rentInfo.r_state eq '환불 요청(구매 확정)'}">
 										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.95 * rentInfo.r_rent}" integerOnly="true" />
 										${totalprice}원
 										</c:if>
@@ -293,6 +293,8 @@
 										<span class="col-md-2">
 										<c:if test="${rentInfo.r_state eq '즉시 구매'}"><label class="btn btn-info">즉시 구매</label></c:if>
 										<c:if test="${rentInfo.r_state eq '구매 확정'}"><label class="btn btn-info2">구매 확정</label></c:if>
+										<c:if test="${rentInfo.r_state eq '환불 요청(즉시 구매)'||rentInfo.r_state eq '환불 요청(구매 확정)'}"><label class="btn btn-inverse">${fn:substring(rentInfo.r_state,0,5)}${fn:substring(rentInfo.r_state,5,12)}</label></c:if>
+						<c:if test="${rentInfo.r_state eq '환불 완료(즉시 구매)'||rentInfo.r_state eq '환불 완료(구매 확정)'}"><label class="btn btn-inverse">${fn:substring(rentInfo.r_state,0,5)}${fn:substring(rentInfo.r_state,5,12)}</label></c:if>
 										</span>
 										<!-- 상태 색깔 변경 로직 부분  끝 -->
 			       					</td>
@@ -347,7 +349,7 @@
 							<hr>
 							</c:forEach>
 							<div class="col-sm-12" style="float:right;">
-							<c:if test="${pdate+1>=today}">
+							<c:if test="${pdate+1>=today and (rentInfo.r_state ne '환불 요청(즉시 구매)' and rentInfo.r_state ne '환불 요청(구매 확정)' and rentInfo.r_state ne '환불 완료(즉시 구매)' and rentInfo.r_state ne '환불 완료(구매 확정)')}">
 								
 								<button id="refundButton"
 								class="btn waves-effect waves-light btn-primary btn-outline-primary" style="margin-left:15px; float:right;">환불하기</button>

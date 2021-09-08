@@ -1133,17 +1133,34 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 		if(stateList[i].value=="대여"){		
 			if(e.target==rentdateList[i]){
 				var count=0;
+				
 				for(var k=0;k<rentalIdNowListLength;k++){
 					var rentdate=new Date(rentdateList[i].value);
+					var rentdate2=new Date(rentdateList[i].value);
 					rentdate.setDate(rentdate.getDate() + 2);
+					rentdate2.setDate(rentdate2.getDate() - 2);
 					var rentdatenow=new Date(rentaldateNowList[k].value);
-				if(productIdList[i].value==rentalIdNowList[k].value && rentdate<rentdatenow){
+				if(productIdList[i].value==rentalIdNowList[k].value && (rentdate<rentdatenow || rentdate2>rentdatenow) ){
 					count+=rentalamountNowList[k].value*1
 				}}
 				canRental=rentamountList[i].value*1+count;
-				
-				amountList[i].setAttribute('max',canRental);
+			
+				if(canRental<=0){
+					amountList[i].disabled=true;
+					updatecartList[i].disabled=true;
+					carttobuyList[i].disabled=true;
+					checkBoxList[i].disabled=true;
+					
+				}else{
+					
+					amountList[i].disabled=false;
+					updatecartList[i].disabled=false;
+					carttobuyList[i].disabled=false;
+					amountList[i].setAttribute('max',canRental);
 				amountList[i].value=1;
+					
+				}
+				
 		}
 	}	
 }
