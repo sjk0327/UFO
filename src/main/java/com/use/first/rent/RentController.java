@@ -288,10 +288,12 @@ public class RentController {
 					// PageMaker 객체 생성
 					PageMaker pageMaker = new PageMaker(cri);
 					// 전체 게시물 수를 구함
-					int totalCount = rentDAO.getWishTotalCount(cri);
+					int totalCount = rentDAO.getWishTotalCount(userId,cri);
 					// pageMaker로 전달
+					System.out.println(totalCount);
 					pageMaker.setTotalCount(totalCount);
 					// 모델에 추가
+					System.out.println(pageMaker.toString());
 					model.addAttribute("pageMaker", pageMaker);
 					model.addAttribute("wishList", wishList);
 					model.addAttribute("wishProList", wishProList);
@@ -353,7 +355,7 @@ public class RentController {
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 			List<CartVO> cartList = rentDAO.getCartList(userId);
 			List<RentVO> rentalListNow=rentDAO.rentListNow(); 
-			cartList.toString();
+			System.out.println(rentalListNow.toString());
 			model.addAttribute("rentalListNow", rentalListNow);
 			model.addAttribute("cartList", cartList);
 			return "/member/rent/memberCart";

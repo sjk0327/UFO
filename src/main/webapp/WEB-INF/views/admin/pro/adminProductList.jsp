@@ -137,8 +137,8 @@ body, html {height: 100%;}
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="p_canBuy_${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="p_canRent_${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="p_canBuy_${list.p_id }" name="b1" size="10" value="${list.p_canBuy}"/>개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="p_canRent_${list.p_id }" name="b2" size="10" value="${list.p_canRent}"/>개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
 					<td onclick="event.cancelBubble=true">

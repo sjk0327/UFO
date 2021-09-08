@@ -290,6 +290,100 @@ body, html {height: 100%;}
 
 </head>
 <body>
+<!-- 모달창 시작 -->
+                <div class="modal hidden">
+  <div class="bg"></div>
+  <div class="modal-con">
+  <a href="javascript:;" class="close">X</a>
+  <p class="title" >옵션을 확인해주세요!</p>
+  <div class="con">
+ 	<form:form id="buyform" method="post" commandName="BuyInfoVO">
+    <input type="hidden" id="productId" name="productId" value="1">
+     <input id="cartId" name="cartId" type="hidden" value="0"> 
+    <div class="row" style="margin-top: 20px;">
+    <div class="col-md-4"><img id="productImg" class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:200px; height: 150px; margin-left: 20px;"></div>
+    <div class="col-md-3" id="productName" style="color: #505050; font-weight: bold;">${wishInfo.p_name}</div>
+    <div class="col-md-5">
+    <div>
+    <div class="row">
+    <div class="col-md-5">
+      구매정보</div>
+      <div class="col-md-7">
+      <select id="buyType" name="buyType">
+      <option value="선택">선택해주세요</option>
+      <option value="대여">대여</option>
+      <option value="구매">구매</option>
+      </select>
+      </div></div></div>
+      <div>
+      <div class="row" style="margin-top:8pt;">
+       <div class="col-md-5">
+       수량</div><div class="col-md-7">
+        <input id="proamount" name="proamount" type="number" min="1" max="100" value="1" style="width:83.2px;">               
+			</div></div></div>
+			  <div>
+      <div class="row" style="margin-top:8pt;">
+       <div class="col-md-5" id="rdate">
+       날짜</div><div class="col-md-7">
+        <input id="rentdate" name="rentdate" type="text" value="" size="7px;">            
+			</div></div></div>
+			<div>
+      <div class="row" style="margin-top:8pt;">
+       <div class="col-md-5">
+       총 가격</div><div class="col-md-7">
+        <input id="productPrice" name="productPrice" type="text" value="1" readonly="readonly" style="margin-right: 8pt;" size="7px;">               
+			</div></div></div>
+			
+			
+			</div></div>
+		<div class="row" style="margin-top: 8pt;">	
+		<div class="col-md-9"></div>
+		<div class="col-md-3">
+		<div class="row">
+		
+    <div class="col-md-6" style="padding-left: 30px;">	
+    <input type="button" id="keepgo" class="btn btn-outline-primary btn-sm" value=""></input></div></div></div>
+  </div>
+  </form:form></div></div>	
+</div>
+<!-- 모달창 끝 -->
+
+       <!-- confirm 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modac modac-section type-confirm">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <input type="button" class="btn pink_btn btn_ok" value="확인"></input>
+                <input type="button" class="btn gray_btn modal_close" value="취소"></input>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+        
+        <!-- confirm2 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modac modac-section type-confirm2">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <input type="button" class="btn pink_btn btn_ok2" value="확인"></input>
+                <input id="modal_close2" type="button" class="btn gray_btn modal_close" value="취소"></input>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+        
+        
+
+        <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modac modac-section type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button id="modal_close" class="btn pink_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->
 
 <!-- 남은 수량 계산위한 rentalList -->
 	<c:forEach var="rentalList" items="${rentalListNow}">
@@ -432,12 +526,10 @@ body, html {height: 100%;}
                    
                     	<div class="btngroup row" style="align-items: center;">
 
-                    	 <c:if test="${wishInfo.p_canrent eq 0}">
-                        <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnrent" value="대여" disabled="disabled">대여</button></div>
-                        </c:if>
-                        <c:if test="${wishInfo.p_canrent ne 0}">
+                    	 
+                       
                         <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnrent" value="대여">대여</button></div>
-                        </c:if>
+                    
                         
                          <c:if test="${wishInfo.p_canbuy eq 0}">
                         <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;" disabled="disabled">구매</button></div>
@@ -456,10 +548,9 @@ body, html {height: 100%;}
               </div>
               </c:forEach>
               </c:if>
-      
             </div>
             <br>
-             <!-- 페이징 start -->
+           <!-- 페이징 start -->
                 <div id = "paging-div">
                 <div class="row">
                 <div class="col-md-5"></div>
@@ -486,107 +577,13 @@ body, html {height: 100%;}
                 </ul></div></div>
                 </div>
            <!-- 페이징 end -->
-           
-
-
 <div>
 
                
                
-               <!-- 모달창 시작 -->
-                <div class="modal hidden">
-  <div class="bg"></div>
-  <div class="modal-con">
-  <a href="javascript:;" class="close">X</a>
-  <p class="title" >옵션을 확인해주세요!</p>
-  <div class="con">
- 	<form:form id="buyform" method="post" commandName="BuyInfoVO">
-    <input type="hidden" id="productId" name="productId" value="1">
-     <input id="cartId" name="cartId" type="hidden" value="0"> 
-    <div class="row" style="margin-top: 20px;">
-    <div class="col-md-4"><img id="productImg" class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:200px; height: 150px; margin-left: 20px;"></div>
-    <div class="col-md-3" id="productName" style="color: #505050; font-weight: bold;">${wishInfo.p_name}</div>
-    <div class="col-md-5">
-    <div>
-    <div class="row">
-    <div class="col-md-5">
-      구매정보</div>
-      <div class="col-md-7">
-      <select id="buyType" name="buyType">
-      <option value="선택">선택해주세요</option>
-      <option value="대여">대여</option>
-      <option value="구매">구매</option>
-      </select>
-      </div></div></div>
-      <div>
-      <div class="row" style="margin-top:8pt;">
-       <div class="col-md-5">
-       수량</div><div class="col-md-7">
-        <input id="proamount" name="proamount" type="number" min="1" max="100" value="1" style="width:83.2px;">               
-			</div></div></div>
-			  <div>
-      <div class="row" style="margin-top:8pt;">
-       <div class="col-md-5" id="rdate">
-       날짜</div><div class="col-md-7">
-        <input id="rentdate" name="rentdate" type="text" value="" size="7px;">            
-			</div></div></div>
-			<div>
-      <div class="row" style="margin-top:8pt;">
-       <div class="col-md-5">
-       총 가격</div><div class="col-md-7">
-        <input id="productPrice" name="productPrice" type="text" value="1" readonly="readonly" style="margin-right: 8pt;" size="7px;">               
-			</div></div></div>
-			
-			
-			</div></div>
-		<div class="row" style="margin-top: 8pt;">	
-		<div class="col-md-9"></div>
-		<div class="col-md-3">
-		<div class="row">
-		
-    <div class="col-md-6" style="padding-left: 30px;">	
-    <input type="button" id="keepgo" class="btn btn-outline-primary btn-sm" value=""></input></div></div></div>
-  </div>
-  </form:form></div></div>	
-</div>
-<!-- 모달창 끝 -->
+               
                 
-       <!-- confirm 모달을 쓸 페이지에 추가 start-->
-        <section id="modal" class="modac modac-section type-confirm">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <input type="button" class="btn pink_btn btn_ok" value="확인"></input>
-                <input type="button" class="btn gray_btn modal_close" value="취소"></input>
-            </div>
-        </section>
-        <!-- confirm 모달을 쓸 페이지에 추가 end-->
-        
-        <!-- confirm2 모달을 쓸 페이지에 추가 start-->
-        <section id="modal" class="modac modac-section type-confirm2">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <input type="button" class="btn pink_btn btn_ok2" value="확인"></input>
-                <input id="modal_close2" type="button" class="btn gray_btn modal_close" value="취소"></input>
-            </div>
-        </section>
-        <!-- confirm 모달을 쓸 페이지에 추가 end-->
-        
-        
 
-        <!-- alert 모달을 쓸 페이지에 추가 start-->
-        <section id="modal" class="modac modac-section type-alert">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <button id="modal_close" class="btn pink_btn modal_close">확인</button>
-            </div>
-        </section>
-        <!-- alert 모달을 쓸 페이지에 추가 end-->
       
                 
 
@@ -647,6 +644,7 @@ body, html {height: 100%;}
 
 </div></div>
 
+             
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
 <script type="text/javascript">
 
@@ -829,7 +827,17 @@ for(var i=0; i < btnrentLength; i++){
 					}
 				}
 				canRental=rentamountList[i].value*1+count;
-				document.getElementById("proamount").setAttribute('max',canRental);
+				if(canRental<=0){
+					document.getElementById("proamount").disabled=true;
+					document.getElementById("keepgo").disabled=true;
+					
+				}else{
+					document.getElementById("proamount").disabled=false;
+					document.getElementById("keepgo").disabled=false;
+					document.getElementById("proamount").setAttribute('max',canRental);
+					document.getElementById("proamount").value=1;
+					
+				}
 				document.getElementById("proamount").addEventListener("input",changeprice);
 				document.getElementById("proamount").addEventListener("change",checkDisabled);
 				document.getElementById("productPrice").value=proPriceList[i].value*0.05;
@@ -846,14 +854,26 @@ for(var i=0; i < btnrentLength; i++){
 						for(var k=0;k<rentalIdNowListLength;k++){
 							var rentd=new Date(document.getElementById("rentdate").value);
 							rentd.setDate(rentd.getDate() + 2);
+							var rentd2=new Date(document.getElementById("rentdate").value);
+							rentd2.setDate(rentd2.getDate() - 2);
 							var rentdatenow=new Date(rentaldateNowList[k].value);
-						if(document.getElementById("productId").value==rentalIdNowList[k].value && rentd<rentdatenow){
+						if(document.getElementById("productId").value==rentalIdNowList[k].value && (rentd<rentdatenow|| rentd2>rentdatenow)){
 							count+=rentalamountNowList[k].value*1
 							}
 						}
 						canRental=rentamount*1+count;
-						document.getElementById("proamount").setAttribute('max',canRental);
-						document.getElementById("proamount").value=1;
+						if(canRental<=0){
+							document.getElementById("proamount").disabled=true;
+							document.getElementById("keepgo").disabled=true;
+							
+						}else{
+							document.getElementById("proamount").disabled=false;
+							document.getElementById("keepgo").disabled=false;
+							document.getElementById("proamount").setAttribute('max',canRental);
+							document.getElementById("proamount").value=1;
+							
+						}
+						
 				}	
 		});	
 				//남은 수량 구하기 끝

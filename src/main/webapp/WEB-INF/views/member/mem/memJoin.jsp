@@ -355,9 +355,8 @@ select::-ms-expand {
                                         <p class="text-inverse text-left m-b-0">Thank you.</p>
                                         <p class="text-inverse text-left"><a href="/"><b>메인화면으로</b></a></p>
                                     </div>
-                                    <div class="col-md-2">
-                                        <a href="/"><img src="/resources/assets/images/Logo-small-bottom.png" width="60" height="58" alt="small-logo.png"></a>
-                                    </div>
+
+
                                 </div>
                             </div>
                         </div>

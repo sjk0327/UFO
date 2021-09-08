@@ -123,8 +123,8 @@
 	<select id="getWishTotalCount" resultType="int">
 		select count(*) from
 		wishlist,product
-		where w_mid=#{keyword} and w_pid=p_id
-		<include refid="searchCondition"></include>
+		where w_mid=#{param1} and w_pid=p_id
+		
 	</select>
 	
 	<select id="getWishListAll" resultType="com.use.first.rent.WishListVO">
@@ -201,7 +201,7 @@
 	
 	<select id="rentListNow" resultType="com.use.first.rent.RentVO">
 		<![CDATA[
-		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_sdate>=now() and r_state="대여중"
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_sdate>=now() or r_sdate<=now()-3 and r_state="대여중"
 		]]>
 	</select>
 	

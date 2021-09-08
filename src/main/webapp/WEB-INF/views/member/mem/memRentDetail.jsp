@@ -327,7 +327,7 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
 			       					<td>${proInfo.p_id }</td>
 			     					<td>${proInfo.p_name }</td>
 			     					<td>
-			     						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청' || rentInfo.r_state eq '환불 완료'}">
+			     						<c:if test="${rentInfo.r_state eq '대여중' || rentInfo.r_state eq '반납 요청'|| rentInfo.r_state eq '반납 완료' || rentInfo.r_state eq '환불 요청(대여)' || rentInfo.r_state eq '환불 완료(대여)'}">
 										<fmt:parseNumber var="totalprice" value="${proInfo.p_price * 0.05 * rentInfo.r_rent}" integerOnly="true" />
 										${totalprice}<%="원" %>
 										</c:if>
@@ -345,13 +345,14 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
 										<!-- 
 										<c:out  value="<script type='text/javascript'>alert(${sdate } + ':' +${today });</script>" escapeXml="fasle"/>
 										-->
-										<c:if test="${sdate+3>=today}"><label class="btn btn-primary rent-state-btn-label">대 여  중</label></c:if>
+										<c:if test="${sdate+3>=today and sdate<=today}"><label class="btn btn-primary rent-state-btn-label">대 여  중</label></c:if>
 										<c:if test="${sdate+3<today}"><label class="btn btn-danger late-state-btn-label">연 체  중</label></c:if>
+										<c:if test="${sdate>today}"><label class="btn btn-primary rent-state-btn-label" style="background-color: #e8c3b9; border-color: #e8c3b9">대여 예약</label></c:if>
 									</c:if>
 									<c:if test="${rentInfo.r_state eq '반납 요청'}"><label class="btn btn-warning request-state-btn-label">반납 요청</label></c:if>
 									<c:if test="${rentInfo.r_state eq '반납 완료'}"><label class="btn btn-success return-state-btn-label">반납 완료</label></c:if>
-									<c:if test="${rentInfo.r_state eq '환불 요청'}"><label class="btn btn-warning return-state-btn-label">환불 요청</label></c:if>
-									<c:if test="${rentInfo.r_state eq '환불 완료'}"><label class="btn btn-success return-state-btn-label">환불 완료</label></c:if>
+									<c:if test="${rentInfo.r_state eq '환불 요청(대여)'}"><label class="btn btn-inverse return-state-btn-label">환불 요청</label></c:if>
+									<c:if test="${rentInfo.r_state eq '환불 완료(대여)'}"><label class="btn btn-inverse return-state-btn-label">환불 완료</label></c:if>
 									
 									</span>
 									<!-- 상태 색깔 변경 로직 부분  끝 -->
@@ -500,10 +501,14 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
 					        
 					        
 							<div class="col-sm-12" style="float:right;">
-							<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
-									id="buyButton" style="margin-left:15px; float:right;">구매하기</button>	
+						
+									<c:if test="${empty rentBuy and ((rentInfo.r_state eq '대여중' and (sdate+3>=today and sdate<=today)) or (rentInfo.r_state eq '반납 요청') or (rentInfo.r_state eq '반납 완료') or (rentInfo.r_state eq '환불 완료(대여)'))}">
+									<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
+									id="buyButton" style="margin-left:15px; float:right;">구매하기</button></c:if>
+									
+
 							<c:if test="${rentInfo.r_state eq '대여중'}">
-			        			<c:if test="${sdate+3>=today}">
+			        			<c:if test="${sdate+3>=today and sdate<=today}">
 									<button class="btn waves-effect waves-light btn-primary btn-outline-primary"
 									id="returnButton" style="margin-left:15px; float:right;" >반납하기</button>
 								</c:if>

@@ -184,85 +184,16 @@ td, th {
 	transition: 0.5s;
 }
 
-body, html {
-	height: 100%;
-}
-
-.modal .btn {
-	cursor: pointer;
-	border: 1px solid #999999;
-	text-align: center;
-	border-radius: 5px;
-	outline: none;
-	font-weight: 500;
-}
-
-.dimLayer {
-	display: block;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.3);
-	position: fixed;
-	left: 0;
-	top: 0px;
-	margin: 0;
-	padding: 0;
-	z-index: 9998;
-}
-
-.mocdal {
-	width: 500px;
-	height: 252px;
-	border-radius: 10px;
-	padding: 80px 24px;
-	box-sizing: border-box;
-	text-align: center;
-}
-
-.modal-section {
-	background: #ffffff;
-	box-sizing: border-box;
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	-moz-transform: translate(-50%, -50%);
-	-o-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-	display: none;
-	z-index: 9999;
-}
-
-.menu_msg {
-	font-size: 21px;
-	font-weight: 500;
-}
-
-.enroll_box p {
-	padding-bottom: 56px;
-}
-
-.gray_btn {
-	width: 90px;
-	background: #ffffff;
-	color: #999999;
-	height: 36px;
-	line-height: 36px;
-	transition: 0.5s;
-	font-size: 17px;
-}
-
-.pink_btn {
-	width: 90px;
-	background: #ed197a;
-	color: #fff;
-	height: 36px;
-	line-height: 36px;
-	transition: 0.5s;
-	font-size: 17px;
-	border: none;
-}
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: sticky; top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px; transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px; transition: 0.5s;font-size: 17px;border: none;}
 </style>
 </head>
 <body>
@@ -369,10 +300,9 @@ body, html {
 			</div>
 		</div>
 		<!-- 장바구니내역 end -->
-		<div class="col-md-1 mmodal">
 			<!-- 모달창 구현 -->
 			<!-- confirm 모달을 쓸 페이지에 추가 start-->
-			<section class="mocdal modal-section type-confirm">
+			<section class="modal modal-section type-confirm">
 				<div class="enroll_box">
 					<p class="menu_msg"></p>
 				</div>
@@ -384,7 +314,7 @@ body, html {
 			<!-- confirm 모달을 쓸 페이지에 추가 end-->
 
 			<!-- alert 모달을 쓸 페이지에 추가 start-->
-			<section class="mocdal modal-section type-alert">
+			<section class="modal modal-section type-alert">
 				<div class="enroll_box">
 					<p class="menu_msg"></p>
 				</div>
@@ -393,10 +323,7 @@ body, html {
 				</div>
 			</section>
 			<!-- alert 모달을 쓸 페이지에 추가 end-->
-		</div>
-		<br> <br> <br>
-
-		
+		<br><br><br>
 	
 		<!-- 주문자정보 start -->
 		<div class="container">
@@ -562,10 +489,19 @@ body, html {
 											id="extraAddress" placeholder="참고사항" style="height: 30px; font-size: 14px; 
 											background-color: #ffffff;" readonly> 
 											
-											<input type="text" name="addr1" value="${fn:split(userVO.m_addr,'|')[2]}"
+										
+											<c:if test="${buytype eq '연체료 납부' }">
+												<input type="text" name="addr1" value=" "
+											class="form-control form-control-center form-control-round form-control-bold"
+											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px; background-color: #ffffff;"
+											onchange="detail_m_addr1(this)" readonly="readonly">
+													</c:if>
+													<c:if test="${buytype ne '연체료 납부' }">
+												<input type="text" name="addr1" value="${fn:split(userVO.m_addr,'|')[2]}"
 											class="form-control form-control-center form-control-round form-control-bold"
 											id="detailAddress" placeholder="상세주소" style="height: 30px; font-size: 14px; background-color: #ffffff;"
 											onchange="detail_m_addr1(this)">
+													</c:if>
 									</div>
 								</div>
 								
@@ -723,12 +659,13 @@ body, html {
 										</tr>
 
 										<tr>
-											<td
-												style="color: #666666; font-size: 19px; font-weight: bold;">결제금액</td>
+										<fmt:formatNumber var="latefeeTotal" value="${i }" type="number"></fmt:formatNumber>
+											<td style="color: #666666; font-size: 19px; font-weight: bold;">결제금액</td>
 											<td style="text-align: right;">
 											<c:if test="${buytype eq '연체료 납부' }">
-											<input id="latefee" name="total" type="text" value="${i }" class="form-control form-control-center form-control-round form-control-bold"
+											<input id="latefee" name="total" type="text" value="${latefeeTotal }원" class="form-control form-control-center form-control-round form-control-bold"
 												style="background-color: white; border: none; height: 30px; text-align: right; font-weight: bold; font-size: 20px;" readonly />
+												
 												</c:if>
 												<c:if test="${buytype ne '연체료 납부' }">
 											<input id="total" name="total" type="text" value="" class="form-control form-control-center form-control-round form-control-bold"
@@ -778,6 +715,7 @@ body, html {
 								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${buyInfo.productPrice}" />
 									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+									<input type="hidden" id="r_sdate" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '구매 확정' }">
 									<input type="hidden" id="b_purchase" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
@@ -829,12 +767,13 @@ body, html {
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${buyInfo.productPrice}" />
-									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+									<input type="hidden" id="b_rid2" name="b_rid" value="${r_id}" />
+									<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								
 								<c:if test="${buyInfo.buyType eq '구매 확정' }">
 									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
-									<input type="hidden" id="b_rid" name="b_rid" value="${r_id}" />
+									<input type="hidden" id="b_rid2" name="b_rid" value="${r_id}" />
 									<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<input type="hidden" id="b_message2" name="b_message" value="안전하게 배송해 주세요." />
@@ -885,6 +824,9 @@ body, html {
 	
 	function check(){
 		
+		console.log("여기옵니까");
+		console.log(document.getElementById("radioType1").checked);
+		
 		if(document.getElementById("radioType2").checked){
 			
 			if(document.getElementById("m_name2").value == "" 
@@ -894,8 +836,8 @@ body, html {
 			} else {
 				action_popup.confirm("결제하시겠습니까?", function (res) {
 			        if (res) {
-			            action_popup.alert("확인창을 눌렀습니다.");
-			            document.buyInsert1.submit();
+			        	action_popup.alert("확인창을 눌렀습니다.");
+			            document.buyInsert2.submit();
 			        }
 			})
 			}
@@ -907,8 +849,8 @@ body, html {
 				} else {
 					action_popup.confirm("결제하시겠습니까?", function (res) {
 				        if (res) {
-				            action_popup.alert("확인창을 눌렀습니다.");
-				            document.buyInsert1.submit();
+				        	action_popup.alert("확인창을 눌렀습니다.");
+				            document.buyInsert2.submit();
 				        }
 				})
 				}
@@ -1035,7 +977,7 @@ function check2(){
 		var price = Number(document.getElementById("price").value);
 		var total = Number(document.getElementById("price").value) + 2500;
 		document.getElementById("price").value = price.toLocaleString() + "원";
-		document.getElementById("total").value = total;
+		document.getElementById("total").value = total.toLocaleString() + "원";
 		document.getElementById("hiddenTotal").value = total;
 		document.getElementById("hiddenTotal2").value = total;
 	}
@@ -1086,7 +1028,7 @@ function check2(){
 			
 				document.getElementById("total").value = p_price - v_point;
 				var total = Number(document.getElementById("total").value);
-				document.getElementById("total").value = total;
+				document.getElementById("total").value = total.toLocaleString() + "원";
 				
 				var mpoint = m_point - v_point;
 				document.getElementById("m_point").value = mpoint.toLocaleString() + "P";
@@ -1327,59 +1269,75 @@ function check2(){
 		});
 		
 		
-		var action_popup = {
-			    timer: 500,
-			    confirm: function (txt, callback) {
-			        if (txt == null || txt.trim() == "") {
-			            console.warn("confirm message is empty.");
-			            return;
-			        } else if (callback == null || typeof callback != 'function') {
-			            console.warn("callback is null or not function.");
-			            return;
-			        } else {
-			            $(".type-confirm .btn_ok").on("click", function () {
-			                $(this).unbind("click");
-			                callback(true);
-			                action_popup.close(this);
-			            });
-			            this.open("type-confirm", txt);
-			        }
-			    },
+	   /**
+	    *  alert, confirm 대용 팝업 메소드 정의 <br/>
+	    *  timer : 애니메이션 동작 속도 <br/>
+	    *  alert : 경고창 <br/>
+	    *  confirm : 확인창 <br/>
+	    *  open : 팝업 열기 <br/>
+	    *  close : 팝업 닫기 <br/>
+	    */ 
+	   var action_popup = {
+	       timer: 500,
+	       confirm: function (txt, callback) {
+	           if (txt == null || txt.trim() == "") {
+	               console.warn("confirm message is empty.");
+	               return;
+	           } else if (callback == null || typeof callback != 'function') {
+	               console.warn("callback is null or not function.");
+	               return;
+	           } else {
+	               $(".type-confirm .btn_ok").on("click", function () {
+	                   $(this).unbind("click");
+	                   callback(true);
+	                   action_popup.close(this);
+	               });
+	               this.open("type-confirm", txt);
+	           }
+	       },
 
-			    alert: function (txt) {
-			        if (txt == null || txt.trim() == "") {
-			            console.warn("confirm message is empty.");
-			            return;
-			        } else {
-			            this.open("type-alert", txt);
-			        }
-			    },
+	       alert: function (txt) {
+	           if (txt == null || txt.trim() == "") {
+	               console.warn("confirm message is empty.");
+	               return;
+	           } else {
+	               this.open("type-alert", txt);
+	           }
+	       },
 
-			    open: function (type, txt) {
-			        var popup = $("." + type);
-			        popup.find(".menu_msg").text(txt);
-			        $("body").append("<div class='dimLayer'></div>");
-			        $(".dimLayer").css('height', $(document).height()).attr("target", type);
-			        popup.fadeIn(this.timer);
-			    },
+	       open: function (type, txt) {
+	           var popup = $("." + type);
+	           popup.find(".menu_msg").text(txt);
+	           $("body").append("<div class='dimLayer'></div>");
+	           $(".dimLayer").css('height', $(document).height()).attr("target", type);
+	           popup.fadeIn(this.timer);
+	       },
 
-			    close: function (target) {
-			        var modal = $(target).closest(".modal-section");
-			        var dimLayer;
-			        if (modal.hasClass("type-confirm")) {
-			            dimLayer = $(".dimLayer[target=type-confirm]");
-			        } else if (modal.hasClass("type-alert")) {
-			            dimLayer = $(".dimLayer[target=type-alert]")
-			        } else {
-			            console.warn("close unknown target.")
-			            return;
-			        }
-			        modal.fadeOut(this.timer);
-			        setTimeout(function () {
-			            dimLayer != null ? dimLayer.remove() : "";
-			        }, this.timer);
-			    }
-			}
+	       close: function (target) {
+	           var modal = $(target).closest(".modal-section");
+	           var dimLayer;
+	           if (modal.hasClass("type-confirm")) {
+	               dimLayer = $(".dimLayer[target=type-confirm]");
+	           } else if (modal.hasClass("type-alert")) {
+	               dimLayer = $(".dimLayer[target=type-alert]")
+	           } else {
+	               console.warn("close unknown target.")
+	               return;
+	           }
+	           modal.fadeOut(this.timer);
+	           setTimeout(function () {
+	               dimLayer != null ? dimLayer.remove() : "";
+	           }, this.timer);
+	       }
+	   }
+	   			
+
+
+
+	   	    $(".modal_close").on("click", function () {
+	   	        action_popup.close(this);
+	   	    });
+
 	</script>
 
 </body>
