@@ -1394,7 +1394,7 @@ public class MemberController {
 		PageMaker pageMaker = new PageMaker(cri);
 		// 전체 게시물 수를 구함
 
-		int totalCount = dao.countMemListTotal(cri) - 1;
+		int totalCount = dao.countMemListTotal(cri);
 		// pageMaker로 전달
 		pageMaker.setTotalCount(totalCount);
 		// 모델에 추가
@@ -1416,9 +1416,11 @@ public class MemberController {
 		PageMaker pageMaker = new PageMaker(cri);
 		// 전체 게시물 수를 구함
 
-		int totalCount = dao.countMemListTotal(cri) - 1;
+		int totalCount = dao.countMemListTotal(cri);
 		// pageMaker로 전달
 		pageMaker.setTotalCount(totalCount);
+		System.out.println("adminMemListSearch :: pageMaker : " +pageMaker.toString());
+		
 		// 모델에 추가
 		model.addAttribute("pageMaker", pageMaker);
 		return "/admin/mem/memList";
