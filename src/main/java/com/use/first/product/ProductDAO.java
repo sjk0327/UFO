@@ -20,6 +20,7 @@ public interface ProductDAO {
 	public int productDelete(String p_id);
 	public int countProductListTotal(Criteria cri);
 	public int countProductListTotalPage(Criteria cri);
+	public int countProductListTotalPageRecommand(Criteria cri);
 	public int countProductListTotalBySearchKeyword(Criteria cri);	
 	public int countProductListTotalBySearchType(Criteria cri);	
 	public ProductVO productInfo2();

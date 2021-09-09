@@ -10,12 +10,36 @@ public class Criteria {
 	private String keyword;
 	private String v_pid;
 	private String color;
-	private String p_category;
-	private String p_categoryColor;
 	private String sort;
+	private int minPrice;
+	private int maxPrice;
+	private String tab;
 	
 	
-	
+
+	public int getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public int getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+
+	public String getTab() {
+		return tab;
+	}
+
+	public void setTab(String tab) {
+		this.tab = tab;
+	}
 
 	public String getSort() {
 		return sort;
@@ -23,22 +47,6 @@ public class Criteria {
 
 	public void setSort(String sort) {
 		this.sort = sort;
-	}
-
-	public String getP_categoryColor() {
-		return p_categoryColor;
-	}
-
-	public void setP_categoryColor(String p_categoryColor) {
-		this.p_categoryColor = p_categoryColor;
-	}
-
-	public String getP_category() {
-		return p_category;
-	}
-
-	public void setP_category(String p_category) {
-		this.p_category = p_category;
 	}
 
 	public String getColor() {
@@ -63,6 +71,11 @@ public class Criteria {
 		
 		this.searchType = null;
 		this.keyword = null;
+		this.color = null;
+		this.sort = null;
+		this.tab = null;
+		this.minPrice = -1;
+		this.maxPrice = -1;
 	}
 
 	public String getSearchType() {
@@ -121,9 +134,10 @@ public class Criteria {
 			uriComponentsBuilder
 					.queryParam("searchType", this.searchType)
 					.queryParam("keyword", this.keyword);
-		
-
-
+		}
+		if(sort!=null) {
+			uriComponentsBuilder
+			.queryParam("sort", this.sort);
 		}
 		return uriComponentsBuilder.build().encode().toString();
 	}
@@ -131,7 +145,12 @@ public class Criteria {
 	@Override
 	public String toString() {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", searchType=" + searchType + ", keyword="
-				+ keyword + "]";
+				+ keyword + ", v_pid=" + v_pid + ", color=" + color + ", sort=" + sort + ", minPrice=" + minPrice
+				+ ", maxPrice=" + maxPrice + ", tab=" + tab + "]";
 	}
+
+	
+	
+	
 
 }
