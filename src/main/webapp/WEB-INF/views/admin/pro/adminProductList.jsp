@@ -133,7 +133,7 @@ body, html {height: 100%;}
                     <%--  <td><a href="memDetail?m_id=${list.p_id }">${list.p_id }</a></td> --%>
                      <td onclick="event.cancelBubble=true">${list.p_id}</td>
                      <td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_name}<br>
-                     <img src="/resources/img/${list.p_mainImg}" alt="${list.p_mainImg}" 
+                     <img src="/resources/Images/product/${list.p_mainImg}" alt="${list.p_mainImg}" 
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>

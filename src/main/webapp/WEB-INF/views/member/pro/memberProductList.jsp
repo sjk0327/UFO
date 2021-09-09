@@ -252,7 +252,7 @@ ul{ list-style:none;}
                      
                 <div  class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/Images/product/${list.p_mainImg}" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
                    

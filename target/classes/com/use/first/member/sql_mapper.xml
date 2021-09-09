@@ -11,7 +11,7 @@
 		from member
 		WHERE m_id NOT LIKE "%admin%" 
 		<if test="searchType == ''.toString()">
-			AND m_name LIKE CONCAT ('%', #{keyword},'%')
+			AND (m_name LIKE CONCAT ('%', #{keyword},'%') or m_id LIKE CONCAT ('%', #{keyword},'%') or m_name LIKE CONCAT ('%', #{keyword},'%') or m_point LIKE CONCAT ('%', #{keyword},'%') or m_regdate LIKE CONCAT ('%', #{keyword},'%'))
 		</if>
 		<if test="searchType == 't'.toString()">
 			AND m_id LIKE CONCAT ('%', #{keyword},'%')
@@ -44,7 +44,7 @@
 	<sql id="searchCondition">
 		<if test="searchType != null">
 			<if test="searchType == ''.toString()">
-			AND m_name LIKE CONCAT ('%', #{keyword},'%')
+			AND (m_name LIKE CONCAT ('%', #{keyword},'%') or m_id LIKE CONCAT ('%', #{keyword},'%') or m_name LIKE CONCAT ('%', #{keyword},'%') or m_point LIKE CONCAT ('%', #{keyword},'%') or m_regdate LIKE CONCAT ('%', #{keyword},'%'))
 		</if>
 		<if test="searchType == 't'.toString()">
 			AND m_id LIKE CONCAT ('%', #{keyword},'%')
