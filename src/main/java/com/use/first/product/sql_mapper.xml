@@ -8,29 +8,123 @@
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-			where 1=1
-			<if test="searchType == 't'.toString()">
-				and p_id LIKE CONCAT('%', #{keyword},'%')
-			</if>
-			<if test="searchType == 'c'.toString()">
-				and p_category LIKE CONCAT('%', #{keyword},'%')				
-			</if>
-			<if test="searchType == 'w'.toString()">
-				and p_name LIKE CONCAT('%', #{keyword},'%')
-			</if> 			
-			<if test="color != null " >
-				and p_name like CONCAT('%',#{color},'%') 
-			</if>
-			<!-- <if test="category != null" >
-				and p_category like CONCAT('%',#{category},'%')
-			</if> -->
+		where 1=1
+		<if test="keyword != null">
+			AND (p_name LIKE CONCAT('%', #{keyword},'%')
+			OR p_id LIKE CONCAT('%', #{keyword},'%')
+			OR p_category LIKE CONCAT('%', #{keyword},'%'))
+		</if>
+		<if test="searchType != null">
+			AND (p_name LIKE CONCAT('%', #{searchType},'%')
+			OR p_id LIKE CONCAT('%', #{searchType},'%')
+			OR p_category LIKE CONCAT('%', #{searchType},'%'))
+		</if>
+	
 		ORDER BY p_id desc
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!-- 페이징을 위한 수량 세기 -->
+	<select id="countProductListTotalPage"  resultType="int">
+		select count(*)	from product
+		where 1=1
+		<if test="keyword != null">
+			AND (p_name LIKE CONCAT('%', #{keyword},'%')
+			OR p_id LIKE CONCAT('%', #{keyword},'%')
+			OR p_category LIKE CONCAT('%', #{keyword},'%'))
+		</if>
+		<if test="searchType != null">
+			AND (p_name LIKE CONCAT('%', #{searchType},'%')
+			OR p_id LIKE CONCAT('%', #{searchType},'%')
+			OR p_category LIKE CONCAT('%', #{searchType},'%'))
+		</if>
+	</select>
+	
+	
+	<select id="productKeywordList"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		where p_name LIKE CONCAT('%', #{keyword},'%')
+		or p_id LIKE CONCAT('%', #{keyword},'%')
+		or p_category LIKE CONCAT('%', #{keyword},'%')
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<select id="countProductListTotalBySearchKeyword"  resultType="int">
+		select count(*)	from product
+		where p_name LIKE CONCAT('%', #{keyword},'%')
+		or p_id LIKE CONCAT('%', #{keyword},'%')
+		or p_category LIKE CONCAT('%', #{keyword},'%')
+	</select>
+	
+	<select id="productSearchTypeList" parameterType ="com.use.first.paging.Criteria"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		<if test="where p_name LIKE CONCAT('%', #{keyword},'%')">
+		where p_name LIKE CONCAT('%', #{searchType},'%')
+		</if>
+		or p_name LIKE CONCAT('%', #{searchType},'%')
+		or p_id LIKE CONCAT('%', #{searchType},'%')
+		or p_category LIKE CONCAT('%', #{searchType},'%')
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select> 
+	<select id="productKeywordSearchTypeList" parameterType ="com.use.first.paging.Criteria"
+		resultType="com.use.first.product.ProductVO">
+		select
+		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
+		p_category,p_mainImg,p_subImg,p_regdate from product
+		where p_name LIKE CONCAT('%', #{searchType},'%')		
+		or p_id LIKE CONCAT('%', #{searchType},'%')
+		or p_category LIKE CONCAT('%', #{searchType},'%')
+		ORDER BY p_id desc
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<select id="countProductListTotalBySearchType"  resultType="int">
+		select count(*)	from product
+		where p_name LIKE CONCAT('%', #{searchType},'%')		
+		or p_id LIKE CONCAT('%', #{searchType},'%')
+		or p_category LIKE CONCAT('%', #{searchType},'%')
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 그냥 수량 세는 거 -->
 	<select id="countProductListTotal"  resultType="int">
 		select count(*)	from product
+		<include refid="searchCondition"></include>
 	</select>
+  
 	<select id="colorTotal" resultType="int">
 		select count(*)	from product
 		where p_name LIKE CONCAT('%', #{param2},'%')
@@ -105,7 +199,7 @@
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		where (p_category = #{p_category} or p_category LIKE CONCAT('%', #{keyword},'%'))
+		where p_category LIKE CONCAT('%', #{keyword},'%')
 		ORDER BY p_id desc		
 		LIMIT #{pageStart}, #{perPageNum}
 		<!--LIMIT #{param1.pageStart}, #{param1.perPageNum}-->
@@ -148,43 +242,8 @@
 	</select>
 	
 	
-	<select id="productKeywordList"
-		resultType="com.use.first.product.ProductVO">
-		select
-		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
-		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_name LIKE CONCAT('%', #{keyword},'%')
-		or p_name LIKE CONCAT('%', #{keyword},'%')
-		or p_id LIKE CONCAT('%', #{keyword},'%')
-		or p_category LIKE CONCAT('%', #{keyword},'%')
-		ORDER BY p_id desc
-		LIMIT #{pageStart}, #{perPageNum}
-	</select>
-	<select id="productSearchTypeList" parameterType ="com.use.first.paging.Criteria"
-		resultType="com.use.first.product.ProductVO">
-		select
-		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
-		p_category,p_mainImg,p_subImg,p_regdate from product
-		<if test="where p_name LIKE CONCAT('%', #{keyword},'%')">
-		where p_name LIKE CONCAT('%', #{searchType},'%')
-		</if>
-		or p_name LIKE CONCAT('%', #{searchType},'%')
-		or p_id LIKE CONCAT('%', #{searchType},'%')
-		or p_category LIKE CONCAT('%', #{searchType},'%')
-		ORDER BY p_id desc
-		LIMIT #{pageStart}, #{perPageNum}
-	</select> 
-	<select id="productKeywordSearchTypeList" parameterType ="com.use.first.paging.Criteria"
-		resultType="com.use.first.product.ProductVO">
-		select
-		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
-		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_name LIKE CONCAT('%', #{searchType},'%')		
-		or p_id LIKE CONCAT('%', #{searchType},'%')
-		or p_category LIKE CONCAT('%', #{searchType},'%')
-		ORDER BY p_id desc
 	
-	</select>
+	
 	<!--  조회수 update 진행중.... -->
 	<update id="productReadUpdate" parameterType="String" > 
 		update product set p_readcount = p_readcount + 1 

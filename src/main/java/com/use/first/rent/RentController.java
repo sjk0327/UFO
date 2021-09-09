@@ -104,6 +104,10 @@ public class RentController {
 		// pageMaker로 전달
 		pageMaker.setTotalCount(totalCount);
 		// 모델에 추가
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println("adminRentListSearch :: list : "+ list.get(i).toString());
+		}
+		System.out.println("adminRentListSearch :: pageMaker : " + pageMaker.toString());
 		model.addAttribute("pageMaker", pageMaker);
 		return "/admin/rent/adminRentList";
 	}

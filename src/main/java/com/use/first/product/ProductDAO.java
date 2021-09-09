@@ -18,7 +18,10 @@ public interface ProductDAO {
 	public int productInsert(ProductVO productVO);
 	public int productUpdate(ProductVO productVO);
 	public int productDelete(String p_id);
-	public int countProductListTotal(Criteria cri);	
+	public int countProductListTotal(Criteria cri);
+	public int countProductListTotalPage(Criteria cri);
+	public int countProductListTotalBySearchKeyword(Criteria cri);	
+	public int countProductListTotalBySearchType(Criteria cri);	
 	public ProductVO productInfo2();
 	public void deleteById(String id);
 	//삭제기능

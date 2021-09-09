@@ -158,6 +158,8 @@ ul{ list-style:none;}
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li class="has-children">
+            </li>
+            </ul>
               <div class="row">
           <div class="col-md-12">
             <div class="site-section site-blocks-2">
@@ -170,18 +172,19 @@ ul{ list-style:none;}
   <div id="mainMenuList" style="text-align:center;" >
 	<ul>		
 		<li class="mb-1"><a href="/member/pro/productList/" ><img src="/resources/common/images/total.png" /><p>전체리스트</p></a></li>
-		<li class="mb-1"><a href="/member/pro/productList/스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
-		<li class="mb-1"><a href="/member/pro/productList/노트북" ><img src="/resources/common/images/laptop.png" /><p>노트북</p></a></li>  
-		<li class="mb-1"><a href="/member/pro/productList/카메라" ><img src="/resources/common/images/camera.png" /><p>카메라</p></a></li>  
-		<li class="mb-1"><a href="/member/pro/productList/스마트워치" ><img src="/resources/common/images/watch.png" /><p>스마트워치</p></a></li>  
-		<li class="mb-1"><a href="/member/pro/productList/태블릿" ><img src="/resources/common/images/tablet.png" /><p>태블릿PC</p></a></li>  		
+		<li class="mb-1"><a href="/member/pro/productList?keyword=스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList?keyword=노트북" ><img src="/resources/common/images/laptop.png" /><p>노트북</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList?keyword=카메라" ><img src="/resources/common/images/camera.png" /><p>카메라</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList?keyword=스마트워치" ><img src="/resources/common/images/watch.png" /><p>스마트워치</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList?keyword=태블릿" ><img src="/resources/common/images/tablet.png" /><p>태블릿PC</p></a></li>  		
   </ul>   
 </div>
      
             </div>
           </div>
         </div>
-        
+        </div>
+        </div>
       </nav>
     </header>
 
@@ -244,7 +247,7 @@ ul{ list-style:none;}
             </div>
             <br>
             <div class="row mb-5 " id="ulList" >
- 		 <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
+ 		 <c:forEach var="list" items="${productList}">                     
              <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
                      
                 <div  class="block-4 text-center border">
@@ -312,49 +315,13 @@ ul{ list-style:none;}
              </c:forEach> 
              </c:if>
           
-            </div>
+            </div>         
             
-            
-             <div id = "paging-div text-center">
-                <ul class="btn-group pagination text-center">
-                   <c:forEach begin="1" end="${size}" var="pageNum" varStatus="status">
-                   
-                   <c:choose>                
-	                   	<c:when test="${p_category ne null && p_category ne ''}">
-	                   		<a href='<c:url value="/member/pro/productList/${p_category}?page=${status.count}"/>'>
-	                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
-	                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
-	                       <span class="col-md-1"></span>
-	                   	</c:when>
-	                   	
-	                   	<c:when test="${color ne null && color ne ''}">
-	                   		<a href='<c:url value="/member/pro/productList/color/${color}?page=${status.count}"/>'>
-	                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
-	                                        border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
-	                       <span class="col-md-1"></span>
-	                   	</c:when>                
-	                  
-                    <c:when test="${p_category eq null || p_category eq '' || color eq null || color eq ''}" > 
-                   		
-                   		
-                   			<a href='<c:url value="/member/pro/productList/${p_category}?page=${status.count}"/>'>
-                   		    <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
-                   	                     border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp; ${status.count}&nbsp;</span></a>
-                      		<span class="col-md-1" ></span>
-                      	
-                   	</c:when>
-               
-                
-                   </c:choose>
-                   </c:forEach>
-                </ul>
-                </div>
-            
-            
-            
+           
+                               
             
        
-            <%--  <!-- 페이징 start -->
+             <!-- 페이징 start -->
                 <div id = "paging-div text-center">
                 <ul class="btn-group pagination text-center">
                    <c:if test="${pageMaker.prev }">
@@ -363,24 +330,24 @@ ul{ list-style:none;}
                    </c:if>
                    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
                       <c:if test="${pageNum eq pageMaker.cri.page}"><li>
-                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}&color=${color}"/>'>
+                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
                        <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
                                         border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li>
                        <span class="col-md-1"></span>
                       </c:if>
                       <c:if test="${pageNum ne pageMaker.cri.page}"><li>
-                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}&color=${color}"/>'>
+                       <a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}"/>'>
                        <span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span>
                       </c:if>
                       
                    </c:forEach>
                    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-                      <li><a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageNum)}/pro/productList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-                         <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
+                      <li><a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+                         <span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
                    </c:if>
                 </ul>
                 </div>
-           <!-- 페이징 end --> --%>
+           <!-- 페이징 end --> 
             
           </div>
 
@@ -390,11 +357,11 @@ ul{ list-style:none;}
               
               <ul class="list-unstyled mb-0">
                 <li class="mb-1"><a href="/member/pro/productList/" class="d-flex"><span>전체</span> <span class="text-black ml-auto">(${totalCount})</span></a></li>
-                <li class="mb-1"><a href="/member/pro/productList/스마트폰" class="d-flex"><span>핸드폰</span> <span class="text-black ml-auto">(${countSmartPhone})</span></a></li>
-                <li class="mb-1"><a href="/member/pro/productList/노트북" class="d-flex"><span>노트북</span> <span class="text-black ml-auto">(${countLaptop})</span></a></li>
-                <li class="mb-1"><a href="/member/pro/productList/카메라" class="d-flex"><span>카메라</span> <span class="text-black ml-auto">(${countCamera})</span></a></li>
-                <li class="mb-1"><a href="/member/pro/productList/스마트워치" class="d-flex"><span>스마트워치</span> <span class="text-black ml-auto">(${countWatch})</span></a></li>
-                <li class="mb-1"><a href="/member/pro/productList/태블릿" class="d-flex"><span>태블릿</span> <span class="text-black ml-auto">(${countTablet})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList?keyword=스마트폰" class="d-flex"><span>핸드폰</span> <span class="text-black ml-auto">(${countSmartPhone})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList?keyword=노트북" class="d-flex"><span>노트북</span> <span class="text-black ml-auto">(${countLaptop})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList?keyword=카메라" class="d-flex"><span>카메라</span> <span class="text-black ml-auto">(${countCamera})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList?keyword=스마트워치" class="d-flex"><span>스마트워치</span> <span class="text-black ml-auto">(${countWatch})</span></a></li>
+                <li class="mb-1"><a href="/member/pro/productList?keyword=태블릿" class="d-flex"><span>태블릿</span> <span class="text-black ml-auto">(${countTablet})</span></a></li>
               </ul>
             </div>
 
