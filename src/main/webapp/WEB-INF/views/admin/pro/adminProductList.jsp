@@ -137,8 +137,8 @@ body, html {height: 100%;}
 										title="${list.p_mainImg}" class="img-fluid"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="p_canBuy_${list.p_id }" name="b1" size="10" value="${list.p_canBuy}"/>개</td>
-					<td onclick="event.cancelBubble=true"><input type="text" id="p_canRent_${list.p_id }" name="b2" size="10" value="${list.p_canRent}"/>개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="p_canBuy_${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>
+					<td onclick="event.cancelBubble=true"><input type="text" id="p_canRent_${list.p_id }" name="b2" size="10" value="${list.p_canRent}" />개</td>
 					<!-- <td><img src="/resources/common/images/ufologo.jpg"></td>	 -->															
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatDate value="${list.p_regdate}" pattern="YYYY-MM-dd" /></td>
 					<td onclick="event.cancelBubble=true">
@@ -206,8 +206,19 @@ body, html {height: 100%;}
 			var p_canBuy2 = $("#p_canBuy_" + p_id).val();
 			var p_canRent2 = $("#p_canRent_" + p_id).val(); 
 			
-			if (confirm('상품을 수정하시겠습니까?')) {	
-				location.href = '/admin/pro/productUpdateRow/' + p_id +'/'+ p_canBuy2 +'/'+ p_canRent2;
+			if(p_canBuy2 == "" && p_canRent2 == ""){
+				alert("수량을 입력해주세요");
+				$("#p_canBuy_" + p_id).focus();
+			} else if(p_canBuy2 == ""){
+				alert("구매가능 수량을 입력해주세요");
+				$("#p_canBuy_" + p_id).focus();
+			} else if(p_canRent2 == ""){
+				alert("대여가능 수량을 입력해주세요");
+				$("#p_canRent_" + p_id).focus();
+			} else {
+				if (confirm('상품을 수정하시겠습니까?')) {	
+					location.href = '/admin/pro/productUpdateRow/' + p_id +'/'+ p_canBuy2 +'/'+ p_canRent2;
+				}
 			}
 		} 
 		

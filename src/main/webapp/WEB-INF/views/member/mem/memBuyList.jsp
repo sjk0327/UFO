@@ -160,6 +160,7 @@ body, html {
 <body>
 	<ul id="tempPage" style="display: none"></ul>
 	<div id="pcoded" class="pcoded">
+
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
 			<div class="pcoded-main-container">
@@ -372,12 +373,8 @@ body, html {
 
 											</div>
 										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+
+
 			</div>
 		</div>
 	</div>
@@ -412,6 +409,7 @@ body, html {
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
+
 		$(document).on(
 				"click",
 				"#searchBtn",
@@ -469,6 +467,7 @@ body, html {
 						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
 					}
 				});
+
 
 		function goBuyDetailPage(r_id) {
 			var url = '/member/mem/memBuyDetail/' + r_id;

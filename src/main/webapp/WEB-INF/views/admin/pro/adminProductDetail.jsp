@@ -13,26 +13,37 @@
  <style>
        
 
-	input{
-	border:none;
+	.underline{
+	border-style:none;
+    border-bottom:solid 1px #7971ea;
+    border-collapse:collapse;
 	text-align: right;
-	}
-	
-	select {
-	align: right;
-	}
-	
+	}	
 	.productInfo {
 	text-align: left; 
 	font-weight: bold; 
 	font-size: 15pt;
 	}
-	
 	.mainContainer, subContainer {
 	 margin:auto;
-	
 	}
-	
+	img{
+	border-radius: 15px;
+	}
+	#p_category{
+	width: 130px;
+    height: 30px;
+    color: #585858;
+    border-radius: 5px;
+    text-align-last: center;
+	text-align: center;
+	}
+	.input-file-button{
+  padding: 6px 25px;
+  background-color:#FF6600;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
     </style>
 
   
@@ -162,18 +173,18 @@
                      <div class="col-12 row">
                     	 <div class="col-7 mainContainer">
                         
-                           <img src=/resources/Images/product/${productVO.p_mainImg} width="80%" height="80%"
+                           <img src=/resources/Images/product/${productVO.p_mainImg} width="50%" height="50%"
 							alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" class="img-fluid thumbnailMain"> 							   
                     	 </div>
                    	 <div class="col-5 productInfo"> <br><br>
                   
-                   	<div class="row"> <div class="col-3"><label for="p_id">상품 I D</label></div><div class="col-9" ><form:input path="p_id" type="text" id="p_id" value="${productVO.p_id}"  required="required"/></div></div> 
-                   	<div class="row"> <div class="col-3"><label for="p_name">상품이름</label></div><div class="col-9"><form:input path="p_name" type="text" id="p_name" value="${productVO.p_name}"  required="required"/></div></div> 
-					<div class="row"> <div class="col-3"><label for="p_price">상품가격</label></div><div class="col-9"><form:input path="p_price" type="text"  id="p_price" value="${productVO.p_price}" required="required"/>원</div></div> 
-					<div class="row"> <div class="col-3"><label for="p_canBuy">구매가능</label></div><div class="col-9"><form:input path="p_canBuy" type="number"  id="p_canBuy" value="${productVO.p_canBuy }"/>개</div></div> 
-					<div class="row"> <div class="col-3"><label for="p_canRent">대여가능</label></div><div class="col-9"><form:input path="p_canRent" type="number"  id="p_canRent" value="${productVO.p_canRent}"/>개</div></div> 
-           		    <div class="row"> <div class="col-6"><label for="p_category">카테고리 </label></div><div class="col-6">
-           		    <form:select path="p_category" id="p_category">
+                   	<div class="row"> <div class="col-3"><label for="p_id">상품 I D</label></div><div class="col-9" ><form:input class="underline" path="p_id" type="text" id="p_id" value="${productVO.p_id}" readonly="true"/></div></div> 
+                   	<div class="row"> <div class="col-3"><label for="p_name">상품이름</label></div><div class="col-9"><form:input class="underline" path="p_name" type="text" id="p_name" value="${productVO.p_name}"  required="required"/></div></div> 
+					<div class="row"> <div class="col-3"><label for="p_price">상품가격</label></div><div class="col-9"><form:input class="underline" path="p_price" type="text"  id="p_price" value="${productVO.p_price}"  required="required"/>원</div></div> 
+					<div class="row"> <div class="col-3"><label for="p_canBuy">구매가능</label></div><div class="col-9"><form:input class="underline" path="p_canBuy" type="number" min="1" id="p_canBuy" value="${productVO.p_canBuy}" />개</div></div> 
+					<div class="row"> <div class="col-3"><label for="p_canRent">대여가능</label></div><div class="col-9"><form:input class="underline" path="p_canRent" type="number" min="1" id="p_canRent" value="${productVO.p_canRent}"  />개</div></div> 
+           		    <div class="row"> <div class="col-3"><label for="p_category">카테고리 </label></div><div class="col-9" style="text-align: center;">
+           		    <form:select  path="p_category" id="p_category">
            		     <form:option value="스마트폰">스마트폰</form:option>
            		     <form:option value="노트북">노트북</form:option>
            		     <form:option value="태블릿">태블릿</form:option>
@@ -182,9 +193,9 @@
            		    </form:select>
            		 </div></div> 
            		 <div class="row"><div class="col-3"><label for="fileUploadMain">메인사진</label></div><div class="col-9"><input name="mainFile" type="file" accept="image/*" id="fileUploadMain"/></div></div> <br>
-           		 <input type="text" name="p_mainImg" value="${productVO.p_mainImg}" hidden/>
+           		 <input type="hidden" name="p_mainImg" value="${productVO.p_mainImg}" />
            		 <div class="row"><div class="col-3"><label for="fileUploadSub">서브사진</label></div><div class="col-9"><input name="subFile" type="file" accept="image/*" id="fileUploadSub" /></div></div>
-           		  <input type="text" name="p_subImg" value="${productVO.p_subImg}" hidden/>
+           		  <input type="hidden" name="p_subImg" value="${productVO.p_subImg}" />
            		 	 <hr>
 					<input id="button" type="button" value="수정" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick="productUpdate()">&nbsp;&nbsp;&nbsp;  
 					<input id="button" type="button" value="목록" class="btn waves-effect waves-light btn-primary btn-outline-primary" onclick='productList()'>&nbsp;&nbsp;&nbsp;
@@ -237,9 +248,9 @@
 	jQuery(function($) {
 	    var targetText = "${productVO.p_category}";    
 	    var targetVal = $('#p_category option:contains(' + targetText + ')').val();   
-	    $('#p_category').val(targetVal);   
+	    $('#p_category').val(targetVal);      
 	});
-
+	
 	//상품삭제
 	function productDelete(p_id) {
 	if (confirm(' 상품을 삭제하시겠습니까?')) {

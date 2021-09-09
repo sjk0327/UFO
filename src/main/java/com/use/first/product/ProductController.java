@@ -141,30 +141,17 @@ public class ProductController {
 	//public String getMemberProductList(HttpServletRequest request, HttpServletResponse response, 
 	//												@Param("p_id") String p_id, Model model, Criteria cri) {
 		
-		
-		
+				
+		System.out.println("getMemberPostProductList :: where : 지금 불리는 곳인가요?");
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		
-		
-			
-		List<ProductVO> list = productDAO.productList(cri);
-		if(cri.getPage() == 0) {
-			cri.setPage(0);
-		}else {
-			cri.setPage((cri.getPage()*10-11));
+		System.out.println(cri.getKeyword() + cri.getSearchType());
+		//대분류/중분류 값이 다 넘어온다면
+		if(cri.getSearchType() == null) {
+			cri.setSearchType("");
 		}
-		cri.setPerPageNum(9);			
 		
-		//해당 제품 수량 가져오기
-		int size = productDAO.countProductListTotal(cri);
-		System.out.println("전체size" + size);
-		System.out.println("(int)(Math.ceil((double)size/9)):::" + (int)(Math.ceil((double)size/9)));
-		//제품 수량 무조건 올림해서 size에 담아서 모델에 담아서 jsp에 보내기
-		model.addAttribute("size" , (int)(Math.ceil((double)size/9)));
-		
-		
-		System.out.println("cri.getColor():::" + cri.getColor());
-		System.out.println("list.size:::" + list.size());
+		List<ProductVO> list = productDAO.productList(cri);
 		
 		/* 쿠키 도전중  start 
 		Cookie recentCookie = new Cookie(p_id, null);
@@ -180,7 +167,9 @@ public class ProductController {
 		int recentCount = productDAO.recentCookie(recentArray, (page-1)*limit, listCount));
 		
 		List<ProductVO> list = productDAO.productList(cri);			
-		쿠키 도전중  end */			
+		쿠키 도전중  end */		
+		
+		
 		model.addAttribute("productList", list);
 		PageMaker pageMaker = new PageMaker(cri);
 		int totalCount = productDAO.countProductListTotal(cri);
@@ -189,8 +178,10 @@ public class ProductController {
 		int countCamera = productDAO.countCamera();
 		int countWatch = productDAO.countWatch();
 		int countTablet = productDAO.countTablet();
-		pageMaker.setTotalCount(totalCount);
-
+		
+		int pageCount = productDAO.countProductListTotalPage(cri);
+		pageMaker.setTotalCount(pageCount);
+		System.out.println("getMemberPostProductList :: pageMaker : " + pageMaker.toString());
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("countSmartPhone", countSmartPhone);
@@ -199,129 +190,37 @@ public class ProductController {
 		model.addAttribute("countWatch", countWatch);
 		model.addAttribute("countTablet", countTablet);
 		
-		
 		return "member/pro/memberProductList";
+	
 	}
 	
 	
 			
 	@RequestMapping(value = "/member/pro/productList", method = RequestMethod.POST)
 	public String getMemberPostProductList(Model model, Criteria cri) {
-		
+		System.out.println("getMemberPostProductList :: where : 지금 불리는 곳인가요?");
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
-		System.out.println(model.toString());
 		System.out.println(cri.getKeyword() + cri.getSearchType());
 		//대분류/중분류 값이 다 넘어온다면
-		if(cri.getKeyword() != null && cri.getSearchType() == null) {
-			List<ProductVO> list = productDAO.productKeywordList(cri);
-			
-			if(cri.getPage() == 0) {
-				cri.setPage(0);
-			}else {
-				cri.setPage((cri.getPage()*10-11));
-			}
-			cri.setPerPageNum(9);			
-			//해당 제품 수량 가져오기
-			List<ProductVO> size = productDAO.productList(cri);
-			System.out.println("전체size" + size.size());
-			System.out.println("(int)(Math.ceil((double)size/9)):::" + (int)(Math.ceil((double)size.size()/9)));
-			//제품 수량 무조건 올림해서 size에 담아서 모델에 담아서 jsp에 보내기
-			model.addAttribute("size" , (int)(Math.ceil((double)size.size()/9)));
-			
-			PageMaker pageMaker = new PageMaker(cri);
-			int totalCount = productDAO.countProductListTotal(cri);
-			int countSmartPhone = productDAO.countSmartPhone();
-			int countLaptop = productDAO.countLaptop();
-			int countCamera = productDAO.countCamera();
-			int countWatch = productDAO.countWatch();
-			int countTablet = productDAO.countTablet();
-			pageMaker.setTotalCount(totalCount);
-
-			model.addAttribute("pageMaker", pageMaker);
-			model.addAttribute("totalCount", totalCount);
-			model.addAttribute("countSmartPhone", countSmartPhone);
-			model.addAttribute("countLaptop", countLaptop);
-			model.addAttribute("countCamera", countCamera);
-			model.addAttribute("countWatch", countWatch);
-			model.addAttribute("countTablet", countTablet);
-			model.addAttribute("productList", list);
-			return "member/pro/memberProductList";
-			}
-			
-			
-		 else if (cri.getKeyword() != null && cri.getSearchType() != null) {
-			List<ProductVO> list = productDAO.productKeywordSearchTypeList(cri);
-			
-			if(cri.getPage() == 0) {
-				cri.setPage(0);
-			}else {
-				cri.setPage((cri.getPage()*10-11));
-			}
-			//cri.setPerPageNum(9);			
-			//해당 제품 수량 가져오기
-			System.out.println("cri.getSearchType()::: " + cri.getSearchType());
-			System.out.println("cri.getKeyword()::: " + cri.getKeyword());
-			List<ProductVO> size = productDAO.productKeywordSearchTypeList(cri);
-			System.out.println(cri.toString());
-			System.out.println("전체size" + size.size());
-			System.out.println("(int)(Math.ceil((double)size/9)):::" + (int)(Math.ceil((double)size.size()/9)));
-			//제품 수량 무조건 올림해서 size에 담아서 모델에 담아서 jsp에 보내기
-			model.addAttribute("size" , (int)(Math.ceil((double)size.size()/9)));
-			model.addAttribute("productList", list);
-			//model.addAttribute("",);
-			PageMaker pageMaker = new PageMaker(cri);
-			int totalCount = productDAO.countProductListTotal(cri);
-			int countSmartPhone = productDAO.countSmartPhone();
-			int countLaptop = productDAO.countLaptop();
-			int countCamera = productDAO.countCamera();
-			int countWatch = productDAO.countWatch();
-			int countTablet = productDAO.countTablet();
-			pageMaker.setTotalCount(totalCount);
-
-			model.addAttribute("pageMaker", pageMaker);
-			model.addAttribute("totalCount", totalCount);
-			model.addAttribute("countSmartPhone", countSmartPhone);
-			model.addAttribute("countLaptop", countLaptop);
-			model.addAttribute("countCamera", countCamera);
-			model.addAttribute("countWatch", countWatch);
-			model.addAttribute("countTablet", countTablet);
-			model.addAttribute("productList", list);
-			return "member/pro/memberProductList";
-			}
-			return "member/pro/memberProductList";
-		}
-	
-	// 신영-고객쪽 상품리스트(카테고리별)
-	@RequestMapping(value = "/member/pro/productList/{p_category}", method = RequestMethod.GET)
-	public String getProductCateList(Model model, Criteria cri) {		
-		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);					
-
-		int cate_totalCount = 0;
-		System.out.println("cri.getP_category())" + cri.getP_category());
-		if("스마트폰".equals(cri.getP_category())) {
-			cate_totalCount = productDAO.countSmartPhone();
-			System.out.println("cate_totalCount:::: " + cate_totalCount);
-		}else if("태블릿".equals(cri.getP_category())) {
-			cate_totalCount = productDAO.countTablet();
-			System.out.println("cate_totalCount:::: " + cate_totalCount);
-		}else if("노트북".equals(cri.getP_category())) {
-			cate_totalCount = productDAO.countLaptop();
-			System.out.println("cate_totalCount:::: " + cate_totalCount);
-		}
 		
-		System.out.println("cri.getPage():::" + cri.getPage());
+		List<ProductVO> list = productDAO.productList(cri);
 		
-		/*
-		 * if(cri.getPage() == 0) { cri.setPage(0); }else {
-		 * cri.setPage((cri.getPage()*10-11)); }
-		 */
-		//cri.setPerPageNum(9);
-		List<ProductVO> list = productDAO.productSmartPhoneList(cri);		
+		/* 쿠키 도전중  start 
+		Cookie recentCookie = new Cookie(p_id, null);
+		recentCookie.setPath("/");
+		recentCookie.setMaxAge(0);
+		response.addCookie(recentCookie);
+		recentCookie = new Cookie(p_id, p_id);
+		recentCookie.setPath("/");
+		recentCookie.setMaxAge(60*60*24*3);
+		response.addCookie(recentCookie);
 		
-		System.out.println("list/size:::" + list.size());
-		System.out.println("Math.ceil(cate_totalCount/9):::" + (int)(Math.ceil((double)cate_totalCount/9)));
+		Cookie[] recentArray = request.getCookies();
+		int recentCount = productDAO.recentCookie(recentArray, (page-1)*limit, listCount));
 		
-		model.addAttribute("size" , (int)(Math.ceil((double)cate_totalCount/9)));
+		List<ProductVO> list = productDAO.productList(cri);			
+		쿠키 도전중  end */		
+		
 		
 		model.addAttribute("productList", list);
 		PageMaker pageMaker = new PageMaker(cri);
@@ -331,8 +230,45 @@ public class ProductController {
 		int countCamera = productDAO.countCamera();
 		int countWatch = productDAO.countWatch();
 		int countTablet = productDAO.countTablet();
-		pageMaker.setTotalCount(totalCount);
-
+		
+		int pageCount = productDAO.countProductListTotalPage(cri);
+		pageMaker.setTotalCount(pageCount);
+		System.out.println("getMemberPostProductList :: pageMaker : " + pageMaker.toString());
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("countSmartPhone", countSmartPhone);
+		model.addAttribute("countLaptop", countLaptop);
+		model.addAttribute("countCamera", countCamera);
+		model.addAttribute("countWatch", countWatch);
+		model.addAttribute("countTablet", countTablet);
+		
+		return "member/pro/memberProductList";
+	}
+	
+	// 신영-고객쪽 상품리스트(카테고리별)
+	@RequestMapping(value = "/member/pro/productList/{p_category}", method = RequestMethod.GET)
+	public String getProductCateList(Model model, Criteria cri, @PathVariable String p_category ) {		
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);					
+		System.out.println("getProductCateList :: category 눌렀을때 오는 곳 ");
+		cri.setKeyword(p_category);
+				
+		List<ProductVO> list = productDAO.productList(cri);		
+		
+		
+		model.addAttribute("productList", list);
+		PageMaker pageMaker = new PageMaker(cri);
+		int totalCount = productDAO.countProductListTotal(cri);
+		int countSmartPhone = productDAO.countSmartPhone();
+		int countLaptop = productDAO.countLaptop();
+		int countCamera = productDAO.countCamera();
+		int countWatch = productDAO.countWatch();
+		int countTablet = productDAO.countTablet();
+		
+		int pageCount = productDAO.countProductListTotalBySearchKeyword(cri);
+		pageMaker.setTotalCount(pageCount);
+		System.out.println("getProductCateList :: cri : " + cri.toString());
+		System.err.println("getProductCateList :: pageMaker : " + pageMaker.toString());
+		
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("countSmartPhone", countSmartPhone);
@@ -342,8 +278,8 @@ public class ProductController {
 		model.addAttribute("countTablet", countTablet);
 		model.addAttribute("p_category", cri.getP_category());
 		
-		return "member/pro/memberProductList";
-		}
+		return "/member/pro/memberProductList";
+	}
 	
 	// 신영-고객쪽 상품리스트(색상 별)
 	@RequestMapping(value = "/member/pro/productList/color/{p_categoryColor}", method = RequestMethod.GET)
@@ -376,28 +312,7 @@ public class ProductController {
 			cri.setP_categoryColor(p_categoryColor);
 			System.out.println("cri.setP_categoryColor(p_categoryColor)::" + cri.getP_categoryColor());
 			System.out.println("colorCount:::" + colorCount);
-			
-			
-			if(cri.getPage() == 0) {
-				cri.setPage(0);
-				/*
-			}
-			else {						
-				cri.setPage((cri.getPage()*10-11));
-			}				
-			cri.setPerPageNum(9);
-			*/	
-		
-			}else if(0 < cri.getPage() &&  cri.getPage() < 2) {
-				System.out.println("cri.getPage()::" + cri.getPage());
-				cri.setPage((cri.getPage()*1-1));
-				
-			}else if(cri.getPage() > 2) {	
-				System.out.println(" page0");
-				cri.setPage((cri.getPage()*10-11));
-			}
-			
-			cri.setPerPageNum(9);
+
 		
 			System.out.println(cri.getP_categoryColor());
 			System.out.println(cri.getPage());

@@ -101,20 +101,24 @@
 	resize: none; 
 	overflow-y: hidden;
 	}
+	 #reviewContent textarea{
+	width:69%; 
+	}
 	.wrap textarea {
       width: 100%;
       height:auto;
       resize: none;
-      overflow-y: hidden; /* prevents scroll bar flash */
-      padding: 1.1em; /* prevents text jump on Enter keypress */
+      overflow-y: hidden; 
+      padding: 1.1em; 
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
     #locateTop {
  	position: relative; bottom:75px; right:25px; 
- 	 
 	}
-
+	#paging-div { float: left; width: 100%; margin: 0 auto; text-align: center; } /* 페이징가운데 */
+	#paging-div ul { display: table; margin: auto; padding:0; } 
+	#paging-div li { float: left; text-align: center; display:inline-block; }
 
 * {padding: 0;margin: 0;}
 body, html {height: 100%;}
@@ -149,13 +153,13 @@ body, html {height: 100%;}
 
   <body>
 
- <c:forEach var="rentalList" items="${rentalListNow}">
+ 	<c:forEach var="rentalList" items="${rentalListNow}">
 	<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
 	<input id="rentaldateNow" type="hidden" value="${rentalList.r_sdate}">
 	<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
 	<input id="productCanRent" type="hidden" value="${rentalList.p_canRent}">
 	</c:forEach>
-
+	
   <div class="site-wrap">
  
     <div class="site-section">
@@ -219,7 +223,7 @@ body, html {height: 100%;}
 <div class="row"><div class="col-5"><label for="amount">수량</labeL></div><div class="col-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/><input type=hidden name="original_price" value="${productVO.p_price}"/>
 <input style="cursor:default;"type="number" id="amount" name="proamount" value="1" min="1" max="50"  onchange="change();"/></div></div>
 
- <div class="row"><div class="col-4" id="selectDate"><label id="choice" for="datepicker" >대여일선택</labeL></div><div class="col-8" style="text-align:right;"><input type="text" name="rentdate"  readonly="readonly" required="required" placeholder="날짜를 선택해주세요" id="datepicker" hidden="false"></div></div>
+ <div class="row" style="visibility:hidden;" id="labelDate"><div class="col-4" id="selectDate"><label id="choice" for="datepicker">대여일선택</labeL></div><div class="col-8" style="text-align:right;"><input type="text" name="rentdate"  readonly="readonly" required="required" placeholder="날짜를 선택해주세요" id="datepicker" hidden="false"></div></div>
 
  <div class="row"><div class="col-5"><label>배송방법</label></div><div class="col-7" style="text-align:right;" >택배</div></div>
   <div class="row"><div class="col-5"><label>배송비</label></div><div class="col-7" style="text-align:right;">2500원</div></div><hr>   
@@ -354,7 +358,7 @@ body, html {height: 100%;}
                 <div class="row" name="content">
                  <div class="col-12 reviewContent">
                  <br>
-                <textarea class="reviewContent" placeholder="텍스트를 입력하세요" rows="4" cols="50" name="v_content"></textarea>
+                <textarea id="review" class="reviewContent" placeholder="내용을 입력해주세요(최대  100자)" rows="4" cols="50" name="v_content" maxlength="100" required="required"></textarea>
                  </div>
                 </div>                   
     
@@ -412,7 +416,7 @@ body, html {height: 100%;}
  
                 <div class="row" name="content">
                  <div class="col-12 reviewContent" id="reviewContent">
-                <textarea disabled>${recVO.v_content}</textarea>
+                <textarea disabled rows="3" cols="30">${recVO.v_content}</textarea>
                  </div>
                 </div>
                 
@@ -499,7 +503,7 @@ body, html {height: 100%;}
                 <div class="row" name="content">
                  <div class="col-12 reviewContent">
                  <br>
-                <textarea class="reviewContent" rows="4" cols="50" name="v_content">${oneReview.v_content}</textarea>
+                <textarea class="reviewContent" rows="3"  cols="50" name="v_content">${oneReview.v_content}</textarea>
                  </div>
                 </div>                   
     
@@ -534,7 +538,7 @@ body, html {height: 100%;}
                 
                 
         </div> 
-        <div style="text-align:center;"><button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
+        <div style="text-align:center; margin-top:40px;"><button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
       </div>
     </div>
      						
@@ -558,40 +562,7 @@ var selectDate;
 var stateSelect;
 var selectValue;
 var recommendCount;
-
-
 window.onload = function() {
-	var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
-	var rentalIdNowListLength = rentalIdNowList.length;
-	var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
-	var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
-	var rentamount = document.getElementById("productCanRent").value;
-	
-	
-	
-		$("#datepicker").change(function (e) {
-			var choi = document.getElementById("buyType").options[document.getElementById("buyType").selectedIndex].value; 
-			if (choi == "대여") {
-			var canRental=0;
-			if(e.target==document.getElementById("datepicker")){
-				var count=0;
-				for(var k=0;k<rentalIdNowListLength;k++){
-					var rentd=new Date(document.getElementById("datepicker").value);
-					rentd.setDate(rentd.getDate() + 2);
-					var rentdatenow=new Date(rentaldateNowList[k].value);
-				if(document.getElementById("p_id").value==rentalIdNowList[k].value && rentd<rentdatenow){
-					count+=rentalamountNowList[k].value*1
-					}
-				}
-				canRental=rentamount*1+count;
-				document.getElementById("amount").setAttribute('max',canRental);			
-				document.getElementById("amount").value=1;
-				
-			}			
-		} 
-});	
-	
-	
 	original_price = document.form.original_price.value;
 	sell_price = document.form.sell_price.value;
 	rent_price = document.form.rent_price.value;
@@ -622,12 +593,56 @@ window.onload = function() {
 	 		,closeText: '닫기'
 	 		,nextText:"다음"
 	 		,prevText:"이전"
+	 		,onSelect: function (dateText, inst) {	
+	 			var rentalList = "${rentalListNow[0]}"; //rental 된 게 없을 때 대여가능 수량 지정.
+	 			if (rentalList == '') {
+	 				var canRent = ${productVO.p_canRent}	
+	 				
+	 				document.getElementById("amount").setAttribute('max',canRent);			
+	 				document.getElementById("amount").value=1;
+	 				
+	 			} else {
+	 			
+	 			
+	 			var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+	 			var rentalIdNowListLength = rentalIdNowList.length;
+	 			var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+	 			var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
+	 			var rentamount = document.getElementById("productCanRent").value;
+	 			var canRental=0;
+	 			var count=0;
+	 			
+	 			for(var k=0;k<rentalIdNowListLength;k++){
+	 				var rentd=new Date(dateText);
+	 				var rentd2=new Date(dateText);
+	 				rentd.setDate(rentd.getDate() + 2);
+	 				rentd2.setDate(rentd2.getDate() - 2);
+	 				var rentdatenow=new Date(rentaldateNowList[k].value);
+	 			if(document.getElementById("p_id").value==rentalIdNowList[k].value && (rentd<rentdatenow || rentd2>rentdatenow)){
+	 				count+=rentalamountNowList[k].value*1
+	 				}
+	 			}
+	 			canRental=rentamount*1+count;
+	 				if (canRental == 0) { 	
+	 				document.getElementById("amount").value=canRental;
+	 				document.getElementById("amount").setAttribute('max',canRental);
+	 				document.getElementById("amount").setAttribute('readonly','true');
+	 				
+	 				} 	else  {
+	 				document.getElementById("amount").setAttribute('max',canRental);
+	 				document.getElementById("amount").removeAttribute('readonly');
+	 				document.getElementById("amount").value=1;}
+	 				
+	 		
+	        }
+	 			}
 
 	    });      
 	 document.getElementById('datepicker').value = new Date().toISOString().substring(0, 10);	
-document.getElementById("datepicker").removeAttribute('hidden');	
-document.getElementById("choice").removeAttribute('hidden');
+	 document.getElementById("datepicker").removeAttribute('hidden');	
+	 document.getElementById("choice").removeAttribute('hidden');
 
+	 
 
 }
 
@@ -695,6 +710,9 @@ function payment() {
 	
 	 stateSelect = document.getElementById("buyType"); 
 	 selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
+	if (proamount <= 0) {
+		action_popup.alert('해당 날짜에는 대여가 어렵습니다.');
+	} else {
 	if (selectValue == "optSel") {
 		action_popup.alert('옵션을 선택해주세요');
 	} else { 
@@ -713,6 +731,7 @@ function payment() {
     		})
     	}
 		
+	}
 	}
 }
 //review에서 추천관련부분 #reviewLike는 리뷰추가할 때 추천
@@ -944,71 +963,91 @@ $('#cart').on('click', function(){
 
 //대여 선택했을 때 달력나오게하는거.
 function changeStateSelect(){ 
-	var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
-	var rentalIdNowListLength = rentalIdNowList.length;
-	var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
-	var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
-	var rentamount = document.getElementById("productCanRent").value;
-	 stateSelect = document.getElementById("buyType"); 
-	 selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
-	if (selectValue == "대여") {
-		
-		
-		 $("#datepicker").datepicker({
-		        dateFormat: 'yy-mm-dd' //달력 날짜 형태
-		        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-		        ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-		        ,changeYear: true //option값 년 선택 가능
-		        ,changeMonth: true //option값  월 선택 가능                
-		        ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-		        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-		        ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
-		        ,buttonText: "선택" //버튼 호버 텍스트              
-		        ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
-		        ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-		        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
-		        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
-		        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-		        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-		        ,maxDate: "+3y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
-		 		,showButtonPanel: true
-		 		,currentText: '오늘 날짜'
-		 		,closeText: '닫기'
-		 		,nextText:"다음"
-		 		,prevText:"이전"
-
-		    });      	
-		 $( "#datepicker" ).datepicker( "show" );
-		 document.getElementById('datepicker').value = new Date().toISOString().substring(0, 10);	
-		 document.getElementById("datepicker").removeAttribute('hidden');	
-		document.getElementById("choice").removeAttribute('hidden');
+	stateSelect = document.getElementById("buyType"); 
+	selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	
-		
-		var canRental=0;
-			var count=0;
-			for(var k=0;k<rentalIdNowListLength;k++){
-				var rentd=new Date(document.getElementById("datepicker").value);
-				rentd.setDate(rentd.getDate() + 2);
-				var rentdatenow=new Date(rentaldateNowList[k].value);
-			if(document.getElementById("p_id").value==rentalIdNowList[k].value && rentd<rentdatenow){
-				count+=rentalamountNowList[k].value*1
-				}
-			}
-			canRental=rentamount*1+count;
-			document.getElementById("amount").setAttribute('max',canRental);			
+	if (selectValue == "대여") {	
+	 $("#labelDate").css('visibility','visible');
+	 $( "#datepicker" ).datepicker( "show" );
+	 document.getElementById('datepicker').value = new Date().toISOString().substring(0, 10);	
+	 document.getElementById("datepicker").removeAttribute('hidden');	
+	 document.getElementById("choice").removeAttribute('hidden');
+
+
+		var rentalList = "${rentalListNow[0]}"; //rental 된 게 없을 때 대여가능 수량 지정.
+		if (rentalList == '') {
+			var canRent = ${productVO.p_canRent}	
+			
+			document.getElementById("amount").setAttribute('max',canRent);			
 			document.getElementById("amount").value=1;
+			
+		}
 		
-	} else {
-		document.getElementById("amount").setAttribute('max','50');		
-	}
+
+		
+		//렌탈 된 것에 따라 대여가능 수량 지정.
+		var rentalIdNowList=document.querySelectorAll("#rentalIdNow");
+		var rentalIdNowListLength = rentalIdNowList.length;
+		var rentaldateNowList=document.querySelectorAll("#rentaldateNow");
+		var rentalamountNowList=document.querySelectorAll("#rentalamountNow");	 
+		var rentamount = document.getElementById("productCanRent").value;
+		var canRental=0;
+		var count=0;
+		
+		for(var k=0;k<rentalIdNowListLength;k++){
+			var rentd=new Date(document.getElementById("datepicker").value);
+			var rentd2=new Date(document.getElementById("datepicker").value);
+			rentd.setDate(rentd.getDate() + 2);
+			rentd2.setDate(rentd2.getDate() - 2);
+			var rentdatenow=new Date(rentaldateNowList[k].value);
+		if(document.getElementById("p_id").value==rentalIdNowList[k].value && (rentd<rentdatenow || rentd2>rentdatenow)){
+			count+=rentalamountNowList[k].value*1
+			}
+		}
+		canRental=rentamount*1+count;
+		
+		if (canRental == 0) { 	
+				document.getElementById("amount").value=0;
+				document.getElementById("amount").setAttribute('max',canRental);
+				document.getElementById("amount").setAttribute('readonly','true');			
+				} 	else  {
+				document.getElementById("amount").setAttribute('max',canRental);
+				document.getElementById("amount").removeAttribute('readonly');
+				document.getElementById("amount").value=1;}
+		} else {
+			document.getElementById("amount").setAttribute('max','50');
+		}
 }
+
+$('#review').on('keyup',function() {
+	var rows = $('#review').val().split('\n').length;
+    var maxRows = 3;
+    if( rows > maxRows){
+       action_popup.alert("3줄까지만 가능합니다");
+        modifiedText = $('#review').val().split("\n").slice(0, maxRows);
+        $('#review').val(modifiedText.join("\n"));
+    }
+	
+	
+	
+	if($(this).val().length > 100) {
+	$(this).val($(this).val().substring(0,100));
+	action_popup.alert("100자 이내로 작성해주세요.");
+	
+	}
+	});
+
+
+
 
 $(function () {
     $(".modal_close").on("click", function () {
         action_popup.close(this);
     });
-
+        
 });
+
+
 
 var action_popup = {
     timer: 500,

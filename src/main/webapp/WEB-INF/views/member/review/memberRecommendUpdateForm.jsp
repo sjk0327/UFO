@@ -130,7 +130,7 @@ body, html {
 	margin-bottom :20px;
 	}
 	.recommendContent textarea {
-	width:100%; 
+	width:90%; 
 	resize: none; 
 	overflow-y: hidden;
 	}
@@ -255,8 +255,8 @@ body, html {
 																			<h3>여러분의 후기를 남겨주세요</h3>
 																			<div class="col-12 recommendContent">
 																				<br>
-																				<textarea class="recommendContent" rows="2" cols="50" id="Recommendcontent" autofocus
-																				 maxlength="100" name="v_content" ></textarea>
+																				<textarea class="recommendContent" rows="3" cols="30" id="Recommendcontent" autofocus
+																				 required="required" maxlength="100" name="v_content" ></textarea>
 																			</div>
 																		</div>
 																		<div style="text-align:right">
@@ -485,7 +485,24 @@ function recommendUpdate() {
 	}
 }
 	
-
+		//리뷰글자수,줄 제한
+		$('#Recommendcontent').on('keyup',function() {
+			var rows = $('#Recommendcontent').val().split('\n').length;
+		    var maxRows = 3;
+		    if( rows > maxRows){
+		       action_popup.alert("3줄까지만 가능합니다");
+		        modifiedText = $('#Recommendcontent').val().split("\n").slice(0, maxRows);
+		        $('#Recommendcontent').val(modifiedText.join("\n"));
+		    }
+			
+			
+			
+			if($(this).val().length > 100) {
+			$(this).val($(this).val().substring(0,100));
+			action_popup.alert("100자 이내로 작성해주세요.");
+			
+			}
+			});
 		
 
 	</script>

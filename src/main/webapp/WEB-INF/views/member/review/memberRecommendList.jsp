@@ -134,7 +134,7 @@ body, html {
 	margin-bottom :20px;
 	}
 	.reviewContent textarea {
-	width:100%; 
+	width:90%; 
 	resize: none; 
 	overflow-y: hidden;
 	}
@@ -264,7 +264,7 @@ body, html {
 <hr>
 																			<div class="row" name="content">
 																				<div class="col-12 reviewContent" id="reviewContent">
-																					<textarea disabled>${recVO.v_content}</textarea> <hr style="border: solid 1px black;">
+																					<textarea rows="3" cols="30" disabled>${recVO.v_content}</textarea> <hr style="border: solid 1px black;">
 																			</div>
 																			</div>
 																		</c:forEach>

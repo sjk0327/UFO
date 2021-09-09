@@ -10,6 +10,9 @@
 		product.p_name,review.v_date from
 		review, product
 		where review.v_pid = product.p_id
+		<if test="searchType == ''.toString()">
+			AND (v_mid LIKE CONCAT ('%', #{keyword},'%') or v_pid LIKE CONCAT('%', #{keyword},'%') or product.p_name LIKE CONCAT('%', #{keyword},'%'))
+		</if>
 		<if test="searchType == 't'.toString()">
 			AND v_mid LIKE CONCAT('%', #{keyword},'%')
 		</if>
@@ -33,6 +36,9 @@
 
 	<sql id="searchCondition">
 		<if test="searchType != null">
+			<if test="searchType == ''.toString()">
+			AND (v_mid LIKE CONCAT ('%', #{keyword},'%') or v_pid LIKE CONCAT('%', #{keyword},'%') or product.p_name LIKE CONCAT('%', #{keyword},'%'))
+			</if>		
 			<if test="searchType == 't'.toString()">
 				AND v_mid LIKE CONCAT('%', #{keyword},'%')
 			</if>
