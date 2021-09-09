@@ -427,12 +427,27 @@ new Chart("myChart", {
 
 
 var proId=document.querySelectorAll("#proId");
+var idsize=proId.length;
 var proName=document.querySelectorAll("#proName");
 var proCate=document.querySelectorAll("#proCate");
 var amount=document.querySelectorAll("#amount");
-var totalamount=amount[0].value+amount[1].value+amount[2].value+amount[3].value+amount[4].value;
-var xValues = [proId[0].value+proName[0].value,proId[1].value+proName[1].value,proId[2].value+proName[2].value,proId[3].value+proName[3].value, proId[4].value+proName[4].value];
-var yValues = [amount[0].value/totalamount, amount[1].value/totalamount, amount[2].value/totalamount, amount[3].value/totalamount,amount[4].value/totalamount];
+
+var arrayId=new Array();
+var arraypercent=new Array();
+
+var totalamount=0;
+for(var k=0;k<idsize;k++){
+	totalamount=totalamount+Number(amount[k].value);
+	arrayId.push(proId[k].value);
+}
+
+for(var l=0;l<idsize;l++){
+
+	arraypercent.push(amount[l].value/totalamount);
+}
+
+var xValues = arrayId;
+var yValues = arraypercent;
 var barColors = [
   "#7971ea",
   "#00aba9",
@@ -441,7 +456,6 @@ var barColors = [
   "#1e7145"
 ];
 new Chart("mySellingChart", {
-    
   type: "pie",
   data: {
     labels: xValues,

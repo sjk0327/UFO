@@ -50,7 +50,7 @@
 		]]>
 	</select>
 	
-	<select id="totalPurchase" resultType="int">
+	<select id="totalPurchase" resultType="Integer">
 		<![CDATA[
 		select sum(b_purchase) from buy
 		]]>

@@ -1098,8 +1098,20 @@ public class MemberController {
 		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 		VisitCountDAO visitDAO = sqlSessionTemplate.getMapper(VisitCountDAO.class);
-		int totalBuy = buyDAO.totalPurchase();
+		Integer totalBuy = buyDAO.totalPurchase();
+		if (totalBuy== null) {
+			totalBuy=0;
+		}
+		
 		List<RentVO> rentToBuyList =rentDAO.rentToBuyList();
+		if(rentToBuyList.size()==0) {
+			RentVO zerorent = new RentVO();
+			zerorent.setR_pid("내역 없음");
+			zerorent.setP_category("내역 없음");
+			zerorent.setP_name("내역 없음");
+			zerorent.setTotal(1);
+			rentToBuyList.add(zerorent);
+		}
 		List<BuyVO> threeMonthPurchase=buyDAO.threeMonthPurchase(month,monthago);
 		List<BuyVO> threeMonthRentPurchase=buyDAO.threeMonthRentPurchase(month,monthago);
 		List<BuyVO> threeMonthBuyPurchase=buyDAO.threeMonthBuyPurchase(month,monthago);
@@ -1258,7 +1270,7 @@ public class MemberController {
 			}else {
 				threeMonthBuyPurchase2.add(0,threeMonthBuyPurchase.get(count));
 			}
-			System.out.println(threeMonthBuyPurchase2.toString()+"7");
+			
 			count=-1;
 			for(int k=0;k<threeMonthBuyPurchase.size();k++) {
 				if(threeMonthBuyPurchase.get(k).getB_month().equals(Integer.toString(Integer.parseInt(monthago)+1))) {
@@ -1274,7 +1286,7 @@ public class MemberController {
 				
 				threeMonthBuyPurchase2.add(1,threeMonthBuyPurchase.get(count));
 			}
-			System.out.println(threeMonthBuyPurchase2.toString()+"8");
+		
 			count=-1;
 			
 			for(int k=0;k<threeMonthBuyPurchase.size();k++) {
@@ -1471,7 +1483,7 @@ public class MemberController {
 	public String adminMenUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
 		System.out.println("시작 전" + userVO.toString());
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
-		// 파일 업로드
+		// 파일 
 		MultipartFile uploadFile = userVO.getUploadFile();
 		if (!uploadFile.isEmpty()) {
 			userVO.setM_img(uploadFile.getOriginalFilename());
