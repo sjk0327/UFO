@@ -122,8 +122,9 @@
 	<!-- 그냥 수량 세는 거 -->
 	<select id="countProductListTotal"  resultType="int">
 		select count(*)	from product
+		<include refid="searchCondition"></include>
 	</select>
-	
+  
 	<select id="colorTotal" resultType="int">
 		select count(*)	from product
 		where p_name LIKE CONCAT('%', #{param2},'%')
