@@ -440,7 +440,7 @@ public class MemberController {
 
 	}
 
-	// UFO 와 카카오 연동
+	// UFO와 카카오 연동
 	@RequestMapping(value = "/naverLink/{email}", method = RequestMethod.GET)
 	public String naverLink(UserVO user, Model model, HttpSession session, @PathVariable String email) {
 

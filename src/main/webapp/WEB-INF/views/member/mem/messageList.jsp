@@ -140,6 +140,12 @@ body, html {
 .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
 	display: table-cell;
 }
+
+.pcoded-main-container{
+	background: #F4F4F4;
+
+}
+
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -186,6 +192,9 @@ body, html {
 																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/mem/messageList" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
+																		<div class="slide"></div></li>	
 																</ul>
 															</div>
 														</div>
@@ -325,6 +334,32 @@ body, html {
 					</div>
 				</div>
 			</div>
+			
+			
+			
+			<!-- confirm 모달을 쓸 페이지에 추가 start-->
+	<section class="mocdal modal-section type-confirm">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn btn_ok">확인</button>
+			<button class="btn gray_btn modal_close">취소</button>
+		</div>
+	</section>
+	<!-- confirm 모달을 쓸 페이지에 추가 end-->
+
+	<!-- alert 모달을 쓸 페이지에 추가 start-->
+	<section class="mocdal modal-section type-alert">
+		<div class="enroll_box">
+			<p class="menu_msg"></p>
+		</div>
+		<div class="enroll_btn">
+			<button class="btn pink_btn modal_close">확인</button>
+		</div>
+	</section>
+	<!-- alert 모달을 쓸 페이지에 추가 end-->
+			
 		
 
 
@@ -386,12 +421,19 @@ body, html {
 				$('input:checkbox[name=RowCheck]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.			    
 					array.push(this.value);
 				});
+				if(array.length == 0){
+					alert("선택한 항목이 없습니다.");
+					return;
+				}
+				
 				$("#arrayParam").val(array);
 				$("#form").attr("action", "/member/mem/selectMessageDelete");
 				$("#form").submit();
 			}
 		}
 	</script>
+	
+	
 
 
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>

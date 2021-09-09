@@ -143,185 +143,240 @@ body, html {
 	margin-left: 0;
 }
 
-   .tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
-    display: table-cell;
-	}
+.tabs-left, .tabs-left-content, .tabs-right, .tabs-right-content {
+	display: table-cell;
+}
+
+.pcoded-main-container{
+	background: #F4F4F4;
+
+}
+
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-	<ul id="tempPage" style=" display:none"></ul>
+	<ul id="tempPage" style="display: none"></ul>
 	<div id="pcoded" class="pcoded">
-	<div class="pcoded-overlay-box"></div>
-	<div class="pcoded-container navbar-wrapper">
-	<div class="pcoded-main-container">
-	<div class="pcoded-wrapper">
-	<div class="pcoded-content">
-	<div class="pcoded-inner-content">
-		<!-- Main-body start -->
-		<div class="main-body">
-		<div class="page-wrapper">
-			<!-- Page-body start -->
-			<div class="page-body">
-				<div class="row">
-					<!--  메뉴바 시작 -->
-					<div class="col-xl-2 col-sm-12">
-					<div class="card">
-						<div class="card-block">
-						    <!-- Row start -->
-						    <div class="row">
-						        <div class="col-sm-12">
-						            <div class="sub-title" style="margin-bottom:0px;">Menu</div>
-						            <!-- Nav tabs -->
-						            <ul id="menuBar" class="nav nav-tabs md-tabs" role="tablist">
 
-										<li class="nav-item"><a class="nav-link"
-											href="/member/mem/userInfo" role="tab">내 정보</a>
-											<div class="slide"></div></li>
-										<li class="nav-item"><a class="nav-link"
-											href="/member/mem/memRentList" role="tab">대역 내역</a>
-											<div class="slide"></div></li>
-										<li class="nav-item"><a class="nav-link active"
-											href="/member/mem/memBuyList" role="tab">구매 내역</a>
-											<div class="slide"></div></li>
-										<li class="nav-item"><a class="nav-link"
-			
-											href="/member/mem/messageList" role="tab">메시지 함</a>
-			
-											<div class="slide"></div></li>
-									</ul>
+		<div class="pcoded-overlay-box"></div>
+		<div class="pcoded-container navbar-wrapper">
+			<div class="pcoded-main-container">
+				<div class="pcoded-wrapper">
+					<div class="pcoded-content">
+						<div class="pcoded-inner-content">
+							<!-- Main-body start -->
+							<div class="main-body">
+								<div class="page-wrapper">
+									<!-- Page-body start -->
+									<div class="page-body">
+										<div class="row">
+											<!--  메뉴바 시작 -->
+											<div class="col-xl-2 col-sm-12">
+												<div class="card">
+													<div class="card-block">
+														<!-- Row start -->
+														<div class="row">
+															<div class="col-sm-12">
+																<div class="sub-title" style="margin-bottom: 0px;">Menu</div>
+																<!-- Nav tabs -->
+																<ul id="menuBar" class="nav nav-tabs md-tabs"
+																	role="tablist">
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/mem/userInfo" role="tab">내 정보</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/mem/memRentList" role="tab">대역 내역</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link active"
+																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/mem/messageList" role="tab">메시지 함</a>
+																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
+																		<div class="slide"></div></li>
+																</ul>
+															</div>
+														</div>
+														<!-- Row end -->
+													</div>
+												</div>
+											</div>
+											<!-- 메뉴바 끝 -->
+											<!--  sale analytics start -->
+											<div class="col-xl-10 col-sm-12" id="changedPage">
+												<!-- 회원 개인 정보 수정 가능하게끔 -->
+												<div class="card">
+													<div class="card-block">
+														<form id="sort" name="buySearch" method="post"
+															action="/member/mem/memBuyList">
 
-						        </div>
-						    </div>
-						    <!-- Row end -->
-					    </div>
-				  	</div>
-					</div>
-					<!-- 메뉴바 끝 -->
-					<!--  sale analytics start -->
-					<div class="col-xl-10 col-sm-12" id="changedPage">
-					<!-- 회원 개인 정보 수정 가능하게끔 -->
-					<div class="card">
-					<div class="card-block">
-						<form id="sort" name="buySearch" method="post"
-												action="/member/mem/memBuyList">
-	
-						<select id="searchType" name="searchType">
-	                               <option value="">검색조건</option>
-	                               <option value="c" <c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>제품ID</option>
-	                               <option value="w" <c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
-	                               <option value="tc" <c:if test="${pageMaker.cri.searchType eq 'tc'}"> selected </c:if>>상태</option>
-	                            </select>&nbsp;
-							<input type="text" id="searchWord" name="keyword"  
-								value="${pageMaker.cri.keyword}" placeholder="검색어를 입력하세요" />&nbsp;
-				
-							<input type="button" id="searchBtn" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">&nbsp;
-							<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="전체보기" onClick="location.href='/member/mem/memBuyList';">&nbsp;
-						</form>
-						<div class="row">
-							<!--  sale analytics start -->
-							<div class="col-xl-12 col-md-12">
-								<div class="card">
-								<div class="card-header">
-									<h5>구매 내역</h5>
-									<div class="card-header-right">
-										<ul class="list-unstyled card-option">
-											<li><i class="fa fa fa-wrench open-card-option"></i></li>
-											<li><i class="fa fa-window-maximize full-card"></i></li>
-											<li><i class="fa fa-refresh reload-card"></i></li>
-										</ul>
-									</div>
-								</div>
-								<div class="card-block table-border-style">
-									<div class="table-responsive">
-										<table class="table table-hover">
-											<thead>
-												<tr>
-													<th style="width: 50px">번호</th>
-													<th>카테고리</th>
-													<th>제품 ID</th>
-													<th>제품명</th>
-													<th>대여날짜</th>
-													<th>상태</th>
-												</tr>
-											</thead>
-											<tbody>
-											<c:forEach var="list" items="${buyList}">
-												
-													<tr onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
-														<td>${list.r_id }</td>
-														<td>${list.p_category }</td>
-														<td>${list.r_pid }</td>
-														<td>${list.p_name }</td>
-														<td>${list.r_sdate }</td>
-													
-														<c:if test="${list.r_state eq '즉시 구매'}"><td><label class="label label-info">즉시 구매</label></td></c:if>
-														<c:if test="${list.r_state eq '구매 확정'}"><td><label class="label label-info2">구매 확정</label></td></c:if>
-														<c:if test="${list.r_state eq '반납 요청'}"><td><label class="label label-warning">반납 요청</label></td></c:if>
-														<c:if test="${list.r_state eq '반납 완료'}"><td><label class="label label-success">반납 완료</label></td></c:if>
-														<c:if test="${list.r_state eq '환불 요청(즉시 구매)'}">
-																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td>
-																				</c:if>
-																				<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}">
-																					<td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></td>
-																				</c:if>
-																				<c:if test="${list.r_state eq '환불 요청(구매 확정)'}">
-																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-inverse" style="font-size: 10pt;">환불 요청</label></td>
-																				</c:if>
-																				<c:if test="${list.r_state eq '환불 완료(구매 확정)'}">
-																					<td style="width:100px;"><label class="label label-info2" style="font-size: 10pt;">구매 확정</label><span>→ </span><label class="label label-default" style="font-size: 10pt;">환불 완료</label></td>
-																				</c:if>
+															<select id="searchType" name="searchType">
+																<option value="">검색조건</option>
+																<option value="c"
+																	<c:if test="${pageMaker.cri.searchType eq 'c'}"> selected </c:if>>제품ID</option>
+																<option value="w"
+																	<c:if test="${pageMaker.cri.searchType eq 'w'}"> selected </c:if>>제품명</option>
+																<option value="tc"
+																	<c:if test="${pageMaker.cri.searchType eq 'tc'}"> selected </c:if>>상태</option>
+															</select>&nbsp; <input type="text" id="searchWord" name="keyword"
+																value="${pageMaker.cri.keyword}"
+																placeholder="검색어를 입력하세요" />&nbsp; <input type="button"
+																id="searchBtn" value="검색"
+																class="btn waves-effect waves-light btn-primary btn-outline-primary">&nbsp;
+															<input type="button" id="button"
+																class="btn waves-effect waves-light btn-primary btn-outline-primary"
+																value="전체보기"
+																onClick="location.href='/member/mem/memBuyList';">&nbsp;
+														</form>
+														<div class="row">
+															<!--  sale analytics start -->
+															<div class="col-xl-12 col-md-12">
+																<div class="card">
+																	<div class="card-header">
+																		<h5>구매 내역</h5>
+																		<div class="card-header-right">
+																			<ul class="list-unstyled card-option">
+																				<li><i class="fa fa fa-wrench open-card-option"></i></li>
+																				<li><i class="fa fa-window-maximize full-card"></i></li>
+																				<li><i class="fa fa-refresh reload-card"></i></li>
+																			</ul>
+																		</div>
+																	</div>
+																	<div class="card-block table-border-style">
+																		<div class="table-responsive">
+																			<table class="table table-hover">
+																				<thead>
+																					<tr>
+																						<th style="width: 50px">번호</th>
+																						<th>카테고리</th>
+																						<th>제품 ID</th>
+																						<th>제품명</th>
+																						<th>대여날짜</th>
+																						<th>상태</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<c:forEach var="list" items="${buyList}">
 
-													</tr>
-											</c:forEach>
-											</tbody>
-										</table>
-									</div>
-								</div>
-								</div>
-							</div>
-						</div>
-						<!-- 페이징 start -->
-						<div class="row">
-						<div id = "paging-div">
-						<ul class="btn-group pagination">
-							<c:if test="${pageMaker.prev }">
-								<li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
-									<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
-							</c:if>
-							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-								<c:if test="${pageNum eq pageMaker.cri.page}">
-									<li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
-									<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li>
-									<span class="col-md-1"></span>
-								</c:if>
-								<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
-								<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
-								
-							</c:forEach>
-							<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-								<li><a href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-									<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
-							</c:if>
-						</ul>
-						</div>
-						</div>
-						<!-- 페이징 end -->
-					</div>
-					</div>
-					
-					</div>
-				</div>
+																						<tr
+																							onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+																							<td>${list.r_id }</td>
+																							<td>${list.p_category }</td>
+																							<td>${list.r_pid }</td>
+																							<td>${list.p_name }</td>
+																							<td>${list.r_sdate }</td>
+
+																							<c:if test="${list.r_state eq '즉시 구매'}">
+																								<td><label class="label label-info">즉시
+																										구매</label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '구매 확정'}">
+																								<td><label class="label label-info2">구매
+																										확정</label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '반납 요청'}">
+																								<td><label class="label label-warning">반납
+																										요청</label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '반납 완료'}">
+																								<td><label class="label label-success">반납
+																										완료</label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '환불 요청(즉시 구매)'}">
+																								<td style="width: 100px;"><label
+																									class="label label-info"
+																									style="font-size: 10pt;">즉시 구매</label><span>→
+																								</span><label class="label label-inverse"
+																									style="font-size: 10pt;">환불 요청</label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}">
+																								<td style="width: 100px;"><label
+																									class="label label-info"
+																									style="font-size: 10pt;">즉시 구매</label><span>→
+																								</span><label class="label label-default"
+																									style="font-size: 10pt;">환불 완료</label></label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '환불 요청(구매 확정)'}">
+																								<td style="width: 100px;"><label
+																									class="label label-info2"
+																									style="font-size: 10pt;">구매 확정</label><span>→
+																								</span><label class="label label-inverse"
+																									style="font-size: 10pt;">환불 요청</label></td>
+																							</c:if>
+																							<c:if test="${list.r_state eq '환불 완료(구매 확정)'}">
+																								<td style="width: 100px;"><label
+																									class="label label-info2"
+																									style="font-size: 10pt;">구매 확정</label><span>→
+																								</span><label class="label label-default"
+																									style="font-size: 10pt;">환불 완료</label></label></td>
+																							</c:if>
+
+																						</tr>
+																					</c:forEach>
+																				</tbody>
+																			</table>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!-- 페이징 start -->
+														<div class="row">
+															<div id="paging-div">
+																<ul class="btn-group pagination">
+																	<c:if test="${pageMaker.prev }">
+																		<li><a
+																			href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
+																				<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span>
+																		</a></li>
+																		<span class="col-md-1"></span>
+																	</c:if>
+																	<c:forEach begin="${pageMaker.startPage }"
+																		end="${pageMaker.endPage }" var="pageNum">
+																		<c:if test="${pageNum eq pageMaker.cri.page}">
+																			<li><a
+																				href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
+																					<span id="pagingCur"
+																					style="background-color: #7971ea; display: inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding: 5px;">&nbsp;${pageNum}&nbsp;</span>
+																			</a></li>
+																			<span class="col-md-1"></span>
+																		</c:if>
+																		<c:if test="${pageNum ne pageMaker.cri.page}">
+																			<li><a
+																				href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageNum)}"/>'>
+																					<span>&nbsp;${pageNum}&nbsp;</span>
+																			</a></li>
+																			<span class="col-md-1"> </span>
+																		</c:if>
+
+																	</c:forEach>
+																	<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+																		<li><a
+																			href='<c:url value="/member/mem/memBuyList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
+																				<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span>
+																		</a></li>
+																		<span class="col-md-1"></span>
+																		</a>
+																		</li>
+																	</c:if>
+																</ul>
+															</div>
+														</div>
+														<!-- 페이징 end -->
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+
 			</div>
 		</div>
-		</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
 	</div>
 	<!-- confirm 모달을 쓸 페이지에 추가 start-->
 	<section class="modal modal-section type-confirm">
@@ -354,57 +409,74 @@ body, html {
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
-	$(document).on("click", "#searchBtn", function(){
-		var searchTypeSelect = $('#searchType option:selected').val();
-		var searchWordInput = $('#searchWord').val();
-		console.log("type:"+searchTypeSelect);
-		console.log("word:"+searchWordInput);
-		if(searchTypeSelect == null || searchTypeSelect == "" || searchWordInput == ""){
-			action_popup.alert("검색 조건과 검색어를 입력해주세요.");
-		}else{
-			document.buySearch.submit();
-		}
-	});
-	
-	$(document).ready(function(){
-		var searchTypeSelect = $('#searchType option:selected').val();
-		var searchWordInput = $('#searchWord').val();
-		var buyListSize = ${buyList.size()};
-		console.log(searchTypeSelect + "+" + searchWordInput + "+" +buyListSize)
-		if(searchTypeSelect != "" || searchWordInput != ""){
-			if(buyListSize <= 0){
-				action_popup.alert("검색하신 조건에 맞는게 없습니다.")
-			}
-		}
-	});
-	
-	$(document).ready(function(){
-		var size =$(window)[0].innerWidth;
-		if(size > 1200) {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-		} else {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-		}
-	});
+
+		$(document).on(
+				"click",
+				"#searchBtn",
+				function() {
+					var searchTypeSelect = $('#searchType option:selected')
+							.val();
+					var searchWordInput = $('#searchWord').val();
+					console.log("type:" + searchTypeSelect);
+					console.log("word:" + searchWordInput);
+					if (searchTypeSelect == null || searchTypeSelect == ""
+							|| searchWordInput == "") {
+						action_popup.alert("검색 조건과 검색어를 입력해주세요.");
+					} else {
+						document.buySearch.submit();
+					}
+				});
+
+		$(document).ready(
+				function() {
+					var searchTypeSelect = $('#searchType option:selected')
+							.val();
+					var searchWordInput = $('#searchWord').val();
+					var buyListSize = $
+					{
+						buyList.size()
+					}
+					;
+					console.log(searchTypeSelect + "+" + searchWordInput + "+"
+							+ rentListSize)
+					if (searchTypeSelect != "" || searchWordInput != "") {
+						if (buyListSize <= 0) {
+							action_popup.alert("검색하신 조건에 맞는게 없습니다.")
+						}
+					}
+				});
+
+		$(document).ready(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
+				});
+
+		$(window).resize(
+				function() {
+					var size = $(window)[0].innerWidth;
+					if (size > 1200) {
+						$('#menuBar').attr('class',
+								"nav nav-tabs md-tabs tabs-left b-none");
+					} else {
+						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
+					}
+				});
 
 
-	$(window).resize(function() {
-		var size =$(window)[0].innerWidth;
-		if(size > 1200) {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-		} else {
-			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
+		function goBuyDetailPage(r_id) {
+			var url = '/member/mem/memBuyDetail/' + r_id;
+			$("#tempPage").load(url, function() {
+				$("#changedPage").html($("#tempPage").html());
+				$("#tempPage").html("");
+			});
 		}
-	});
 
-	function goBuyDetailPage(r_id){
-	   	var url = '/member/mem/memBuyDetail/'+r_id;
-    	 $("#tempPage").load(url, function(){
-      	 $("#changedPage").html($("#tempPage").html());
-      	 $("#tempPage").html("");
-     	});
-	}
-	
 		$(function() {
 			//사용 예시 **************************
 			$(document).on("click", "#confirm", function() {
