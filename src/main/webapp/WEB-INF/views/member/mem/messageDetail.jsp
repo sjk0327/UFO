@@ -253,7 +253,7 @@ body, html {
 																<!-- Nav tabs -->
 																<ul id="menuBar" class="nav nav-tabs md-tabs"
 																	role="tablist">
-																	<li class="nav-item"><a class="nav-link "
+																	<li class="nav-item"><a class="nav-link"
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link "
@@ -265,6 +265,9 @@ body, html {
 																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/mem/messageList" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
+																	<li class="nav-item"><a class="nav-link"
+																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
+																		<div class="slide"></div></li>	
 																</ul>
 															</div>
 														</div>

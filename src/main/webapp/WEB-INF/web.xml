@@ -40,6 +40,21 @@
     <url-pattern>/member/cartInsert/*</url-pattern>
     <url-pattern>/member/wishListInsert/*</url-pattern>
     <url-pattern>/member/rent/buy/*</url-pattern>
+    <url-pattern>/member/mem/userInfo/*</url-pattern>
+    <url-pattern>/member/mem/messageList/*</url-pattern>
+    <url-pattern>/member/mem/messageDelete/*</url-pattern>
+    <url-pattern>/member/mem/userDelete/*</url-pattern>
+    <url-pattern>/member/mem/selectMessageDelete/*</url-pattern>
+    <url-pattern>/member/mem/accountDelete/*</url-pattern>
+    <url-pattern>/member/mem/pw_change/*</url-pattern>
+    <url-pattern>/member/mem/memRentDetail/*</url-pattern>
+    <url-pattern>/member/mem/memRentReturn/*</url-pattern>
+    <url-pattern>/member/mem/memRentRefund/*</url-pattern>
+    <url-pattern>/member/mem/memRentLate/*</url-pattern>
+    <url-pattern>/member/mem/memBuyDetail/*</url-pattern>
+    <url-pattern>/member/mem/memRentList/*</url-pattern>
+    <url-pattern>/member/mem/memBuyList/*</url-pattern>
+    <url-pattern>/member/rec/recommendList/*</url-pattern>
   </filter-mapping>
   
   

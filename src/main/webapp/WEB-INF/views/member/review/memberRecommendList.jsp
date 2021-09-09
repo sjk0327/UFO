@@ -147,6 +147,10 @@ body, html {
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
+    .pcoded-main-container{
+	background: #F4F4F4;
+
+}
  	
 
 </style>
@@ -182,7 +186,7 @@ body, html {
 																<!-- Nav tabs -->
 																<ul id="menuBar" class="nav nav-tabs md-tabs"
 																	role="tablist">
-																	<li class="nav-item"><a class="nav-link active"
+																	<li class="nav-item"><a class="nav-link "
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link "
@@ -192,9 +196,9 @@ body, html {
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="#MessageBox" role="tab">메시지 함</a>
+																		href="/member/mem/messageList" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
-																	<li class="nav-item"><a class="nav-link"
+																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
 																		<div class="slide"></div></li>
 																</ul>
