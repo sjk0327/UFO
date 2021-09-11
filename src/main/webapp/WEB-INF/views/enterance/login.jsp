@@ -150,7 +150,7 @@
 								<div class="row m-t-10">
 									<div class="col-md-12">
 										<a
-											href="https://kauth.kakao.com/oauth/authorize?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&redirect_uri=http://localhost:8090/kakaoLogin&response_type=code"><img
+											href="https://kauth.kakao.com/oauth/authorize?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&redirect_uri=http://www.ufo2021.link/kakaoLogin&response_type=code"><img
 											src="/resources/img/kakaologin.png" width="100%"
 											style="display: block; margin-left: auto; margin-right: auto;"></a>
 									</div>
@@ -160,7 +160,7 @@
 									<div class="col-md-12">
 										<%
 											String clientId = "AypoUOpXBiyt9Pz14zia";//애플리케이션 클라이언트 아이디값";
-												String redirectURI = URLEncoder.encode("http://localhost:8090/naverLogin", "UTF-8");
+												String redirectURI = URLEncoder.encode("http://www.ufo2021.link/naverLogin", "UTF-8");
 												SecureRandom random = new SecureRandom();
 												String state = new BigInteger(130, random).toString();
 												String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
