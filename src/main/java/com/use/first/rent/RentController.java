@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.use.first.buy.BuyDAO;
 import com.use.first.buy.BuyVO;
@@ -483,18 +484,19 @@ public class RentController {
 				//결제폼
 				@RequestMapping(value = "/member/rent/buy")
 				public String customerBuyForm(@ModelAttribute("BuyInfoVO") BuyInfoVO buyInfoVO,Model model, HttpSession session) {
-					
+					System.out.println("들어온거야?");
 					//세션에서 해당 회원의 아이디 받음
 					UserInfoVO userInfo=(UserInfoVO)session.getAttribute("userInfo");
 					String userId=userInfo.getM_id();
-					
-					
+					System.out.println(userId);
+					System.out.println(buyInfoVO.toString());
 					RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 					UserDAO userDAO = sqlSessionTemplate.getMapper(UserDAO.class);
 					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
 					
 					//파라미터로 받은 BuyInfo Bean에서 제품 아이디 getter로 받아옴
 					String productId=buyInfoVO.getProductId();
+				System.out.println(productId+"제품아이디");
 					// 제품 아이디로 해당 제품 정보 끌어옴
 					ProductVO productVO = productDAO.productInfo(productId);
 					//나머지 필요한 제품 정보들 BuyInfoBean에 setter로 넣어줌 
@@ -507,7 +509,7 @@ public class RentController {
 					ArrayList<BuyInfoVO> buyInfoList = new ArrayList<BuyInfoVO>();
 					buyInfoList.add(buyInfoVO);
 					
-					System.out.println(buyInfoVO.getRid());
+					
 					//모델에 저장
 					model.addAttribute("buyInfoList", buyInfoList);
 					model.addAttribute("userVO", userVO);
@@ -695,6 +697,56 @@ public class RentController {
 	
 				}
 				
+				//수정이 추가(인덱스에서 사용)
+				  @RequestMapping(value = "/index/calRentamount", method = RequestMethod.POST)
+				  @ResponseBody
+					public HashMap<Object, Object> getRentamountToIndex(@RequestParam String rentdate, @RequestParam String p_id) throws Exception{
+					 
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+						RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);	
+						ProductVO proVO=productDAO.productInfo(p_id);
+						int dbcanrent=proVO.getP_canRent();
+						System.out.println(rentdate);
 
+						java.util.Date utilDate = new java.util.Date();
+
+						SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+						utilDate = transFormat.parse(rentdate);
+						java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+						System.out.println(utilDate);
+						System.out.println(sqlDate);
+						List<RentVO> canrentlist =rentDAO.rentListNowBypid(sqlDate, p_id);
+						System.out.println(canrentlist);
+						int canamount=0;
+						for(int i=0;i<canrentlist.size();i++) {
+							canamount=canamount+canrentlist.get(i).getR_rent();
+						}
+						canamount=canamount+dbcanrent;
+						System.out.println(canamount);
+						HashMap<Object, Object> productCanRent = new HashMap<Object, Object>();
+						
+						productCanRent.put("canamount", canamount);
+			
+		
+						return productCanRent;
+					}  
+				  
+				  @RequestMapping(value = "/index/calPrice", method = RequestMethod.POST)
+				  @ResponseBody
+					public HashMap<Object, Object> getRentpriceToIndex(@RequestParam String rentamount, @RequestParam String p_id) throws Exception{
+					  System.out.println("들어오니?");
+						ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);		
+						ProductVO proVO=productDAO.productInfo(p_id);
+						int proPrice=(int)(proVO.getP_price()*0.05);
+						int amount=Integer.parseInt(rentamount);
+						int rentPrice=proPrice*amount;
+						HashMap<Object, Object> productPrice = new HashMap<Object, Object>();
+						
+						productPrice.put("rentPrice", rentPrice);
+
+						return productPrice;
+					}
 
 }

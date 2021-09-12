@@ -33,6 +33,25 @@
 	
   
   <style>
+  .count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 105px;
+    margin-top: -20px;
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    background: #7971ea;
+    color: #fff;
+    -webkit-transition: .2s all ease-in-out;
+    -o-transition: .2s all ease-in-out;
+    transition: .2s all ease-in-out;
+}
+
   #firstSearch {
   border-radius:5px;
   border: solid 2px grey;
@@ -73,10 +92,12 @@
                   <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
                   </c:when >
                   <c:otherwise>
-                   <li>${userInfo.m_id } 님, 환영합니다!&nbsp&nbsp
-                  <li><a href="/member/mem/userInfo">[ 내정보 ]</a></li>
-                  <li><a href="/member/rent/wishList">[ 위시리스트 ]</a></li>
-                  <li><a href="/member/rent/cartList">[ 장바구니 ]</a></li>
+                   <li>${userInfo.m_id } 님, 환영합니다!&nbsp;&nbsp;
+                  <li><a href="/member/mem/userInfo"><span class="icon icon-person"></span></a></li>
+                  <li><a href="/member/rent/wishList"><span class="icon icon-heart-o"></span></a></li>
+                  <li><a href="/member/rent/cartList"><span class="icon icon-shopping_cart"></span>
+                  <span class="count">1</span>
+                  </a></li>
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
                    <li><a href="/logout">[ 로그아웃 ]</a></li>
                    </c:if>

@@ -278,7 +278,7 @@ select::-ms-expand {
 																	</div>
 																	<div class="card-block">
 																		<form:form class="form-material" name="update"
-																			action="/member/mem/userInfo/${userInfo.m_id }"
+																			action="/member/mem/userInfo"
 																			method="post" enctype="multipart/form-data"
 																			modelAttribute="userVO">
 																			<div class="row">
@@ -304,7 +304,7 @@ select::-ms-expand {
 																						<div class="col-sm-3 col-form-label">아이디</div>
 																						<div
 																							class="form-group form-primary form-static-label col-sm-9 ">
-																							<form:hidden path="m_id"
+																							<form:hidden path="m_id" 
 																								value="${userInfo.m_id }"
 																								class="form-control form-control-center form-control-round form-control-bold" />
 																							<input id="id" value="${userInfo.m_id }"

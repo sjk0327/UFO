@@ -110,17 +110,72 @@ public class PageMaker {
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
 			.queryParam("page", page)
 			.queryParam("perPageNum", this.cri.getPerPageNum());
-		//검색 한 경우		
-		if (this.cri.getSearchType() != null) {
-			uriComponentsBuilder
-				.queryParam("searchType", this.cri.getSearchType())
-				.queryParam("keyword", this.cri.getKeyword());
+		//검색 한 경우
 				
+		if (this.cri.getSearchType() != null) {
+			if(this.cri.getSort() != null) {
+				if(this.cri.getTab() != null && this.cri.getColor() != null) {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("tab", this.cri.getTab())
+					.queryParam("minPrice", this.cri.getMinPrice())
+					.queryParam("maxPrice", this.cri.getMaxPrice())
+					.queryParam("color", this.cri.getColor())
+					.queryParam("sort", this.cri.getSort());
+				}else if(this.cri.getTab() != null) {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("tab", this.cri.getTab())
+					.queryParam("minPrice", this.cri.getMinPrice())
+					.queryParam("maxPrice", this.cri.getMaxPrice())
+					.queryParam("sort", this.cri.getSort());
+				}else if(this.cri.getColor() != null) {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("color", this.cri.getColor())
+					.queryParam("sort", this.cri.getSort());
+				}else {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("sort", this.cri.getSort());
+				}
+			}else {
+				if(this.cri.getTab() != null && this.cri.getColor() != null) {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("tab", this.cri.getTab())
+					.queryParam("minPrice", this.cri.getMinPrice())
+					.queryParam("maxPrice", this.cri.getMaxPrice())
+					.queryParam("color", this.cri.getColor());
+				}else if(this.cri.getTab() != null) {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("tab", this.cri.getTab())
+					.queryParam("minPrice", this.cri.getMinPrice())
+					.queryParam("maxPrice", this.cri.getMaxPrice());
+				}else if(this.cri.getColor() != null) {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword())
+					.queryParam("color", this.cri.getColor());
+				}else {
+					uriComponentsBuilder
+					.queryParam("searchType", this.cri.getSearchType())
+					.queryParam("keyword", this.cri.getKeyword());
+				}
+			}
 
 		} else if (this.cri.getV_pid() != null){
 			uriComponentsBuilder
 			.queryParam("v_pid", this.cri.getV_pid());			
 		}
+		
 		return uriComponentsBuilder.build().encode().toString();
 	}
 

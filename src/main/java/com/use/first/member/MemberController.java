@@ -507,20 +507,20 @@ public class MemberController {
 
 	// 내 정보 수정
 
-	@RequestMapping(value = "/member/mem/userInfo/{userID}", method = RequestMethod.POST)
-	public String userInfoUpdateByPath(Model model, UserVO userVO, @PathVariable String userID) throws IOException {
+	@RequestMapping(value = "/member/mem/userInfo", method = RequestMethod.POST)
+	public String userInfoUpdateByPath(Model model, UserVO userVO) throws IOException {
 		System.out.println("시작 전" + userVO.toString());
 		UserDAO dao = sqlSessionTemplate.getMapper(UserDAO.class);
 
+		//String path = "\\var\\lib\\tomcat8\\webapps\\UFO\\resources\\Images\\member\\";
+		//String path = "\\resources\\uploads\\";
+//		String path = "\\var\\lib\\tomcat8\\webapps\\UFO\\resources\\";
 		// 파일 업로드
 		MultipartFile uploadFile = userVO.getUploadFile();
 		if (!uploadFile.isEmpty()) {
 			userVO.setM_img(uploadFile.getOriginalFilename());
-			uploadFile.transferTo(new File(
-					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
-							+ userVO.getM_img()));
+			uploadFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/member/" + userVO.getM_img()));
 		}
-
 		int n = dao.userUpdate(userVO);
 		System.out.println("시작 후" + userVO.toString());
 		if (n != 1) {
@@ -1489,9 +1489,7 @@ public class MemberController {
 		MultipartFile uploadFile = userVO.getUploadFile();
 		if (!uploadFile.isEmpty()) {
 			userVO.setM_img(uploadFile.getOriginalFilename());
-			uploadFile.transferTo(new File(
-					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
-							+ userVO.getM_img()));
+			uploadFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/member/" + userVO.getM_img()));
 		}
 
 		int n = dao.memUpdate(userVO);
@@ -1514,8 +1512,9 @@ public class MemberController {
 	public String menJoinForm(Model model, HttpServletRequest request) {
 		//병찬추가  (위에 주석된게 원래 있던것임)
 		String referer =request.getHeader("referer");
+		if(referer!=null) {
 		String s1 = referer.substring(21); 
-		model.addAttribute("beforeUrl", s1);	
+		model.addAttribute("beforeUrl", s1);}	
 		//병찬 여기까지
 		return "/member/mem/memJoin";		
 	}
@@ -1628,9 +1627,7 @@ public class MemberController {
 		MultipartFile uploadFile = userVO.getUploadFile();
 		if (!uploadFile.isEmpty()) {
 			userVO.setM_img(uploadFile.getOriginalFilename());
-			uploadFile.transferTo(new File(
-					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\member\\"
-							+ userVO.getM_img()));
+			uploadFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/member/" + userVO.getM_img()));
 		}
 		userVO.setM_regtype("유에프오");
 		int n = dao.memJoin(userVO);

@@ -309,14 +309,14 @@ body, html {height: 100%;}
             
             <div class="carousel-item row no-gutters active">
                 <div class="float-left">
-               		<img class="img-fluid" src="/resources/Images/${cartInfo.p_mainimg}.jpg">
+               		<img class="img-fluid" src="/resources/Images/product/${cartInfo.p_mainimg}">
                 </div>
               
             </div>
             
             <div class="carousel-item row no-gutters">
                 <div class="float-left">
-                	<img class="img-fluid" src="/resources/Images/${cartInfo.p_subimg}.jpg">
+                	<img class="img-fluid" src="/resources/Images/product/${cartInfo.p_subimg}">
                 </div>
                 
                

@@ -301,7 +301,7 @@ body, html {height: 100%;}
     <input type="hidden" id="productId" name="productId" value="1">
      <input id="cartId" name="cartId" type="hidden" value="0"> 
     <div class="row" style="margin-top: 20px;">
-    <div class="col-md-4"><img id="productImg" class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg" style="width:200px; height: 150px; margin-left: 20px;"></div>
+    <div class="col-md-4"><img id="productImg" class="img-fluid" src="/resources/Images/product/${wishInfo.p_mainimg}" style="width:200px; height: 150px; margin-left: 20px;"></div>
     <div class="col-md-3" id="productName" style="color: #505050; font-weight: bold;">${wishInfo.p_name}</div>
     <div class="col-md-5">
     <div>
@@ -461,13 +461,13 @@ body, html {height: 100%;}
             
             <div class="carousel-item row no-gutters active">
                 <div class="float-left">
-               		<img class="img-fluid" src="/resources/Images/${wishInfo.p_mainimg}.jpg">
+               		<img class="img-fluid" src="/resources/Images/product/${wishInfo.p_mainimg}">
                 </div>              
             </div>
             
             <div class="carousel-item row no-gutters">
                 <div class="float-left">
-                	<img class="img-fluid" src="/resources/Images/${wishInfo.p_subimg}.jpg">
+                	<img class="img-fluid" src="/resources/Images/product/${wishInfo.p_subimg}">
                 </div>
             </div>
                 
@@ -630,7 +630,7 @@ body, html {height: 100%;}
 <c:forEach var="prowish" items="${wishProList}">
 <div class="row" style="margin-bottom: 1pt;">
 <div class="col-md-6">
-<a><img class="wishimg" src="/resources/Images/${prowish.p_mainImg}.jpg"></a>
+<a><img class="wishimg" src="/resources/Images/product/${prowish.p_mainImg}"></a>
 </div>
 <div class="col-md-6" style="font-weight: bold;">
 [${prowish.p_category}]<br>${prowish.p_name}</div></div>
@@ -813,7 +813,7 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("rentdate").setAttribute('min',new Date().toISOString().substring(0, 10));
 				document.getElementById("rentdate").setAttribute('type','text');
 				document.getElementById("rdate").classList.remove('hidden');
-				document.getElementById("productImg").setAttribute('src','/resources/Images/'+proImgList[i].value+'.jpg');
+				document.getElementById("productImg").setAttribute('src','/resources/Images/product/'+proImgList[i].value);
 				
 				var price=(proPriceList[i].value)*0.05;	
 				var canRental=0;
@@ -964,7 +964,7 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("proamount").addEventListener("input",changeprice);
 				document.getElementById("keepgo").value="구매";
 				document.getElementById("keepgo").addEventListener("click",giveData);
-				document.getElementById("productImg").setAttribute('src','/resources/Images/'+proImgList[i].value+'.jpg');
+				document.getElementById("productImg").setAttribute('src','/resources/Images/product/'+proImgList[i].value);
 					var price=proPriceList[i].value*0.95;
 				function changeprice(ev){
 					document.getElementById("productPrice").value=(document.getElementById("proamount").value)*price;
@@ -1001,7 +1001,7 @@ for(var i=0; i < btnrentLength; i++){
 				document.getElementById("rentdate").setAttribute('readonly',true);
 				document.getElementById("keepgo").value="장바구니";
 				document.getElementById("keepgo").addEventListener("click",giveData);
-				document.getElementById("productImg").setAttribute('src','/resources/Images/'+proImgList[i].value+'.jpg');
+				document.getElementById("productImg").setAttribute('src','/resources/Images/product/'+proImgList[i].value);
 				$("#rentdate").datepicker("option","showOn","text");
 				
 				if(buyamount==0){
