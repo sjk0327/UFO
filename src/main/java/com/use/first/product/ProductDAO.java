@@ -53,7 +53,8 @@ public interface ProductDAO {
 		public int productUpdatebuy(int b_amount1, int b_amount2, String b_pid);
 	//수정추가		
 		public List<ProductVO> productBestList(String maxcate);
-
+		public List<String> productReviewBest(String id);
+		public List<ProductVO> productNametoIndex(String category);
 			//위시리스트추가,삭제
 			public int wishListInsert(WishListVO wishListVO);
 			public int wishListDelete(WishListVO wishListVO);

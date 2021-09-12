@@ -1,7 +1,6 @@
 package com.use.first;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -15,9 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.use.first.member.UserDAO;
+import com.use.first.product.ProductDAO;
+import com.use.first.product.ProductVO;
 import com.use.first.visitor.VisitCountDAO;
-import com.use.first.visitor.VisitCounter;
 
 
 
@@ -37,6 +36,39 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
 		VisitCountDAO dao = sqlSessionTemplate.getMapper(VisitCountDAO.class);
+		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		String smartphoneBest="p_h001";
+		String notebookBest="p_n001";
+		String watchBest="p_w001";
+		String tabletBest="p_t001";
+		String cameraBest="p_c001";
+		List<String> smartphoneList = productDAO.productReviewBest("h");
+		if(smartphoneList.size()!=0) {
+		smartphoneBest=smartphoneList.get(0);}
+		List<String> notebookList = productDAO.productReviewBest("n");
+		if(notebookList.size()!=0) {
+		notebookBest=notebookList.get(0);}
+		List<String> watchList = productDAO.productReviewBest("w");
+		if(watchList.size()!=0) {
+		watchBest=watchList.get(0);}
+		List<String> tabletList = productDAO.productReviewBest("t");
+		if(tabletList.size()!=0) {
+		tabletBest=tabletList.get(0);}
+		List<String> cameraList = productDAO.productReviewBest("c");
+		if(cameraList.size()!=0) {
+		cameraBest=cameraList.get(0);}
+		
+		ProductVO smartphone=productDAO.productInfo(smartphoneBest);
+		ProductVO notebook=productDAO.productInfo(notebookBest);
+		ProductVO smartwatch=productDAO.productInfo(watchBest);
+		ProductVO tablet=productDAO.productInfo(tabletBest);
+		ProductVO camera=productDAO.productInfo(cameraBest);
+		model.addAttribute("smartphone", smartphone);
+		model.addAttribute("notebook", notebook);
+		model.addAttribute("smartwatch", smartwatch);
+		model.addAttribute("tablet", tablet);
+		model.addAttribute("camera", camera);
+		
 		if (session.getAttribute("userName") != null) {
 			System.out.println("home() userName : " + session.getAttribute("userName"));
 			if(!session.getAttribute("userName").equals("관리자")) {
@@ -71,13 +103,7 @@ public class HomeController {
 
 	}
 	
-	@RequestMapping(value = "/modaltest")
-	public String modaltest(Locale locale, Model model, HttpSession session) {
-		
-			return "/member/rent/modaltestjsp";
-		
 
-	}
 
 	
 	

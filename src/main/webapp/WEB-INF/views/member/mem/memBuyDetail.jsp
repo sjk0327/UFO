@@ -558,10 +558,7 @@ body, html {
 			}
 			;
 		});
-		var rid = $
-		{
-			r_id
-		};
+		var rid = ${r_id};
 		$(document)
 				.on(
 						"click",

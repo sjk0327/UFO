@@ -230,7 +230,8 @@ body, html {
 }
 
 <!--
-관리자 쪽 템블릿 가져와서 왼쪽에 메뉴 부분이 비어 있을 때 제거하는 css -->.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content
+관리자 쪽 템블릿 가져와서 왼쪽에 메뉴 부분이 비어 있을 때 제거하는 css -->
+.pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="offcanvas"][vertical-effect="overlay"] .pcoded-content
 	{
 	margin-left: 0;
 }
@@ -244,9 +245,9 @@ body, html {
 	display: table-cell;
 }
 
-}
-<!--
-모달창 css 수정이 추가 --!> * {
+
+
+* {
 	margin: 0;
 	padding: 0;
 }
@@ -761,10 +762,7 @@ a.button {
 					}
 				});
 
-		var rid = $
-		{
-			r_id
-		};
+		var rid = ${r_id};
 
 		$(document)
 				.on(

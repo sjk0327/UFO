@@ -211,6 +211,12 @@
 		]]>
 	</select>
 	
+	<select id="rentListNowBypid" resultType="com.use.first.rent.RentVO">
+		<![CDATA[
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where (r_sdate>=DATE_ADD(#{param1}, INTERVAL 2 DAY) or r_sdate<=DATE_ADD(#{param1}, INTERVAL -3 DAY)) and r_state="대여중" and r_pid=#{param2}
+		]]>
+	</select>
+	
 	<update id="rentRefund" parameterType="com.use.first.rent.RentVO">
 		<![CDATA[
 		update rental set r_state = #{r_state} where r_id = #{r_id}

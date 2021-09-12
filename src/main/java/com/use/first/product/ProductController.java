@@ -76,17 +76,14 @@ public class ProductController {
 		MultipartFile mainFile = productVO.getMainFile();
 		if (!mainFile.isEmpty()) {
 			String mainFileName = mainFile.getOriginalFilename();
-			mainFile.transferTo(new File(
-					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\"
-							+ mainFileName));
+			
+			mainFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/product/"+ mainFileName));
 			productVO.setP_mainImg(mainFileName);
 		}
 		MultipartFile subFile = productVO.getSubFile();
 		if (!subFile.isEmpty()) {
 			String subFileName = subFile.getOriginalFilename();
-			subFile.transferTo(new File(
-					"C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\"
-							+ subFileName));
+			subFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/product/"+ subFileName));
 			productVO.setP_subImg(subFileName);
 		}
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
@@ -471,13 +468,13 @@ public class ProductController {
 				MultipartFile mainFile = productVO.getMainFile();
 				if(!mainFile.isEmpty()) {
 					String mainFileName = mainFile.getOriginalFilename();
-					mainFile.transferTo(new File("C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\" + mainFileName));
+					mainFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/product/" + mainFileName));
 					productVO.setP_mainImg(mainFileName);
 				}
 				MultipartFile subFile = productVO.getSubFile();
 				if(!subFile.isEmpty()) {
 					String subFileName = subFile.getOriginalFilename();
-					subFile.transferTo(new File("C:\\FinalProject\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\UFO\\resources\\Images\\product\\" + subFileName));
+					subFile.transferTo(new File("/var/lib/tomcat9/webapps/UFO/resources/Images/product/" + subFileName));
 					productVO.setP_subImg(subFileName);
 				}
 				ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);		
@@ -789,6 +786,29 @@ public class ProductController {
 					return "redirect:/member/pro/productDetail/"+v_pid+"#reviewTop";
 				}
 			  
-			  
+		//수정이 추가(인덱스에서 사용)
+			  @RequestMapping(value = "/index/productList", method = RequestMethod.POST)
+			  @ResponseBody
+				public HashMap<Object, Object> getProListToIndex(@RequestParam String ca) {
+				 
+					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
+					List<ProductVO> productName=productDAO.productNametoIndex(ca);
+					HashMap<Object, Object> productNameList = new HashMap<Object, Object>();
+					String[] productname=new String[productName.size()];
+					String[] productid=new String[productName.size()];
+					
+					for(int i=0;i<productName.size();i++) {
+						productname[i]=productName.get(i).getP_name();
+						productid[i]=productName.get(i).getP_id();
+						
+					}
+		
+					productNameList.put("array",productName.size());
+					productNameList.put("arrayname",productname);
+					productNameList.put("arrayid",productid);
+					
+	
+					return productNameList;
+				}  
 			  								
 	}		

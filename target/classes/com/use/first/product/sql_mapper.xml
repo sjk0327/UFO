@@ -426,8 +426,12 @@
 		where p_category = #{maxcate}
 	</select>
 	
-	
-	
+	<select id="productReviewBest" parameterType ="String" resultType="String">
+	select v_pid from review where v_pid LIKE CONCAT('%', #{id},'%') group by v_pid order by count(*) desc;
+	</select>
+	<select id="productNametoIndex" parameterType ="String" resultType="com.use.first.product.ProductVO">
+	select p_id, p_name, p_price from product where p_category=#{category};
+	</select>
 	
 	
 	
