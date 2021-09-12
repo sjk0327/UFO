@@ -56,7 +56,7 @@ body, html {
 	background: #ffffff;
 	box-sizing: border-box;
 	display: none;
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);
@@ -82,7 +82,7 @@ body, html {
 	background: #ffffff;
 	color: #999999;
 	height: 36px;
-	line-height: 36px;
+	line-height: inherit;
 	transition: 0.5s;
 	font-size: 17px;
 }
@@ -92,11 +92,13 @@ body, html {
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
+	line-height: inherit;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
 }
+
+
 
 
 
@@ -122,9 +124,10 @@ body, html {
 	cursor: pointer;
 	}
 	.profile img{ 
-	min-width: 150px;
+	min-width: 100px;
 	display: block;
 	border-radius: 10px; 
+	max-width: 50%;
 	}
 	.imgIdDate {
 	margin-bottom :20px;
@@ -144,9 +147,26 @@ body, html {
       line-height: 1.6;
     }
     
-        .pcoded-main-container{
-	background: #F4F4F4;
-
+    .page-wrapper {
+       background-color: white;
+       margin-top: 50px;
+   }
+    
+    @media (max-width:575px) {   
+    .profile {
+    margin:auto;
+    padding: inherit;
+    }
+    #nameLike{
+    text-align:left;
+    }
+    .modal {
+    width: 350px;
+    }
+    .btn.btn-primary{
+    font-size: 10pt;
+    }
+    
 }
   
 
@@ -177,14 +197,13 @@ body, html {
 												<div class="card">
 													<div class="card-block">
 														<!-- Row start -->
-														<!-- Row start -->
 														<div class="row">
 															<div class="col-sm-12">
 																<div class="sub-title" style="margin-bottom: 0px;">Menu</div>
 																<!-- Nav tabs -->
 																<ul id="menuBar" class="nav nav-tabs md-tabs"
 																	role="tablist">
-																	<li class="nav-item"><a class="nav-link "
+																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link "
@@ -194,9 +213,9 @@ body, html {
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="/member/mem/messageList" role="tab">메시지 함</a>
+																		href="#MessageBox" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
-																	<li class="nav-item"><a class="nav-link active"
+																	<li class="nav-item"><a class="nav-link"
 																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
 																		<div class="slide"></div></li>
 																</ul>
@@ -217,17 +236,19 @@ body, html {
 																		action="/member/rec/recommendUpdate">
 																		<div class="row imgIdDate" name="imgIdDate">
 
-																			<div class="col-3 profile" align="center">
+																			<div class="col-5 profile" align="center">
 																				<img
 																					src=/resources/Images/product/${oneRecommend.p_mainimg}
 																					alt="${oneRecommend.p_mainimg}"
 																					title="${oneRecommend.p_mainimg}"
 																					class="img-fluid img-circle">
 																			</div>
-																			<div class="col-9" id="nameLike" align="left">
+																			<div class="col-7" id="nameLike">
 																				<input type="hidden" name="v_id"
 																					value="${oneRecommend.v_id}" /> 
-																				<div>${oneRecommend.p_name}</div>														
+																				
+																				<div>${oneRecommend.p_name}</div>	
+																				<div>												
 																					<c:if test="${oneRecommend.v_like eq 'none'}">
 																						<a title="noselected"><img
 																							src=/resources/Images/product/like1.jpg
@@ -244,7 +265,7 @@ body, html {
 																					type="hidden" name="v_like" value="like"
 																					id="updatereviewLike">
 																					</c:if>
-																				
+																				</div>	
 
 																			</div>
 																		</div>
@@ -252,11 +273,11 @@ body, html {
 
 
 																		<div class="row" name="content">
-																			<h3>여러분의 후기를 남겨주세요</h3>
+																			
 																			<div class="col-12 recommendContent">
 																				<br>
-																				<textarea class="recommendContent" rows="3" cols="30" id="Recommendcontent" autofocus
-																				 required="required" maxlength="100" name="v_content" ></textarea>
+																				<textarea class="recommendContent" rows="3" cols="30" id="Recommendcontent" autofocus 
+																				  required="required" maxlength="100" name="v_content" >${oneRecommend.v_content}</textarea>
 																			</div>
 																		</div>
 																		<div style="text-align:right">
@@ -340,7 +361,7 @@ body, html {
 			$('#nameLike').css('text-align' , "left");
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('#nameLike').css('text-align' , "center");
+			
 		}
 	});
 
@@ -352,7 +373,7 @@ body, html {
 			$('#nameLike').css('text-align' , "left");
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('#nameLike').css('text-align' , "center");
+			
 		}
 	});
 	
@@ -401,12 +422,18 @@ function recommendDelete(v_id) {
 }
 //리뷰 업데이트
 function recommendUpdate() {
+	var text = document.getElementById('Recommendcontent').value
+	if (text == '') {
+		action_popup.alert('글을 잘성해주세요')
+	} else {
+	
 	action_popup.confirm('수정하시겠습니까', function (res) {
 		if (res) {			
 			document.recommendUpdateForm.submit();
 	
 		 } 
 	})	
+	}
 }
 	
 	
@@ -476,14 +503,15 @@ function recommendUpdate() {
 			}
 		}
 	//textarea에 자동 포커스
-	window.onload = function(){
-			const Recommendcontent = document.getElementById('Recommendcontent');
+	 /* window.onload = function(){
+			 const Recommendcontent = document.getElementById('Recommendcontent');
 			var content = "<c:out value='${oneRecommend.v_content}'/>";
-			Recommendcontent.value = content; 
+			
+			Recommendcontent.value = content;  
 	if (content == '') {
 		Recommendcontent.setAttribute('placeholder','입력란');
 	}
-}
+}  */
 	
 		//리뷰글자수,줄 제한
 		$('#Recommendcontent').on('keyup',function() {

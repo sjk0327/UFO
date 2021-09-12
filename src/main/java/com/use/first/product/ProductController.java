@@ -26,6 +26,7 @@ import com.use.first.member.UserInfoVO;
 import com.use.first.member.UserVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
+import com.use.first.rec.RecDAO;
 import com.use.first.rec.RecVO;
 import com.use.first.rent.BuyInfoVO;
 import com.use.first.rent.CartVO;
@@ -792,13 +793,16 @@ public class ProductController {
 			  
 			  //상세페이지에서 리뷰(추천글) 작성
 			  @RequestMapping(value = "/member/pro/reviewInsert", method = RequestMethod.POST)
-				public String reviewInsert(@ModelAttribute RecVO recVO) {
+				public String reviewInsert(@ModelAttribute RecVO recVO, @RequestParam int b_id) {
 					ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);	
-					int n = productDAO.reviewInsert(recVO);
-					if (n == 0) {
+					int insert = productDAO.reviewInsert(recVO);
+					RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
+					int update = recDAO.buyListUpdate(b_id);
+					
+					if (insert == 0 || update == 0) {
 						System.out.println("등록 실패");
 					}
-					return "redirect:/member/pro/productDetail/"+recVO.getV_pid();
+					return "redirect:/member/rec/canRecommendList";
 				}
 			  //상세페이지에서 리뷰 업데이트
 			  @RequestMapping(value = "/member/pro/reviewUpdate", method = RequestMethod.POST)

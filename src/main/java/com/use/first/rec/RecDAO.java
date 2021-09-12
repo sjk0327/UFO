@@ -2,6 +2,7 @@ package com.use.first.rec;
 
 import java.util.List;
 
+import com.use.first.buy.BuyVO;
 import com.use.first.paging.Criteria;
 
 public interface RecDAO {
@@ -19,4 +20,8 @@ public interface RecDAO {
 			public int memberRecommenDelete(int v_id);
 			//리뷰 수정
 			public int memberRecommenUpdate(RecVO recVO);
+			//작성가능 추천글 리스트
+			public List<BuyVO> memberCanRecList(Criteria cri,String b_mid);
+			public int memberCanRecTotalCount(Criteria cri,String b_mid);
+			public int buyListUpdate(int b_id);
 		}
