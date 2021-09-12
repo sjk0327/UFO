@@ -147,11 +147,9 @@ body, html {
 	display: table-cell;
 }
 
-.pcoded-main-container{
+.pcoded-main-container {
 	background: #F4F4F4;
-
 }
-
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -188,7 +186,7 @@ body, html {
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="/member/mem/memRentList" role="tab">대역 내역</a>
+																		href="/member/mem/memRentList" role="tab">대여 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
@@ -261,63 +259,78 @@ body, html {
 																					</tr>
 																				</thead>
 																				<tbody>
-																					<c:forEach var="list" items="${buyList}">
+																					<c:choose>
+																						<c:when test="${buyList.size() eq 0 }">
+																							<div
+																								style="display: flex; justify-content: center">
+																								<table>
+																									<tbody>
+																										<tr>
+																											<td>구매내역이 없습니다.</td>
+																										</tr>
+																									</tbody>
+																								</table>
+																							</div>
+																						</c:when>
+																						<c:otherwise>
+																							<c:forEach var="list" items="${buyList}">
 
-																						<tr
-																							onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
-																							<td>${list.r_id }</td>
-																							<td>${list.p_category }</td>
-																							<td>${list.r_pid }</td>
-																							<td>${list.p_name }</td>
-																							<td>${list.r_sdate }</td>
+																								<tr
+																									onClick="location.href='/member/mem/memBuyDetail/${list.r_id}'">
+																									<td>${list.r_id }</td>
+																									<td>${list.p_category }</td>
+																									<td>${list.r_pid }</td>
+																									<td>${list.p_name }</td>
+																									<td>${list.r_sdate }</td>
 
-																							<c:if test="${list.r_state eq '즉시 구매'}">
-																								<td><label class="label label-info">즉시
-																										구매</label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '구매 확정'}">
-																								<td><label class="label label-info2">구매
-																										확정</label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '반납 요청'}">
-																								<td><label class="label label-warning">반납
-																										요청</label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '반납 완료'}">
-																								<td><label class="label label-success">반납
-																										완료</label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '환불 요청(즉시 구매)'}">
-																								<td style="width: 100px;"><label
-																									class="label label-info"
-																									style="font-size: 10pt;">즉시 구매</label><span>→
-																								</span><label class="label label-inverse"
-																									style="font-size: 10pt;">환불 요청</label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}">
-																								<td style="width: 100px;"><label
-																									class="label label-info"
-																									style="font-size: 10pt;">즉시 구매</label><span>→
-																								</span><label class="label label-default"
-																									style="font-size: 10pt;">환불 완료</label></label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '환불 요청(구매 확정)'}">
-																								<td style="width: 100px;"><label
-																									class="label label-info2"
-																									style="font-size: 10pt;">구매 확정</label><span>→
-																								</span><label class="label label-inverse"
-																									style="font-size: 10pt;">환불 요청</label></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '환불 완료(구매 확정)'}">
-																								<td style="width: 100px;"><label
-																									class="label label-info2"
-																									style="font-size: 10pt;">구매 확정</label><span>→
-																								</span><label class="label label-default"
-																									style="font-size: 10pt;">환불 완료</label></label></td>
-																							</c:if>
-
-																						</tr>
-																					</c:forEach>
+																									<c:if test="${list.r_state eq '즉시 구매'}">
+																										<td><label class="label label-info">즉시
+																												구매</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '구매 확정'}">
+																										<td><label class="label label-info2">구매
+																												확정</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '반납 요청'}">
+																										<td><label class="label label-warning">반납
+																												요청</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '반납 완료'}">
+																										<td><label class="label label-success">반납
+																												완료</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '환불 요청(즉시 구매)'}">
+																										<td style="width: 100px;"><label
+																											class="label label-info"
+																											style="font-size: 10pt;">즉시 구매</label><span>→
+																										</span><label class="label label-inverse"
+																											style="font-size: 10pt;">환불 요청</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '환불 완료(즉시 구매)'}">
+																										<td style="width: 100px;"><label
+																											class="label label-info"
+																											style="font-size: 10pt;">즉시 구매</label><span>→
+																										</span><label class="label label-default"
+																											style="font-size: 10pt;">환불 완료</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '환불 요청(구매 확정)'}">
+																										<td style="width: 100px;"><label
+																											class="label label-info2"
+																											style="font-size: 10pt;">구매 확정</label><span>→
+																										</span><label class="label label-inverse"
+																											style="font-size: 10pt;">환불 요청</label></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '환불 완료(구매 확정)'}">
+																										<td style="width: 100px;"><label
+																											class="label label-info2"
+																											style="font-size: 10pt;">구매 확정</label><span>→
+																										</span><label class="label label-default"
+																											style="font-size: 10pt;">환불 완료</label></td>
+																									</c:if>
+																								</tr>
+																							</c:forEach>
+																						</c:otherwise>	
+																					</c:choose>	
 																				</tbody>
 																			</table>
 																		</div>
@@ -375,207 +388,277 @@ body, html {
 										</div>
 
 
-			</div>
-		</div>
-	</div>
-	<!-- confirm 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-confirm">
-		<div class="enroll_box">
-			<p class="menu_msg"></p>
-		</div>
-		<div class="enroll_btn">
-			<button class="btn pink_btn btn_ok">확인</button>
-			<button class="btn gray_btn modal_close">취소</button>
-		</div>
-	</section>
-	<!-- confirm 모달을 쓸 페이지에 추가 end-->
+									</div>
+								</div>
+							</div>
+							<!-- confirm 모달을 쓸 페이지에 추가 start-->
+							<section class="modal modal-section type-confirm">
+								<div class="enroll_box">
+									<p class="menu_msg"></p>
+								</div>
+								<div class="enroll_btn">
+									<button class="btn pink_btn btn_ok">확인</button>
+									<button class="btn gray_btn modal_close">취소</button>
+								</div>
+							</section>
+							<!-- confirm 모달을 쓸 페이지에 추가 end-->
 
 
-	<!-- alert 모달을 쓸 페이지에 추가 start-->
-	<section class="modal modal-section type-alert">
-		<div class="enroll_box">
-			<p class="menu_msg"></p>
-		</div>
-		<div class="enroll_btn">
-			<button class="btn pink_btn modal_close">확인</button>
-		</div>
-	</section>
-	<!-- alert 모달을 쓸 페이지에 추가 end-->
+							<!-- alert 모달을 쓸 페이지에 추가 start-->
+							<section class="modal modal-section type-alert">
+								<div class="enroll_box">
+									<p class="menu_msg"></p>
+								</div>
+								<div class="enroll_btn">
+									<button class="btn pink_btn modal_close">확인</button>
+								</div>
+							</section>
+							<!-- alert 모달을 쓸 페이지에 추가 end-->
 
 
 
 
-	<!--이 script 없으면 css 깨짐-->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script>
+							<!--이 script 없으면 css 깨짐-->
+							<script
+								src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+							<script>
+								$(document)
+										.on(
+												"click",
+												"#searchBtn",
+												function() {
+													var searchTypeSelect = $(
+															'#searchType option:selected')
+															.val();
+													var searchWordInput = $(
+															'#searchWord')
+															.val();
+													console.log("type:"
+															+ searchTypeSelect);
+													console.log("word:"
+															+ searchWordInput);
+													if (searchTypeSelect == null
+															|| searchTypeSelect == ""
+															|| searchWordInput == "") {
+														action_popup
+																.alert("검색 조건과 검색어를 입력해주세요.");
+													} else {
+														document.buySearch
+																.submit();
+													}
+												});
 
-		$(document).on(
-				"click",
-				"#searchBtn",
-				function() {
-					var searchTypeSelect = $('#searchType option:selected')
-							.val();
-					var searchWordInput = $('#searchWord').val();
-					console.log("type:" + searchTypeSelect);
-					console.log("word:" + searchWordInput);
-					if (searchTypeSelect == null || searchTypeSelect == ""
-							|| searchWordInput == "") {
-						action_popup.alert("검색 조건과 검색어를 입력해주세요.");
-					} else {
-						document.buySearch.submit();
-					}
-				});
+								$(document)
+										.ready(
+												function() {
+													var searchTypeSelect = $(
+															'#searchType option:selected')
+															.val();
+													var searchWordInput = $(
+															'#searchWord')
+															.val();
+													var buyListSize = $
+													{
+														buyList.size()
+													}
+													;
+													console
+															.log(searchTypeSelect
+																	+ "+"
+																	+ searchWordInput
+																	+ "+"
+																	+ rentListSize)
+													if (searchTypeSelect != ""
+															|| searchWordInput != "") {
+														if (buyListSize <= 0) {
+															action_popup
+																	.alert("검색하신 조건에 맞는게 없습니다.")
+														}
+													}
+												});
 
-		$(document).ready(
-				function() {
-					var searchTypeSelect = $('#searchType option:selected')
-							.val();
-					var searchWordInput = $('#searchWord').val();
-					var buyListSize = $
-					{
-						buyList.size()
-					}
-					;
-					console.log(searchTypeSelect + "+" + searchWordInput + "+"
-							+ rentListSize)
-					if (searchTypeSelect != "" || searchWordInput != "") {
-						if (buyListSize <= 0) {
-							action_popup.alert("검색하신 조건에 맞는게 없습니다.")
-						}
-					}
-				});
+								$(document)
+										.ready(
+												function() {
+													var size = $(window)[0].innerWidth;
+													if (size > 1200) {
+														$('#menuBar')
+																.attr('class',
+																		"nav nav-tabs md-tabs tabs-left b-none");
+													} else {
+														$('#menuBar')
+																.attr('class',
+																		"nav nav-tabs md-tabs");
+													}
+												});
 
-		$(document).ready(
-				function() {
-					var size = $(window)[0].innerWidth;
-					if (size > 1200) {
-						$('#menuBar').attr('class',
-								"nav nav-tabs md-tabs tabs-left b-none");
-					} else {
-						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
-					}
-				});
+								$(window)
+										.resize(
+												function() {
+													var size = $(window)[0].innerWidth;
+													if (size > 1200) {
+														$('#menuBar')
+																.attr('class',
+																		"nav nav-tabs md-tabs tabs-left b-none");
+													} else {
+														$('#menuBar')
+																.attr('class',
+																		"nav nav-tabs md-tabs");
+													}
+												});
 
-		$(window).resize(
-				function() {
-					var size = $(window)[0].innerWidth;
-					if (size > 1200) {
-						$('#menuBar').attr('class',
-								"nav nav-tabs md-tabs tabs-left b-none");
-					} else {
-						$('#menuBar').attr('class', "nav nav-tabs md-tabs");
-					}
-				});
+								function goBuyDetailPage(r_id) {
+									var url = '/member/mem/memBuyDetail/'
+											+ r_id;
+									$("#tempPage").load(
+											url,
+											function() {
+												$("#changedPage").html(
+														$("#tempPage").html());
+												$("#tempPage").html("");
+											});
+								}
 
+								$(function() {
+									//사용 예시 **************************
+									$(document)
+											.on(
+													"click",
+													"#confirm",
+													function() {
+														action_popup
+																.confirm(
+																		"탈퇴 하시겠습니까?",
+																		function(
+																				res) {
+																			if (res) {
+																				action_popup
+																						.alert("탈퇴가 되었습니다.");
+																				document.delete2
+																						.submit();
+																			} else {
+																				action_popup
+																						.alert("탈퇴에 실패하였습니다.");
+																			}
+																		})
+													});
 
-		function goBuyDetailPage(r_id) {
-			var url = '/member/mem/memBuyDetail/' + r_id;
-			$("#tempPage").load(url, function() {
-				$("#changedPage").html($("#tempPage").html());
-				$("#tempPage").html("");
-			});
-		}
+									$(document)
+											.on(
+													"click",
+													"#update",
+													function() {
+														action_popup
+																.confirm(
+																		"수정 하시겠습니까?",
+																		function(
+																				upd) {
+																			if (upd) {
+																				action_popup
+																						.alert("수정이 되었습니다.");
+																				document.update
+																						.submit();
+																			} else {
+																				action_popup
+																						.alert("수정에 실패하였습니다.");
+																			}
+																		})
+													});
 
-		$(function() {
-			//사용 예시 **************************
-			$(document).on("click", "#confirm", function() {
-				action_popup.confirm("탈퇴 하시겠습니까?", function(res) {
-					if (res) {
-						action_popup.alert("탈퇴가 되었습니다.");
-						document.delete2.submit();
-					} else {
-						action_popup.alert("탈퇴에 실패하였습니다.");
-					}
-				})
-			});
+									$(document).on(
+											"click",
+											"#alert",
+											function() {
+												action_popup
+														.alert("경고창 테스트!!!");
+											});
 
-			$(document).on("click", "#update", function() {
-				action_popup.confirm("수정 하시겠습니까?", function(upd) {
-					if (upd) {
-						action_popup.alert("수정이 되었습니다.");
-						document.update.submit();
-					} else {
-						action_popup.alert("수정에 실패하였습니다.");
-					}
-				})
-			});
+									$(".modal_close").on("click", function() {
+										action_popup.close(this);
+									});
+									//사용 예시 **************************
+								});
 
-			$(document).on("click", "#alert", function() {
-				action_popup.alert("경고창 테스트!!!");
-			});
+								/**
+								 *  alert, confirm 대용 팝업 메소드 정의 <br/>
+								 *  timer : 애니메이션 동작 속도 <br/>
+								 *  alert : 경고창 <br/>
+								 *  confirm : 확인창 <br/>
+								 *  open : 팝업 열기 <br/>
+								 *  close : 팝업 닫기 <br/>
+								 */
+								var action_popup = {
+									timer : 500,
+									confirm : function(txt, callback) {
+										if (txt == null || txt.trim() == "") {
+											console
+													.warn("confirm message is empty.");
+											return;
+										} else if (callback == null
+												|| typeof callback != 'function') {
+											console
+													.warn("callback is null or not function.");
+											return;
+										} else {
+											$(".type-confirm .btn_ok")
+													.on(
+															"click",
+															function() {
+																$(this)
+																		.unbind(
+																				"click");
+																callback(true);
+																action_popup
+																		.close(this);
+															});
+											this.open("type-confirm", txt);
+										}
+									},
 
-			$(".modal_close").on("click", function() {
-				action_popup.close(this);
-			});
-			//사용 예시 **************************
-		});
+									alert : function(txt) {
+										if (txt == null || txt.trim() == "") {
+											console
+													.warn("confirm message is empty.");
+											return;
+										} else {
+											this.open("type-alert", txt);
+										}
+									},
 
-		/**
-		 *  alert, confirm 대용 팝업 메소드 정의 <br/>
-		 *  timer : 애니메이션 동작 속도 <br/>
-		 *  alert : 경고창 <br/>
-		 *  confirm : 확인창 <br/>
-		 *  open : 팝업 열기 <br/>
-		 *  close : 팝업 닫기 <br/>
-		 */
-		var action_popup = {
-			timer : 500,
-			confirm : function(txt, callback) {
-				if (txt == null || txt.trim() == "") {
-					console.warn("confirm message is empty.");
-					return;
-				} else if (callback == null || typeof callback != 'function') {
-					console.warn("callback is null or not function.");
-					return;
-				} else {
-					$(".type-confirm .btn_ok").on("click", function() {
-						$(this).unbind("click");
-						callback(true);
-						action_popup.close(this);
-					});
-					this.open("type-confirm", txt);
-				}
-			},
+									open : function(type, txt) {
+										var popup = $("." + type);
+										popup.find(".menu_msg").text(txt);
+										$("body").append(
+												"<div class='dimLayer'></div>");
+										$(".dimLayer").css('height',
+												$(document).height()).attr(
+												"target", type);
+										popup.fadeIn(this.timer);
+									},
 
-			alert : function(txt) {
-				if (txt == null || txt.trim() == "") {
-					console.warn("confirm message is empty.");
-					return;
-				} else {
-					this.open("type-alert", txt);
-				}
-			},
+									close : function(target) {
+										var modal = $(target).closest(
+												".modal-section");
+										var dimLayer;
+										if (modal.hasClass("type-confirm")) {
+											dimLayer = $(".dimLayer[target=type-confirm]");
+										} else if (modal.hasClass("type-alert")) {
+											dimLayer = $(".dimLayer[target=type-alert]")
+										} else {
+											console
+													.warn("close unknown target.")
+											return;
+										}
+										modal.fadeOut(this.timer);
+										setTimeout(function() {
+											dimLayer != null ? dimLayer
+													.remove() : "";
+										}, this.timer);
+									}
+								}
+							</script>
 
-			open : function(type, txt) {
-				var popup = $("." + type);
-				popup.find(".menu_msg").text(txt);
-				$("body").append("<div class='dimLayer'></div>");
-				$(".dimLayer").css('height', $(document).height()).attr(
-						"target", type);
-				popup.fadeIn(this.timer);
-			},
-
-			close : function(target) {
-				var modal = $(target).closest(".modal-section");
-				var dimLayer;
-				if (modal.hasClass("type-confirm")) {
-					dimLayer = $(".dimLayer[target=type-confirm]");
-				} else if (modal.hasClass("type-alert")) {
-					dimLayer = $(".dimLayer[target=type-alert]")
-				} else {
-					console.warn("close unknown target.")
-					return;
-				}
-				modal.fadeOut(this.timer);
-				setTimeout(function() {
-					dimLayer != null ? dimLayer.remove() : "";
-				}, this.timer);
-			}
-		}
-	</script>
-
-	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+							<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
 </body>
 
 </html>

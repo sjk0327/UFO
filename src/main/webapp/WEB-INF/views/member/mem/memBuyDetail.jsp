@@ -272,7 +272,7 @@ body, html {
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="/member/mem/memRentList" role="tab">대역 내역</a>
+																		href="/member/mem/memRentList" role="tab">대여 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
