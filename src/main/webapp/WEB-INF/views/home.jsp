@@ -79,7 +79,6 @@ ul.tab li.current{
 .tabcontent.current {
 	display: block;
 }
-
 .small1 { width: 100px; height: 100px; }
 .small2 { width: 80px; height: 80px; align:center;}
 .mb-1 { font-size : 18px; }
@@ -179,12 +178,12 @@ ul{ list-style:none;}
                  <div class="col-md-12">
   <div id="mainMenuList" style="text-align:center;" >
 	<ul>		
-		<li class="mb-1"><a href="/member/pro/productList/" ><img src="/resources/common/images/total.png" /><p>전체리스트</p></a></li>
-		<li class="mb-1"><a href="/member/pro/productList/스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
-		<li class="mb-1"><a href="/member/pro/productList/노트북" ><img src="/resources/common/images/laptop.png" /><p>노트북</p></a></li>  
-		<li class="mb-1"><a href="/member/pro/productList/카메라" ><img src="/resources/common/images/camera.png" /><p>카메라</p></a></li>  
-		<li class="mb-1"><a href="/member/pro/productList/스마트워치" ><img src="/resources/common/images/watch.png" /><p>스마트워치</p></a></li>  
-		<li class="mb-1"><a href="/member/pro/productList/태블릿" ><img src="/resources/common/images/tablet.png" /><p>태블릿PC</p></a></li>  		
+				<li class="mb-1"><a href="/member/pro/productList/" ><img src="/resources/common/images/total.png" /><p>전체리스트</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList?keyword=스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
+		<li class="mb-1"><a href="/member/pro/productList?keyword=노트북" ><img src="/resources/common/images/laptop.png" /><p>노트북</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList?keyword=카메라" ><img src="/resources/common/images/camera.png" /><p>카메라</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList?keyword=스마트워치" ><img src="/resources/common/images/watch.png" /><p>스마트워치</p></a></li>  
+		<li class="mb-1"><a href="/member/pro/productList?keyword=태블릿" ><img src="/resources/common/images/tablet.png" /><p>태블릿PC</p></a></li>    		
   </ul>   
 </div>
         </div>   </div>   </div>
@@ -377,6 +376,7 @@ ul{ list-style:none;}
   data-support-multiple-densities="true"
 ></div>
 
+<<<<<<< HEAD
 
     <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
   </body>
@@ -504,13 +504,13 @@ ul{ list-style:none;}
 	{
 	var regexp = /\B(?=(\d{3})+(?!\d))/g;
 	return num.toString().replace(regexp, ',');
+
 	}
   window.kakaoAsyncInit = function() {
     Kakao.Channel.createChatButton({
       container: '#kakao-talk-channel-chat-button',
     });
   };
-
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
@@ -519,8 +519,6 @@ ul{ list-style:none;}
     fjs.parentNode.insertBefore(js, fjs);
   })(document, 'script', 'kakao-js-sdk');
 
-
-	 
 	 
 	 $(function(){
 		   $('#rentdate').datepicker();
@@ -556,3 +554,4 @@ ul{ list-style:none;}
 	 
   </script>
 </html>
+

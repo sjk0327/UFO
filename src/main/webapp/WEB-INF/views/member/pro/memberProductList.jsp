@@ -143,6 +143,12 @@ ul{ list-style:none;}
 #priceSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
 #selfSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
 #textdeco {text-decoration: line-through;}
+
+#paging-div {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
 </style>
   </head>
   <body>
@@ -187,7 +193,7 @@ ul{ list-style:none;}
         </div>
       </nav>
     </header>
-
+</div>
     <div>
       <div class="container">
         <div class="row">
@@ -232,13 +238,22 @@ ul{ list-style:none;}
                 <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
                 <div class="d-flex" id="sort">
                   <div class="dropdown mr-1 ml-md-auto">
-                     <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
+                    <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
                         <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
-                  	<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
-                	<button type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">검색</button>&nbsp;  
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false">높은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false">낮은가격순</button>
-                    <button type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false">추천순</button>                 	             
+                  		<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
+                		<input type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">
+                	</form>
+                	<form id="sort" name="productSort" method="POST" action="/member/pro/productList">
+                	 	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+                	 	<input type="hidden" name="searchType" value="${pageMaker.cri.searchType}"/>
+                	 	<input type="hidden" name="color" value="${pageMaker.cri.color }"/>
+						<input type="hidden" name="tab" value="${pageMaker.cri.tab }"/>
+						<input type="hidden" name="minPrice" value="${pageMaker.cri.minPrice }"/>
+						<input type="hidden" name="maxPrice" value="${pageMaker.cri.maxPrice }"/>
+                	 	<input type="hidden" id="sortHidden" name="sort" value=""/>
+                   		<input type="button" class="btn btn-secondary btn-sm"  id="sortPh" name="sortPh " aria-haspopup="true" aria-expanded="false" value="높은가격순">
+                    	<input type="button" class="btn btn-secondary btn-sm"  id="sortPl" name="sortPl " aria-haspopup="true" aria-expanded="false" value="낮은가격순">
+                    	<input type="button" class="btn btn-secondary btn-sm"  id="sortRc" name="sortRc " aria-haspopup="true" aria-expanded="false" value="추천순">                	             
                      </form>
                   </div>
                
@@ -252,7 +267,7 @@ ul{ list-style:none;}
                      
                 <div  class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/Images/product/${list.p_mainImg}" alt="상품 사진" class="img-fluid"></a>
+                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/Images/product/${list.p_mainImg }" alt="상품 사진" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
                    
@@ -266,63 +281,15 @@ ul{ list-style:none;}
               </div>
               
              </c:forEach> 
-            
-             
-            <c:if test="${productList eq list}"> 
-            
-            
-            <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
-             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
-                     
-                <div  class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                  <!--   <p> 상품코드  : <a href="/member/pro/productDetail/${list.p_id}">${list.p_id }</a></p> -->
-                    <p class="mb-0">상품명 : ${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
-                  </div>
-                </div>
-              </div>
-              
-             </c:forEach> 
-             </c:if>
-             
-             
-             
-              <c:if test="${productList eq rlist}"> 
-           <c:forEach var="list" items="${productList}" begin="0" end="10" step="1" varStatus="status">                      
-             <div class="col-sm-6 col-lg-4 mb-4" id="listClick" onClick="productReadUpdate('${list.p_id}')" data-aos="fade-up" onclick="location.href='/member/pro/productDetail/${list.p_id}'">  
-                     
-                <div  class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${list.p_id}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">                    
-                    <p class="mb-0">상품명 : ${list.p_name }</p>
-                    <p class="text-primary font-weight-bold" >카테고리 : ${list.p_category }</p>
-                    <p class="text-primary font-weight-bold" id="textdeco" >원 가  : <fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >대여가  : <fmt:formatNumber value="${list.p_price*0.05}" pattern="###,###,###" />원</p>
-                    <p class="text-primary font-weight-bold" >즉시구매가  : <fmt:formatNumber value="${list.p_price*0.95}" pattern="###,###,###" />원</p>
-                  </div>
-                </div>
-              </div>
-              
-             </c:forEach> 
-             </c:if>
-          
+
             </div>         
             
            
                                
             
-       
+				<div class="row">
              <!-- 페이징 start -->
-                <div id = "paging-div text-center">
+                <div id = "paging-div">
                 <ul class="btn-group pagination text-center">
                    <c:if test="${pageMaker.prev }">
                       <li><a href='<c:url value="/member/pro/productList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
@@ -348,7 +315,7 @@ ul{ list-style:none;}
                 </ul>
                 </div>
            <!-- 페이징 end --> 
-            
+            </div>
           </div>
 
           <div class="col-md-3 order-1 mb-5 mb-md-0">
@@ -376,8 +343,16 @@ ul{ list-style:none;}
 			<li data-tab="tab2"><a href="#">구매가격 조회</a></li>
 		</ul>
 		<!-- 대여가격조회 -->
+		
 		<div id="tab1" class="tabcontent current">
-			<select name="minPrice" id="minPrice" class="line selectric">
+		<form id="productRent" name="productRent" action="/member/pro/productList" method="POST">
+		<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }"/>
+		<input type="hidden" name="searchType" value="${pageMaker.cri.searchType }"/>
+		<input type="hidden" name="color" value="${pageMaker.cri.color }"/>
+		<input type="hidden" id="tabRentHidden" name="tab" value="${pageMaker.cri.tab }"/>
+		<input type="hidden" id="minPriceRentHidden" name="minPrice" value="${pageMaker.cri.minPrice }"/>
+		<input type="hidden" id="maxPriceRentHidden" name="maxPrice" value="${pageMaker.cri.maxPrice }"/>
+			<select name="minPrice" id="minPriceRent" class="line selectric">
                       <option value="" >최소</option>      
                       <option value="10000">1만원</option>                
                       <option value="50000">5만원</option>                  
@@ -386,30 +361,55 @@ ul{ list-style:none;}
                       <option value="200000">20만원</option>                                      
                  </select>
          <span class="inp_division" >&nbsp;~&nbsp;</span>
-             <select name="maxPrice" id="maxPrice" class="line selectric">
+             <select name="maxPrice" id="maxPriceRent" class="line selectric">
                 <option value="">최대</option>                   
               <option value="50000">5만원</option>                    
               <option value="100000">10만원</option>                    
               <option value="200000">20만원</option>                    
               <option value="300000">30만원</option>                      
              </select>
-             <div>               
-          <br><button type="button" id="priceSearch" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
+            </form>              
+          <br><input type="button" id="priceSearchRent" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="선택조회"/><br>
           <br>
-           <input type="text" name="selfminprice" id="selfminprice" class="" 
-                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
-                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
-                          &nbsp;<input type="text" name="selfmaxprice" id="selfmaxprice" class="" 
-                                  placeholder="최대금액" size=5  style="text-align:right;">
-                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearchRent" name="searchType" 
-                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-                      			   </div>
+           	<form id="selfProductRent" name="selfProductRent" action="/member/pro/productList" method="POST">
+				<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }"/>
+				<input type="hidden" name="searchType" value="${pageMaker.cri.searchType }"/>
+				<input type="hidden" name="color" value="${pageMaker.cri.color }"/>
+				<input type="hidden" id="selfTabRentHidden" name="tab" value="${pageMaker.cri.tab }"/>
+          	<div>
+          	<c:choose>
+          	<c:when test="${pageMaker.cri.tab ne 'rent'}">
+          		<input type="text" id="selfMinPriceRent" name="minPrice" placeholder="최소금액 " size=5 style="text-align:right;" >&nbsp;
+                <span class="inp_division" >&nbsp;~&nbsp;</span> &nbsp;
+                <input type="text" name="maxPrice" id="selfMaxPriceRent" placeholder="최대금액" size=5  style="text-align:right;">
+                <div class="form_inner_fixed"><br>
+                	<input type="button" id="selfPriceSearchRent" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="입력조회"/><br>
+                </div>
+          	</c:when>
+          	<c:otherwise>
+          		<input type="text" id="selfMinPriceRent" name="minPrice" placeholder="최소금액 " size=5 style="text-align:right;" value="${pageMaker.cri.minPrice }" >&nbsp;
+                <span class="inp_division" >&nbsp;~&nbsp;</span> &nbsp;
+                <input type="text" name="maxPrice" id="selfMaxPriceRent" placeholder="최대금액" size=5  style="text-align:right;" value="${pageMaker.cri.maxPrice }">
+                <div class="form_inner_fixed"><br>
+                	<input type="button" id="selfPriceSearchRent" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="입력조회"/><br>
+                </div>
+      		</c:otherwise>
+          	</c:choose>
              </div>
-		
+			</form>
 		</div>
+		
 		<!-- 구매가격조회 -->
+		
 		<div id="tab2" class="tabcontent">
-			<select name="minPriceBuy" id="minPriceBuy" class="line selectric">
+			<form id="productBuy" name="productBuy" action="/member/pro/productList" method="POST">
+			<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }"/>
+			<input type="hidden" name="searchType" value="${pageMaker.cri.searchType }"/>
+			<input type="hidden" name="color" value="${pageMaker.cri.color }"/>
+			<input type="hidden" id="tabBuyHidden" name="tab" value="${pageMaker.cri.tab }"/>
+			<input type="hidden" id="minPriceBuyHidden" name="minPrice" value="${pageMaker.cri.minPrice }"/>
+			<input type="hidden" id="maxPriceBuyHidden" name="maxPrice" value="${pageMaker.cri.maxPrice }"/>
+			<select name="minPrice" id="minPriceBuy" class="line selectric">
                       <option value="" >최소</option>      
                       <option value="500000">50만원</option>                
                       <option value="1000000">100만원</option>                  
@@ -418,43 +418,72 @@ ul{ list-style:none;}
                       <option value="4000000">400만원</option>                                      
                  </select>
          <span class="inp_division" >&nbsp;~&nbsp;</span>
-             <select name="maxPriceBuy" id="maxPriceBuy" class="line selectric">
+             <select name="maxPrice" id="maxPriceBuy" class="line selectric">
                 <option value="">최대</option>                   
               <option value="1000000">100만원</option>                    
               <option value="2000000">200만원</option>                    
               <option value="3000000">300만원</option>                    
               <option value="4000000">400만원</option>                      
              </select>		
-			<div>               
-          <br><button type="button" id="priceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary">선택조회</button><br>
+			               
+          <br><input type="button" id="priceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="선택조회"/><br>
           <br>
-           <input type="text" name="selfminpriceBuy" id="selfminprice" class="" 
-                                placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
-                                 <span class="inp_division" >&nbsp;~&nbsp;</span>        
-                          &nbsp;<input type="text" name="selfmaxpriceBuy" id="selfmaxprice" class="" 
-                                  placeholder="최대금액" size=5  style="text-align:right;">
-                                   <div class="form_inner_fixed"><br><button type="button" id="selfSearchBuy" name="searchType" 
-                      					class="btn waves-effect waves-light btn-primary btn-outline-primary">입력조회</button><br>
-                      			   </div>
-             </div>
+          </form>
+          <form id="selfProductBuy" name="selfProductBuy" action="/member/pro/productList" method="POST">
+          	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }"/>
+			<input type="hidden" name="searchType" value="${pageMaker.cri.searchType }"/>
+			<input type="hidden" name="color" value="${pageMaker.cri.color }"/>
+			<input type="hidden" id="selfTabBuyHidden" name="tab" value="${pageMaker.cri.tab }"/>
+          <div>
+          <c:choose>
+          <c:when test="${pageMaker.cri.tab ne 'buy' }">
+          	<input type="text" name="minPrice" id="selfMinPriceBuy" placeholder="최소금액 " size=5 style="text-align:right;">&nbsp;
+            <span class="inp_division" >&nbsp;~&nbsp;</span>&nbsp;
+            <input type="text" name="maxPrice" id="selfMaxPriceBuy" placeholder="최대금액" size=5  style="text-align:right;">
+            <div class="form_inner_fixed"><br>
+           		<input type="button" id="selfPriceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="입력조회"/><br>
+            </div>
+          </c:when>
+          <c:otherwise>
+          	<input type="text" name="minPrice" id="selfMinPriceBuy" placeholder="최소금액 " size=5 style="text-align:right;" value="${pageMaker.cri.minPrice }">&nbsp;
+            <span class="inp_division" >&nbsp;~&nbsp;</span>&nbsp;
+            <input type="text" name="maxPrice" id="selfMaxPriceBuy" placeholder="최대금액" size=5  style="text-align:right;" value="${pageMaker.cri.maxPrice }">
+            <div class="form_inner_fixed"><br>
+           		<input type="button" id="selfPriceSearchBuy" name="searchType" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="입력조회"/><br>
+            </div>
+          </c:otherwise>
+          </c:choose>
+          </div>
 		
-
+			</form>
 		</div>
+		
 
                <div class="mb-4">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Color</h3>
-            <a href="/member/pro/productList/color/black" class="d-flex color-item align-items-center" >
-              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span> <span class="text-black">Black</span>
+			<form id="productColor" name="productColor" action="/member/pro/productList" method="POST">
+				<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }"/>
+				<input type="hidden" name="searchType" value="${pageMaker.cri.searchType }"/>
+				<input type="hidden" name="minPrice" value="${pageMaker.cri.minPrice }"/>
+				<input type="hidden" name="maxPrice" value="${pageMaker.cri.maxPrice }"/>
+				<input type="hidden" name="tab" value="${pageMaker.cri.tab }"/>
+				<input type="hidden" id="colorHidden" name="color" value="${pageMaker.cri.color }"/>
+				
+       		<a href="javascript:selectColor('black');" class="d-flex color-item align-items-center" >
+              <span class="bg-danger color d-inline-block rounded-circle mr-2" ></span><span class="text-black">Black</span>
             </a>
-            <a href="/member/pro/productList/color/white" class="d-flex color-item align-items-center" >
+       		
+            <a href="javascript:selectColor('white');" class="d-flex color-item align-items-center" >
               <span class="bg-success color d-inline-block rounded-circle mr-2" style="border: 1px solid black;"></span> <span class="text-black">White</span>
             </a>
-            <a href="/member/pro/productList/color/silver" class="d-flex color-item align-items-center" >
+            <a href="javascript:selectColor('silver');" class="d-flex color-item align-items-center" >
               <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Silver</span>
             </a>
-            <a href="/member/pro/productList/color/red" class="d-flex color-item align-items-center" >
+            <a href="javascript:selectColor('red');" class="d-flex color-item align-items-center" >
               <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red</span>
-            </a>
+            </a>     	             
+          
+			</form>
               </div>
              </div>
 
@@ -517,17 +546,239 @@ ul{ list-style:none;}
             </div>
           </div>
         </div>
-        
-      </div>
-     <script>
-     var newValue;
-     // 모든 텍스트의 변경에 반응합니다.
-     $("#keyword").on("change paste", function() {      
-     
-        newValue = $(this).val();  
-        location.href = '/member/pro/productList/' + newValue;       
-     }); 
-     </script>
+
+ 				<form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
+                        <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
+                  		<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
+                		<input type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">
+                	</form>
+
+  <script>
+
+	/*고객productList function*/
+	function selectColor(color){
+		
+		document.getElementById('colorHidden').value = color;	
+		console.log(document.getElementById('colorHidden').value);
+		
+		document.productColor.submit();
+	}
+
+	$('#sortPh').on('click', function(){
+		$('#sortHidden').val("pricehigh");
+		document.productSort.submit();
+     	//var url = "/member/pro/productList?sort=pricehigh";
+     	//location.href = url;
+     	// $("#tempList").load(url, function(){
+      	//  $("#ulList").html($("#tempList").html());
+       	//  $("#tempList").html(""); 
+     	//}); 
+	});
+	$('#sortPl').on('click', function(){
+		$('#sortHidden').val("pricelow");
+		document.productSort.submit();
+     	//var url = "/member/pro/productList?sort=pricelow";
+     	//location.href = url;
+/*     	 $("#tempList").load(url, function(){
+      	  $("#ulList").html($("#tempList").html());
+       	  $("#tempList").html(""); 
+     	}); */
+	});
+	$('#sortRc').on('click', function(){
+		$('#sortHidden').val("recommand");
+		document.productSort.submit();
+     	//var url = "/member/pro/productList?sort=recommand";
+     	//location.href = url;
+/*     	 $("#tempList").load(url, function(){
+      	  $("#ulList").html($("#tempList").html());
+       	  $("#tempList").html(""); 
+     	}); */
+	});
+	
+
+	//신영-메뉴bar 가격조회
+	   $('#priceSearchRent').on('click', function(){
+	        var minPrice = $('#minPriceRent option:selected').val();
+	        var maxPrice = $('#maxPriceRent option:selected').val();       
+	     	console.log("minPrice: " + minPrice + " maxPrice: "+ maxPrice);
+	        if(minPrice != "" && maxPrice != ""){
+	       /*  	if(minPrice )
+	        var url = '/member/pro/productList/priceSearchRent/' + minPrice +'/'+ maxPrice;
+	        
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       }); */
+	       		$('#minPriceRentHidden').val(minPrice);
+	       		$('#maxPriceRentHidden').val(maxPrice);
+	       		$('#tabRentHidden').val('rent');
+	       		document.productRent.submit();
+	        }
+	        else{
+	        	 action_popup.confirm("조회하실 가격을 선택해 주세요.", function (res) {
+	        	 document.getElementsById("minPriceRent").focus();
+	 	        })
+	        }
+	   });
+	   $('#priceSearchBuy').on('click', function(){
+	        var minPriceBuy = $('#minPriceBuy option:selected').val();
+	        var maxPriceBuy = $('#maxPriceBuy option:selected').val();       
+	     
+	        if(minPriceBuy != "" && maxPriceBuy != ""){
+	       /*  var url = '/member/pro/productList/priceSearchBuy/' + minPriceBuy +'/'+ maxPriceBuy;
+	        
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	          $("#tempList").html(""); 
+	       }); */
+	        	$('#minPriceBuyHidden').val(minPriceBuy);
+	       		$('#maxPriceBuyHidden').val(maxPriceBuy);
+	       		$('#tabBuyHidden').val('buy');
+	       		document.productBuy.submit();
+	        }
+	        else{
+	        	 action_popup.confirm("조회하실 가격을 선택해 주세요.", function (res) {
+	        	 document.getElementsById("minPriceBuy").focus();
+	 	        })
+	        }
+	   });
+	   
+	   
+	    $(".modal_close").on("click", function () {
+	           action_popup.close(this);
+	       });
+	    
+	    
+	   //신영-가격 직접입력 조회
+	   $('#selfPriceSearchRent').on('click', function(){
+	      
+	      var selfminprice = $('#selfMinPriceRent').val();
+	      var selfmaxprice = $('#selfMaxPriceRent').val();
+	       
+	        if(selfminprice != "" && selfmaxprice != ""){
+	        /* var url = '/member/pro/productList/priceSearchRent/' + selfminprice +'/'+ selfmaxprice;
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       }); */
+	        	
+	       		$('#selfTabRentHidden').val('rent');
+	       		document.selfProductRent.submit();
+	        }
+	        else{
+	        	action_popup.confirm("조회하실 가격을 입력해 주세요.", function (res) {
+		        document.getElementsByid("selfMinPriceRent").focus();
+	        	})
+	        }
+	        
+	   });
+	   $('#selfPriceSearchBuy').on('click', function(){
+		      
+		   var selfminprice = $('#selfMinPriceBuy').val();
+		   var selfmaxprice = $('#selfMaxPriceBuy').val();
+	      
+	        if(selfminprice != "" && selfmaxprice != ""){
+	       /*  var url = '/member/pro/productList/priceSearchBuy/' + selfminprice +'/'+ selfmaxprice;
+	          $("#tempList").load(url, function(){
+	          $("#ulList").html($("#tempList").html());
+	           $("#tempList").html(""); 
+	       }); */
+	        	$('#selfTabBuyHidden').val('buy');
+	       		document.selfProductBuy.submit();
+		        }
+		        else{
+		        	action_popup.confirm("조회하실 가격을 입력해 주세요.", function (res) {
+			        document.getElementsByid("selfMinPriceBuy").focus();
+		        	})
+		        }
+		        
+		   });
+	//신영-최근본상품 퀵메뉴bar
+	 /* $(document).ready(function(){
+        var currentPosition = parseInt($("#slidemenu").css("top"));
+        $(window).scroll(function() {
+            var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+            $("#slidemenu").stop().animate({"top":position+currentPosition+"px"},700);
+        });
+    }); */
+	 //신영-상품클릭시 조회수 증가
+	 function productReadUpdate(p_id) {			
+			var p_id = p_id;			
+			location.href = '/member/pro/productList/readUpdate/' + p_id;
+			 }
+			 
+	//신영-모달창 pop
+	var action_popup = {
+	    timer: 500,
+	    confirm: function (txt, callback) {
+	        if (txt == null || txt.trim() == "") {
+	            console.warn("confirm message is empty.");
+	            return;
+	        } else if (callback == null || typeof callback != 'function') {
+	            console.warn("callback is null or not function.");
+	            return;
+	        } else {
+	            $(".type-confirm .btn_ok").on("click", function () {
+	                $(this).unbind("click");
+	                callback(true);
+	                action_popup.close(this);
+	            });
+	            this.open("type-confirm", txt);
+	        }
+	    },
+
+	    alert: function (txt) {
+	        if (txt == null || txt.trim() == "") {
+	            console.warn("confirm message is empty.");
+	            return;
+	        } else {
+	            this.open("type-alert", txt);
+	        }
+	    },
+
+	    open: function (type, txt) {
+	        var popup = $("." + type);
+	        popup.find(".menu_msg").text(txt);
+	        $("body").append("<div class='dimLayer'></div>");
+	        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+	        popup.fadeIn(this.timer);
+	    },
+
+	    close: function (target) {
+	        var modal = $(target).closest(".modal-section");
+	        var dimLayer;
+	        if (modal.hasClass("type-confirm")) {
+	            dimLayer = $(".dimLayer[target=type-confirm]");
+	        } else if (modal.hasClass("type-alert")) {
+	            dimLayer = $(".dimLayer[target=type-alert]")
+	        } else {
+	            console.warn("close unknown target.")
+	            return;
+	        }
+	        modal.fadeOut(this.timer);
+	        setTimeout(function () {
+	            dimLayer != null ? dimLayer.remove() : "";
+	        }, this.timer);
+	    }
+	}
+	var newValue;
+    // 모든 텍스트의 변경에 반응합니다.
+    $("#keyword").on("change paste", function() {      
+    
+       newValue = $(this).val();  
+       location.href = '/member/pro/productList/' + newValue;       
+    }); 
+    
+    $(function() {
+		$('ul.tab li').click(function() {
+			var activeTab = $(this).attr('data-tab');
+			$('ul.tab li').removeClass('current');
+			$('.tabcontent').removeClass('current');
+			$(this).addClass('current');
+			$('#' + activeTab).addClass('current');
+		})
+	});
+ </script>
    
  
   <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
