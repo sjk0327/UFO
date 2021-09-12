@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.use.first.buy.BuyVO;
 import com.use.first.member.UserInfoVO;
 import com.use.first.paging.Criteria;
 import com.use.first.paging.PageMaker;
-import com.use.first.product.ProductDAO;
-import com.use.first.rent.RentDAO;
-import com.use.first.rent.RentVO;
 
 @Controller
 public class RecController {
@@ -155,6 +152,22 @@ public class RecController {
 					}
 					return "redirect:/member/rec/recommendList";
 				}
-			 
+			 //작성가능 리뷰리스트
+			  @RequestMapping(value = "/member/rec/canRecommendList", method = RequestMethod.GET)
+				public String memberCanRecList(Criteria cri, Model model, HttpSession session) {
+					RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
+					UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+					String userId=userInfo.getM_id();	
+					
+					
+					List<BuyVO> canRecommendList = recDAO.memberCanRecList(cri,userId);
+					model.addAttribute("canRecommendList", canRecommendList);
+					PageMaker pageMaker = new PageMaker(cri);
+					int totalCount = recDAO.memberCanRecTotalCount(cri,userId);
+					pageMaker.setTotalCount(totalCount);
+					model.addAttribute("pageMaker", pageMaker);
+	
+					return "/member/review/memberCanRecommendList";
+				}
 
 		}

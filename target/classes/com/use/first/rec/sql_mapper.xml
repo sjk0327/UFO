@@ -114,4 +114,22 @@
 	<delete id="memberRecommenDelete">
 		delete from review where v_id = #{v_id}
 	</delete>
+	
+	<!-- 작성가능 추천글 리스트 -->
+	 <select id="memberCanRecList" resultType="com.use.first.buy.BuyVO">
+	 select buy.b_id, buy.b_mid, buy.b_pid, buy.b_buydate, product.p_name,product.p_mainimg, buy.b_review from buy,product
+	 where b_mid = #{param2} and b_buydate >= CURRENT_DATE - INTERVAL 7 DAY and b_review='reviewNone' and buy.b_pid = product.p_id 
+	 ORDER BY b_buydate desc
+	 limit #{param1.pageStart}, #{param1.perPageNum}
+	</select>
+
+	<select id="memberCanRecTotalCount" resultType="int">
+		select count(*) from
+		buy,product
+		where buy.b_mid = #{param2} and buy.b_pid = product.p_id
+	</select>
+	<!-- buy테이블에 b_review에 yes로 -->
+	<update id="buyListUpdate">
+		update buy set b_review = 'reviewYes' where b_id = #{b_id}
+	</update>
 </mapper>

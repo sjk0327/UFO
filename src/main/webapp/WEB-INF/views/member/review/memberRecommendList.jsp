@@ -125,10 +125,11 @@ body, html {
 	cursor: pointer;
 	}
 	.profile img{ 
-
-	  min-width: 130px;
-	  display: block;
+	max-width: 50%;
+	min-width: 77px;
+	display: block;
 	border-radius: 10px; 
+	margin: auto;
 	}
 	.imgIdDate {
 	margin-bottom :20px;
@@ -147,9 +148,54 @@ body, html {
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
-    .pcoded-main-container{
-	background: #F4F4F4;
-
+   #paging-div{
+    display: flex;
+	justify-content: center;
+   }
+   #paging-div li{
+       margin: 10px;
+   } 
+   .page-wrapper {
+       background-color: white;
+       margin-top: 50px;
+   }
+   .centered {  
+    text-align: center;
+     margin-bottom: 20px;
+    
+    width: auto;
+    display: flex;
+    justify-content: center;
+	}
+	.nav li {
+    width: 50%;
+	}
+	#active {
+    color: #495057;
+    background-color: #f3f3f3;
+    border-color: #dee2e6 #dee2e6 #fff;
+	}
+    
+    @media (max-width:575px) {
+    #editButton {
+        font-size: 0.8em;
+    }
+    #buttonDiv {
+    padding: inherit;
+    }
+    .profile {
+    margin:auto;
+    padding: inherit;
+    }
+    .centered {
+    width: auto;
+    margin-left: -17px;
+    justify-content: inherit;
+	}	
+	.nav li {
+    width: 50%;
+	}
+    
 }
  	
 
@@ -164,7 +210,7 @@ body, html {
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
 
-			<div class="pcoded-main-container">
+			<div class="pcoded-main-container" style="background: #f3f3f3">
 				<div class="pcoded-wrapper">
 
 					<div class="pcoded-content">
@@ -186,7 +232,7 @@ body, html {
 																<!-- Nav tabs -->
 																<ul id="menuBar" class="nav nav-tabs md-tabs"
 																	role="tablist">
-																	<li class="nav-item"><a class="nav-link "
+																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link "
@@ -196,9 +242,9 @@ body, html {
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="/member/mem/messageList" role="tab">메시지 함</a>
+																		href="#MessageBox" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
-																	<li class="nav-item"><a class="nav-link active"
+																	<li class="nav-item"><a class="nav-link"
 																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
 																		<div class="slide"></div></li>
 																</ul>
@@ -225,14 +271,22 @@ body, html {
 															<div class="container" id="recList">
 																<div class="row mb-5">
 																	<div class="col-md-12 order-2" >
-
+ <ul class="nav nav-tabs centered">
+  <li class="nav-item">
+    <a class="nav-link" id="active" href="/member/rec/recommendList">내 리뷰</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/member/rec/canRecommendList" >작성가능리뷰</a>
+  </li>
+ 
+</ul>
 
 																		<c:forEach var="recVO" items="${recommendList}"
 																			begin="0" end="10" step="1" varStatus="status">
 																			
 																			<div class="row imgIdDate" name="imgIdDate" >
 
-																				<div class="col-4 profile" align="center">
+																				<div class="col-3 profile">
 																					<img
 																						src=/resources/Images/product/${recVO.p_mainimg}
 																						alt="${recVO.p_mainimg}"
@@ -240,8 +294,9 @@ body, html {
 																						class="img-fluid img-circle">
 																				</div>
 																				<div class="col-6 namedate" id="namedate" align="left">					
-																					<div>${recVO.p_name}</div>
-																					<div>${recVO.v_date}</div>	
+																					<div style="text-align:left;">${recVO.p_name}</div>
+																					<div style="text-align:left;">${recVO.v_date}</div>	
+																					<div style="text-align:left;">
 																					<c:choose>
 																						<c:when test="${recVO.v_like eq 'none'}">
 																							<a title="noselected"><img
@@ -256,8 +311,9 @@ body, html {
 																								alt="noselected" /></a>
 																						</c:when>
 																					</c:choose>
+																					</div>
 																				</div>
-																				<div class="col-2">
+																				<div class="col-3" id="buttonDiv">
 																					<button type="button" id="editButton" class="btn btn-primary" onclick='recommendEdit(${recVO.v_id})'>편집하기</button>																
 																				</div>
 																			</div>
@@ -276,7 +332,7 @@ body, html {
 																						href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageMaker.startPage-1)}#recList"/>'>
 																							<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span>
 																					</a></li>
-																					<span class="col-md-1"></span>
+																					
 																				</c:if>
 																				<c:forEach begin="${pageMaker.startPage }"
 																					end="${pageMaker.endPage }" var="pageNum">
@@ -286,14 +342,14 @@ body, html {
 																								<span id="pagingCur"
 																								style="background-color: #7971ea; display: inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding: 5px;">&nbsp;${pageNum}&nbsp;</span>
 																						</a></li>
-																						<span class="col-md-1"></span>
+																						
 																					</c:if>
-																					<c:if test="${pageNum ne pageMaker.cri.page}">
+																					<c:if test="${pageNum ne pageMaker.cri.page}"> 
 																						<li><a
 																							href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageNum)}#recList"/>'>
 																								<span>&nbsp;${pageNum}&nbsp;</span>
 																						</a></li>
-																						<span class="col-md-1"> </span>
+																						
 																					</c:if>
 
 																				</c:forEach>
@@ -303,7 +359,7 @@ body, html {
 																						href='<c:url value="/member/rec/recommendList${pageMaker.makeQuery(pageMaker.endPage+1)}#recList"/>'>
 																							<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span>
 																					</a></li>
-																					<span class="col-md-1"></span>
+																					
 																				</c:if>
 																			</ul>
 																		</div>

@@ -15,6 +15,9 @@
 
 
   <style>
+  #buyInfoVO{
+  color:#343a40;
+  }
 	img{
 	border-radius: 15px;
 	}
@@ -45,13 +48,19 @@
 	
 	.img-with-text {
     text-align: justify;
-    width: 700px;
+    width: 400px;
+    margin-top: 2em;
 	}
 
-	.img-with-text img {
-    display: block;
-    margin: 0 auto;
-    }
+	.centered{
+	    margin-left: -15px;
+	        width: 1140px;
+	 display: flex;
+	justify-content: center;
+	}
+	.nav li{
+	width:570px;
+	}
     
     ul li {
      margin-top:50px;
@@ -87,9 +96,9 @@
 	text-align:left;
 	}
 	.profile img{ 
-	height: 60px;
+	height: auto;
 	  max-width: 60px;
-	  min-width: 60px;
+	  min-width: 100px;
 	  display: block;
 	border-radius: 30px; 
 	}
@@ -104,8 +113,12 @@
 	 #reviewContent textarea{
 	width:69%; 
 	}
+	.subContainer{
+	text-align: center;
+	background-color:white;
+	}
 	.wrap textarea {
-      width: 100%;
+      width: 60%;
       height:auto;
       resize: none;
       overflow-y: hidden; 
@@ -113,8 +126,11 @@
       padding-bottom: 0.2em;
       line-height: 1.6;
     }
+    .text-black{
+    margin-top: revert;
+    }
     #locateTop {
- 	position: relative; bottom:75px; right:25px; 
+ 	position: relative; bottom:75px; right:40px; 
 	}
 	#paging-div { float: left; width: 100%; margin: 0 auto; text-align: center; } /* 페이징가운데 */
 	#paging-div ul { display: table; margin: auto; padding:0; } 
@@ -127,11 +143,46 @@ body, html {height: 100%;}
 .mocdal{width: 500px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center; }
 .modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
 .menu_msg{font-size: 21px;font-weight: 500;}
-.enroll_box p{padding-bottom: 56px;}
+.enroll_box p{padding-bottom: 30px;}
 .gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
 .pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 
-
+ @media (max-width:575px) { 
+ 	#edit {
+    font-size: 10pt;
+    }  
+    #delete {
+    font-size: 10pt;
+    } 
+    .wrap textarea {
+    width: 100%;  
+    }
+    #locateTop{
+    right: 5px;
+    }
+   .enroll_box p{
+   padding-bottom: 15px;
+   }
+   .menu_msg{
+   font-size: 16pt;
+   }
+   .mocdal{
+   width: 350px;
+   }
+   #reviewContent textarea {
+    width: 100%;
+	}
+   .idDate{
+   text-align: -webkit-right;
+   }
+   .nav li{
+	width:185px;
+	}
+    .centered{
+    width: 375px;
+    margin-left: -17px;
+    }
+}
 
 
 
@@ -139,6 +190,7 @@ body, html {height: 100%;}
 
 	
   </style>
+ 
     <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -200,14 +252,9 @@ body, html {height: 100%;}
             <form:input path="productId" id="p_id" value="${productVO.p_id}" hidden="true"/>
             <form:input path="productImg" id="productImg" value="${productVO.p_mainImg}" hidden="true"/>
             <input name="p_id" id="p_id" value="${productVO.p_id}" hidden="true"/>
-            <h2 class="text-black site-top-icons">${productVO.p_name}</h2><hr>
-      
-      		
-      
-      
-      
-     
-      	  
+            
+   <h3 class="text-black site-top-icons">${productVO.p_name}</h3><hr>
+    	  
 <form:input type="text" path="productPrice" id="productPrice" value="${productVO.p_price}" hidden="true"/> 
 <div class="row"><div class="col-5"><label>제품가격</label></div><div class="col-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
 <div class="row"><div class="col-5"><label>대여금액</label></div><div class="col-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
@@ -228,7 +275,7 @@ body, html {height: 100%;}
  <div class="row"><div class="col-5"><label>배송방법</label></div><div class="col-7" style="text-align:right;" >택배</div></div>
   <div class="row"><div class="col-5"><label>배송비</label></div><div class="col-7" style="text-align:right;">2500원</div></div><hr>   
  <div class="row"><div class="col-5"><label></label></div><div class="col-7" style="text-align:right;">총액</div></div><hr>
-<div class="row"><div class="col-5"><label>즉시구매</label></div><div class="col-7" style="text-align:right;"> <input style="text-decoration:line-through;" type="text" name="originalsum" size="11" readonly/>원 (-5%)<input type="text" name="buysum" size="11" readonly/>원</div></div>
+<div class="row"><div class="col-5"><label>즉시구매</label></div><div class="col-7" style="text-align:right;"> <input style="text-decoration:line-through; color:gray;" type="text" name="originalsum" size="11" readonly/><span style="color:gray;">원</span><span style="color:red;">(-5%)</span><input type="text" name="buysum" size="11" readonly/>원</div></div>
 <div class="row"><div class="col-5"><label>대여가격</label></div><div class="col-7" style="text-align:right;"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
   
                
@@ -273,11 +320,11 @@ body, html {height: 100%;}
  
 </ul>
         <div class="row justify-content-center">
-          <div class="col-lg-12 col-sm-12 subContainer" style="text-align:center;">
+          <div class="col-lg-12 col-sm-12 subContainer">
            <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%" 	 		
 							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	
-		  <!-- <div class="wrap"><textarea disabled row="50">${ productVO.p_content }</textarea></div>-->
-		   <pre><div style="text-align:left;"><p>${ productVO.p_content }</p></div></pre>	
+		  <div class="wrap"><textarea disabled rows="40" cols="10">${ productVO.p_content }</textarea></div>
+		   <%-- <div style="text-align:left;"><p>${ productVO.p_content }</p></div>	 --%>
 		  </div>
 						  
           </div>
@@ -378,7 +425,7 @@ body, html {height: 100%;}
   </div>	
    		   
      									<c:choose>				
-										<c:when test="${recVO[0].v_id eq null}"><h1>등록된 추천글이 없어요</h1></c:when>
+										<c:when test="${recVO[0].v_id eq null}"><div>아직 작성된 리뷰가 없어요</div></c:when>
 										<c:when test="${recVO[0].v_id ne null}">   </c:when></c:choose>
       <div class="container"> 
         <div class="row mb-5">
@@ -389,10 +436,10 @@ body, html {height: 100%;}
                
                 <div class="row imgIdDate" name="imgIdDate">
                  
-                	<div class="col-2 profile" align="center">  
+                	<div class="col-2 profile" style="margin: auto;">  
                 	 <img src = /resources/Images/member/${recVO.m_img} alt="${recVO.m_img}" title="${recVO.m_img}" class="img-fluid img-circle">         
                 	</div> 
-                	<div class="col-4">
+                	<div class="col-5 idDate" >
                 	 <div>${recVO.v_mid}</div>
                 	 <div>${recVO.v_date}</div> 
                 	 <c:choose>
@@ -404,11 +451,11 @@ body, html {height: 100%;}
 						 </c:when>	
 					  </c:choose>	       
                 	</div>      		
-          				 <div class="col-6" style="text-align:right;">        		 
+          				 <div class="col-5" style="text-align:right;">        		 
 		 				 <c:if test = "${recVO.v_mid eq userId}">
-		  				     <button type="button" style="margin-bottom:10px;" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
+		  				     <button id="edit" type="button" style="margin-bottom:10px;" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
 		   				    <form method="post" name="reviewDeleteForm" action="/member/pro/reviewDelete/${oneReview.v_mid}/${oneReview.v_pid}">
-		    				   <input type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
+		    				   <input id="delete" type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
 		     				</form>  	  
 		 				 </c:if>
 					    </div>             
@@ -503,7 +550,7 @@ body, html {height: 100%;}
                 <div class="row" name="content">
                  <div class="col-12 reviewContent">
                  <br>
-                <textarea class="reviewContent" rows="3"  cols="50" name="v_content">${oneReview.v_content}</textarea>
+                <textarea class="reviewContent" id="reviewEdit" rows="6"  cols="50" name="v_content" autofocus>${oneReview.v_content}</textarea>
                  </div>
                 </div>                   
     
@@ -594,6 +641,7 @@ window.onload = function() {
 	 		,nextText:"다음"
 	 		,prevText:"이전"
 	 		,onSelect: function (dateText, inst) {	
+	 			
 	 			var rentalList = "${rentalListNow[0]}"; //rental 된 게 없을 때 대여가능 수량 지정.
 	 			if (rentalList == '') {
 	 				var canRent = ${productVO.p_canRent}	
@@ -634,7 +682,7 @@ window.onload = function() {
 	 				document.getElementById("amount").value=1;}
 	 				
 	 		
-	        }
+	        } $("#amount").focus();
 	 			}
 
 	    });      
@@ -844,7 +892,7 @@ $('#wish').on('click', function(){
         	} else {
         	
         	$('.icon-heart-o').attr('class','icon-heart');
-  	     	action_popup.confirm('WishList에 추가되었습니다.  확인해볼래요?', function (res) {
+  	     	action_popup.confirm('위시리스트에 추가되었습니다. 확인해볼래요?', function (res) {
                 if (res) {
                 	location.href = '/member/rent/wishList';
                 }
@@ -914,10 +962,10 @@ $('#cart').on('click', function(){
 	var c_state = document.getElementById("buyType").value;
 	var stateSelect = document.getElementById("buyType"); 
 	var selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
-	if (selectValue == "optSel") {
-		action_popup.alert("옵션을 선택하세요");
+	if (selectValue == "optSel") {	
+		action_popup.alert("옵션을 선택하세요");		
  		 } else if (uid != "null" && checkCart != "" ){
-			  action_popup.confirm("장바구니에 이미 제품이 존재합니다. 장바구니를 확인하시겠습니까?", function (res) {
+			  action_popup.confirm("장바구니에 제품이 존재합니다. 장바구니를 확인하시겠습니까?", function (res) {
          		 if (res) {
           			location.href = '/member/rent/cartList';
         		  }
@@ -965,7 +1013,6 @@ $('#cart').on('click', function(){
 function changeStateSelect(){ 
 	stateSelect = document.getElementById("buyType"); 
 	selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
-	
 	if (selectValue == "대여") {	
 	 $("#labelDate").css('visibility','visible');
 	 $( "#datepicker" ).datepicker( "show" );
@@ -1016,6 +1063,10 @@ function changeStateSelect(){
 				document.getElementById("amount").value=1;}
 		} else {
 			document.getElementById("amount").setAttribute('max','50');
+			$("#labelDate").css('visibility','hidden');
+			document.getElementById("amount").removeAttribute('readonly');
+			$("#amount").focus();
+			
 		}
 }
 
@@ -1037,14 +1088,31 @@ $('#review').on('keyup',function() {
 	}
 	});
 
+$('#reviewEdit').on('keyup',function() {
+	var rows = $('#reviewEdit').val().split('\n').length;
+    var maxRows = 3;
+    if( rows > maxRows){
+       action_popup.alert("3줄까지만 가능합니다");
+        modifiedText = $('#reviewEdit').val().split("\n").slice(0, maxRows);
+        $('#reviewEdit').val(modifiedText.join("\n"));
+    }
+	
+	
+	
+	if($(this).val().length > 100) {
+	$(this).val($(this).val().substring(0,100));
+	action_popup.alert("100자 이내로 작성해주세요.");
+	
+	}
+	});
+
 
 
 
 $(function () {
     $(".modal_close").on("click", function () {
         action_popup.close(this);
-    });
-        
+    });  
 });
 
 
