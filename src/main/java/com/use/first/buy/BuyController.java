@@ -117,8 +117,10 @@ public class BuyController {
          int rid = rentDAO.rentSelect();
          rentDAO.rentUpdaterid(rid);
          
-         buyVO = new BuyVO();
          
+         
+         
+         buyVO = new BuyVO();
          buyVO.setB_mid(b_mid[i]);
          buyVO.setB_pid(b_pid[i]);
          buyVO.setB_rid(rid);
@@ -130,6 +132,7 @@ public class BuyController {
          buyVO.setB_state(b_state[i]);
          buyVO.setB_purchase(b_purchase[i]);
          buyVO.setB_message(b_message[i]);
+         
    
          buyDAO.buyInsert(buyVO);
          }

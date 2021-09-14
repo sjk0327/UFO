@@ -148,14 +148,9 @@ body, html {
 	display: table-cell;
 }
 
-.pcoded-main-container{
+.pcoded-main-container {
 	background: #F4F4F4;
-
 }
-
-
-
-
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -166,7 +161,7 @@ body, html {
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
-			<div class="pcoded-main-container" >
+			<div class="pcoded-main-container">
 				<div class="pcoded-wrapper">
 					<div class="pcoded-content">
 						<div class="pcoded-inner-content">
@@ -265,80 +260,101 @@ body, html {
 																						<th>상태</th>
 																					</tr>
 																				</thead>
-																				<tbody>
-																					<c:forEach var="buyList" items="${rentBuyList}">
-																						<input id="refId" type="hidden"
-																							value="${buyList.r_rid }">
-																					</c:forEach>
-																					<c:forEach var="list" items="${rentList}">
-
-																						<input id="Id" type="hidden" value="${list.r_id }">
-																						<tr
-																							onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
-																							<td>${list.r_id }</td>
-																							<td>${list.p_category }</td>
-																							<td>${list.r_pid }</td>
-																							<td>${list.p_name }</td>
-																							<td>${list.r_sdate }</td>
-																							<c:if test="${list.r_state eq '대여중'}">
-																								<fmt:parseDate var="tempToday"
-																									value="${list.r_sdate}" pattern="yyyy-MM-dd" />
-																								<fmt:parseNumber var="sdate"
-																									value="${tempToday.time / (1000*60*60*24)}"
-																									integerOnly="true" />
-																								<c:set var="now"
-																									value="<%=new java.util.Date()%>" />
-																								<fmt:parseNumber var="today"
-																									value="${now.time / (1000*60*60*24)}"
-																									integerOnly="true" />
-
-																								<c:if test="${sdate+3>=today and sdate<=today}">
-																									<td style="width: 100px;"><label
-																										class="label label-primary">대 여 중</label><span
-																										id="state"></span></td>
-																								</c:if>
-																								<c:if test="${sdate+3<today}">
-																									<td style="width: 100px;"><label
-																										class="label label-danger">연 체 중</label><span
-																										id="state"></span></td>
-																								</c:if>
-																								<c:if test="${sdate>today}">
-																									<td style="width: 100px;"><label
-																										class="label"
-																										style="background-color: #e8c3b9;">대여
-																											예약</label><span id="state"></span></td>
-																								</c:if>
-																							</c:if>
-
-																							<c:if test="${list.r_state eq '환불 요청(대여)'}">
-																								<td style="width: 100px;"><label
-																									class="label label-inverse">환불 요청</label><span
-																									id="state"></span></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '환불 완료(대여)'}">
-																								<td style="width: 100px;"><label
-																									class="label label-inverse">환불 완료</label><span
-																									id="state"></span></td>
-																							</c:if>
-
-																							<c:if test="${list.r_state eq '반납 요청'}">
-																								<td style="width: 100px;"><label
-																									class="label label-warning"
-																									style="font-size: 10pt;">반납 요청</label><span
-																									id="state"></span></td>
-																							</c:if>
-																							<c:if test="${list.r_state eq '반납 완료'}">
-																								<td style="width: 100px;"><label
-																									class="label label-success"
-																									style="font-size: 10pt;">반납 완료</label><span
-																									id="state"></span></td>
-																							</c:if>
+																				<c:choose>
+																					<c:when test="${rentList.size() eq 0 }">
+																						<div
+																							style="display: flex; justify-content: center">
+																							<table>
+																								<tbody>
+																									<tr>
+																										<td>대여내역이 없습니다.</td>
+																									</tr>
+																								</tbody>
+																							</table>
+																						</div>
+																					</c:when>
+																					<c:otherwise>
 
 
-																						</tr>
 
-																					</c:forEach>
-																				</tbody>
+																						<tbody>
+																							<c:forEach var="buyList" items="${rentBuyList}">
+																								<input id="refId" type="hidden"
+																									value="${buyList.r_rid }">
+																							</c:forEach>
+																							<c:forEach var="list" items="${rentList}">
+
+																								<input id="Id" type="hidden"
+																									value="${list.r_id }">
+																								<tr
+																									onClick="location.href='/member/mem/memRentDetail/${list.r_id}'">
+																									<td>${list.r_id }</td>
+																									<td>${list.p_category }</td>
+																									<td>${list.r_pid }</td>
+																									<td>${list.p_name }</td>
+																									<td>${list.r_sdate }</td>
+																									<c:if test="${list.r_state eq '대여중'}">
+																										<fmt:parseDate var="tempToday"
+																											value="${list.r_sdate}" pattern="yyyy-MM-dd" />
+																										<fmt:parseNumber var="sdate"
+																											value="${tempToday.time / (1000*60*60*24)}"
+																											integerOnly="true" />
+																										<c:set var="now"
+																											value="<%=new java.util.Date()%>" />
+																										<fmt:parseNumber var="today"
+																											value="${now.time / (1000*60*60*24)}"
+																											integerOnly="true" />
+
+																										<c:if
+																											test="${sdate+3>=today and sdate<=today}">
+																											<td style="width: 100px;"><label
+																												class="label label-primary">대 여 중</label><span
+																												id="state"></span></td>
+																										</c:if>
+																										<c:if test="${sdate+3<today}">
+																											<td style="width: 100px;"><label
+																												class="label label-danger">연 체 중</label><span
+																												id="state"></span></td>
+																										</c:if>
+																										<c:if test="${sdate>today}">
+																											<td style="width: 100px;"><label
+																												class="label"
+																												style="background-color: #e8c3b9;">대여
+																													예약</label><span id="state"></span></td>
+																										</c:if>
+																									</c:if>
+
+																									<c:if test="${list.r_state eq '환불 요청(대여)'}">
+																										<td style="width: 100px;"><label
+																											class="label label-inverse">환불 요청</label><span
+																											id="state"></span></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '환불 완료(대여)'}">
+																										<td style="width: 100px;"><label
+																											class="label label-inverse">환불 완료</label><span
+																											id="state"></span></td>
+																									</c:if>
+
+																									<c:if test="${list.r_state eq '반납 요청'}">
+																										<td style="width: 100px;"><label
+																											class="label label-warning"
+																											style="font-size: 10pt;">반납 요청</label><span
+																											id="state"></span></td>
+																									</c:if>
+																									<c:if test="${list.r_state eq '반납 완료'}">
+																										<td style="width: 100px;"><label
+																											class="label label-success"
+																											style="font-size: 10pt;">반납 완료</label><span
+																											id="state"></span></td>
+																									</c:if>
+
+
+																								</tr>
+
+																							</c:forEach>
+																						</tbody>
+																					</c:otherwise>
+																				</c:choose>
 																			</table>
 																		</div>
 																	</div>

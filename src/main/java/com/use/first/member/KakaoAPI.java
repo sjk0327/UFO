@@ -36,7 +36,7 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=0ba57b2de5ae26e3cc0a370db0b7f98d");
-            sb.append("&redirect_uri=http://localhost:8090/kakaoLogin");
+            sb.append("&redirect_uri=http://www.ufo2021.link/kakaoLogin");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -139,7 +139,7 @@ public class KakaoAPI {
 
     
     public void kakaoLogout(String access_Token) {
-        String reqURL = "https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://localhost:8090/logout";
+        String reqURL = "https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://www.ufo2021.link/logout";
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
