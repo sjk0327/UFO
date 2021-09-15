@@ -33,10 +33,12 @@
 	#p_category{
 	width: 130px;
     height: 30px;
-    color: #585858;
     border-radius: 5px;
     text-align-last: center;
 	text-align: center;
+	}
+	#p_id{
+	cursor:default;
 	}
 	.input-file-button{
   padding: 6px 25px;
@@ -44,10 +46,17 @@
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  }
+  .img-with-text{
+    text-align: justify;
+    width: 300px;
+    margin-top: 2em;
+    }
     </style>
 
   
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
+<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
   </head>
   
   <body>
@@ -148,7 +157,7 @@
                                             <!--  project and team member start -->
                                             
               
-                                            <div class="col-xl-10 col-md-12">
+                                            <div class="col-md-12">
                                                 <div class="card table-card">
                                                     <div class="card-header">
                                                         <h5>상품관리</h5>
@@ -171,19 +180,19 @@
             
                 
                      <div class="col-12 row">
-                    	 <div class="col-7 mainContainer">
+                    	 <div class="col-5 mainContainer">
                         
                            <img src=/resources/Images/product/${productVO.p_mainImg} width="50%" height="50%"
 							alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" class="img-fluid thumbnailMain"> 							   
                     	 </div>
-                   	 <div class="col-5 productInfo"> <br><br>
+                   	 <div class="col-7 productInfo"> <br><br>
                   
                    	<div class="row"> <div class="col-3"><label for="p_id">상품 I D</label></div><div class="col-9" ><form:input class="underline" path="p_id" type="text" id="p_id" value="${productVO.p_id}" readonly="true"/></div></div> 
                    	<div class="row"> <div class="col-3"><label for="p_name">상품이름</label></div><div class="col-9"><form:input class="underline" path="p_name" type="text" id="p_name" value="${productVO.p_name}"  required="required"/></div></div> 
 					<div class="row"> <div class="col-3"><label for="p_price">상품가격</label></div><div class="col-9"><form:input class="underline" path="p_price" type="text"  id="p_price" value="${productVO.p_price}"  required="required"/>원</div></div> 
 					<div class="row"> <div class="col-3"><label for="p_canBuy">구매가능</label></div><div class="col-9"><form:input class="underline" path="p_canBuy" type="number" min="1" id="p_canBuy" value="${productVO.p_canBuy}" />개</div></div> 
 					<div class="row"> <div class="col-3"><label for="p_canRent">대여가능</label></div><div class="col-9"><form:input class="underline" path="p_canRent" type="number" min="1" id="p_canRent" value="${productVO.p_canRent}"  />개</div></div> 
-           		    <div class="row"> <div class="col-3"><label for="p_category">카테고리 </label></div><div class="col-9" style="text-align: center;">
+           		    <div class="row"> <div class="col-3"><label for="p_category">카테고리 </label></div><div class="col-9" style="text-align: left;">
            		    <form:select  path="p_category" id="p_category">
            		     <form:option value="스마트폰">스마트폰</form:option>
            		     <form:option value="노트북">노트북</form:option>
@@ -206,13 +215,13 @@
 				  
 				     </div>
                    <div class="rows col-12 subContainer" >	 				
-				  	<img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="50%"
+				  	<img src=/resources/Images/product/${productVO.p_subImg} 
 				  			
 							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">						
 				   </div>
 				  
 				   <div class="rows col-12"><br><br>
-				   <pre><textarea name="p_content" cols="70" rows="70" style="border: none; font-size:13pt;">${ productVO.p_content }</textarea></pre>
+				   <textarea name="p_content" cols="70" style="border: none; font-size:13pt;">${ productVO.p_content }</textarea>
 				   </div>
                
       </div>
@@ -286,7 +295,10 @@
 	  subImage.src = window.URL.createObjectURL(file);
 	});
 	
-	
+	//textarea 자동사이즈 조절
+	$(function () {
+	    autosize($("textArea"));
+	});
 	
 	
 	

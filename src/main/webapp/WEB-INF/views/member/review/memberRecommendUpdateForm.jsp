@@ -92,7 +92,6 @@ body, html {
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: inherit;
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
@@ -232,7 +231,7 @@ body, html {
 													<div class="page-wrapper">
 														<div class="page-body">
 															<div class="container">
-																	<form name="recommendUpdateForm" method="post"
+																	<form name="recommendUpdateForm" id="recommendDeleteForm" method="post"
 																		action="/member/rec/recommendUpdate">
 																		<div class="row imgIdDate" name="imgIdDate">
 
@@ -241,13 +240,15 @@ body, html {
 																					src=/resources/Images/product/${oneRecommend.p_mainimg}
 																					alt="${oneRecommend.p_mainimg}"
 																					title="${oneRecommend.p_mainimg}"
-																					class="img-fluid img-circle">
+																					class="img-fluid img-circle" style="cursor:pointer;" onclick='moveProduct()'>
 																			</div>
 																			<div class="col-7" id="nameLike">
 																				<input type="hidden" name="v_id"
 																					value="${oneRecommend.v_id}" /> 
+																			    <input type="hidden" name="beforeUrl"
+																			    	value="${beforeUrl}"/>
 																				
-																				<div>${oneRecommend.p_name}</div>	
+																				<div style="color: black;">${oneRecommend.p_name}</div>	
 																				<div>												
 																					<c:if test="${oneRecommend.v_like eq 'none'}">
 																						<a title="noselected"><img
@@ -277,14 +278,14 @@ body, html {
 																			<div class="col-12 recommendContent">
 																				<br>
 																				<textarea class="recommendContent" rows="3" cols="30" id="Recommendcontent" autofocus 
-																				  required="required" maxlength="100" name="v_content" >${oneRecommend.v_content}</textarea>
+																				  required="required" placeholder="100글자 내로 작성하세요." maxlength="100" name="v_content" >${oneRecommend.v_content}</textarea>
 																			</div>
 																		</div>
 																		<div style="text-align:right">
 																		<input type="button" value="수정"
-																			class="btn btn-primary" onclick='recommendUpdate()'>
-																		<input type="button" value="삭제" class="btn btn-primary"
-																			onclick='recommendDelete(${oneRecommend.v_id})'>
+																			class="btn btn-primary" onclick='mySubmit(1);'>
+																		<input type="button" value="삭제" class="btn btn-primary" formaction="/member/rec/recommendDelete"
+																			onclick='mySubmit(2);'>
 																		<button class="btn btn-primary"
 																			onclick='history.back();'>뒤로가기</button>	
 																			<hr style="border: solid 1px black;">												
@@ -411,15 +412,17 @@ function likeCancel(){
 		
 	 } 
 }
+ function moveProduct(){
+	 location.href="/member/pro/productDetail/"+'${oneRecommend.v_pid}';
+ }
 //리뷰 삭제
-function recommendDelete(v_id) {
-	action_popup.confirm('추천글을 삭제하시겠습니까?', function (res) {
-		if (res) {			
-			location.href='/member/rec/recommendDelete/'+v_id
+ /* function recommendDelete() {
 	
-		 } 
-	})	
-}
+	
+	
+			$('#recommendDeleteForm').submit();
+} 
+
 //리뷰 업데이트
 function recommendUpdate() {
 	var text = document.getElementById('Recommendcontent').value
@@ -430,12 +433,33 @@ function recommendUpdate() {
 	action_popup.confirm('수정하시겠습니까', function (res) {
 		if (res) {			
 			document.recommendUpdateForm.submit();
+					
 	
 		 } 
 	})	
 	}
-}
+} */
+function mySubmit(index) {
+	if(index == 1) {
+	document.recommendUpdateForm.action = '/member/rec/recommendUpdate';
+	action_popup.confirm('수정하시겠습니까', function (res) {
+		if (res) {			
+			document.recommendUpdateForm.submit();					
+		 } 
+		})		
+	}
+	else if(index == 2) {
+	document.recommendUpdateForm.action = '/member/rec/recommendDelete';
+	action_popup.confirm('삭제하시겠습니까', function (res) {
+		if (res) {			
+			document.recommendUpdateForm.submit();					
+		 } 
+		})		
+	} else {
+		action_popup.alert('다시 확인 해주세요')
+	}
 	
+}
 	
 	
 	
@@ -445,7 +469,7 @@ function recommendUpdate() {
 		$(function() {
 			$(".modal_close").on("click", function() {
 				action_popup.close(this);
-			});
+			});	
 		});
 
 		var action_popup = {
@@ -514,7 +538,7 @@ function recommendUpdate() {
 }  */
 	
 		//리뷰글자수,줄 제한
-		$('#Recommendcontent').on('keyup',function() {
+		 $('#Recommendcontent').on('keyup',function() {
 			var rows = $('#Recommendcontent').val().split('\n').length;
 		    var maxRows = 3;
 		    if( rows > maxRows){
@@ -530,7 +554,7 @@ function recommendUpdate() {
 			action_popup.alert("100자 이내로 작성해주세요.");
 			
 			}
-			});
+			}); 
 		
 
 	</script>

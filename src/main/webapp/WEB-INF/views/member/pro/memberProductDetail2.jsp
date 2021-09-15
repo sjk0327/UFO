@@ -15,6 +15,10 @@
 
 
   <style>
+  #wish img{
+  width: 80px;
+  height: 50px;
+  }
   #buyInfoVO{
   color:#343a40;
   }
@@ -79,12 +83,6 @@
 	a {
 	cursor:pointer;
 	}
-	
-	.icon-heart-o, .icon-heart{
-	font-size: 50px;
-	color: red;
-	
-	}
 	#info div {
 	margin-top: 1px;}
 	
@@ -125,6 +123,9 @@
       padding: 1.1em; 
       padding-bottom: 0.2em;
       line-height: 1.6;
+    }
+    #reviewstart{
+    margin-top: 20px;
     }
     .text-black{
     margin-top: revert;
@@ -182,6 +183,9 @@ body, html {height: 100%;}
     width: 375px;
     margin-left: -17px;
     }
+    #wish img{
+ 	 width: 60px;
+  	}
 }
 
 
@@ -201,6 +205,8 @@ body, html {height: 100%;}
  	 <link rel="stylesheet" href="/resources/demos/style.css">
  	 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
+  	
+  	<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
   </head>
 
   <body>
@@ -282,10 +288,12 @@ body, html {height: 100%;}
             <div id="buttonGroup" class="row">
              <div class="col-2">
              	<c:if test = "${wishListVO eq null}">
-				<a id="wish"><span class="icon icon-heart-o"></span></a> 
+				 
+				<a id="wish" title="위시리스트"><img src=/resources/Images/heart.jpg alt="heart.jpg" class="heart-o" ></a> 
 				</c:if>
  				<c:if test = "${wishListVO ne null}">
- 				<a id="wish"><span class="icon icon-heart"></span></a>
+ 				
+ 				<a id="wish" title="위시리스트"><img src=/resources/Images/heart2.jpg alt="heart.jpg" class="heart"></a> 
 				</c:if> 
 			</div>
              <div class="col-10"><input style="width:100%" type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/></div>
@@ -323,7 +331,7 @@ body, html {height: 100%;}
           <div class="col-lg-12 col-sm-12 subContainer">
            <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%" 	 		
 							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	
-		  <div class="wrap"><textarea disabled rows="40" cols="10">${ productVO.p_content }</textarea></div>
+		  <div class="wrap"><textarea disabled cols="10">${ productVO.p_content }</textarea></div>
 		   <%-- <div style="text-align:left;"><p>${ productVO.p_content }</p></div>	 --%>
 		  </div>
 						  
@@ -343,86 +351,7 @@ body, html {height: 100%;}
   </li>
  
 </ul>
-     <c:if test="${userVO ne null && oneReview eq null}">
-      <button type="button"  style="margin-top:20px;" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    추천글작성
-  </button>
-  	</c:if>
-  	<c:if test="${userVO eq null}">
-      <button type="button"  style="visibility:hidden;">
-    추천글작성
-  </button>
-  	</c:if>
-  	 <c:if test="${userVO ne null && oneReview ne null}">
-      <button type="button" style="visibility:hidden;" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    추천글작성
-  </button>
-  	</c:if>
-  	
-
-    	</div>			<!-- 리뷰모달 위에 버튼 태그도 -->
-    	<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">추천글작성</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-           <div class="container"> 
-        <div class="row mb-5">
-          <div class="col-md-12 order-2">
-       
-         
-           <form name= "reviewInsert" method="post" action="/member/pro/reviewInsert">
-                <div class="row imgIdDate" name="imgIdDate">
-                 
-                	<div class="col-2 profile" align="center">  
-                	 <img src = /resources/Images/member/${userVO.m_img} alt="${userVO.m_img}" title="${userVO.m_img}" class="img-fluid img-circle">         
-                	</div> 
-                	<div class="col-10">
-                	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
-                	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
-                	 <input type="hidden" name="v_like" value="none" id="reviewLike">
-      	    	 <div>${userVO.m_id}</div>
-                	<div class="col-lg-6 sm-6" id="recommendation">     
-          <c:if test = "${oneReview.v_like ne 'like'}">   
-       <a title="likes"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="noselected" onclick= 'like();'/></a>
-          </c:if>
-           <c:if test = "${oneReview.v_like eq 'like'}">  	 
-		<a title="noselected"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="likes" onclick= 'likeCancel();'/></a>      
-		   </c:if>
-	   </div>
-               	 	
-                	</div>      		
-                	                      
-                </div>
- 
-                <div class="row" name="content">
-                 <div class="col-12 reviewContent">
-                 <br>
-                <textarea id="review" class="reviewContent" placeholder="내용을 입력해주세요(최대  100자)" rows="4" cols="50" name="v_content" maxlength="100" required="required"></textarea>
-                 </div>
-                </div>                   
-    
-            </div>
-          </div>
-        </div>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-        <input type="submit" class="btn btn-secondary" value="확인"/>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        </div>
-         </form>
-      </div>
-    </div>
-  </div>	
+    	</div>		
    		   
      									<c:choose>				
 										<c:when test="${recVO[0].v_id eq null}"><div>아직 작성된 리뷰가 없어요</div></c:when>
@@ -453,32 +382,20 @@ body, html {height: 100%;}
                 	</div>      		
           				 <div class="col-5" style="text-align:right;">        		 
 		 				 <c:if test = "${recVO.v_mid eq userId}">
-		  				     <button id="edit" type="button" style="margin-bottom:10px;" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">수정하기</button> 
-		   				    <form method="post" name="reviewDeleteForm" action="/member/pro/reviewDelete/${oneReview.v_mid}/${oneReview.v_pid}">
-		    				   <input id="delete" type="button" value="삭제하기" class="btn btn-primary" onclick='reviewDelete()'>	
-		     				</form>  	  
+		 				 	<input type="hidden" value="${recVO.v_id}" id="vid">
+		  				    <input id="edit" type="button" style="margin-bottom:10px;" class="btn btn-primary"  value="편집하기" onclick='reviewUpdateForm(${recVO.v_id})'>		   				   	  
 		 				 </c:if>
 					    </div>             
                 </div>
  
                 <div class="row" name="content">
                  <div class="col-12 reviewContent" id="reviewContent">
-                <textarea disabled rows="3" cols="30">${recVO.v_content}</textarea>
+                <textarea disabled rows="3">${recVO.v_content}</textarea>
                  </div>
                 </div>
                 
-                <!--  
-                <div  class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="/member/pro/productDetail/${reviewList.v_pid}"><img src="/resources/img/iPad.jpg" alt="상품 사진" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <p> 상품코드  : <a href="/member/pro/productDetail/${reviewList.v_id}">${reviewList.v_mid}</a></p>
-                    <p class="mb-0">${reviewList.v_pid}</p>
-                    <p class="text-primary font-weight-bold" >${reviewList.v_content}</p>
-                     </div>
-                </div>  
-                -->    <hr>      
+                   <hr>   
+  
              </c:forEach> 
                 <!-- 페이징 start -->
 										<div id = "paging-div">
@@ -501,74 +418,7 @@ body, html {height: 100%;}
 										</ul>
 										</div>
 										<!-- 페이징 end -->
-      <!-- 리뷰 수정모달 -->      	
-  <div class="modal fade" id="reviewModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
       
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">리뷰수정</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-           <div class="container"> 
-        <div class="row mb-5">
-          <div class="col-md-12 order-2">
-       
-         
-           <form name= "reviewUpdate" method="post" action="/member/pro/reviewUpdate">
-                <div class="row imgIdDate" name="imgIdDate">
-                 
-                	<div class="col-2 profile" align="center">  
-                	 <img src = /resources/Images/member/${userVO.m_img} alt="${userVO.m_img}" title="${userVO.m_img}" class="img-fluid img-circle">         
-                	</div> 
-                	<div class="col-10">
-                	 <input type="hidden" name="v_mid" value="${userVO.m_id}"/>
-                	 <input type="hidden" name="v_pid" value="${productVO.p_id}"/>
-              
-      	    	 <div>${userVO.m_id}</div>
-                	<div class="col-lg-6 sm-6" id="recommendation">     
-          <c:if test = "${oneReview.v_like eq 'none'}">   
-       <a title="noselected"><img src=/resources/Images/product/like1.jpg id="like-o" class="like-o" width="50" height="50" alt="likes" onclick= 'like()'/></a>
-       <input type="hidden" name="v_like" value="none"
-		id="updatereviewLike">   
-          </c:if>
-           <c:if test = "${oneReview.v_like ne 'none'}">  	 
-		<a title="likes"><img src=/resources/Images/product/like2.jpg id="like" class="like" width="50" height="50" alt="noselected" onclick= 'likeCancel()'/></a>
-		<input type="hidden" name="v_like" value="like"
-		id="updatereviewLike">
-		   </c:if>
-	   </div>
-               	 	
-                	</div>      		
-                	                      
-                </div>
- 
-                <div class="row" name="content">
-                 <div class="col-12 reviewContent">
-                 <br>
-                <textarea class="reviewContent" id="reviewEdit" rows="6"  cols="50" name="v_content" autofocus>${oneReview.v_content}</textarea>
-                 </div>
-                </div>                   
-    
-            </div>
-          </div>
-        </div>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-        <input type="submit" class="btn btn-primary" value="확인"/>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
-        </div>
-         </form>
-      </div>
-    </div>
-  </div>	
- <!-- 여기까지 -->
 
        
 
@@ -816,14 +666,9 @@ function likeCancel(){
 		
 	 } 
 }
-//리뷰 삭제
-function reviewDelete() {
-	action_popup.confirm('리뷰를 삭제하시겠습니까?', function (res) {
-		if (res) {			
-			document.reviewDeleteForm.submit();
-	
-		 } 
-	})	
+//수정폼으로 이동
+function reviewUpdateForm(v_id) {
+	location.href = '/member/rec/UpdateForm/'+v_id;
 }
 
 //ajax 위시리스트 추가
@@ -876,7 +721,7 @@ $('#wish').on('click', function(){
     		  p_id      : $("#p_id").val()
             , amount    : $("#amount").val()
     }    
-    if ($('span').is(".icon-heart-o") === true){
+    if ($('img').is(".heart-o") === true){
     $.ajax({
         url: "/member/wishListInsert/${productVO.p_id}",
         type: "POST",
@@ -891,7 +736,8 @@ $('#wish').on('click', function(){
         		
         	} else {
         	
-        	$('.icon-heart-o').attr('class','icon-heart');
+        	$('.heart-o').attr('class','heart');
+        	$('.heart').attr('src','/resources/Images/heart2.jpg');
   	     	action_popup.confirm('위시리스트에 추가되었습니다. 확인해볼래요?', function (res) {
                 if (res) {
                 	location.href = '/member/rent/wishList';
@@ -913,7 +759,8 @@ $('#wish').on('click', function(){
            	
           		 },
           		 error: function(){
-          			$('.icon-heart').attr('class','icon-heart-o');
+          			$('.heart').attr('class','heart-o');
+          			$('.heart-o').attr('src','/resources/Images/heart.jpg');
           			action_popup.alert("위시리스트에서 삭제됐습니다");
    		
           		 }
@@ -1113,6 +960,8 @@ $(function () {
     $(".modal_close").on("click", function () {
         action_popup.close(this);
     });  
+    
+    autosize($("textArea"));
 });
 
 

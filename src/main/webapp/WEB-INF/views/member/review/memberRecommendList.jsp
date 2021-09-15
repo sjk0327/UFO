@@ -8,7 +8,7 @@
 <html lang="en">
 
 <head>
-<title>내 정보 페이지 - UF&#38;O</title>
+<title>내 리뷰 페이지 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
@@ -175,6 +175,9 @@ body, html {
     background-color: #f3f3f3;
     border-color: #dee2e6 #dee2e6 #fff;
 	}
+	.reviewCount{
+	font-size: 14pt;
+	}
     
     @media (max-width:575px) {
     #editButton {
@@ -200,6 +203,7 @@ body, html {
  	
 
 </style>
+<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -232,7 +236,7 @@ body, html {
 																<!-- Nav tabs -->
 																<ul id="menuBar" class="nav nav-tabs md-tabs"
 																	role="tablist">
-																	<li class="nav-item"><a class="nav-link active"
+																	<li class="nav-item"><a class="nav-link"
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link "
@@ -244,7 +248,7 @@ body, html {
 																	<li class="nav-item"><a class="nav-link"
 																		href="#MessageBox" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
-																	<li class="nav-item"><a class="nav-link"
+																	<li class="nav-item"><a class="nav-link active"
 																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
 																		<div class="slide"></div></li>
 																</ul>
@@ -273,10 +277,10 @@ body, html {
 																	<div class="col-md-12 order-2" >
  <ul class="nav nav-tabs centered">
   <li class="nav-item">
-    <a class="nav-link" id="active" href="/member/rec/recommendList">내 리뷰</a>
+    <a class="nav-link" id="active" href="/member/rec/recommendList">내 리뷰 <span class="reviewCount">(${yesTotalCount})</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/member/rec/canRecommendList" >작성가능리뷰</a>
+    <a class="nav-link" href="/member/rec/canRecommendList" >작성가능리뷰 <span class="reviewCount">(${NonetotalCount})</span></a>
   </li>
  
 </ul>
@@ -294,7 +298,7 @@ body, html {
 																						class="img-fluid img-circle">
 																				</div>
 																				<div class="col-6 namedate" id="namedate" align="left">					
-																					<div style="text-align:left;">${recVO.p_name}</div>
+																					<div style="text-align:left; color: black;">${recVO.p_name}</div>
 																					<div style="text-align:left;">${recVO.v_date}</div>	
 																					<div style="text-align:left;">
 																					<c:choose>
@@ -510,6 +514,7 @@ function recommendEdit(v_id) {
 			$(".modal_close").on("click", function() {
 				action_popup.close(this);
 			});
+			autosize($("textArea"));
 		});
 
 		var action_popup = {
