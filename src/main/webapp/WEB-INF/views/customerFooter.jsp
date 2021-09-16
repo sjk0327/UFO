@@ -60,10 +60,10 @@
           
            	<div class="row">
            	
-          		<div class="col-md-2">
-          		<h3 class="footer-heading mb-4">Company</h3>
-              		<a href="/">&nbsp;&nbsp;&nbsp;<img class="picture" src="/resources/Images/UFO-purple.png"
-										alt="로고" style="width: 120px; height:120px;"></a>
+          		<div class="col-md-2" style="margin-top: 50px;">
+          		
+              		<a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
+										alt="로고" style="width: 150px; height:75px;"></a>
               	</div>
               	<div class="col-md-4">
               		<p><br><br>Use First Own 이라는 모토로 부담스러운 결정을<br> 덜어드리고 전자기기를 대여부터 구매까지<br> 빠르고 편리한 서비스를 제공합니다.</p>
@@ -73,26 +73,20 @@
              	 <h2 class="footer-heading mb-4">Contact Us</h2>
               	<ul class="list-unstyled">
                 <li class="address">서울시 금천구 가산동 월드메르디앙 2차 413호 KOSMO</li>
-                <li class="phone"><a href="tel://23923929210">+2 123 4567</a></li>
-                <li class="email"><a href="https://github.com/sjk0327/UFO.git">https://github.com/sjk0327/UFO.git</a></li>
+                <li class="email">usefirstown@gmail.com</li>
+                <li class="phone"><a href="/admin" id="goadmin"><h3 class="footer-heading mb-4">Company</h3></a></li>
               </ul>
          			</div>
     	     	</div>
         </div>
-      <!--   <div class="row pt-5 mt-5 text-center"> -->
         <div class="row mt-5 text-center">
           <div class="col-md-12">
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
             <script>document.write(new Date().getFullYear());</script>
-            All rights reserved | ThisWebSite is made with <i class="icon-heart" style="color:red;" aria-hidden="true">
-            </i> by <a href="https://colorlib.com" target="_blank" class="text-primary" style="font-weight: bold;">
-            Team UFO(김수정, 지승빈, 공병찬, 김성훈, 김신영, 이정노)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- <i class="icon-heart" style="color:red;" 
-            aria-hidden="true"></i> --><a href="/admin" id="goadmin">바로가기</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            All rights reserved | ThisWebSite is made by <a href="https://colorlib.com" target="_blank" class="text-primary" style="font-weight: bold;">
+            Team UFO (김수정, 지승빈, 공병찬, 김성훈, 김신영, 이정노)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </p>
           </div>
           

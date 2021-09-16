@@ -374,8 +374,7 @@ body, html {
 																				<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span>
 																		</a></li>
 																		<span class="col-md-1"></span>
-																		</a>
-																		</li>
+																		
 																	</c:if>
 																</ul>
 															</div>
@@ -386,7 +385,12 @@ body, html {
 
 											</div>
 										</div>
-
+</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 									</div>
 								</div>

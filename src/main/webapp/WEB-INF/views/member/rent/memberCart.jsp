@@ -1175,8 +1175,9 @@ document.getElementById('allCheck').addEventListener('change',selectcart);
 				for(var k=0;k<rentalIdNowListLength;k++){
 					var rentdate=new Date(rentdateList[i].value);
 					rentdate.setDate(rentdate.getDate() + 2);
+					var rentdate2=new Date(rentdateList[i].value);
 					var rentdatenow=new Date(rentaldateNowList[k].value);
-				if(productIdList[i].value==rentalIdNowList[k].value && rentdate<rentdatenow){
+				if(productIdList[i].value==rentalIdNowList[k].value && (rentdate<rentdatenow || rentdate2>rentdatenow)){
 					count+=rentalamountNowList[k].value*1
 					
 				

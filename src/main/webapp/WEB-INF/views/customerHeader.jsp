@@ -30,7 +30,7 @@
  	<script src="/resources/common/js/main.js"></script>
   	<script src="http://code.jquery.com/jquery-latest.js"></script>
   
-	
+	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
   
   <style>
   .count {
@@ -52,37 +52,27 @@
     transition: .2s all ease-in-out;
 }
 
-  #firstSearch {
-  border-radius:5px;
-  border: solid 2px grey;
-  background-color: white;
-  } 
+
   </style>
-  
- <header class="site-navbar" role="banner" >
+  <header class="site-navbar" role="banner">
       <div class="site-navbar-top">
-   
-<div class="col">
-          <div class="row">
-            <div class="col-md-4 order-2 order-md-1 site-search-icon text-left" >
-              
-              <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
-                <span class="icon icon-search2"></span>  
-                <input type="text" id="keyword" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
-              	<button type="submit" id="firstSearchId" value="검색" >검색</button>
-              </form>
-              
+        <div class="container">
+          <div class="row align-items-center">
+
+            <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+             
             </div>
 
-            <div class="mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center" >
-              <div >
-                <a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
+            <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+            
+               <div style="margin-left: 20px;">
+               <a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
 										alt="로고" style="width: 200px; height:90px;"></a>
+              
               </div>
             </div>
 
-            <div class="col-md-4 order-3 order-md-3 text-right">
-            
+            <div class="col-6 col-md-4 order-3 order-md-3 text-right">
               <div class="site-top-icons">
                 <ul>
 
@@ -99,53 +89,65 @@
                   <span class="count">1</span>
                   </a></li>
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
-                   <li><a href="/logout">[ 로그아웃 ]</a></li>
+                   <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
                    </c:if>
                    <c:if test="${sessionScope.loginPl == 'kakao'}">
-                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://localhost:8090/logout">[ 로그아웃 ]</a></li>
+                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://localhost:8090/logout"><i class="fas fa-sign-out-alt"></i></a></li>
                    </c:if>
                    <c:if test="${sessionScope.loginPl == 'naver'}">
-                   <li><a href="/logout">[ 로그아웃 ]</a></li>
+                   <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
                    </c:if>
                    
                   </c:otherwise>
                  </c:choose>
-                 <br>
-
-                   <li><a href="/member/noticeList">[ 공지사항 ]</a></li>
-
-
-                    <li><a href="/member/qna/qnaList">[ Q&A ]</a></li>
-
                  
                 </ul>
-              </div> 
+              </div>
+              <br>
+              <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
+                <span class="icon icon-search2"></span>  
+                <input type="text" id="keyword" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
+              	<button type="submit" id="firstSearchId" value="검색" >검색</button>
+              </form>
+              
+              
+               
             </div>
-</div>
+
           </div>
-       
+        </div>
       </div> 
-   <!--   <script>
-     var newValue;
-     // 모든 텍스트의 변경에 반응합니다.
-     $("#keyword").on("change paste", function() {      
-        
-        newValue = $(this).val();     
-
-    
-        location.href = '/member/pro/productList/' + newValue;
-        
-     }); 
-     </script>
-     -->
-  <!-- <script>
-
-	$('#firstSearchId').on('click', function(){
-		var firstSearch = $('input[name=firstSearch]').val();
-		alert(firstSearch);
-		location.href = '/member/pro/productList/search/' + firstSearch;
-		});
-	</script>
-      -->
-     
+      <nav class="site-navigation text-right text-md-center" role="navigation">
+        <div class="container">
+          <ul class="site-menu js-clone-nav d-none d-md-block">
+            <li class="active">
+              <a href="/">Home</a></li>
+            <li class="has-children">
+              <a href="/member/pro/productList/">Shop</a>
+              <ul class="dropdown">
+                <li><a href="/member/pro/productList?keyword=스마트폰">스마트폰</a></li>
+                <li><a href="/member/pro/productList?keyword=노트북">노트북</a></li>
+                <li><a href="/member/pro/productList?keyword=카메라">카메라</a></li>
+                <li><a href="/member/pro/productList?keyword=스마트워치">스마트워치</a></li>
+                <li><a href="/member/pro/productList?keyword=태블릿">태블릿</a></li>
+              </ul>
+            </li>
+            <li class="has-children">
+              <a href="/member/pro/productList/">My 쇼핑</a>
+              <ul class="dropdown">
+                <li><a href="/member/mem/memRentList">대여 내역</a></li>
+                <li><a href="/member/mem/memBuyList">구매 내역</a></li>
+              </ul>
+            </li>
+            <li class="has-children">
+              <a href="/member/noticeList">커뮤니티</a>
+              <ul class="dropdown">
+                <li><a href="/member/noticeList">공지사항</a></li>
+                <li><a href="/member/qna/qnaList">Q&A</a></li>
+              </ul>
+            </li>
+            
+          </ul>
+        </div>
+      </nav>
     </header>

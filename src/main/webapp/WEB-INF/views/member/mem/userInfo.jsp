@@ -571,6 +571,8 @@ select::-ms-expand {
 																<div class="card table-card">
 																	<div class="card-header">
 																		<h5>대여 현황</h5>
+																		<a href="/member/mem/memRentList"
+																			style="float: right;">더보기</a>
 																	</div>
 																	<div class="card-block">
 																		<div class="table-responsive">
@@ -611,7 +613,15 @@ select::-ms-expand {
 																										<div>${list.r_sdate }</div>
 																									</td>
 																									<td>
-																										<div>D - ${list.r_sdate}</div>
+																											<c:if test="${list.r_state eq '대여중'}">
+																												<fmt:parseDate var="tempToday" value="${list.r_sdate}" pattern="yyyy-MM-dd"/>
+																						  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
+																						   						<c:set var="now" value="<%=new java.util.Date()%>" />
+																						    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+																						    					<c:set var="dDay" value="${today-sdate}" />
+																												<c:if test="${sdate+3>=today}">D - ${dDay }</c:if>
+																												<c:if test="${sdate+3<today}">D + ${dDay }</c:if>
+																											</c:if>
 																									</td>
 																									<td class="text-right">
 																									
@@ -658,6 +668,8 @@ select::-ms-expand {
 																<div class="card table-card">
 																	<div class="card-header">
 																		<h5>구매 현황</h5>
+																		<a href="/member/mem/memBuyList"
+																			style="float: right;">더보기</a>
 																	</div>
 																	<div class="card-block">
 																		<div class="table-responsive">
@@ -1021,6 +1033,16 @@ select::-ms-expand {
 					$(this).siblings('.upload-name').val(filename);
 				});
 			});
+
+	var emailChange = false;
+	$(document).on('change','#frontEmail', function(){
+		console.log("frontEmail에 in")
+		emailChange = true;
+		emailCheck = false;
+		$("#check_email").css("color","green");
+		$("#check_email").text("");
+	});
+	
 	var imgTarget = $('.upload-hidden');
 	imgTarget
 			.on(
@@ -1125,10 +1147,22 @@ select::-ms-expand {
 			var hidInput = document.getElementById("realEmail").value;
 			
 			if(savedEmail == hidInput){
-				emailCheck = false;
+				emailCheck = true;
 			}
-			
-			if(emailCheck){
+			if(emailChange){
+				if(emailCheck){
+					action_popup.confirm("수정 하시겠습니까?", function(upd) {
+						if (upd) {
+							action_popup.alert("수정이 되었습니다.");
+							document.update.submit();
+						} else {
+							action_popup.alert("수정에 실패하였습니다.");
+						}
+					});
+				}else{
+					action_popup.alert("이메일 중복확인을 해주세요.");
+				}
+			}else{
 				action_popup.confirm("수정 하시겠습니까?", function(upd) {
 					if (upd) {
 						action_popup.alert("수정이 되었습니다.");
@@ -1136,11 +1170,8 @@ select::-ms-expand {
 					} else {
 						action_popup.alert("수정에 실패하였습니다.");
 					}
-				})
-			}else{
-				action_popup.alert("이메일 중복확인을 해주세요.");
+				});
 			}
-			
 			
 		});
 		
