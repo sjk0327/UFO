@@ -1,8 +1,8 @@
 package com.use.first.buy;
 
 
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +21,7 @@ import com.use.first.member.UserDAO;
 import com.use.first.member.UserInfoVO;
 import com.use.first.product.ProductDAO;
 import com.use.first.product.ProductVO;
+import com.use.first.rec.RecVO;
 import com.use.first.rent.RentDAO;
 import com.use.first.rent.RentVO;
 
@@ -113,6 +114,7 @@ public class BuyController {
           }
          
          if(b_state[i].equals("대여") | b_state[i].equals("구매")) {
+       
          rentDAO.rentInsert(rentVO);
          int rid = rentDAO.rentSelect();
          rentDAO.rentUpdaterid(rid);
@@ -162,8 +164,7 @@ public class BuyController {
         	 
         	 int rid = rentDAO.rentSelect();
              
-             buyVO = new BuyVO();
-             
+             buyVO = new BuyVO();             
              buyVO.setB_mid(b_mid[i]);
              buyVO.setB_pid(b_pid[i]);
              buyVO.setB_rid(rid);

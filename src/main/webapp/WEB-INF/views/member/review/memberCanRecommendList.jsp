@@ -8,7 +8,7 @@
 <html lang="en">
 
 <head>
-<title>내 정보 페이지 - UF&#38;O</title>
+<title>내 리뷰 페이지 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
@@ -56,7 +56,7 @@ body, html {
 	background: #ffffff;
 	box-sizing: border-box;
 	display: none;
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);
@@ -92,7 +92,7 @@ body, html {
 	background: #7971ea;
 	color: #fff;
 	height: 36px;
-	line-height: 36px;
+	
 	transition: 0.5s;
 	font-size: 17px;
 	border: none;
@@ -175,6 +175,9 @@ body, html {
     background-color: #f3f3f3;
     border-color: #dee2e6 #dee2e6 #fff;
 	}
+	.reviewCount{
+	font-size: 14pt;
+	}
     
     @media (max-width:575px) {
     #editButton {
@@ -198,11 +201,15 @@ body, html {
 	#insertButton {
     font-size: 0.8em;
 	}
+	.modal-section{
+	width: 350px;
+	}
     
 }
  	
 
 </style>
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -235,7 +242,7 @@ body, html {
 																<!-- Nav tabs -->
 																<ul id="menuBar" class="nav nav-tabs md-tabs"
 																	role="tablist">
-																	<li class="nav-item"><a class="nav-link active"
+																	<li class="nav-item"><a class="nav-link"
 																		href="/member/mem/userInfo" role="tab">내 정보</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link "
@@ -247,7 +254,7 @@ body, html {
 																	<li class="nav-item"><a class="nav-link"
 																		href="#MessageBox" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
-																	<li class="nav-item"><a class="nav-link"
+																	<li class="nav-item"><a class="nav-link active" 
 																		href="/member/rec/recommendList" role="tab">내 리뷰</a>
 																		<div class="slide"></div></li>
 																</ul>
@@ -276,10 +283,10 @@ body, html {
 																	<div class="col-md-12 order-2" >
 <ul class="nav nav-tabs centered">
   <li class="nav-item">
-    <a class="nav-link" href="/member/rec/recommendList">내 리뷰</a>
+    <a class="nav-link" href="/member/rec/recommendList">내 리뷰 <span class="reviewCount">(${yesTotalCount})</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="active" href="/member/rec/canRecommendList" >작성가능리뷰</a>
+    <a class="nav-link" id="active" href="/member/rec/canRecommendList" >작성가능리뷰 <span class="reviewCount">(${NonetotalCount})</span></a>
   </li>
  
 </ul>
@@ -296,13 +303,23 @@ body, html {
 																						title="${buyVO.p_mainimg}"
 																						class="img-fluid img-circle">
 																				</div>
-																				<div class="col-6 namedate" id="namedate" align="left">					
-																					<div style="text-align:left;">${buyVO.p_name}</div>
+																				<div class="col-6 namedate" id="namedate">					
+																					<div style="text-align:left; color: black;">${buyVO.p_name}</div>
+																					
+																					<c:choose>
+																					 <c:when test="${buyVO.b_state eq '구매'}">
 																					<div style="text-align:left;"><span>구매일:</span>${buyVO.b_buydate}</div>
+																					 </c:when>
+																					 <c:when test="${buyVO.b_state eq '대여'}">
+																					<div style="text-align:left;"><span>대여일:</span>${buyVO.r_sdate}</div>
+																					 </c:when>
+																					 </c:choose>
+																					
+																					
 																					<a title="noselected"><img
 																							src=/resources/Images/product/like1.jpg
-																							id="like-o" class="like-o" width="50" height="50"
-																							alt="likes" onclick='like()' /></a><input
+																							id="like-o${status.index}" class="like-o${status.index}" width="50" height="50"
+																							alt="likes" onclick='like(this)' /></a><input
 																					type="hidden" name="v_like" value="none"
 																					id="insertReviewLike-o">
 																														
@@ -434,10 +451,10 @@ body, html {
 
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-			$('.namedate').css('text-align' , "left");
+			
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('.namedate').css('text-align' , "right");
+		
 		}
 	});
 
@@ -446,48 +463,29 @@ body, html {
 		var size =$(window)[0].innerWidth;
 		if(size > 1200) {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs tabs-left b-none");
-			$('.namedate').css('text-align' , "left");
+			
 		} else {
 			$('#menuBar').attr('class' , "nav nav-tabs md-tabs");
-			$('.namedate').css('text-align' , "right");
+			
 		}
 	});
 	
 //review에서 추천관련부분 #reviewLike는 리뷰추가할 때 추천
-function like(){
-	 if ($('#like-o').is(".like-o") === true){
-		 $('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
-     	 $('.like-o').attr('class','like'); 
+function like(e){
+	var likeId= document.getElementById(e.getAttribute('id')).getAttribute('id');
+	var likeClass= $('#'+likeId).attr('class');
+	 if ($('#'+likeId).is( '.like') != true){
+		 $( '.'+likeClass).attr('src','/resources/Images/product/like2.jpg'); 
+     	 $( '.'+likeClass).attr('class','like'); 
          $('#insertReviewLike-o').attr('value','like'); 
-
      	 action_popup.alert('추천하셨습니다');
 	 } else {
 		 $('.like').attr('src','/resources/Images/product/like1.jpg');
 		 $('.like').attr('class','like-o');  
 		 $('.like-o').attr('value','none'); 
-
 		 action_popup.alert("취소하셨습니다");
 	 } 
 }
-function likeCancel(){
-	 if ($('#like').is(".like") === true){
-		 $('.like').attr('src','/resources/Images/product/like1.jpg');
-		 $('.like').attr('class','like-o');  
-		 $('#updatereviewLike').attr('value','none'); 
-
-		 action_popup.alert("취소하셨습니다");
-		
-		
-	 } else {
-		 $('.like-o').attr('src','/resources/Images/product/like2.jpg'); 
-    	 $('.like-o').attr('class','like'); 
-        $('#updatereviewLike').attr('value','like'); 
-
-    	 action_popup.alert('추천하셨습니다');
-		
-	 } 
-}
-
 //리뷰글자수,줄 제한
 $('#Recommendcontent').on('keyup',function() {
 	var rows = $('#Recommendcontent').val().split('\n').length;
@@ -516,6 +514,7 @@ $('#Recommendcontent').on('keyup',function() {
 			$(".modal_close").on("click", function() {
 				action_popup.close(this);
 			});
+			
 		});
 
 		var action_popup = {

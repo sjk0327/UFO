@@ -671,7 +671,7 @@ public class ProductController {
 						int reviewCount = productDAO.reviewCount(v_pid);
 						List<RecVO> recVO = productDAO.reviewList(cri,v_pid);	
 						model.addAttribute("recVO", recVO);
-						RecVO oneReview = productDAO.oneReview(v_pid,userId);						
+						List<RecVO> oneReview = productDAO.oneReview(v_pid,userId);						
 						PageMaker pageMaker = new PageMaker(cri);
 						int totalCount = productDAO.countReviewListTotal(cri,v_pid);
 						pageMaker.setTotalCount(totalCount);
@@ -734,7 +734,7 @@ public class ProductController {
 						
 						List<RecVO> recVO = productDAO.reviewPagingList(cri,v_pid);	
 						model.addAttribute("recVO", recVO);							
-						RecVO oneReview = productDAO.oneReview(v_pid,userId);
+						List<RecVO> oneReview = productDAO.oneReview(v_pid,userId);
 						PageMaker pageMaker = new PageMaker(cri);
 						int totalCount = productDAO.countReviewListPagingTotal(cri,v_pid);
 						pageMaker.setTotalCount(totalCount);
@@ -802,7 +802,7 @@ public class ProductController {
 					if (insert == 0 || update == 0) {
 						System.out.println("등록 실패");
 					}
-					return "redirect:/member/rec/canRecommendList";
+					return "redirect:/member/rec/recommendList";
 				}
 			  //상세페이지에서 리뷰 업데이트
 			  @RequestMapping(value = "/member/pro/reviewUpdate", method = RequestMethod.POST)

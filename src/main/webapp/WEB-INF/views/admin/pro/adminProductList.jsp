@@ -21,6 +21,12 @@ body, html {height: 100%;}
 .enroll_box p{padding-bottom: 56px;}
 .gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
 .pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+
+.imgWithText{
+	text-align: justify;
+    width: 100px;
+    margin-top: 2em;
+	}
 </style>
 
 </head>
@@ -134,7 +140,7 @@ body, html {height: 100%;}
                      <td onclick="event.cancelBubble=true">${list.p_id}</td>
                      <td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_name}<br>
                      <img src="/resources/Images/product/${list.p_mainImg}" alt="${list.p_mainImg}" 
-										title="${list.p_mainImg}" class="img-fluid"></td>
+										title="${list.p_mainImg}" class="img-fluid imgWithText"></td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'"><fmt:formatNumber value="${list.p_price}" pattern="###,###,###" />원</td>
 					<td onclick="location.href='/admin/pro/productDetail/${list.p_id }'">${list.p_category}</td>
 					<td onclick="event.cancelBubble=true"><input type="text" id="p_canBuy_${list.p_id }" name="b1" size="10" value="${list.p_canBuy}" />개</td>

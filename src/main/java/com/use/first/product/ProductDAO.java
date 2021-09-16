@@ -77,7 +77,7 @@ public interface ProductDAO {
 		//리뷰 개수
 			public int reviewCount(String v_pid);
 		//특정 리뷰
-			public RecVO oneReview(@Param("v_pid") String v_pid, @Param("userId") String userId);
+			public List<RecVO> oneReview(@Param("v_pid") String v_pid, @Param("userId") String userId);
 		//리뷰 등록
 			public int reviewUpdate(RecVO recVO);
 		//리뷰 삭제
