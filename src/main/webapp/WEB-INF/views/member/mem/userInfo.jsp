@@ -600,8 +600,9 @@ select::-ms-expand {
 
 																									<td>
 																										<div class="d-inline-block align-middle">
-																											<img
-																												src="/resources/Images/tempProductImage.jpg"
+																											
+																												<img
+																												src="/resources/Images/product/${list.p_mainimg }"
 																												class="img-radius img-40 align-top m-r-15">
 																											<div class="d-inline-block">
 																												<h6>${list.p_name }</h6>

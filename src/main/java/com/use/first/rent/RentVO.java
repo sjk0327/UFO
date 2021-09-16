@@ -10,6 +10,7 @@ public class RentVO {
 		private String r_pid;
 		private String p_name;
 		private String p_category;
+		private String p_mainimg;
 		private Date r_sdate;
 		private int r_rent;
 		private String r_state;
@@ -88,13 +89,20 @@ public class RentVO {
 		public void setTotal(int total) {
 			this.total = total;
 		}
+		public String getP_mainimg() {
+			return p_mainimg;
+		}
+		public void setP_mainimg(String p_mainimg) {
+			this.p_mainimg = p_mainimg;
+		}
 		@Override
 		public String toString() {
 			return "RentVO [r_id=" + r_id + ", r_rid=" + r_rid + ", r_mid=" + r_mid + ", r_pid=" + r_pid + ", p_name="
-					+ p_name + ", p_category=" + p_category + ", r_sdate=" + r_sdate + ", r_rent=" + r_rent
-					+ ", r_state=" + r_state + ", r_pdate=" + r_pdate + ", p_canRent=" + p_canRent + ", total=" + total
-					+ "]";
+					+ p_name + ", p_category=" + p_category + ", p_mainimg=" + p_mainimg + ", r_sdate=" + r_sdate
+					+ ", r_rent=" + r_rent + ", r_state=" + r_state + ", r_pdate=" + r_pdate + ", p_canRent="
+					+ p_canRent + ", total=" + total + "]";
 		}
+		
 
 		
 		
