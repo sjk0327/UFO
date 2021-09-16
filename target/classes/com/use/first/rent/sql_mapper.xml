@@ -207,7 +207,7 @@
 	
 	<select id="rentListNow" resultType="com.use.first.rent.RentVO">
 		<![CDATA[
-		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where r_sdate>=now() or r_sdate<=now()-3 and r_state="대여중"
+		select  r_id, r_mid, r_pid, r_sdate, r_rent, r_state, r_pdate from rental where (r_sdate>=now() or r_sdate<=DATE_ADD(now(), INTERVAL -3 DAY)) and r_state="대여중"
 		]]>
 	</select>
 	

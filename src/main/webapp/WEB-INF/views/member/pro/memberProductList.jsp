@@ -159,23 +159,14 @@ ul{ list-style:none;}
 <ul id="tempList" style=" display:none"></ul>
 
   <div class="site-wrap" >
-    <header class="site-navbar" role="banner">
-      <nav class="site-navigation text-right text-md-center" role="navigation" style="background-color:#f4f4f4;">
+    <header role="banner">
+      <nav class="text-right text-md-center" role="navigation" style="background-color:#f4f4f4;">
         <div class="container">
-          <ul class="site-menu js-clone-nav d-none d-md-block">
-            <li class="has-children">
-            </li>
-            </ul>
               <div class="row">
           <div class="col-md-12">
             <div class="site-section site-blocks-2">
-                <div class="row justify-content-center text-center mb-5">
-                  <div class="col-md-7 site-section-heading pt-4">
-                    <h2></h2>
-                  </div>
-                </div>
                 <div class="container">
-  <div id="mainMenuList" style="text-align:center;" >
+  <div id="mainMenuList" style="text-align:center; z-index: 0;" >
 	<ul>		
 		<li class="mb-1"><a href="/member/pro/productList/" ><img src="/resources/common/images/total.png" /><p>전체리스트</p></a></li>
 		<li class="mb-1"><a href="/member/pro/productList?keyword=스마트폰" ><img src="/resources/common/images/phone.png" /><p>스마트폰</p></a></li>
