@@ -232,6 +232,7 @@ body, html {
 																					<th width="100">날짜</th>
 																				</tr>
 																			</thead>
+																			
 																			<c:choose>
 																			<c:when test="${messageList.size() eq 0 }">
 																			<div style="display:flex; justify-content: center">
