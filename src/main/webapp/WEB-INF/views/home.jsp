@@ -211,7 +211,7 @@ ul{ list-style:none;}
             </div>
             <div class="text">
               <h2 class="text-uppercase">고객 맞춤 배송 서비스</h2>
-              <p>당일 대여를 제외한 대여 상품은 대여 예약일 오전 9시까지 고객님께 배송해드립니다!</p>
+              <p>대여 상품은 대여 예약일 오전 9시까지 고객님께 배송해드립니다!<br>(※당일대여 제외)</p>
             </div>
           </div>
           <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
@@ -219,8 +219,8 @@ ul{ list-style:none;}
               <span class="icon-refresh2"><i></i></span>
             </div>
             <div class="text">
-              <h2 class="text-uppercase">무료 환불 서비스</h2>
-              <p>대여 서비스가 시작되지 않았거나 구매 당일에는 무료 환불이 가능합니다.</p>
+              <h2 class="text-uppercase">3일 체험 서비스</h2>
+              <p>원하는 제품 어느 것이든 3일간 대여 후 체험이 가능합니다!</p>
             </div>
           </div>
           <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
@@ -229,7 +229,7 @@ ul{ list-style:none;}
             </div>
             <div class="text">
               <h2 class="text-uppercase">고객 지원</h2>
-              <p>카카오톡 상담톡에서 상담원이 평일 오전 9시부터 오후 6시까지 상시 대기 중이니 문의사항이 있을 시 언제든 상담톡 바랍니다.
+              <p>평일 오전 9시부터 오후 6시까지 카카오톡 상담원 상시 대기 중!
               </p>
             </div>
           </div>

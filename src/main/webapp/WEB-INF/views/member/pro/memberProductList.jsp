@@ -490,59 +490,8 @@ ul{ list-style:none;}
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-12">
-            <div class="site-section site-blocks-2">
-                <div class="row justify-content-center text-center mb-5">
-                  <div class="col-md-7 site-section-heading pt-4">
-                    <br><h2>이달의 추천 상품</h2><br>
-                  </div>
-                </div>
-                <div class="row" id="margin">
-                  <div class="col-md-4 " data-aos="fade" data-aos-delay="">
-                    <a class="block-2-item" href="#">
-                      <figure class="image">
-                        <img src="/resources/common/images/p_n001.jpg" alt="" class="img-fluid">
-                      </figure>
-                      <div class="text">
-                        <span class="text-uppercase"></span>
-                        <h3></h3>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-md-4 " data-aos="fade" data-aos-delay="100">
-                    <a class="block-2-item" href="#">
-                      <figure class="image">
-                        <img src="/resources/common/images/p_n002.jpg" alt="" class="img-fluid">
-                      </figure>
-                      <div class="text">
-                        <span class="text-uppercase"></span>
-                        <h3></h3>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-md-4 " data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="#">
-                      <figure class="image">
-                        <img src="/resources/common/images/p_n001.jpg" alt="" class="img-fluid">
-                      </figure>
-                      <div class="text">
-                        <span class="text-uppercase"></span>
-                        <h3></h3>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              
-            </div>
-          </div>
-        </div>
 
- 				<form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
-                        <input type="hidden" name="keyword" value="${pageMaker.cri.keyword}"/>
-                  		<input type="text" id="keyword" name="searchType" value="${pageMaker.cri.searchType}" placeholder="검색어를 입력하세요"/>&nbsp;
-                		<input type="submit" id="secoundSearch" value="검색" class="btn waves-effect waves-light btn-primary btn-outline-primary">
-                	</form>
+
 
   <script>
 
