@@ -1314,10 +1314,10 @@ public class MemberController {
 	//수정 끝	
 
 	
-		List<UserVO> list = dao.memList(cri);
-		int listCount = list.size();
+		int listCount = dao.countMemListTotal(cri);
+		//int listCount = list.size();
 		model.addAttribute("listCount", listCount);
-				
+		System.out.println(listCount + "listCount");		
 		int countSmartPhone = productDAO.countSmartPhone();
 		int countLaptop = productDAO.countLaptop();
 		int countCamera = productDAO.countCamera();
