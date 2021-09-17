@@ -339,8 +339,8 @@ script
 				var chk1 = $('#chk1').is(":checked")
 				var chk2 = $('#chk2').is(":checked")
 				var chk3 = $('#chk3').is(":checked")
-				console.log(chk1 + " / " + chk2 + " / " + chk3);
-				if(chk1 == 'false' || chk2 == 'false' || chk3 == 'false'){
+				if(chk1 == false || chk2 == false || chk3 == false){
+					console.log(chk1 + " / " + chk2 + " / " + chk3);
 					action_popup.alert("약관동의 해주세요.");
 				}else if(passinput == ''){
 					action_popup.alert("비밀번호를 확인해주세요.");
