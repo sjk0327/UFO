@@ -95,29 +95,29 @@
 			})
 		}
 </script>
-<footer class="site-footer border-top" style="margin-top: 100px;">
+<footer class="site-footer border-top" style="margin-top: 50px;">
 
-      <div class="container">
+   
         <div class="row">
           <div class="col-md-12 col-lg-12 col-xs-12">
           
            	<div class="row">
-           	
+           	<div class="col-md-3"></div>
           		<div class="col-md-2" style="margin-top: 50px;">
           		
               		<a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
 										alt="로고" style="width: 150px; height:75px;"></a>
               	</div>
-              	<div class="col-md-4">
+              	<div class="col-md-3">
               		<p><br><br>Use First Own 이라는 모토로 부담스러운 결정을<br> 덜어드리고 전자기기를 대여부터 구매까지<br> 빠르고 편리한 서비스를 제공합니다.</p>
               	</div>
-         		 <div class="col-md-6 col-lg-6">
+         		 <div class="col-md-4 col-lg-4">
             		<div class="block-5 mb-5">
              	 <h2 class="footer-heading mb-4">Contact Us</h2>
               	<ul class="list-unstyled">
                 <li class="address">서울시 금천구 가산동 월드메르디앙 2차 413호 KOSMO</li>
                 <li class="email">usefirstown@gmail.com</li>
-                <li class="phone"><a href="/admin" id="goadmin"><h3 class="footer-heading mb-4">Company</h3></a></li>
+                <li class="phone"><a href="/" id="goadmin"><span class="footer-heading mb-4" style="font-weight: bold; font-size: 15pt;">toIndex</span></a></li>
               </ul>
          			</div>
     	     	</div>
@@ -136,5 +136,5 @@
         </div>
       </div>
       </div>
-      </div>
+      
     </footer>
