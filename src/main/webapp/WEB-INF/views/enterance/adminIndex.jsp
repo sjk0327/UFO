@@ -11,6 +11,11 @@
      <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
      <!-- 신영 chart.js cdn 삽입 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<style type="text/css">
+
+
+</style> 
+   
 </head>
 
   <body>
@@ -181,7 +186,7 @@
             </div>
          </div>
 
-            <span class="text-muted">Get 15% Off on <a href="https://www.amcharts.com/" target="_blank">amCharts</a> licences. Use code "codedthemes" and get the discount.</span>
+            
             <div class="card-header-right">
                 <ul class="list-unstyled card-option">
                     <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -192,7 +197,7 @@
                 </ul>
             </div>
         </div>
-        <div class="card-block">
+        <div id="threeMonth">
            <c:forEach var="threeMonthList" items="${threeMonthPurchase}">
           <input type="hidden" id="bPurchase" value="${threeMonthList.b_purchase }" >
           </c:forEach>
@@ -204,7 +209,7 @@
           </c:forEach>
                 
                 
-               <canvas id="threeSellingChart" style="width:100%;max-width:600px"></canvas>
+               <canvas id="threeSellingChart" style="width:100%; max-width:600px;"></canvas>
         </div>
     </div>
 </div>
@@ -438,7 +443,7 @@ var arraypercent=new Array();
 var totalamount=0;
 for(var k=0;k<idsize;k++){
 	totalamount=totalamount+Number(amount[k].value);
-	arrayId.push(proId[k].value);
+	arrayId.push(proName[k].value);
 }
 
 for(var l=0;l<idsize;l++){

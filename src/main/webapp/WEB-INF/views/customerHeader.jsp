@@ -37,7 +37,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin-right: 105px;
+    margin-right: 40px;
     margin-top: -20px;
     font-size: 13px;
     width: 24px;
@@ -92,7 +92,7 @@
                    <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
                    </c:if>
                    <c:if test="${sessionScope.loginPl == 'kakao'}">
-                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://localhost:8090/logout"><i class="fas fa-sign-out-alt"></i></a></li>
+                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://www.ufo2021.link/logout"><i class="fas fa-sign-out-alt"></i></a></li>
                    </c:if>
                    <c:if test="${sessionScope.loginPl == 'naver'}">
                    <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>

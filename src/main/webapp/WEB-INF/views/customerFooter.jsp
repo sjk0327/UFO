@@ -68,7 +68,8 @@
               	<div class="col-md-4">
               		<p><br><br>Use First Own 이라는 모토로 부담스러운 결정을<br> 덜어드리고 전자기기를 대여부터 구매까지<br> 빠르고 편리한 서비스를 제공합니다.</p>
               	</div>
-         		 <div class="col-md-6 col-lg-6">
+              	<div class="col-md-1"></div>
+         		 <div class="col-md-5 col-lg-5">
             		<div class="block-5 mb-5">
              	 <h2 class="footer-heading mb-4">Contact Us</h2>
               	<ul class="list-unstyled">
