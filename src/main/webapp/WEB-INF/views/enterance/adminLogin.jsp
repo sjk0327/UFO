@@ -141,9 +141,6 @@
                                             <p class="text-inverse text-left m-b-0"></p>
                                             <p class="text-inverse text-left"><a href="/" tabindex="4"><b>고객 페이지로</b></a></p>
                                         </div>
-                                        <div class="col-md-2">
-                                            <img src="/resources/assets/images/auth/Logo-small-bottom.png" width="60" height="58" alt="small-logo.png">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +188,7 @@
 	</section>
 	<!-- alert 모달을 쓸 페이지에 추가 end-->
 
-	<%@ include file="/WEB-INF/views/adminFooter.jsp"%>
+
 <script>
 function inputEnter(){
 	loginCheck();

@@ -625,10 +625,10 @@ body, html {height: 100%;}
                              
 </div>
 
-<div class="col-md-3">
-<div id="usersee" class="block-4 border col-md-10 box" >${userInfo.m_id}님, 이런 상품은 어떠세요?<br>
+<div class="col-md-3" style="text-align: center;">
+<div id="usersee" class="block-4 border col-md-10 box" style="font-weight: bold;">${userInfo.m_id}님, 이런 상품은 어떠세요?<hr>
 <c:forEach var="prowish" items="${wishProList}">
-<div class="row" style="margin-bottom: 1pt;">
+<div class="row" style="margin-bottom: 1pt;" onclick="">
 <div class="col-md-6">
 <a><img class="wishimg" src="/resources/Images/product/${prowish.p_mainImg}"></a>
 </div>
@@ -636,8 +636,7 @@ body, html {height: 100%;}
 [${prowish.p_category}]<br>${prowish.p_name}</div></div>
 
 </c:forEach>
-
-
+<a href="#" >더보기</a>
 
 </div></div></div>
 </div>

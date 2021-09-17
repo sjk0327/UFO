@@ -614,7 +614,7 @@
 		select
 		p_id,p_name,p_price,p_canBuy,p_canRent,p_soldCount,
 		p_category,p_mainImg,p_subImg,p_regdate from product
-		where p_category = #{maxcate}
+		where p_category = #{maxcate} and (p_id LIKE CONCAT('%', '001') or p_id LIKE CONCAT('%', '005') or p_id LIKE CONCAT('%', '009') or p_id LIKE CONCAT('%', '013')) limit 4
 	</select>
 	
 	<select id="productReviewBest" parameterType ="String" resultType="String">
