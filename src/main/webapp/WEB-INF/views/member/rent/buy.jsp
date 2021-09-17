@@ -758,11 +758,11 @@ body, html {height: 100%;}
 								<input type="hidden" id="b_how2" name="b_how" value="일반 결제" />
 								<input type="hidden" id="b_state2" name="b_state" value="${buyInfo.buyType }" />
 								<c:if test="${buyInfo.buyType eq '대여' }">
-									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase2" name="b_purchase"  value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
 									<input type="hidden" id="r_sdate2" name="r_sdate" value="${buyInfo.rentdate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '구매' }">
-									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }"/>
 								<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
@@ -772,7 +772,7 @@ body, html {height: 100%;}
 								</c:if>
 								
 								<c:if test="${buyInfo.buyType eq '구매 확정' }">
-									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase2" name="b_purchase" />
 									<input type="hidden" id="b_rid2" name="b_rid" value="${r_id}" />
 									<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
@@ -1028,6 +1028,8 @@ function check2(){
 			
 				document.getElementById("total").value = p_price - v_point;
 				var total = Number(document.getElementById("total").value);
+				document.getElementById("hiddenTotal").value = total;
+				document.getElementById("hiddenTotal2").value = total;
 				document.getElementById("total").value = total.toLocaleString() + "원";
 				
 				var mpoint = m_point - v_point;
