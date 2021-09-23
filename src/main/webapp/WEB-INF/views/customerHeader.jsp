@@ -52,12 +52,12 @@
     transition: .2s all ease-in-out;
 }
 
-@media only screen and (max-width:600px) {
+@media screen and (max-width:600px) {
 .count{
  position: absolute;
     top: 0;
     right: 0;
-    margin-right: 98px;
+    margin-right: 30%;
     margin-top: -10px;
     font-size: 13px;
     width: 24px;
@@ -77,17 +77,49 @@
   </style>
 
   <header class="site-navbar" role="banner">
-      <div class="site-navbar-top">
         <div class="container">
+        <div class="site-top-icons" style="text-align: right; margin-top: 3%; ">
+                <ul style="font-weight: bold;">
+               <c:choose>
+                <c:when  test ="${empty userInfo}">
+                  <li><a href="/login">로그인</a></li>
+                  <li><a href="/member/mem/memJoin">회원가입</a></li>
+                  </c:when >
+                  <c:otherwise>
+                   <li><a href="/member/mem/userInfo">${userInfo.m_id } 님, 환영합니다!</a>&nbsp;&nbsp;
+                   
+                   <c:if test="${sessionScope.loginPl == 'ufo'}">
+                   <li><a href="/logout">로그아웃</a></li>
+                   </c:if>
+                   <c:if test="${sessionScope.loginPl == 'kakao'}">
+                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://www.ufo2021.link/logout">로그아웃</a></li>
+                   </c:if>
+                   <c:if test="${sessionScope.loginPl == 'naver'}">
+                   <li><a href="/logout">로그아웃</a></li>
+                   </c:if>
+                   
+                   <li><a href="/member/rent/wishList">위시리스트</a></li>
+                  <li><a href="/member/rent/cartList">장바구니
+                  <c:if test="${count != 0}">
+                  <span class="count">${count}</span>
+                  </c:if>
+                  </a>
+                  </li>
+                   
+                  </c:otherwise>
+                 </c:choose>
+                  <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                </ul>
+              </div>
+      <div class="site-navbar-top" style="padding-top: 0px; padding-bottom: 20px;">
           <div class="row align-items-center">
 
             <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-             
             </div>
 
             <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
             
-               <div style="margin-left: 20px;">
+               <div>
                <a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
 										alt="로고" style="width: 200px; height:90px;"></a>
               
@@ -95,47 +127,6 @@
             </div>
 
             <div class="col-12 col-md-4 col-xs-12 order-3 order-md-3 text-right">
-              <div class="site-top-icons">
-                <ul>
-
-               <c:choose>
-                <c:when  test ="${empty userInfo}">
-                  <li><a href="/login">[ 로그인 ]</a></li>
-                  <li><a href="/member/mem/memJoin">[ 회원가입 ]</a></li>
-                  </c:when >
-                  <c:otherwise>
-                   <li>${userInfo.m_id } 님, 환영합니다!&nbsp;&nbsp;
-                  <li><a href="/member/mem/userInfo"><span class="icon icon-person"></span></a></li>
-                  <li><a href="/member/rent/wishList"><span class="icon icon-heart-o"></span></a></li>
-                  <li><a href="/member/rent/cartList"><span class="icon icon-shopping_cart"></span>
-                   <c:if test="${count != 0}">
-                  <span class="count">${count}</span>
-                  </c:if>
-                  </a></li>
-                   <c:if test="${sessionScope.loginPl == 'ufo'}">
-                   <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
-                   </c:if>
-                   <c:if test="${sessionScope.loginPl == 'kakao'}">
-                   <li><a href="https://kauth.kakao.com/oauth/logout?client_id=0ba57b2de5ae26e3cc0a370db0b7f98d&logout_redirect_uri=http://www.ufo2021.link/logout"><i class="fas fa-sign-out-alt"></i></a></li>
-                   </c:if>
-                   <c:if test="${sessionScope.loginPl == 'naver'}">
-                   <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
-                   </c:if>
-                   
-                  </c:otherwise>
-                 </c:choose>
-                  <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
-                </ul>
-              </div>
-              <br>
-              <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
-                <span class="icon icon-search2"></span>  
-                <input type="text" id="keyword" name="keyword" placeholder="Search" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
-              	<button type="submit" id="firstSearchId" value="검색" >검색</button>
-              </form>
-              
-              
-               
             </div>
 
           </div>
@@ -144,34 +135,26 @@
       <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container" id="nav">
           <ul class="site-menu js-clone-nav d-none d-md-block">
-            <li class="active">
-              <a href="/">Home</a></li>
-            <li class="has-children">
-              <a href="/member/pro/productList/">Shop</a>
-              <ul class="dropdown">
-                <li><a href="/member/pro/productList?keyword=스마트폰">스마트폰</a></li>
-                <li><a href="/member/pro/productList?keyword=노트북">노트북</a></li>
-                <li><a href="/member/pro/productList?keyword=카메라">카메라</a></li>
-                <li><a href="/member/pro/productList?keyword=스마트워치">스마트워치</a></li>
-                <li><a href="/member/pro/productList?keyword=태블릿">태블릿</a></li>
-              </ul>
+          <li>
+              <a href="/" style="margin-right: 30px; font-size: 25px; font-weight: bold;">HOME</a>
             </li>
-            <li class="has-children">
-              <a href="/member/mem/memRentList">My 쇼핑</a>
-              <ul class="dropdown">
-                <li><a href="/member/mem/memRentList">대여 내역</a></li>
-                <li><a href="/member/mem/memBuyList">구매 내역</a></li>
-              </ul>
+            <li>
+              <a href="/member/pro/productList/" style="margin-right: 30px; font-size: 25px; font-weight: bold;">상품보러가기</a>
             </li>
-            <li class="has-children">
-              <a href="/member/noticeList">커뮤니티</a>
-              <ul class="dropdown">
-                <li><a href="/member/noticeList">공지사항</a></li>
-                <li><a href="/member/qna/qnaList">Q&A</a></li>
-              </ul>
+            <li>
+              <a href="/member/noticeList" style="margin-right: 30px; font-size: 25px; font-weight: bold;">공지사항</a>
+            </li>
+            <li>
+              <a href="/member/qna/qnaList" style="margin-right: 30px; font-size: 25px; font-weight: bold;">질문과답변</a>
             </li>
             
           </ul>
         </div>
       </nav>
+			 <div style="text-align: center;">
+              <form id="sort" name="productSearch" method="POST" action="/member/pro/productList">
+                <input type="hidden" id="keyword" name="keyword" placeholder="검색어를 입력해 주세요" style="width: 25%;" value="${pageMaker.cri.keyword}" style="border-radius:5px; border: solid 2px grey;" >
+              </form>
+              </div>
+              <br>
     </header>

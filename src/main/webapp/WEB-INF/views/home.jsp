@@ -92,10 +92,8 @@ z-index: 9999;
   <div id="menu">
 <%@ include file="/WEB-INF/views/customerHeader.jsp" %></div>
   <div class="site-wrap">
-  
- <div class="site-section block-8" style="background-image: url('resources/common/images/mint.jpg')">
-    
       <div class="container">
+ 		<div class="site-section block-8" style="background-image: url('resources/common/images/mint3.jpg')">
         <div class="row justify-content-center  mb-5">
           <div class="col-md-7 site-section-heading text-center pt-4">
             <h2>Use First and Own!</h2>
@@ -104,7 +102,7 @@ z-index: 9999;
         
         <div class="row">
           <div class="col-lg-7"></div>
-          <div class="col-md-5 col-lg-5 text-center pl-md-5" style="background-color: white; border: solid;">
+          <div class="col-md-5 col-lg-5 pl-md-5" style="background-color: white; border: solid; text-align: center;">
           <br>
             <h3><a href="#">빠른 대여하기</a></h3>
              <form:form id="buyform" method="post" commandName="BuyInfoVO">

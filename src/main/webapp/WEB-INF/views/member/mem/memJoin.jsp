@@ -201,6 +201,7 @@ select::-ms-expand {
 </head>
 
   <body themebg-pattern="theme1">
+  <div class="site-wrap">
   <section class="login-block">
         <!-- Container-fluid starts -->
         <div class="container-fluid">
@@ -905,7 +906,16 @@ this.value = autoHypenPhone( this.value ) ;
     
 </script>
 
-<%@ include file="/WEB-INF/views/adminFooter.jsp" %>         
+<%@ include file="/WEB-INF/views/adminFooter.jsp" %></div>
+<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
+	<script src="/resources/common/js/jquery-ui.js"></script>
+	<script src="/resources/common/js/popper.min.js"></script>
+	<script src="/resources/common/js/bootstrap.min.js"></script>
+	<script src="/resources/common/js/owl.carousel.min.js"></script>
+	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+	<script src="/resources/common/js/aos.js"></script>
+
+	<script src="/resources/common/js/main.js"></script>  
 
 </body>
 

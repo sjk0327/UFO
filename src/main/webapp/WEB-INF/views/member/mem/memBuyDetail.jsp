@@ -13,6 +13,21 @@
 
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+<link rel="stylesheet" href="/resources/common/fonts/icomoon/style.css">
+
+<link rel="stylesheet" href="/resources/common/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/common/css/magnific-popup.css">
+<link rel="stylesheet" href="/resources/common/css/jquery-ui.css">
+<link rel="stylesheet" href="/resources/common/css/owl.carousel.min.css">
+<link rel="stylesheet"
+	href="/resources/common/css/owl.theme.default.min.css">
+
+
+<link rel="stylesheet" href="/resources/common/css/aos.css">
+
+<link rel="stylesheet" href="/resources/common/css/style.css">
 <style type="text/css">
 #username {
 	color: white;
@@ -247,6 +262,7 @@ body, html {
 </head>
 
 <body>
+<div class="site-wrap">
 	<div id="pcoded" class="pcoded">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
@@ -641,7 +657,7 @@ body, html {
 		}
 	</script>
 
-	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<%@ include file="/WEB-INF/views/customerFooter.jsp"%></div>
 
 </body>
 

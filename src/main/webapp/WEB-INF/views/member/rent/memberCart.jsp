@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8"/>
 <title>장바구니 - UF&#38;O</title>
-<div class="site-wrap">
+
 <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -266,6 +266,7 @@ padding-bottom: 30px;
 
 </head>
 <body>
+<div class="site-wrap">
         <!-- confirm 모달을 쓸 페이지에 추가 start-->
         <section id="modal" class="modal modal-section type-confirm">
             <div class="enroll_box">
@@ -693,6 +694,19 @@ padding-bottom: 30px;
 
 
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %></div>
+<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
+	<script src="/resources/common/js/jquery-ui.js"></script>
+	<script src="/resources/common/js/popper.min.js"></script>
+	<script src="/resources/common/js/bootstrap.min.js"></script>
+	<script src="/resources/common/js/owl.carousel.min.js"></script>
+	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+	<script src="/resources/common/js/aos.js"></script>
+
+	<script src="/resources/common/js/main.js"></script>
+
+
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
 

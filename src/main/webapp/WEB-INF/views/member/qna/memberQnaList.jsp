@@ -16,6 +16,7 @@
 <html lang="en">
 <head>
 <title>Q &#38; A 리스트 - UF&#38;O</title>
+
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
@@ -164,6 +165,7 @@ body, html {
 </style>
 </head>
 <body>
+<div class="site-wrap">
 	
 	<div style="text-align: center;">
 		<br><br>
@@ -357,7 +359,7 @@ body, html {
 	<!-- alert 모달을 쓸 페이지에 추가 end-->
 		
 
-	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<%@ include file="/WEB-INF/views/customerFooter.jsp"%></div>
 
 	<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
 	<script src="/resources/common/js/jquery-ui.js"></script>
