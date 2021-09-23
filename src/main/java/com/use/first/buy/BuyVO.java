@@ -23,6 +23,14 @@ public class BuyVO {
 	private String p_mainimg;
 	private String p_name;
 	private String b_review;
+	private String m_img;
+	
+	public String getM_img() {
+		return m_img;
+	}
+	public void setM_img(String m_img) {
+		this.m_img = m_img;
+	}
 	public int getB_id() {
 		return b_id;
 	}

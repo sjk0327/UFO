@@ -191,6 +191,88 @@ body, html {height: 100%;}
 .enroll_box p{padding-bottom: 56px;}
 .gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px; transition: 0.5s;font-size: 17px;}
 .pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px; transition: 0.5s;font-size: 17px;border: none;}
+
+@media screen and (max-width:768px) {
+	.table {
+		table-layout: fixed;
+		width: 100%;
+		text-align: center;
+		font-size: 15px;
+	}
+	.table th {
+		background: #ccc;
+	}
+	.table td, .table th {
+		padding: 10px 20px;
+		border-top: 1px solid #ccc;
+		word-break: break-all;
+	}
+	/*block*/
+	.table--block thead {
+		display: none;
+	}
+	.table--block tr {
+		display: block;
+		margin-bottom: 14px;
+		border-top: none;
+		padding-bottom: 0px !important;
+	}
+	.table--block tbody td:before {
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 30%;
+		padding: 10px 0;
+		background: #ccc;
+	}
+	.table--block th, .table--block tbody td {
+		display: block;
+		position: relative;
+		padding: 10px 0;
+		padding-left: 30%;
+		border-width: 0 0 1px 0;
+		text-align: center;
+	}
+	.table--block tbody td.content {
+		display: block;
+		position: relative;
+		padding: 10px 0;
+		padding-left: 30%;
+		border-width: 0 0 1px 0;
+		text-align: left;
+		margin-right: 50px
+	}
+	.table--block tbody td {
+		text-align: center;
+		/*padding-right: 100px;*/
+	}
+	
+	.table--block td:nth-child(1):before {
+		content: '이미지';
+		padding: 48.5px 0px;
+	}
+	.table--block td:nth-child(2):before {
+		content: '상품정보';
+		
+	}
+	.table--block td:nth-child(3):before {
+		content: '구매정보';
+	}
+	.table--block td:nth-child(4):before {
+		content: '포인트적립';
+	}
+	.table--block td:nth-child(5):before {
+		content: '수 량';
+	}
+	.table--block td:nth-child(6):before {
+		content: '상품금액';
+	}
+	.table--block td:nth-child(7):before {
+		content: '대여날짜';
+	}
+
+}
 </style>
 </head>
 <body>
@@ -211,7 +293,7 @@ body, html {height: 100%;}
 						</div>
 						<div class="card-block table-border-style">
 							<div class="table-responsive">
-								<table border="1" summary="" class="">
+								<table border="1" summary="" class="table table-sm table--block">
 									<thead style="text-align: center;">
 										<tr>
 											<th scope="col">이미지</th>
@@ -280,10 +362,10 @@ body, html {height: 100%;}
 													<td>${buyInfo.rentdate }</td>
 												</c:if>
 												<c:if test="${buyInfo.buyType eq '구매' or buyInfo.buyType eq '구매 확정'}">
-													<td></td>
+													<td>x</td>
 												</c:if>
 												<c:if test="${buyInfo.buyType eq '연체료 납부' }">
-												<td></td>
+												<td>x</td>
 											</c:if>
 												
 											</tr>

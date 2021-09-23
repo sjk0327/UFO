@@ -65,6 +65,7 @@
 		padding: 10px 20px;
 		border-top: 1px solid #ccc;
 		word-break: break-all;
+		
 	}
 	/*block*/
 	.table--block thead {
@@ -75,14 +76,6 @@
 		margin-bottom: 14px;
 		border-top: none;
 		padding-bottom: 0px !important;
-	}
-	.table--block th, .table--block tbody td {
-		display: block;
-		position: relative;
-		padding: 10px 0;
-		padding-left: 30%;
-		border-width: 0 0 1px 0;
-		text-align: left;
 	}
 	.table--block tbody td:before {
 		display: block;
@@ -99,7 +92,7 @@
 		padding: 10px 0;
 		padding-left: 30%;
 		border-width: 0 0 1px 0;
-		text-align: center;
+		text-align: right;
 	}
 	.table--block tbody td.content {
 		display: block;
@@ -112,17 +105,10 @@
 	}
 	.table--block tbody td {
 		text-align: right;
-		padding-right: 100px;
+		white-space: normal !important;
+		/*padding-right: 100px;*/
 	}
-	.table--block tbody td:nth-child(5):before {
-		display: block;
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 30%;
-		padding: 16px 0px 16px 0px;
-		background: #ccc;
-	}
+
 	.table--block td:nth-child(1):before {
 		content: '상품 번호';
 		text-align: center;
@@ -142,6 +128,7 @@
 	.table--block td:nth-child(5):before {
 		content: '진행 상태';
 		text-align: center;
+		padding: 16px 0px;
 	}	
 
 }
@@ -434,14 +421,14 @@ width: 100px;
 																					</div>
 																				</div>
 																			</div>
-																			<div class="table">
+																			<div>
 																				<table
-																					class="table table-striped table-sm table--block"
+																					class="table table-striped table--block"
 																					id="testab">
 																					<thead>
 																						<tr>
-																							<th class="one">상품 번호</th>
-																							<th class="two">상품 정보</th>
+																							<th>상품 번호</th>
+																							<th>상품 정보</th>
 																							<th>금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액
 																							</th>
 																							<th>수&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량</th>

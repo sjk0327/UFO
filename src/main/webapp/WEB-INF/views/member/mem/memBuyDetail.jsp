@@ -82,7 +82,7 @@
 		padding: 10px 0;
 		padding-left: 30%;
 		border-width: 0 0 1px 0;
-		text-align: left;
+		text-align: right;
 	}
 	.table--block tbody td:before {
 		display: block;
@@ -92,14 +92,6 @@
 		width: 30%;
 		padding: 10px 0;
 		background: #ccc;
-	}
-	.table--block th, .table--block tbody td {
-		display: block;
-		position: relative;
-		padding: 10px 0;
-		padding-left: 30%;
-		border-width: 0 0 1px 0;
-		text-align: center;
 	}
 	.table--block tbody td.content {
 		display: block;
@@ -112,16 +104,7 @@
 	}
 	.table--block tbody td {
 		text-align: right;
-		padding-right: 100px;
-	}
-	.table--block tbody td:nth-child(5):before {
-		display: block;
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 30%;
-		padding: 16px 0px 16px 0px;
-		background: #ccc;
+		white-space: normal !important;
 	}
 	.table--block td:nth-child(1):before {
 		content: '상품 번호';
@@ -142,6 +125,7 @@
 	.table--block td:nth-child(5):before {
 		content: '진행 상태';
 		text-align: center;
+		padding: 16px 0px;
 	}
 }
 
@@ -341,7 +325,7 @@ body, html {
 																			</div>
 																			<div class="table">
 																				<table
-																					class="table table-striped table-sm table--block"
+																					class="table table-striped table--block"
 																					id="testab">
 																					<thead>
 																						<tr>

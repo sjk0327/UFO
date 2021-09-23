@@ -225,7 +225,7 @@ public class MemberController {
 				infoVO = new UserInfoVO(id, userInfo.get("nickname").toString());
 				session.setAttribute("userInfo", infoVO);
 				int b = email.indexOf("@");
-				int e = email.indexOf(".");
+				int e = email.lastIndexOf(".");
 				String emailFront = ""; 
 				if (b > 0 && e > 0) {
 					emailFront = email.substring(b + 1, e);

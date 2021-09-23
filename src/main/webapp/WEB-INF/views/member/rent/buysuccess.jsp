@@ -48,7 +48,7 @@
 }
 
 .box {
-	width: 100%;
+	width: 100%;	
 	height: 70%;
 }
 
@@ -115,6 +115,13 @@
   transform: translateY(var(--border-size));
 }
 
+@media screen and (max-width:991px) {
+   .multi-button {
+       display: block;
+       width: 100%;
+   }
+}
+
 </style>
 </head>
 <body>
@@ -148,8 +155,8 @@
 						<br>
 						<div class="row" style="width: 80%; margin: auto;">
 							<div class="multi-button" >
-						  <button onClick="location.href='/member/pro/productList';">쇼핑게속하기</button>
-						  <button onClick="location.href='/member/mem/userInfo';">내주문내역</button>
+						  <button onClick="location.href='/member/pro/productList';">쇼핑계속하기</button>
+						  <button onClick="location.href='/member/mem/userInfo';">내 주문내역</button>
 						  <button onClick="location.href='/';">처음화면으로</button>
 						</div>
 						</div>

@@ -73,7 +73,11 @@
 	<!-- 신영추가 -->	
 	<select id="buyManyList" resultType="com.use.first.buy.BuyVO">
 		<![CDATA[	
-		select b_mid,b_mname,b_purchase from buy order by b_purchase desc
+		select buy.b_mid, buy.b_mname, max(buy.b_purchase) as b_purchase, member.m_img 
+		from buy, member 
+		where buy.b_mid = member.m_id
+		group by buy.b_mid
+		order by b_purchase desc
 		limit 0,5;
 		]]>
 	</select>

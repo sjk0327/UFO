@@ -325,7 +325,7 @@
         <c:forEach var="list" items="${buyList}" begin="0" end="5" step="1" varStatus="status">   
             <div class="align-middle m-b-30">
             	<div class="col-md-6">
-                <img src="/resources/assets/images/avatar-2.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
+                <img src="/resources/Images/member/${list.m_img }" alt="user image" class="img-radius img-40 align-top m-r-15">
                 <div class="d-inline-block">
                   <h6>${list.b_mid}${list.b_mname }</h6><h6><fmt:formatNumber value="${list.b_purchase}" pattern="###,###,###" /></h6>
                   
