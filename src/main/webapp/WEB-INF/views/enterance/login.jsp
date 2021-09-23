@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>로그인</title>
+<title>로그인 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 
 <style>

@@ -91,11 +91,7 @@
                 
                 </ul>
             </li>
-            <li>
-             <a class="waves-effect waves-light" onclick="location.href='/admin/rent/Findreturnlate'">
-			<i class="fa fa-refresh reload-card"></i>
-                </a>
-            </li>
+          
             <li id="logout" class="user-profile header-notification"><a href="/adminLogout">로그아웃</a></li>
             </ul>
         </div>

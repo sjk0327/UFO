@@ -42,6 +42,7 @@ public interface RentDAO {
 	public RentVO rentToBuyListByrid(int r_rid);
 	public void rentUpdaterid(int r_id);
 	public List<RentVO> rentListNowBypid(@Param("rentdate") Date rentdate, @Param("p_id") String p_id);
+	public int countCart(String userId);
 	// 성훈 시작
 	   public List<RentVO> rentListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);
 	   public List<RentVO> purchaseListByMid(@Param("r_mid") String r_mid, @Param("r_state") String r_state);

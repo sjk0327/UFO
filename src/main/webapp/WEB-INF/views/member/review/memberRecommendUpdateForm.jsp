@@ -8,7 +8,7 @@
 <html lang="en">
 
 <head>
-<title>내 정보 페이지 - UF&#38;O</title>
+<title>내 리뷰 수정 페이지 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 

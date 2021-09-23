@@ -21,7 +21,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- datepicker 여기까지 -->    
-	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     
     
     <style type="text/css">
@@ -33,38 +33,11 @@
 
 #kakao-talk-channel-chat-button{
 position: fixed;
-top : 670px;
+top : 800px;
 right :30px;
 
 }
-.tab {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-}
-/* Float the list items side by side */
-.tab li {
-	float: left;
-}
-/* Style the links inside the list items */
-.tab li a {
-	display: inline-block;
-	color: #000;
-	text-align: center;
-	text-decoration: none;
-	padding: 9px 13px;
-	font-size: 12px;
-	transition:0.3s;
-}
-/* Style the tab content */
-.tabcontent {
-	display: none;
-	background-color: rgb(246,246,246);
-	padding: 6px -20px;
-	color:#F6F6F6;
-	text-align:left;
-}
+
 ul.tab li.current{
 	background-color: rgb(246,246,246);
 	color: #F6F6F6;
@@ -84,65 +57,34 @@ ul.tab li.current{
    color: #585858;
    border-radius: 5px;
 }
-#slidemenu{background:#12cf3d;position:absolute;width:100px;top:50px;right:10px;}
-#imghover:hover { margin:0px ; border:2px solid #888; }  
-* {padding: 0;margin: 0;}
-body, html {height: 100%;}
-.modal .btn{;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
-.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
-.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
-.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);
--ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);
-transform: translate(-50%, -50%);display: none;z-index: 9999;}
-.menu_msg{font-size: 21px;font-weight: 500;}
-.enroll_box p{padding-bottom: 56px;}
-.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
-.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
-#mainMenuList {text-align: center; width:100%; height:94px; background-color:#f4f4f4; padding-bottom: -15px;}
-#mainMenuList ul {text-align: center; width:1200px; margin:0 auto; padding:-16px 0;}
-#mainMenuList ul:after {content:""; display:block; clear:both;}
-#mainMenuList ul li {float:left; height:120px; width:15%; text-align:center;}
-#mainMenuList ul li p {padding:10px 0 12px 0; text-align:center; font-weight:700;}
-#mainMenuList ul li a {display:block; font-size:18px; letter-spacing:-1px; font-weight:700;}
-#mainMenuList ul li a:hover {color:#8A2BE2; text-decoration:none;}
-#listClick:hover { border: solid 2px #4B0082; color:#f26617; }
+
 ul{ list-style:none;}
-.mb-1 {
-  transform: scale(1);
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  -o-transform: scale(1);
-  transition: all 0.5s ease-in-out;  /* 서서히 확대 */
-}
-.mb-1:hover {
-  transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  -o-transform: scale(1.1);
-}
-.inp_division { font-weight:700; }
-#margin { margin:20px; padding:80px; }
-#minPrice { height: 32px; width: 81px; }
-#maxPrice { height: 32px; width: 81px; }
-#minPriceBuy{ height: 32px; width: 81px; }
-#maxPriceBuy{ height: 32px; width: 81px; }
-#selfminprice{ height: 32px; width: 81px; }
-#selfmaxprice{ height: 32px; width: 81px; }
-#priceSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
-#selfSearchRent { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
-#selfSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
-#priceSearchBuy { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
-#selfSearch { height: 32px; width: 90px; font-size: 14px; text-align:"center"; }
-#textdeco {text-decoration: line-through;}
+
+
     #menu{
     position:sticky;
     top: 0px;
     z-index: 9999;
     }
-
-
+#Proname{
+width: 400px;
+}
+@media only screen and (max-width:768px) {
+ #menu{
+    position:sticky;
+    top: 0px;
+    z-index: 9998;
+    }
+#Proname{
+width: 350px;
+}
+#kakao-talk-channel-chat-button{
+position: fixed;
+top : 750px;
+right :10px;
+z-index: 9999;
+}
+}
     </style>
   </head>
   <body>
@@ -177,7 +119,7 @@ ul{ list-style:none;}
       <option value="태블릿">태블릿</option>
       </select></div> 
       <div style="float: left; text-align: left;">상품명 : 
-      <select id="Proname" style="width: 400px;" onchange="chageProname()">
+      <select id="Proname" onchange="chageProname()">
     <option value="선택">카테고리를 먼저 선택해주세요!</option>
       </select></div>
       <br>
@@ -334,8 +276,34 @@ ul{ list-style:none;}
     <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
   </body>
 
-  <script>
-  
+  <script type="text/javascript">
+	 $(function(){
+		   $('#rentdate').datepicker();
+		})
+		 $('#rentdate').datepicker({
+			        dateFormat: 'yy-mm-dd' //달력 날짜 형태
+			        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			        ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+			        ,changeYear: true //option값 년 선택 가능
+			        ,changeMonth: true //option값  월 선택 가능                
+			        ,showOn: "text" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+			        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+			        ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+			        ,buttonText: "선택" //버튼 호버 텍스트              
+			        ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+			        ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+			        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+			        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+			        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+			        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+			        ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+			 		,showButtonPanel: true
+			 		,currentText: '오늘 날짜'
+			 		,closeText: '닫기'
+			 		,nextText:"다음"
+			 		,prevText:"이전"
+			 	
+			    });
   function chageCategory(){
 	  var category=document.getElementById("Category");
 	  var ca = category.options[category.selectedIndex].value; 
@@ -478,35 +446,7 @@ ul{ list-style:none;}
   })(document, 'script', 'kakao-js-sdk');
 
 	 
-	 $(function(){
-		   $('#rentdate').datepicker();
-		})
-		 $('#rentdate').datepicker({
-			        dateFormat: 'yy-mm-dd' //달력 날짜 형태
-			        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-			        ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-			        ,changeYear: true //option값 년 선택 가능
-			        ,changeMonth: true //option값  월 선택 가능                
-			        ,showOn: "text" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-			        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-			        ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
-			        ,buttonText: "선택" //버튼 호버 텍스트              
-			        ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
-			        ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-			        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
-			        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
-			        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-			        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-			        ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
-			 		,showButtonPanel: true
-			 		,currentText: '오늘 날짜'
-			 		
-			 		
-			 		,closeText: '닫기'
-			 		,nextText:"다음"
-			 		,prevText:"이전"
-			 	
-			    });      
+      
 
 
 	 

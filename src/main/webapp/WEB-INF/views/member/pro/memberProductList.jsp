@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en" >
   <head>
-    <title>상품리스트(고객)</title>
+    <title>상품 리스트- UF&#38;O</title>
     <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    
@@ -159,7 +159,7 @@ ul{ list-style:none;}
 <ul id="tempList" style=" display:none"></ul>
 
   <div class="site-wrap" >
-    <header role="banner">
+
       <nav class="text-right text-md-center" role="navigation" style="background-color:#f4f4f4;">
         <div class="container">
               <div class="row">
@@ -183,7 +183,7 @@ ul{ list-style:none;}
         </div>
         </div>
       </nav>
-    </header>
+   
 </div>
     <div>
       <div class="container">

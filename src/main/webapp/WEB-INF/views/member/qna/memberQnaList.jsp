@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>UFO - QnA</title>
+<title>Q &#38; A 리스트 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
@@ -245,7 +245,7 @@ body, html {
 
 		</form>
 			<table class="table table-hover table-sm">
-				<thead style="background-color: #A0AFFF;">
+				<thead style="background-color: #7971ea;">
 					<tr style="color: #fffeee; font-weight: bold;">
 						<th style="text-align: center; width: 10%;">번호</th>
 						<th style="text-align: center; width: 15%;">카테고리</th>

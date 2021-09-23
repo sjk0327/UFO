@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>UF&#38;O- Q &#38; A 글 쓰기</title>
+<title>Q &#38; A 글쓰기 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">

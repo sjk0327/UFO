@@ -9,7 +9,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
+<title>회원가입 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
 <script src="https://ajax.googleapis .com /ajax/libs/jquery/3 .5 .1 /jquery .min .js "></script >
 

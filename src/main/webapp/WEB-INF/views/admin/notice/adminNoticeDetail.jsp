@@ -9,7 +9,7 @@
 
 
 <head>
-<title> 공지사항 상세 </title>
+<title> 관리자 공지사항 상세 정보 페이지 - UF&#38;O</title>
 
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 

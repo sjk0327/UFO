@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>배송지목록</title>
+<title>배송지목록 - UF&#38;O</title>
 <!-- Favicon icon -->
 <link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />  
 <style>

@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>공지사항</title>
+<title>공지사항 상세- UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">

@@ -7,7 +7,7 @@
 <html lang="en">
 
 <head>
-    <title>관리자 페이지</title>
+    <title>관리자 인덱스 - UF&#38;O</title>
      <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
      <!-- 신영 chart.js cdn 삽입 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

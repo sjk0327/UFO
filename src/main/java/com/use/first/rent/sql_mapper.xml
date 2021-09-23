@@ -265,6 +265,13 @@
 		]]>
 	</update>
 	
+	
+	<select id="countCart"  resultType="int">
+      <![CDATA[
+      select count(*) from cart where c_mid= #{userId} 
+      ]]>
+   </select>
+	
 	<!-- 08/10 : 성훈 추가 product.p_category -->
 	<!-- 성훈 시작 -->
    <select id="rentListByMid" parameterType="String" resultType="com.use.first.rent.RentVO">

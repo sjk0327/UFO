@@ -142,7 +142,8 @@
 	.table--block td:nth-child(5):before {
 		content: '진행 상태';
 		text-align: center;
-	}
+	}	
+
 }
 
 <!--
@@ -312,6 +313,29 @@ a.button {
 	right: 10px;
 	top: 10px;
 }
+@media only screen and (max-width:600px) {
+.modal-con {
+
+	max-width: 100%;
+	width: 300px;
+ z-index: 9998;
+	
+}
+#buyTyped{
+width: 100px;
+}
+#amountd{
+width: 100px;
+}
+#priced{
+width: 100px;
+}
+
+
+}
+
+
+
 </style>
 
 </head>
@@ -619,16 +643,17 @@ a.button {
 																						<div class="row" style="margin-top: 20px;">
 																							<div class="col-md-4">
 																								<img id="productImg" class="img-fluid"
-																									src="/resources/Images/${proInfo.p_mainImg}.jpg"
+																									src="/resources/Images/product/${proInfo.p_mainImg}"
 																									style="width: 200px; height: 150px; margin-left: 20px;">
 																							</div>
 																							<div class="col-md-3" id="productName"
 																								style="color: #505050; font-weight: bold;">${proInfo.p_name}</div>
 																							<div class="col-md-5">
 																								<div>
+																								<br>
 																									<div class="row">
-																										<div class="col-md-5">구매정보</div>
-																										<div class="col-md-6">
+																										<div id="buyTyped" class="col-md-5">구매정보</div>
+																										<div id="buyTyped" class="col-md-6">
 																											<input id="buyType" name="buyType"
 																												type="text" value="구매 확정" size="5px;"
 																												readonly="readonly">
@@ -637,8 +662,8 @@ a.button {
 																								</div>
 																								<div>
 																									<div class="row" style="margin-top: 8pt;">
-																										<div class="col-md-5">수량</div>
-																										<div class="col-md-6">
+																										<div id="amountd" class="col-md-5">수량</div>
+																										<div id="amountd" class="col-md-6">
 																											<input id="proamount" name="proamount"
 																												type="number" min="1"
 																												max="${proInfo.p_canBuy }"
@@ -650,8 +675,8 @@ a.button {
 
 																								<div>
 																									<div class="row" style="margin-top: 8pt;">
-																										<div class="col-md-5">총 가격</div>
-																										<div class="col-md-6">
+																										<div id="priced" class="col-md-5">총 가격</div>
+																										<div id="priced" class="col-md-6">
 																											<input id="productPrice" name="productPrice"
 																												type="text"
 																												value="${proInfo.p_price*rentInfo.r_rent }"
@@ -922,16 +947,10 @@ a.button {
 
 		//수정이 추가
 
-		document.getElementById("proamount").addEventListener("input",
-				changeprice);
-		var price = $
-		{
-			proInfo.p_price
-		}
+		document.getElementById("proamount").addEventListener("input",changeprice);
+		var price = ${proInfo.p_price}
 		function changeprice(ev) {
-			document.getElementById("productPrice").value = (document
-					.getElementById("proamount").value)
-					* price;
+			document.getElementById("productPrice").value = (document.getElementById("proamount").value)* price;
 		};
 
 		document.getElementById("keepgo").addEventListener("click", giveData);

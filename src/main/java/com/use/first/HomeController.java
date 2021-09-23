@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.use.first.member.UserInfoVO;
 import com.use.first.product.ProductDAO;
 import com.use.first.product.ProductVO;
+import com.use.first.rent.RentDAO;
 import com.use.first.visitor.VisitCountDAO;
 
 
@@ -37,6 +39,8 @@ public class HomeController {
 	public String home(Locale locale, Model model, HttpSession session) {
 		VisitCountDAO dao = sqlSessionTemplate.getMapper(VisitCountDAO.class);
 		ProductDAO productDAO = sqlSessionTemplate.getMapper(ProductDAO.class);
+		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
+		
 		String smartphoneBest="p_h001";
 		String notebookBest="p_n001";
 		String watchBest="p_w001";
@@ -68,11 +72,14 @@ public class HomeController {
 		model.addAttribute("smartwatch", smartwatch);
 		model.addAttribute("tablet", tablet);
 		model.addAttribute("camera", camera);
-		
-		if (session.getAttribute("userName") != null) {
-			System.out.println("home() userName : " + session.getAttribute("userName"));
-			if(!session.getAttribute("userName").equals("관리자")) {
+		if (session.getAttribute("userInfo") != null) {
+			UserInfoVO user=(UserInfoVO)session.getAttribute("userInfo");
+			if(!user.getM_name().equals("관리자")) {
 				System.out.println("! 이면 홈으로");
+				String userId=user.getM_id();
+				int count = rentDAO.countCart(userId);
+				System.out.println(count+"개수");
+				session.setAttribute("count",count);
 				return "home";
 			}
 			else {

@@ -9,7 +9,7 @@
 
 
 <head>
-<title> 추천글 </title>
+<title> 관리자 추천글 게시판  - UF&#38;O </title>
 
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 

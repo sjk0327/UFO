@@ -23,7 +23,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>카카오 결제 - UF&#38;O</title>
 <!-- Favicon icon -->
 <link rel="shortcut icon" type="image/x-icon" href="/resources/Images/ufo_purple_favi.ico" />  
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>

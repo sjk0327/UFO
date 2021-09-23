@@ -52,8 +52,30 @@
     transition: .2s all ease-in-out;
 }
 
+@media only screen and (max-width:600px) {
+.count{
+ position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 98px;
+    margin-top: -10px;
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    background: #7971ea;
+    color: #fff;
+    -webkit-transition: .2s all ease-in-out;
+    -o-transition: .2s all ease-in-out;
+    transition: .2s all ease-in-out;
+}
+}
+
 
   </style>
+
   <header class="site-navbar" role="banner">
       <div class="site-navbar-top">
         <div class="container">
@@ -72,7 +94,7 @@
               </div>
             </div>
 
-            <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+            <div class="col-12 col-md-4 col-xs-12 order-3 order-md-3 text-right">
               <div class="site-top-icons">
                 <ul>
 
@@ -86,7 +108,9 @@
                   <li><a href="/member/mem/userInfo"><span class="icon icon-person"></span></a></li>
                   <li><a href="/member/rent/wishList"><span class="icon icon-heart-o"></span></a></li>
                   <li><a href="/member/rent/cartList"><span class="icon icon-shopping_cart"></span>
-                  <span class="count">1</span>
+                   <c:if test="${count != 0}">
+                  <span class="count">${count}</span>
+                  </c:if>
                   </a></li>
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
                    <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
@@ -100,7 +124,7 @@
                    
                   </c:otherwise>
                  </c:choose>
-                 
+                  <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
                 </ul>
               </div>
               <br>
@@ -118,7 +142,7 @@
         </div>
       </div> 
       <nav class="site-navigation text-right text-md-center" role="navigation">
-        <div class="container">
+        <div class="container" id="nav">
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li class="active">
               <a href="/">Home</a></li>
@@ -133,7 +157,7 @@
               </ul>
             </li>
             <li class="has-children">
-              <a href="/member/pro/productList/">My 쇼핑</a>
+              <a href="/member/mem/memRentList">My 쇼핑</a>
               <ul class="dropdown">
                 <li><a href="/member/mem/memRentList">대여 내역</a></li>
                 <li><a href="/member/mem/memBuyList">구매 내역</a></li>

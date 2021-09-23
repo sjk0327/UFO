@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+<title>결제 완료 - UF&#38;O</title>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
 <meta name="viewport"

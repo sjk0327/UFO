@@ -162,16 +162,6 @@ public class RentController {
 		return "redirect:/admin/rent/rentDetail/" + r_id;
 	}
 
-	// 세션값 재설정
-	@RequestMapping(value = "/admin/rent/Findreturnlate")
-	public String adminFindreturnlate(HttpSession session) {
-		RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
-		List<RentVO> returnList = rentDAO.returnList();
-		List<RentVO> lateList = rentDAO.lateList();
-		session.setAttribute("lateList", lateList);
-		return "redirect:/adminIndex";
-
-	}
 
 	// 연체 시 메세지 처리
 	@RequestMapping(value = "/admin/rent/sendLateMessage")
@@ -304,6 +294,7 @@ public class RentController {
 					model.addAttribute("wishProList", wishProList);
 					model.addAttribute("rentalListNow", rentalListNow);
 					model.addAttribute("cartList", cartList);
+					model.addAttribute("maxcate", maxcate);
 					
 			return "/member/rent/memberWishList";
 		}
@@ -369,16 +360,20 @@ public class RentController {
 		
 		//장바구니 상품 삭제
 		@RequestMapping(value = "/member/rent/deleteCartList", method = RequestMethod.POST)
-		public String customerDeleteCartList(@RequestParam("cartId") String c_id, Model model) throws Exception{
+		public String customerDeleteCartList(@RequestParam("cartId") String c_id, Model model, HttpSession session) throws Exception{
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 			rentDAO.deleteCartList(c_id);	
-			
+		
+				UserInfoVO user=(UserInfoVO)session.getAttribute("userInfo");
+					String userId=user.getM_id();
+					int count = rentDAO.countCart(userId);
+					session.setAttribute("count",count);
 			
 			return "redirect:/member/rent/cartList";
 		}
 		
 		@RequestMapping(value = "/member/rent/deleteCartList2", method = RequestMethod.GET)
-		public String customerDeleteSelectCartList(@RequestParam HashMap<String, Object> commandMap)
+		public String customerDeleteSelectCartList(@RequestParam HashMap<String, Object> commandMap,HttpSession session)
 				throws Exception {
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
@@ -394,20 +389,26 @@ public class RentController {
 				rentDAO.deleteCartList(code_array[i]);
 			}
 
-			
+			UserInfoVO user=(UserInfoVO)session.getAttribute("userInfo");
+			String userId=user.getM_id();
+			int count = rentDAO.countCart(userId);
+			session.setAttribute("count",count);
 			return "redirect:/member/rent/cartList";
 
 		}
 		
 		// 장바구니 전체 삭제
 		@RequestMapping(value = "/member/rent/deleteCartAll")
-		public String customerDeleteCartAll(@RequestParam("userID") String c_mid)
+		public String customerDeleteCartAll(@RequestParam("userID") String c_mid,HttpSession session)
 				throws Exception {
 			
 			RentDAO rentDAO = sqlSessionTemplate.getMapper(RentDAO.class);
 
 			rentDAO.deleteCartAll(c_mid);
-
+			UserInfoVO user=(UserInfoVO)session.getAttribute("userInfo");
+			String userId=user.getM_id();
+			int count = rentDAO.countCart(userId);
+			session.setAttribute("count",count);
 			
 			return "redirect:/member/rent/cartList";
 
@@ -431,6 +432,8 @@ public class RentController {
 					cartVO.setC_date(sdate);
 					
 					rentDAO.insertCartList(cartVO);
+					int count = rentDAO.countCart(userId);
+					session.setAttribute("count",count);
 					
 					return "redirect:/member/rent/cartList";
 					
@@ -455,6 +458,8 @@ public class RentController {
 					cartVO.setC_date(sdate);
 					
 					rentDAO.insertCartList(cartVO);
+					int count = rentDAO.countCart(userId);
+					session.setAttribute("count",count);
 					
 					return "redirect:/member/rent/wishList";
 					

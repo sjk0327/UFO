@@ -8,14 +8,15 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Insert title here</title>
+<title>위시리스트 - UF&#38;O</title>
+<div class="site-wrap">
 <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/resources/common/css/style.css">
 <link rel="stylesheet" type="text/css" href="/ind-script/optimizer.php?filename=tZVBUgQhDEX33W49R8pZeAb3ngDodJMSCEWCztxepnWhzsbqgSWp5IX6IR_wHBGeTgVy4a2YCAWFa3EITgTWwknBcYycHlrgEf6Tj24SDlWJ02T5fLCwqh5tGswFy7FSNTbgj1J0cxUsAhYTKUcjig1WbSA3e40BZMF5QaEtgbxROj3v5MhLDQjxIp4zfJD4QKIdwGu78Z2YJg9XBWuE3M68GXAX6legN7UNqx1wqjSKrMxBKY_CewzD2O2RL9UN0zybjZJRHKa8saPQN3bSl_7L5XprEoYJ3tLcKPZfE77TSb_7xNp28-qpr55yprR17-A4vTdI-wyy6w4XbesTeON17c9GU5x_QbMM0P16Z-XduD4B&type=css&k=89a12bf899430c5c696ea12eadc518ef948738e3&t=1627622406" />
 <link rel="stylesheet" type="text/css" href="/ind-script/optimizer.php?filename=rczLDcMgEEXRAsjWdTwpizThKvi8GBRgImZQ5O5t1-Bsr3QPsjSC0U3lUAT2YtK8Gge-M9QSXbZWoYkuUcvWoZ_Sny9EVcTsh63cfzLS4wwLbnFbD39QmqRZiep3mYa3yLld7AE&type=css&k=04827dcf247ed9d72d23c4e72d4402951c293c7b&t=1627969594" />
-<link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <link rel="stylesheet" type="text/css" href="/resources/common/css/label.css">
+
 <!-- datepicker -->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -23,7 +24,19 @@
 <!-- datepicker 여기까지 -->
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="/resources/common/js/main.js"></script>
+    
+  
 <style type="text/css">
+
+#del{
+left: 40px;
+}
+#itemBox{
+margin-left: 40px; 
+margin-right: 40px; 
+
+}
+
 .ui-datepicker {
   position: fixed !important;
   left: calc(50vw + 350px) !important;
@@ -171,109 +184,82 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
 }
 @media only screen and (max-width:600px) {
 
-tr{
-display : block;
-border-bottom: solid;
+.img-fluid{
+	height: 200px;
+	width: 345px;
 }
 
-.checkth, .prhth, .pohth, .imgboxth,  .selth {
+#itemBox{
+margin-left: 0px; 
+margin-right: 0px; 
+
+}
+
+.checkth, .prhth, .pohth, .imgboxth,  .selth, #recommendBox {
 display: none;
 }
 
-
-.check{
-width:10%;
-border-color: #d3d3d3;
-}
-.imgbox{
-width:90%;
-border-color: #d3d3d3;
-}
-.info{
-width:100%;
-display:block;
-border: 0;
-border-spacing: 0;
-border-collapse: collapse; 
+#del{
+left: 0px;
+bottom: 30px;
 }
 
-
-
-.prh{
-width : 50%;
-    padding-right: 40px;
-    padding-left: 40px;
+#rentp{
+width: 160px;
+}
+#buyp{
+width: 160px;
 }
 
-.poh{
-    padding-left: 60px;
-    padding-right: 60px;
+#rentb{
+width: 105px;
 }
 
-
-.pr{
-    width:50%;
-    border-color: #d3d3d3;
-    
-
+#buyb{
+width: 105px;
 }
 
-.po{
-    width:60%;
-    padding-left: 60px;
-    border-color: #d3d3d3;
-    
+#cartb{
+width: 105px;
 }
 
-
-.sel{
-width : 100%;
-display:block;
-border: 0;
-border-spacing: 0;
-border-collapse: collapse; 
-text-align: center;
-
-
+#space{
+width: 0px;
 }
 
-.img-fluid{
-	height: 229px;
-	width: 400px;
+#page{
+padding-left: 150px;
 }
-
-.btnrent{
-width:200%;
-position: relative;
-left : 20%;
+#modalForbuy{
+max-width: 100%;
+width: 300px;
+ z-index: 9998;
 
 }
-
-.btnbuy{
-width:200%;
-position: relative;
-left : 130%;
+.ui-datepicker {
+  position: fixed !important;
+  left: 100px;
+  top: 100px !important; 
+  z-index: 9999;
+ 
 }
 
-.checkpro{
-margin-left: 10px;
+#modal{
+width: 350px;
 }
 
-.allpro{
-margin-top : 10px;
-margin-right: 25px;
-}
 }
 
 .small1 { width: 100px; height: 100px; }
 .small2 { width: 80px; height: 80px; align:center;}
 
 #usersee{
-max-height: 500px;
+max-height: 700px;
 position: sticky;
 top:300px;
 
 }
+
 
 
 * {padding: 0;margin: 0;}
@@ -290,10 +276,13 @@ body, html {height: 100%;}
 
 </head>
 <body>
+
+
+
 <!-- 모달창 시작 -->
                 <div class="modal hidden">
   <div class="bg"></div>
-  <div class="modal-con">
+  <div id="modalForbuy" class="modal-con">
   <a href="javascript:;" class="close">X</a>
   <p class="title" >옵션을 확인해주세요!</p>
   <div class="con">
@@ -355,7 +344,7 @@ body, html {height: 100%;}
             </div>
             <div class="enroll_btn">
                 <input type="button" class="btn pink_btn btn_ok" value="확인"></input>
-                <input type="button" class="btn gray_btn modal_close" value="취소"></input>
+                <input type="button" id="modal_close" class="btn gray_btn modal_close" value="취소"></input>
             </div>
         </section>
         <!-- confirm 모달을 쓸 페이지에 추가 end-->
@@ -401,7 +390,7 @@ body, html {height: 100%;}
 	<!-- cartList end script로! -->
 
 
-
+ <div class="site-wrap" >
     <div class="py-3" style="background-color: #f4f4f4;">
       <div class="container">
         <div class="row">
@@ -441,13 +430,13 @@ body, html {height: 100%;}
                
              <div class="col-sm-6 col-lg-4 mb-4" id="listClick"  data-aos="fade-up" onclick="" >  
                      
-                <div  class="block-4 text-center border;" style="margin-left: 40px; margin-right: 40px;" >
+                <div  id="itemBox" class="block-4 text-center border;">
                 <!-- 체크박스 -->
                 <div class="col">
                 <div class="row">
                 <div class="check col-md-5" onclick="event.cancelBubble=true" style="text-align: left; margin: 3pt;" >
                      <input class="check" onclick="event.cancelBubble=true" type="checkbox" name="RowCheck" value="${wishInfo.w_id }"></div>
-                  <div class="col-md-5" style="text-align: right; margin: 3pt; left: 40px;"><form id="deleteSepForm" action="/member/rent/deleteWishList" method="post">
+                  <div id="del" class="col-md-5" style="text-align: right; margin: 3pt;"><form id="deleteSepForm" action="/member/rent/deleteWishList" method="post">
                         <input type="hidden" name="w_id" value="${wishInfo.w_id}">
                         <input type="button" id="delbtn" class="deleteWish" onclick="deleteWish();" value="Χ"></input>
  						</form></div></div></div>
@@ -512,10 +501,10 @@ body, html {height: 100%;}
 <fmt:parseNumber var="buyprice" value="${wishInfo.p_price*0.95}" integerOnly="true" />
 <div class="row">
 
-<div class="col-md-6">
+<div id="rentp" class="col-md-6 col-xs-6 col-sm-6">
 대여가<br><span style="font-weight: bold;"><fmt:formatNumber value="${rentprice }" pattern="###,###,###" />원</span>
 </div>
-<div class="col-md-6">
+<div id="buyp" class="col-md-6 col-xs-6 col-sm-6">
 즉시구매가<br><span style="font-weight: bold;"><fmt:formatNumber value="${buyprice }" pattern="###,###,###" />원</span>
 </div>
 </div></div>
@@ -528,17 +517,17 @@ body, html {height: 100%;}
 
                     	 
                        
-                        <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnrent" value="대여">대여</button></div>
+                        <div id="rentb" class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnrent" value="대여">대여</button></div>
                     
                         
                          <c:if test="${wishInfo.p_canbuy eq 0}">
-                        <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;" disabled="disabled">구매</button></div>
+                        <div id="buyb" class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;" disabled="disabled">구매</button></div>
                         </c:if>
                         <c:if test="${wishInfo.p_canbuy ne 0}">
-                        <div class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;">구매</button></div>
+                        <div id="buyb" class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;">구매</button></div>
                         </c:if>
                
-                       <div class="col-md-4" style="padding-left: 1px; padding-right: 0;"><button id="button" class="btn btn-outline-primary btn-sm btncart" style="margin-left: 2pt; height: 43px;"><span class="fas fa-shopping-cart" style="font-size: 15pt;"></span></button>
+                       <div id="cartb" class="col-md-4" style="padding-left: 1px; padding-right: 0;"><button id="button" class="btn btn-outline-primary btn-sm btncart" style="margin-left: 2pt; height: 43px;"><span class="fas fa-shopping-cart" style="font-size: 15pt;"></span></button>
                         </div>
                         </div>
                         
@@ -554,25 +543,25 @@ body, html {height: 100%;}
                 <div id = "paging-div">
                 <div class="row">
                 <div class="col-md-5"></div>
-                <div class="col-md-6">
+                <div id="page" class="col-md-6">
                 <ul class="btn-group pagination">
                    <c:if test="${pageMaker.prev }">
                       <li><a href='<c:url value="/member/rent/wishList${pageMaker.makeQuery(pageMaker.startPage-1)}"/>'>
-                         <span style="font-weight: bold; color: #37474f;" >&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
+                         <span style="font-weight: bold; color: #37474f;" >&nbsp;[이전]&nbsp;</span></a></li><span id="space" class="col-md-1"></span>
                    </c:if>
                    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
                       <c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url 
                                         value="/member/rent/wishList${pageMaker.makeQuery(pageNum)}"/>'>
                       <span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; 
-                                        border-radius: 50%; font-weight: bold; color: white; padding : 2px; padding-right : 3px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+                                        border-radius: 50%; font-weight: bold; color: white; padding : 3px; padding-right : 3px;">&nbsp;&nbsp;${pageNum}&nbsp;</span></a></li><span id="space" class="col-md-1"></span></c:if>
                       <c:if test="${pageNum ne pageMaker.cri.page}"><li>
                                   <a href='<c:url value="/member/rent/wishList${pageMaker.makeQuery(pageNum)}"/>'>
-                      <span style="color: #37474f;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
+                      <span style="color: #37474f;">&nbsp;${pageNum}&nbsp;</span></a></li><span id="space" class="col-md-1"></span></c:if>
                       
                    </c:forEach>
                    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
                       <li><a href='<c:url value="/member/rent/wishList${pageMaker.makeQuery(pageNum)}/member/rent/wishList${pageMaker.makeQuery(pageMaker.endPage+1)}"/>'>
-                         <span style="font-weight: bold; color: #37474f;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span></a></li>
+                         <span style="font-weight: bold; color: #37474f;">&nbsp;[다음]&nbsp;</span></a></li><span id="space" class="col-md-1"></span></a></li>
                    </c:if>
                 </ul></div></div>
                 </div>
@@ -625,26 +614,26 @@ body, html {height: 100%;}
                              
 </div>
 
-<div class="col-md-3" style="text-align: center;">
+<div class="col-md-3" style="text-align: center;" id="recommendBox">
 <div id="usersee" class="block-4 border col-md-10 box" style="font-weight: bold;">${userInfo.m_id}님, 이런 상품은 어떠세요?<hr>
 <c:forEach var="prowish" items="${wishProList}">
-<div class="row" style="margin-bottom: 1pt;" onclick="">
+<div id="prowishline" class="row" style="margin-bottom: 1pt; cursor: pointer;" onclick="window.location='/member/pro/productDetail/${prowish.p_id}'">
 <div class="col-md-6">
 <a><img class="wishimg" src="/resources/Images/product/${prowish.p_mainImg}"></a>
 </div>
-<div class="col-md-6" style="font-weight: bold;">
+<div class="col-md-6" style="font-weight: bold; font-size: 8pt; margin-top: 8pt;">
 [${prowish.p_category}]<br>${prowish.p_name}</div></div>
-
+<hr>
 </c:forEach>
-<a href="#" >더보기</a>
+<a href="/member/pro/productList?keyword=${maxcate}" >더보기</a>
 
 </div></div></div>
 </div>
 
 </div></div>
 
-             
-<%@ include file="/WEB-INF/views/customerFooter.jsp" %>
+    </div>    
+<%@ include file="/WEB-INF/views/customerFooter.jsp" %></div>
 <script type="text/javascript">
 
 

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>회원가입</title>
+    <title>회원가입 - UF&#38;O</title>
      <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
      <style>
 	input[type=radio]{

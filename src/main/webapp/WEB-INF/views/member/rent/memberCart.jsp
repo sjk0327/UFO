@@ -11,7 +11,8 @@
 <html>
 <head>
 <meta charset="UTF-8"/>
-<title>Insert title here</title>
+<title>장바구니 - UF&#38;O</title>
+<div class="site-wrap">
 <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -20,6 +21,17 @@
 <link rel="stylesheet" type="text/css" href="/ind-script/optimizer.php?filename=rczLDcMgEEXRAsjWdTwpizThKvi8GBRgImZQ5O5t1-Bsr3QPsjSC0U3lUAT2YtK8Gge-M9QSXbZWoYkuUcvWoZ_Sny9EVcTsh63cfzLS4wwLbnFbD39QmqRZiep3mYa3yLld7AE&type=css&k=04827dcf247ed9d72d23c4e72d4402951c293c7b&t=1627969594" />
 <link rel="stylesheet" type="text/css" href="/resources/assets/css/admincommon.css">
 <style type="text/css">
+* {padding: 0;margin: 0;}
+body, html {height: 100%;}
+.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
+.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
+.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
+.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed; top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
+.menu_msg{font-size: 21px;font-weight: 500;}
+.enroll_box p{padding-bottom: 56px;}
+.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px; transition: 0.5s;font-size: 17px;}
+.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px; transition: 0.5s;font-size: 17px;border: none;}
+
 .hidden {
           display: none;
         }
@@ -100,6 +112,14 @@ border-top:1px solid;
 border-top-color: #dee2e6!important;
 
 }
+.ship{
+
+display: none;
+}
+
+#totalhidden{
+display: none;
+}
 
 @media only screen and (max-width:600px) {
 
@@ -144,10 +164,8 @@ border-spacing: 0;
 }
 
 .ship{
-float:left;
-width :165px;
-border-top: 0;
 
+display: inline;
 }
 
 .shippr{
@@ -156,7 +174,9 @@ width :165px;
 border-top: 0;
 
 }
-
+#totalhidden{
+display: inline;
+}
 .prh{
 width :165px;
 border-collapse: collapse; 
@@ -212,23 +232,64 @@ margin-left: 10px;
 margin-top : 10px;
 margin-right: 25px;
 }
+#total{
+height: 250px;
+}
+#a, #c{
+width: 170px;
+}
+#b{
+width: 20px;
+}
+
+#d{
+width: 100px;
+}
+#e{
+
+width: 300px;
+}
+
+#modal{
+width: 350px;
+}
+
+.enroll_box p{
+padding-bottom: 30px;
+}
+
 }
 
 
-* {padding: 0;margin: 0;}
-body, html {height: 100%;}
-.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
-.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
-.modal{width: 600px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center;}
-.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: sticky; top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
-.menu_msg{font-size: 21px;font-weight: 500;}
-.enroll_box p{padding-bottom: 56px;}
-.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px; transition: 0.5s;font-size: 17px;}
-.pink_btn {width: 90px;background: #7971ea;color: #fff;height: 36px; transition: 0.5s;font-size: 17px;border: none;}
+
 </style>
 
 </head>
 <body>
+        <!-- confirm 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modal modal-section type-confirm">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button id="modalcheck" class="btn pink_btn btn_ok">확인</button>
+                <button id="cancel" class="btn gray_btn modal_close">취소</button>
+            </div>
+        </section>
+        <!-- confirm 모달을 쓸 페이지에 추가 end-->
+        
+        
+
+        <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section id="modal" class="modal modal-section type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button id="modalcheck" class="btn pink_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->   
 <!-- 남은 수량 계산위한 rentalList -->
 	<c:forEach var="rentalList" items="${rentalListNow}">
 	<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
@@ -486,11 +547,11 @@ body, html {height: 100%;}
                     </span>(1%)</span><br/>
                   </td>
                 
-                    <td class="shippr">
+                    <td class="shippr"><span class="ship">배송비 : </span>
 <span class="">2,500원</span></td>
 				<fmt:formatNumber var="totalrentp" value="${rentprice+2500}" type="number"></fmt:formatNumber>
 				<fmt:formatNumber var="totalbuyp" value="${buyprice+2500}" type="number"></fmt:formatNumber>
-                    <td class="totalpr price right" style="font-weight: bold;">
+                    <td class="totalpr price right" style="font-weight: bold;"><span id="totalhidden">합계 : </span>
                     <c:if test="${cartInfo.c_state eq '대여' }">
                     <span id="totalprice">${totalrentp }</span>원					
 					</c:if>
@@ -564,14 +625,14 @@ body, html {height: 100%;}
 <div class="row" style="top:10px;">
 <div class="col-md-3"></div>
 <input type="hidden" id="cartselectTotal" value="0">
-<div class="col-md-4" style="font-weight: bold; font-size: 15pt;"><div>총 상품 금액</div><div><span id="cartselecttotal">0</span><span>원</span></div></div>
-<div class="col-md-1" style="padding-top: 20px;"><i class="fas fa-plus"></i></div>
-<div class="col-md-3" style="font-weight: bold; font-size: 15pt;">배송비<br>2,500원</div>
+<div id="a" class="col-md-4" style="font-weight: bold; font-size: 15pt;"><div>총 상품 금액</div><div><span id="cartselecttotal">0</span><span>원</span></div></div>
+<div id="b" class="col-md-1" style="padding-top: 20px;"><i class="fas fa-plus"></i></div>
+<div id="c" class="col-md-3" style="font-weight: bold; font-size: 15pt;">배송비<br>2,500원</div>
 </div>
 
 </div>
-<div class="col-md-1" style="text-align: center; padding-top: 20px;"><i class="fas fa-equals"></i></div>
-<div class="col-md-5" style="text-align: center;">
+<div id="d" class="col-md-1" style="text-align: center; padding-top: 20px;"><i class="fas fa-equals"></i></div>
+<div id="c" class="col-md-5" style="text-align: center;">
 <div style="font-weight: bold; font-size: 15pt;">총 주문 금액</div>
 <input type="hidden" id="cartselectPlus" value="0">
 <div style="font-weight: bold; font-size: 15pt; color: #7971ea;"><span id="cartselectplus">0</span><span>원</span></div>
@@ -620,41 +681,18 @@ body, html {height: 100%;}
             </div>
      </span>  
                                 
-       
+  
                  
                  
       </c:if>                         
         </div>
        
-        <!-- confirm 모달을 쓸 페이지에 추가 start-->
-        <section class="modal modal-section type-confirm">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <button class="btn pink_btn btn_ok">확인</button>
-                <button id="cancel" class="btn gray_btn modal_close">취소</button>
-            </div>
-        </section>
-        <!-- confirm 모달을 쓸 페이지에 추가 end-->
-        
-        
-
-        <!-- alert 모달을 쓸 페이지에 추가 start-->
-        <section class="modal modal-section type-alert">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <button class="btn pink_btn modal_close">확인</button>
-            </div>
-        </section>
-        <!-- alert 모달을 쓸 페이지에 추가 end-->                 
+              
 </div> 
 
 
 
-<%@ include file="/WEB-INF/views/customerFooter.jsp" %>
+<%@ include file="/WEB-INF/views/customerFooter.jsp" %></div>
 <script type="text/javascript">
 
 

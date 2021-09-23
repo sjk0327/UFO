@@ -9,7 +9,7 @@
 
 
 <head>
-<title> 추천글 </title>
+<title>내 리뷰 페이지 - UF&#38;O</title>
 
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 

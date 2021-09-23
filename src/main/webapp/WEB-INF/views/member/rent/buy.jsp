@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+<title>결제폼 - UF&#38;O</title>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -63,25 +63,22 @@ td, th {
 }
 
 .postbtn {
-	box-shadow: inset 0px 1px 0px 0px #ffffff;
-	background: linear-gradient(to bottom, #f9f9f9 5%, #abf5bf 100%);
-	background-color: #f9f9f9;
+
+	background-color: #7971ea;
 	border-radius: 4px;
-	border: 1px solid #dcdcdc;
+	border: 1px solid #7971ea;
 	display: inline-block;
 	cursor: pointer;
-	color: #316320;
+	color: white;
 	font-family: Arial;
 	font-size: 15px;
 	font-weight: bold;
 	padding: 2px 10px;
-	text-decoration: none;
-	text-shadow: 0px 1px 0px #ffffff;
+
 }
 
 .postbtn:hover {
-	background: linear-gradient(to bottom, #abf5bf 5%, #f9f9f9 100%);
-	background-color: #abf5bf;
+	background-color: #7971ea;
 }
 
 .postbtn:active {
@@ -393,7 +390,7 @@ body, html {height: 100%;}
 											onClick="clickPoint('${userVO.m_point }','${s }','${p }')"
 											value="사용" style="height: 30px; float: right;">
 											</c:if>
-									</div>
+									</div>&nbsp;
 
 									<div class="col-sm-1.5" style="line-height: 1;">
 									<c:if test="${buytype eq '연체료 납부' }">
@@ -758,11 +755,11 @@ body, html {height: 100%;}
 								<input type="hidden" id="b_how2" name="b_how" value="일반 결제" />
 								<input type="hidden" id="b_state2" name="b_state" value="${buyInfo.buyType }" />
 								<c:if test="${buyInfo.buyType eq '대여' }">
-									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase2" name="b_purchase"  value="${(buyInfo.productPrice * 0.05) * buyInfo.proamount }" />
 									<input type="hidden" id="r_sdate2" name="r_sdate" value="${buyInfo.rentdate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '구매' }">
-									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }"/>
 								<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
 								<c:if test="${buyInfo.buyType eq '연체료 납부' }">
@@ -772,7 +769,7 @@ body, html {height: 100%;}
 								</c:if>
 								
 								<c:if test="${buyInfo.buyType eq '구매 확정' }">
-									<input type="hidden" id="b_purchase2" name="b_purchase" value="${(buyInfo.productPrice * 0.95) * buyInfo.proamount }" />
+									<input type="hidden" id="b_purchase2" name="b_purchase" />
 									<input type="hidden" id="b_rid2" name="b_rid" value="${r_id}" />
 									<input type="hidden" id="r_sdate2" name="r_sdate" value="${todaydate}" />
 								</c:if>
@@ -1028,6 +1025,8 @@ function check2(){
 			
 				document.getElementById("total").value = p_price - v_point;
 				var total = Number(document.getElementById("total").value);
+				document.getElementById("hiddenTotal").value = total;
+				document.getElementById("hiddenTotal2").value = total;
 				document.getElementById("total").value = total.toLocaleString() + "원";
 				
 				var mpoint = m_point - v_point;

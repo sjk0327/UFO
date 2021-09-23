@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>UFO</title>
+    <title> 관리자 로그인 - UF&#38;O</title>
    <%@ include file="/WEB-INF/views/adminHeader.jsp" %>
 <style>
 .modal .btn {

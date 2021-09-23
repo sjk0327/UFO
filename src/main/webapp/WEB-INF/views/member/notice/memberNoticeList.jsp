@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Shoppers &mdash; Colorlib e-Commerce Template</title>
+<title>공지사항 리스트- UF&#38;O</title>
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
@@ -98,7 +98,7 @@
 		<div class="container" style="text-align: center;">
 		<div class="box">
 			<table class="table table-hover table-sm">
-				<thead style="background-color: #A0AFFF;">
+				<thead style="background-color: #7971ea;">
 					<tr style="color: #fffeee; font-weight: bold;">
 						<th style="text-align: center; width: 20%;">번호</th>
 						<th style="text-align: center; width: 40%;">제목</th>
