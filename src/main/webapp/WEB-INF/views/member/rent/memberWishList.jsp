@@ -369,7 +369,7 @@ body, html {height: 100%;}
                 <p class="menu_msg"></p>
             </div>
             <div class="enroll_btn">
-                <button id="modal_close" class="btn pink_btn modal_close">확인</button>
+                <button id="modal_close3" class="btn pink_btn modal_close">확인</button>
             </div>
         </section>
         <!-- alert 모달을 쓸 페이지에 추가 end-->
@@ -694,7 +694,7 @@ function deleteWish(){
 	action_popup.confirm("해당 상품을 위시리스트에서 삭제하시겠습니까?",function(res){
 		if(res){
 			action_popup.alert("상품이 위시리스트에서 삭제되었습니다!");
-			 $("#modal_close").on("click", function () {
+			 $("#modal_close3").on("click", function () {
 				 $("#deleteSepForm").submit();
 			    });
 			
@@ -711,7 +711,7 @@ $('.deleteWishAll').click(function() {
 	action_popup.confirm("위시리스트를 모두 비우시겠습니까?",function(res){
 		if(res){
 			action_popup.alert("위시리스트를 모두 비웠습니다!");
-			 $("#modal_close").on("click", function () {
+			 $("#modal_close3").on("click", function () {
 				 $("#deleteAllForm").submit();
 			    });
 		
@@ -735,7 +735,7 @@ function wishcheckboxArr() {
 	action_popup.confirm("선택한 상품들을 위시리스트에서 삭제하시겠습니까?",function(res){
 		if(res){
 			action_popup.alert("선택한 상품들이 위시리스트에서 삭제되었습니다!");
-			 $("#modal_close").on("click", function () {
+			 $("#modal_close3").on("click", function () {
 				 $("#form").attr("action", "/member/rent/deleteWishList2");  
 					$("#form").submit();
 			    });
