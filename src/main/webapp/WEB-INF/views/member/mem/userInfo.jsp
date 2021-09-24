@@ -289,7 +289,7 @@ select::-ms-expand {
 																					<div class="filebox">
 																						<div class="m_imgPreview">
 																							<img
-																								src="/resources/Images/member/defaultImage.jpg"
+																								src="/resources/Images/member/${userInfo.m_img }"
 																								class="img-fluid img-circle">
 																						</div>
 																						<input class="upload-name" value="파일선택"

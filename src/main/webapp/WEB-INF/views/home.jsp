@@ -85,7 +85,7 @@ ul {
 #menu {
 	position: sticky;
 	top: 0px;
-	z-index: 9999;
+	z-index: 1;
 }
 
 
@@ -236,7 +236,7 @@ ul {
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="nonloop-block-3 owl-carousel">
+							<div class="nonloop-block-3 owl-carousel" style= "z-index: 0";>
 								<div class="item"
 									onclick="location.href='/member/pro/productDetail/${smartphone.p_id}'">
 									<div class="block-4 text-center">

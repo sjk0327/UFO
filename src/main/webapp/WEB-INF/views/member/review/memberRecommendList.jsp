@@ -290,7 +290,7 @@ body, html {
 																			
 																			<div class="row imgIdDate" name="imgIdDate" >
 
-																				<div class="col-3 profile">
+																				<div class="col-3 profile" onclick="window.location='/member/pro/productDetail/${recVO.v_pid}'">
 																					<img
 																						src=/resources/Images/product/${recVO.p_mainimg}
 																						alt="${recVO.p_mainimg}"

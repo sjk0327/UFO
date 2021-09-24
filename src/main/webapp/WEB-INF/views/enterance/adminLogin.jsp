@@ -137,9 +137,9 @@
                                     </div>
                                     <hr/>
                                     <div class="row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-12">
                                             <p class="text-inverse text-left m-b-0"></p>
-                                            <p class="text-inverse text-left"><a href="/" tabindex="4"><b>고객 페이지로</b></a></p>
+                                            <p class="text-inverse" style="text-align: center;"><a href="/" tabindex="4"><b>고객 페이지로</b></a></p>
                                         </div>
                                     </div>
                                 </div>

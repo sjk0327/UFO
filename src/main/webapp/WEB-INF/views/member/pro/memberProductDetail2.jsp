@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
 <title>상품 상세 정보- UF&#38;O</title>
 
@@ -23,8 +23,7 @@
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	<link rel="stylesheet"
-		href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -435,8 +434,7 @@ body, html {
 							</div>
 							<div class="col-8" style="text-align: right;">
 								<input type="text" name="rentdate" readonly="readonly"
-									required="required" placeholder="날짜를 선택해주세요" id="datepicker"
-									hidden="false">
+									required="required" placeholder="날짜를 선택해주세요" id="datepicker">
 							</div>
 						</div>
 
@@ -686,17 +684,7 @@ body, html {
 
 
 	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
-	<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
-	<script src="/resources/common/js/jquery-ui.js"></script>
-	<script src="/resources/common/js/popper.min.js"></script>
-	<script src="/resources/common/js/bootstrap.min.js"></script>
-	<script src="/resources/common/js/owl.carousel.min.js"></script>
-	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
-	<script src="/resources/common/js/aos.js"></script>
 
-	<script src="/resources/common/js/main.js"></script>
-	<script
-		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 	</div>
 
@@ -718,9 +706,9 @@ window.onload = function() {
 	amount = document.form.amount.value;
 	document.form.buysum.value = sell_price;
 	document.form.rentsum.value = rent_price;		
-	change();	
-	$('#datepicker').datepicker('setDate', 'today');	
-	 $("#datepicker").datepicker({
+	change();
+	$("#datepicker").datepicker('setDate', 'today');	
+	$("#datepicker").datepicker({
 	        dateFormat: 'yy-mm-dd' //달력 날짜 형태
 	        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 	        ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
@@ -1114,7 +1102,7 @@ function changeStateSelect(){
 	selectValue = stateSelect.options[stateSelect.selectedIndex].value; 
 	if (selectValue == "대여") {	
 	 $("#labelDate").css('visibility','visible');
-	 $( "#datepicker" ).datepicker( "show" );
+	 $("#datepicker").datepicker("show");
 	 document.getElementById('datepicker').value = new Date().toISOString().substring(0, 10);	
 	 document.getElementById("datepicker").removeAttribute('hidden');	
 	 document.getElementById("choice").removeAttribute('hidden');
@@ -1288,4 +1276,3 @@ var action_popup = {
 </script>
 
 </body>
-</html>
