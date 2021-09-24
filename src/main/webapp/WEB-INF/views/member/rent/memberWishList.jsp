@@ -632,8 +632,6 @@ body, html {height: 100%;}
 
 </div></div>
 
-    </div>    
-<%@ include file="/WEB-INF/views/customerFooter.jsp" %></div>
 <script src="/resources/common/js/jquery-3.3.1.min.js"></script>
 	<script src="/resources/common/js/jquery-ui.js"></script>
 	<script src="/resources/common/js/popper.min.js"></script>
@@ -647,6 +645,8 @@ body, html {height: 100%;}
 
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    </div>    
+<%@ include file="/WEB-INF/views/customerFooter.jsp" %></div>
 <script type="text/javascript">
 
 
