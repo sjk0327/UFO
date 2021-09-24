@@ -86,8 +86,9 @@
                   <li><a href="/member/mem/memJoin">회원가입</a></li>
                   </c:when >
                   <c:otherwise>
-                   <li><a href="/member/mem/userInfo">${userInfo.m_id } 님, 환영합니다!</a>&nbsp;&nbsp;
-                   
+
+                   <li><a href="/member/mem/userInfo" style="text-decoration: underline;">${userInfo.m_id } 님, 환영합니다!</a>&nbsp;&nbsp;
+    
                    <c:if test="${sessionScope.loginPl == 'ufo'}">
                    <li><a href="/logout">로그아웃</a></li>
                    </c:if>
@@ -100,6 +101,7 @@
                    
                    <li><a href="/member/rent/wishList">위시리스트</a></li>
                   <li><a href="/member/rent/cartList">장바구니
+
                   </a>
                   </li>
                    
@@ -137,7 +139,8 @@
 
             </li>
             <li>
-              <a href="/member/pro/productList/" style="margin-right: 30px; font-size: 25px; font-weight: bold;">상품보러가기</a>
+              <a href="/member/pro/productList/" style="margin-right: 30px; font-size: 25px; font-weight: bold;">상품</a>
+
             </li>
             <li>
               <a href="/member/noticeList" style="margin-right: 30px; font-size: 25px; font-weight: bold;">공지사항</a>
