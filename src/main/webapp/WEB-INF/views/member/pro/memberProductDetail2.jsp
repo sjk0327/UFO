@@ -1,454 +1,706 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-  <head>
-    <title>상품 상세 정보- UF&#38;O</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="en">
+<head>
+<title>상품 상세 정보- UF&#38;O</title>
 
-  	
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
-  <style>
-  #wish img{
-  width: 80px;
-  height: 50px;
-  }
-  #buyInfoVO{
-  color:#343a40;
-  }
-	img{
-	border-radius: 15px;
-	}
-	.reviewContent{
-	border:5px;
-	}
-	textarea {
-	border: none;
-	outline:none;
-	font-size: 1em;
-	background-color:transparent;
-	}
-	 input {
-    border: none;
-    outline:none;
-    text-align: right;
-    
-    }
-	#amount {
-	text-align: center;
-	}
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	select {    
-	border: none; 
-    outline:none;
-    text-align-last: center;	
-	}
-	
-	.img-with-text {
-    text-align: justify;
-    width: 400px;
-    margin-top: 2em;
-	}
+	<link rel="stylesheet"
+		href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-	.centered{
-	    margin-left: -15px;
-	        width: 1140px;
-	 display: flex;
-	justify-content: center;
-	}
-	.nav li{
-	width:570px;
-	}
-    
-    ul li {
-     margin-top:50px;
-     text-align: center;
- 	 padding: 0;
-    }     
-     
-    #buttonGroup{
-    text-align: right;
-    }
-    
-    .mainContainer{
-	 margin:auto;	
-	}
-	
-	a {
-	cursor:pointer;
-	}
-	#info div {
-	margin-top: 1px;}
-	
-	#like-o, #like {
-	cursor: pointer;
-	}
-	#recommendation input{
-	font-size: 30pt;
-	text-align:left;
-	}
-	.profile img{ 
-	height: auto;
-	  max-width: 60px;
-	  min-width: 100px;
-	  display: block;
-	border-radius: 30px; 
-	}
-	.imgIdDate {
-	margin-bottom :20px;
-	}
-	.reviewContent textarea {
-	width:100%; 
-	resize: none; 
-	overflow-y: hidden;
-	}
-	 #reviewContent textarea{
-	width:69%; 
-	}
-	.subContainer{
-	text-align: center;
-	background-color:white;
-	}
-	.wrap textarea {
-      width: 60%;
-      height:auto;
-      resize: none;
-      overflow-y: hidden; 
-      padding: 1.1em; 
-      padding-bottom: 0.2em;
-      line-height: 1.6;
-    }
-    #reviewstart{
-    margin-top: 20px;
-    }
-    .text-black{
-    margin-top: revert;
-    }
-    #locateTop {
- 	position: relative; bottom:75px; right:40px; 
-	}
-	#paging-div { float: left; width: 100%; margin: 0 auto; text-align: center; } /* 페이징가운데 */
-	#paging-div ul { display: table; margin: auto; padding:0; } 
-	#paging-div li { float: left; text-align: center; display:inline-block; }
+	<script
+		src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 
-* {padding: 0;margin: 0;}
-body, html {height: 100%;}
-.modal .btn{cursor: pointer;border: 1px solid #999999;text-align: center;border-radius: 5px;outline: none;font-weight: 500;}
-.dimLayer{display: block;width: 100%;background-color: rgba(0, 0, 0, 0.3);position: fixed;left: 0;top: 0px;margin: 0;padding: 0;z-index: 9998;}
-.mocdal{width: 500px;height: 252px;border-radius: 10px;padding: 80px 24px;box-sizing: border-box;text-align: center; }
-.modal-section{background: #ffffff;box-sizing: border-box;display: none;position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none;z-index: 9999;}
-.menu_msg{font-size: 21px;font-weight: 500;}
-.enroll_box p{padding-bottom: 30px;}
-.gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
-.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
-
- @media (max-width:575px) { 
- 	#edit {
-    font-size: 10pt;
-    }  
-    #delete {
-    font-size: 10pt;
-    } 
-    .wrap textarea {
-    width: 100%;  
-    }
-    #locateTop{
-    right: 5px;
-    }
-   .enroll_box p{
-   padding-bottom: 15px;
-   }
-   .menu_msg{
-   font-size: 16pt;
-   }
-   .mocdal{
-   width: 350px;
-   }
-   #reviewContent textarea {
-    width: 100%;
-	}
-   .idDate{
-   text-align: -webkit-right;
-   }
-   .nav li{
-	width:185px;
-	}
-    .centered{
-    width: 375px;
-    margin-left: -17px;
-    }
-    #wish img{
- 	 width: 60px;
-  	}
+	<style type="text/css">
+#wish img {
+	width: 80px;
+	height: 50px;
 }
 
+#buyInfoVO {
+	color: #343a40;
+}
 
+img {
+	border-radius: 15px;
+}
 
+.reviewContent {
+	border: 5px;
+}
 
+textarea {
+	border: none;
+	outline: none;
+	font-size: 1em;
+	background-color: transparent;
+}
 
-	
-  </style>
- 
-    <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
- 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+input {
+	border: none;
+	outline: none;
+	text-align: right;
+}
 
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- 	 <link rel="stylesheet" href="/resources/demos/style.css">
- 	 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
-  	
-  	<script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
-  </head>
+#amount {
+	text-align: center;
+}
 
-  <body>
+select {
+	border: none;
+	outline: none;
+	text-align-last: center;
+}
 
- 	<c:forEach var="rentalList" items="${rentalListNow}">
-	<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
-	<input id="rentaldateNow" type="hidden" value="${rentalList.r_sdate}">
-	<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
-	<input id="productCanRent" type="hidden" value="${rentalList.p_canRent}">
+.img-with-text {
+	text-align: justify;
+	width: 400px;
+	margin-top: 2em;
+}
+
+.centered {
+	margin-left: -15px;
+	width: 1140px;
+	display: flex;
+	justify-content: center;
+}
+
+.nav li {
+	width: 570px;
+}
+
+ul li {
+	text-align: center;
+	padding: 0;
+}
+
+#buttonGroup {
+	text-align: right;
+}
+
+.mainContainer {
+	margin: auto;
+}
+
+a {
+	cursor: pointer;
+}
+
+#info div {
+	margin-top: 1px;
+}
+
+#like-o, #like {
+	cursor: pointer;
+}
+
+#recommendation input {
+	font-size: 30pt;
+	text-align: left;
+}
+
+.profile img {
+	height: auto;
+	max-width: 60px;
+	min-width: 100px;
+	display: block;
+	border-radius: 30px;
+}
+
+.imgIdDate {
+	margin-bottom: 20px;
+}
+
+.reviewContent textarea {
+	width: 100%;
+	resize: none;
+	overflow-y: hidden;
+}
+
+#reviewContent textarea {
+	width: 69%;
+}
+
+.subContainer {
+	text-align: center;
+	background-color: white;
+}
+
+.wrap textarea {
+	width: 60%;
+	height: auto;
+	resize: none;
+	overflow-y: hidden;
+	padding: 1.1em;
+	padding-bottom: 0.2em;
+	line-height: 1.6;
+}
+
+#reviewstart {
+	margin-top: 20px;
+}
+
+.text-black {
+	margin-top: revert;
+}
+
+#locateTop {
+	position: relative;
+	bottom: 75px;
+	right: 40px;
+}
+
+#paging-div {
+	float: left;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+} /* 페이징가운데 */
+#paging-div ul {
+	display: table;
+	margin: auto;
+	padding: 0;
+}
+
+#paging-div li {
+	float: left;
+	text-align: center;
+	display: inline-block;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body, html {
+	height: 100%;
+}
+
+.modal .btn {
+	cursor: pointer;
+	border: 1px solid #999999;
+	text-align: center;
+	border-radius: 5px;
+	outline: none;
+	font-weight: 500;
+}
+
+.dimLayer {
+	display: block;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	position: fixed;
+	left: 0;
+	top: 0px;
+	margin: 0;
+	padding: 0;
+	z-index: 9998;
+}
+
+.mocdal {
+	width: 500px;
+	height: 252px;
+	border-radius: 10px;
+	padding: 80px 24px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.modal-section {
+	background: #ffffff;
+	box-sizing: border-box;
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 9999;
+}
+
+.menu_msg {
+	font-size: 21px;
+	font-weight: 500;
+}
+
+.enroll_box p {
+	padding-bottom: 30px;
+}
+
+.gray_btn {
+	width: 90px;
+	background: #ffffff;
+	color: #999999;
+	height: 36px;
+	line-height: 36px;
+	transition: 0.5s;
+	font-size: 17px;
+}
+
+.pink_btn {
+	width: 90px;
+	background: #ed197a;
+	color: #fff;
+	height: 36px;
+	line-height: 36px;
+	transition: 0.5s;
+	font-size: 17px;
+	border: none;
+}
+
+@media ( max-width :575px) {
+	#edit {
+		font-size: 10pt;
+	}
+	#delete {
+		font-size: 10pt;
+	}
+	.wrap textarea {
+		width: 100%;
+	}
+	#locateTop {
+		right: 5px;
+	}
+	.enroll_box p {
+		padding-bottom: 15px;
+	}
+	.menu_msg {
+		font-size: 16pt;
+	}
+	.mocdal {
+		width: 350px;
+	}
+	#reviewContent textarea {
+		width: 100%;
+	}
+	.idDate {
+		text-align: -webkit-right;
+	}
+	.nav li {
+		width: 185px;
+	}
+	.centered {
+		width: 375px;
+		margin-left: -17px;
+	}
+	#wish img {
+		width: 60px;
+	}
+}
+</style>
+</head>
+
+<body>
+<div class="site-wrap">
+	<c:forEach var="rentalList" items="${rentalListNow}">
+		<input id="rentalIdNow" type="hidden" value="${rentalList.r_pid}">
+		<input id="rentaldateNow" type="hidden" value="${rentalList.r_sdate}">
+		<input id="rentalamountNow" type="hidden" value="${rentalList.r_rent}">
+		<input id="productCanRent" type="hidden"
+			value="${rentalList.p_canRent}">
 	</c:forEach>
-	
-  <div class="site-wrap">
- 
-    <div class="site-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-5 mainContainer"><span>
-            <img src=/resources/Images/product/${productVO.p_mainImg} alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}" width="500px" height="500px" class="img-fluid">
-          </div>
-          
-          <div class="col-md-1 mmodal">
-          <!-- 모달창 구현 -->
-	 <!-- confirm 모달을 쓸 페이지에 추가 start-->
-        <section class="mocdal modal-section type-confirm">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <button class="btn pink_btn btn_ok">확인</button>
-                <button class="btn gray_btn modal_close">취소</button>
-            </div>
-        </section>
-        <!-- confirm 모달을 쓸 페이지에 추가 end-->
 
-        <!-- alert 모달을 쓸 페이지에 추가 start-->
-        <section class="mocdal modal-section type-alert">
-            <div class="enroll_box">
-                <p class="menu_msg"></p>
-            </div>
-            <div class="enroll_btn">
-                <button class="btn pink_btn modal_close">확인</button>
-            </div>
-        </section>
-        <!-- alert 모달을 쓸 페이지에 추가 end-->
-          </div>
-          
-          <div class="col-md-6" id="info">
-   <form:form name="form" method="post" action="/member/rent/buy" modelAttribute="buyInfoVO">
-            <form:input path="productId" id="p_id" value="${productVO.p_id}" hidden="true"/>
-            <form:input path="productImg" id="productImg" value="${productVO.p_mainImg}" hidden="true"/>
-            <input name="p_id" id="p_id" value="${productVO.p_id}" hidden="true"/>
-            
-   <h3 class="text-black site-top-icons">${productVO.p_name}</h3><hr>
-    	  
-<form:input type="text" path="productPrice" id="productPrice" value="${productVO.p_price}" hidden="true"/> 
-<div class="row"><div class="col-5"><label>제품가격</label></div><div class="col-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price}" pattern="###,###,###" />원</div></div>            
-<div class="row"><div class="col-5"><label>대여금액</label></div><div class="col-7" style="text-align:right;" ><fmt:formatNumber value="${productVO.p_price *0.05}" pattern="###,###,###" />원</div></div>                
-<div class="row"><div class="col-5"><label>옵션선택</label></div><div class="col-7" style="text-align:right;" >
-  <select id="buyType" name="buyType" onchange="changeStateSelect()">
-  	<option value="optSel">옵션</option>
-  	<option disabled>------</option>
-  	<option value="구매">구매</option>
-  	<option id="rent" value="대여">대여</option>
-  	
-  </select>
-  </div></div>
-<div class="row"><div class="col-5"><label for="amount">수량</labeL></div><div class="col-7" style="text-align:right;"><input type=hidden name="sell_price" value="${productVO.p_price}"/><input type=hidden name="rent_price" value="${productVO.p_price * 0.05}"/><input type=hidden name="original_price" value="${productVO.p_price}"/>
-<input style="cursor:default;"type="number" id="amount" name="proamount" value="1" min="1" max="50"  onchange="change();"/></div></div>
 
- <div class="row" style="visibility:hidden;" id="labelDate"><div class="col-4" id="selectDate"><label id="choice" for="datepicker">대여일선택</labeL></div><div class="col-8" style="text-align:right;"><input type="text" name="rentdate"  readonly="readonly" required="required" placeholder="날짜를 선택해주세요" id="datepicker" hidden="false"></div></div>
 
- <div class="row"><div class="col-5"><label>배송방법</label></div><div class="col-7" style="text-align:right;" >택배</div></div>
-  <div class="row"><div class="col-5"><label>배송비</label></div><div class="col-7" style="text-align:right;">2500원</div></div><hr>   
- <div class="row"><div class="col-5"><label></label></div><div class="col-7" style="text-align:right;">총액</div></div><hr>
-<div class="row"><div class="col-5"><label>즉시구매</label></div><div class="col-7" style="text-align:right;"> <input style="text-decoration:line-through; color:gray;" type="text" name="originalsum" size="11" readonly/><span style="color:gray;">원</span><span style="color:red;">(-5%)</span><input type="text" name="buysum" size="11" readonly/>원</div></div>
-<div class="row"><div class="col-5"><label>대여가격</label></div><div class="col-7" style="text-align:right;"><input type="text" name="rentsum" size="11" readonly/>원</div></div>
-  
-               
-            <div id="buttonGroup" class="row">
-             <div class="col-2">
-             	<c:if test = "${wishListVO eq null}">
-				 
-				<a id="wish" title="위시리스트"><img src=/resources/Images/heart.jpg alt="heart.jpg" class="heart-o" ></a> 
-				</c:if>
- 				<c:if test = "${wishListVO ne null}">
- 				
- 				<a id="wish" title="위시리스트"><img src=/resources/Images/heart2.jpg alt="heart.jpg" class="heart"></a> 
-				</c:if> 
+	<div class="site-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 mainContainer">
+					<span> <img
+						src=/resources/Images/product/${productVO.p_mainImg}
+						alt="${productVO.p_mainImg}" title="${productVO.p_mainImg}"
+						width="500px" height="500px" class="img-fluid"></span>
+				</div>
+
+				<div class="col-md-1 mmodal">
+					<!-- 모달창 구현 -->
+					<!-- confirm 모달을 쓸 페이지에 추가 start-->
+					<section class="mocdal modal-section type-confirm">
+						<div class="enroll_box">
+							<p class="menu_msg"></p>
+						</div>
+						<div class="enroll_btn">
+							<button class="btn pink_btn btn_ok">확인</button>
+							<button class="btn gray_btn modal_close">취소</button>
+						</div>
+					</section>
+					<!-- confirm 모달을 쓸 페이지에 추가 end-->
+
+					<!-- alert 모달을 쓸 페이지에 추가 start-->
+					<section class="mocdal modal-section type-alert">
+						<div class="enroll_box">
+							<p class="menu_msg"></p>
+						</div>
+						<div class="enroll_btn">
+							<button class="btn pink_btn modal_close">확인</button>
+						</div>
+					</section>
+					<!-- alert 모달을 쓸 페이지에 추가 end-->
+				</div>
+
+				<div class="col-md-6" id="info">
+					<form:form name="form" method="post" action="/member/rent/buy"
+						modelAttribute="buyInfoVO">
+						<form:input path="productId" id="p_id" value="${productVO.p_id}"
+							hidden="true" />
+						<form:input path="productImg" id="productImg"
+							value="${productVO.p_mainImg}" hidden="true" />
+						<input name="p_id" id="p_id" value="${productVO.p_id}"
+							hidden="true" />
+
+						<h3 class="text-black site-top-icons">${productVO.p_name}</h3>
+						<hr>
+
+						<form:input type="text" path="productPrice" id="productPrice"
+							value="${productVO.p_price}" hidden="true" />
+						<div class="row">
+							<div class="col-5">
+								<label>제품가격</label>
+							</div>
+							<div class="col-7" style="text-align: right;">
+								<fmt:formatNumber value="${productVO.p_price}"
+									pattern="###,###,###" />
+								원
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-5">
+								<label>대여금액</label>
+							</div>
+							<div class="col-7" style="text-align: right;">
+								<fmt:formatNumber value="${productVO.p_price *0.05}"
+									pattern="###,###,###" />
+								원
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-5">
+								<label>옵션선택</label>
+							</div>
+							<div class="col-7" style="text-align: right;">
+								<select id="buyType" name="buyType"
+									onchange="changeStateSelect()">
+									<option value="optSel">옵션</option>
+									<option disabled>------</option>
+									<option value="구매">구매</option>
+									<option id="rent" value="대여">대여</option>
+
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-5">
+								<label for="amount">수량</labeL>
+							</div>
+							<div class="col-7" style="text-align: right;">
+								<input type=hidden name="sell_price"
+									value="${productVO.p_price}" /><input type=hidden
+									name="rent_price" value="${productVO.p_price * 0.05}" /><input
+									type=hidden name="original_price" value="${productVO.p_price}" />
+								<input style="cursor: default;" type="number" id="amount"
+									name="proamount" value="1" min="1" max="50"
+									onchange="change();" />
+							</div>
+						</div>
+
+						<div class="row" style="visibility: hidden;" id="labelDate">
+							<div class="col-4" id="selectDate">
+								<label id="choice" for="datepicker">대여일선택</labeL>
+							</div>
+							<div class="col-8" style="text-align: right;">
+								<input type="text" name="rentdate" readonly="readonly"
+									required="required" placeholder="날짜를 선택해주세요" id="datepicker"
+									hidden="false">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-5">
+								<label>배송방법</label>
+							</div>
+							<div class="col-7" style="text-align: right;">택배</div>
+						</div>
+						<div class="row">
+							<div class="col-5">
+								<label>배송비</label>
+							</div>
+							<div class="col-7" style="text-align: right;">2500원</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-5">
+								<label></label>
+							</div>
+							<div class="col-7" style="text-align: right;">총액</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-5">
+								<label>즉시구매</label>
+							</div>
+							<div class="col-7" style="text-align: right;">
+								<input style="text-decoration: line-through; color: gray;"
+									type="text" name="originalsum" size="11" readonly /><span
+									style="color: gray;">원</span><span style="color: red;">(-5%)</span><input
+									type="text" name="buysum" size="11" readonly />원
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-5">
+								<label>대여가격</label>
+							</div>
+							<div class="col-7" style="text-align: right;">
+								<input type="text" name="rentsum" size="11" readonly />원
+							</div>
+						</div>
+
+
+						<div id="buttonGroup" class="row">
+							<div class="col-2">
+								<c:if test="${wishListVO eq null}">
+
+									<a id="wish" title="위시리스트"><img
+										src=/resources/Images/heart.jpg alt="heart.jpg"
+										class="heart-o"></a>
+								</c:if>
+								<c:if test="${wishListVO ne null}">
+
+									<a id="wish" title="위시리스트"><img
+										src=/resources/Images/heart2.jpg alt="heart.jpg" class="heart"></a>
+								</c:if>
+							</div>
+							<div class="col-10">
+								<input style="width: 100%" type="button" id="cart" value="장바구니"
+									class="buy-now btn btn-sm btn-primary" />
+							</div>
+
+
+							<div class="col-12">
+								<input style="width: 100%" type="button" value="결제"
+									onclick="payment();" class="buy-now btn btn-sm btn-primary" />
+							</div>
+						</div>
+
+
+
+
+
+
+					</form:form>
+
+				</div>
 			</div>
-             <div class="col-10"><input style="width:100%" type="button" id="cart" value="장바구니" class="buy-now btn btn-sm btn-primary"/></div>
+		</div>
+	</div>
 
-				
-			<div class="col-12"><input style="width:100%" type="button" value="결제" onclick="payment();" class="buy-now btn btn-sm btn-primary"/></div>			
+
+	<div class="site-section block-3 site-blocks-2 bg-light">
+
+		<div class="container ">
+			<ul class="nav nav-tabs centered">
+				<li class="nav-item"><a class="nav-link active"
+					href="#productInfo" id="productInfo">상품정보</a></li>
+				<li class="nav-item"><a class="nav-link" href="#reviewTop">리뷰게시판
+						[${reviewCount}]</a></li>
+
+			</ul>
+			<div class="row justify-content-center">
+				<div class="col-lg-12 col-sm-12 subContainer">
+					<img src=/resources/Images/product/${productVO.p_subImg}
+						width="700px" height="70%" alt="${ productVO.p_subImg }"
+						title="${ productVO.p_subImg }"
+						class="img-fluid thumbnailSub img-with-text">
+					<div class="wrap">
+						<textarea disabled cols="10">${ productVO.p_content }</textarea>
+					</div>
+					<%-- <div style="text-align:left;"><p>${ productVO.p_content }</p></div>	 --%>
+				</div>
+
 			</div>
-			
-			
-			
-
-			
-			
-   </form:form>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    
-    <div class="site-section block-3 site-blocks-2 bg-light">
-     
-      <div class="container ">
-      <ul class="nav nav-tabs centered">
-  <li class="nav-item">
-    <a class="nav-link active" href="#productInfo" id="productInfo">상품정보</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#reviewTop">리뷰게시판 [${reviewCount}]</a>
-  </li>
- 
-</ul>
-        <div class="row justify-content-center">
-          <div class="col-lg-12 col-sm-12 subContainer">
-           <img src=/resources/Images/product/${productVO.p_subImg} width="700px" height="70%" 	 		
-							alt="${ productVO.p_subImg }" title="${ productVO.p_subImg }" class="img-fluid thumbnailSub img-with-text">	
-		  <div class="wrap"><textarea disabled cols="10">${ productVO.p_content }</textarea></div>
-		   <%-- <div style="text-align:left;"><p>${ productVO.p_content }</p></div>	 --%>
-		  </div>
-						  
-          </div>
-      
-   
-                
-         <div class="site-section">
-         
-    	<div id="reviewTop" style="text-align: right; margin-top: 20px;">
-      <ul class="nav nav-tabs centered">
-  <li class="nav-item">
-    <a class="nav-link " href="#productInfo">상세정보</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="#reviewTop" >리뷰게시판 [${reviewCount}]</a>
-  </li>
- 
-</ul>
-    	</div>		
-   		   
-     									<c:choose>				
-										<c:when test="${recVO[0].v_id eq null}"><div>아직 작성된 리뷰가 없어요</div></c:when>
-										<c:when test="${recVO[0].v_id ne null}">   </c:when></c:choose>
-      <div class="container"> 
-        <div class="row mb-5">
-          <div class="col-md-12 order-2" id="reviewstart">
-       
-         
-            <c:forEach var="recVO" items="${recVO}" begin="0" end="8" step="1" varStatus="status">           
-               
-                <div class="row imgIdDate" name="imgIdDate">
-                 
-                	<div class="col-2 profile" style="margin: auto;">  
-                	 <img src = /resources/Images/member/${recVO.m_img} alt="${recVO.m_img}" title="${recVO.m_img}" class="img-fluid img-circle">         
-                	</div> 
-                	<div class="col-5 idDate" >
-                	 <div>${recVO.v_mid}</div>
-                	 <div>${recVO.v_date}</div> 
-                	 <c:choose>
-         				 <c:when test = "${recVO.v_like eq 'none'}">   
-       						 <a title="noselected"><img src=/resources/Images/product/like1.jpg style="cursor:auto;" width="50" height="50" alt="likes" /></a>
-      				     </c:when>
-          			     <c:when test = "${recVO.v_like ne 'none'}">  	 
-							 <a title="likes"><img src=/resources/Images/product/like2.jpg style="cursor:auto;" width="50" height="50" alt="noselected" /></a>      
-						 </c:when>	
-					  </c:choose>	       
-                	</div>      		
-          				 <div class="col-5" style="text-align:right;">        		 
-		 				 <c:if test = "${recVO.v_mid eq userId}">
-		 				 	<input type="hidden" value="${recVO.v_id}" id="vid">
-		  				    <input id="edit" type="button" style="margin-bottom:10px;" class="btn btn-primary"  value="편집하기" onclick='reviewUpdateForm(${recVO.v_id})'>		   				   	  
-		 				 </c:if>
-					    </div>             
-                </div>
- 
-                <div class="row" name="content">
-                 <div class="col-12 reviewContent" id="reviewContent">
-                <textarea disabled rows="3">${recVO.v_content}</textarea>
-                 </div>
-                </div>
-                
-                   <hr>   
-  
-             </c:forEach> 
-                <!-- 페이징 start -->
-										<div id = "paging-div">
-										<ul class="btn-group pagination">
-											<c:if test="${pageMaker.prev }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}#reviewstart"/>'>
-													<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span></a></li><span class="col-md-1"></span>
-											</c:if>
-											<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-												<c:if test="${pageNum eq pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#reviewstart"/>'>
-												<span id="pagingCur" style="background-color: #7971ea; display:inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding : 5px;">&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1"></span></c:if>
-												<c:if test="${pageNum ne pageMaker.cri.page}"><li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#reviewstart"/>'>
-												<span>&nbsp;${pageNum}&nbsp;</span></a></li><span class="col-md-1">   </span></c:if>
-												
-											</c:forEach>
-											<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
-												<li><a href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}#reviewstart"/>'>
-													<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span></a></li><span class="col-md-1"></span>
-											</c:if>
-										</ul>
-										</div>
-										<!-- 페이징 end -->
-      
-
-       
 
 
-            </div>
-          </div>
-        </div>
 
-    
-        
-      </div>
-             
-                
-                
-                
-        </div> 
-        <div style="text-align:center; margin-top:40px;"><button type="button" class="btn btn-primary" onclick='productList()'>목록</button>&nbsp;&nbsp;&nbsp;
-      </div>
-    </div>
-     						
-				<a href="#" id="locateTop" style="display:scroll;">맨 위로<img src="/resources/Images/product/화살표.png" width="20px" height="20px"/></a>
-			
-		
+			<div class="site-section">
 
-		
-			
-    <%@ include file="/WEB-INF/views/customerFooter.jsp" %>
-  </div>
+				<div id="reviewTop" style="text-align: right; margin-top: 20px;">
+					<ul class="nav nav-tabs centered">
+						<li class="nav-item"><a class="nav-link " href="#productInfo">상세정보</a>
+						</li>
+						<li class="nav-item"><a class="nav-link active"
+							href="#reviewTop">리뷰게시판 [${reviewCount}]</a></li>
 
-	<script language="JavaScript">
+					</ul>
+				</div>
+
+				<c:choose>
+					<c:when test="${recVO[0].v_id eq null}">
+						<div>아직 작성된 리뷰가 없어요</div>
+					</c:when>
+					<c:when test="${recVO[0].v_id ne null}">
+					</c:when>
+				</c:choose>
+				<div class="container">
+					<div class="row mb-5">
+						<div class="col-md-12 order-2" id="reviewstart">
+
+
+							<c:forEach var="recVO" items="${recVO}" begin="0" end="8"
+								step="1" varStatus="status">
+
+								<div class="row imgIdDate" name="imgIdDate">
+
+									<div class="col-2 profile" style="margin: auto;">
+										<img src=/resources/Images/member/${recVO.m_img}
+											alt="${recVO.m_img}" title="${recVO.m_img}"
+											class="img-fluid img-circle">
+									</div>
+									<div class="col-5 idDate">
+										<div>${recVO.v_mid}</div>
+										<div>${recVO.v_date}</div>
+										<c:choose>
+											<c:when test="${recVO.v_like eq 'none'}">
+												<a title="noselected"><img
+													src=/resources/Images/product/like1.jpg
+													style="cursor: auto;" width="50" height="50" alt="likes" /></a>
+											</c:when>
+											<c:when test="${recVO.v_like ne 'none'}">
+												<a title="likes"><img
+													src=/resources/Images/product/like2.jpg
+													style="cursor: auto;" width="50" height="50"
+													alt="noselected" /></a>
+											</c:when>
+										</c:choose>
+									</div>
+									<div class="col-5" style="text-align: right;">
+										<c:if test="${recVO.v_mid eq userId}">
+											<input type="hidden" value="${recVO.v_id}" id="vid">
+											<input id="edit" type="button" style="margin-bottom: 10px;"
+												class="btn btn-primary" value="편집하기"
+												onclick='reviewUpdateForm(${recVO.v_id})'>
+										</c:if>
+									</div>
+								</div>
+
+								<div class="row" name="content">
+									<div class="col-12 reviewContent" id="reviewContent">
+										<textarea disabled rows="3">${recVO.v_content}</textarea>
+									</div>
+								</div>
+
+								<hr>
+
+							</c:forEach>
+							<!-- 페이징 start -->
+							<div id="paging-div">
+								<ul class="btn-group pagination">
+									<c:if test="${pageMaker.prev }">
+										<li><a
+											href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.startPage-1)}#reviewstart"/>'>
+												<span style="font-weight: bold;">&nbsp;[이전]&nbsp;</span>
+										</a></li>
+										<span class="col-md-1"></span>
+									</c:if>
+									<c:forEach begin="${pageMaker.startPage }"
+										end="${pageMaker.endPage }" var="pageNum">
+										<c:if test="${pageNum eq pageMaker.cri.page}">
+											<li><a
+												href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#reviewstart"/>'>
+													<span id="pagingCur"
+													style="background-color: #7971ea; display: inline-block; height: 30px; width: 30px; border-radius: 50%; font-weight: bold; color: white; padding: 5px;">&nbsp;${pageNum}&nbsp;</span>
+											</a></li>
+											<span class="col-md-1"></span>
+										</c:if>
+										<c:if test="${pageNum ne pageMaker.cri.page}">
+											<li><a
+												href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageNum)}#reviewstart"/>'>
+													<span>&nbsp;${pageNum}&nbsp;</span>
+											</a></li>
+											<span class="col-md-1"> </span>
+										</c:if>
+
+									</c:forEach>
+									<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+										<li><a
+											href='<c:url value="/member/pro/productDetail${pageMaker.makeQuery(pageMaker.endPage+1)}#reviewstart"/>'>
+												<span style="font-weight: bold;">&nbsp;[다음]&nbsp;</span>
+										</a></li>
+										<span class="col-md-1"></span>
+									</c:if>
+								</ul>
+							</div>
+							<!-- 페이징 end -->
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+
+
+
+
+		</div>
+		<div style="text-align: center; margin-top: 40px;">
+			<button type="button" class="btn btn-primary" onclick='productList()'>목록</button>
+			&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
+
+	<a href="#" id="locateTop" style="display: scroll;">맨 위로<img
+		src="/resources/Images/product/화살표.png" width="20px" height="20px" /></a>
+
+
+
+
+
+	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
+	<script src="/resources/common/js/jquery-ui.js"></script>
+	<script src="/resources/common/js/popper.min.js"></script>
+	<script src="/resources/common/js/bootstrap.min.js"></script>
+	<script src="/resources/common/js/owl.carousel.min.js"></script>
+	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+	<script src="/resources/common/js/aos.js"></script>
+
+	<script src="/resources/common/js/main.js"></script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+	</div>
+
+<script>
 	  
 //개수에 따라서 가격변동시키는거. 렌탈리스트들
 var original_price;
@@ -1034,13 +1286,6 @@ var action_popup = {
   });
 
 </script>
-  
-  
 
-
-
-
-
-    
-  </body>
+</body>
 </html>

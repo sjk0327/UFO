@@ -12,6 +12,7 @@
 <%@ include file="/WEB-INF/views/adminHeader.jsp"%>
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 
+
 <style>
 .filebox input[type="file"] {
 	position: absolute;
@@ -200,6 +201,7 @@ select::-ms-expand {
 </head>
 
 <body>
+<div class="site-wrap">
 	<div class="py-3" style="background-color: #f4f4f4;">
 		<div class="container">
 			<div class="row">
@@ -1252,7 +1254,16 @@ select::-ms-expand {
 	}
 	</script>
 
-	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<%@ include file="/WEB-INF/views/customerFooter.jsp"%></div>
+	<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
+	<script src="/resources/common/js/jquery-ui.js"></script>
+	<script src="/resources/common/js/popper.min.js"></script>
+	<script src="/resources/common/js/bootstrap.min.js"></script>
+	<script src="/resources/common/js/owl.carousel.min.js"></script>
+	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+	<script src="/resources/common/js/aos.js"></script>
+
+	<script src="/resources/common/js/main.js"></script>
 </body>
 
 </html>

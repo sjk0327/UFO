@@ -10,6 +10,7 @@
 <html lang="en">
 <head>
 <title>결제폼 - UF&#38;O</title>
+
 <%@ include file="/WEB-INF/views/customerHeader.jsp"%>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -821,9 +822,6 @@ body, html {height: 100%;}
 	
 	function check(){
 		
-		console.log("여기옵니까");
-		console.log(document.getElementById("radioType1").checked);
-		
 		if(document.getElementById("radioType2").checked){
 			
 			if(document.getElementById("m_name2").value == "" 
@@ -833,7 +831,6 @@ body, html {height: 100%;}
 			} else {
 				action_popup.confirm("결제하시겠습니까?", function (res) {
 			        if (res) {
-			        	action_popup.alert("확인창을 눌렀습니다.");
 			            document.buyInsert2.submit();
 			        }
 			})
@@ -846,7 +843,6 @@ body, html {height: 100%;}
 				} else {
 					action_popup.confirm("결제하시겠습니까?", function (res) {
 				        if (res) {
-				        	action_popup.alert("확인창을 눌렀습니다.");
 				            document.buyInsert2.submit();
 				        }
 				})
@@ -868,7 +864,6 @@ function check2(){
 			} else {
 				action_popup.confirm("결제하시겠습니까?", function (res) {
 			        if (res) {
-			            action_popup.alert("확인창을 눌렀습니다.");
 			            document.buyInsert.submit();
 			        }
 			})
@@ -881,7 +876,6 @@ function check2(){
 				} else {
 					action_popup.confirm("결제하시겠습니까?", function (res) {
 				        if (res) {
-				            action_popup.alert("확인창을 눌렀습니다.");
 				            document.buyInsert.submit();
 				        }
 				})

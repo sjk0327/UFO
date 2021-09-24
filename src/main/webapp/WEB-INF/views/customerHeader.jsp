@@ -134,6 +134,7 @@
           <ul class="site-menu js-clone-nav d-none d-md-block">
           <li>
               <a href="/" style="margin-right: 30px; font-size: 25px; font-weight: bold;">HOME</a>
+
             </li>
             <li>
               <a href="/member/pro/productList/" style="margin-right: 30px; font-size: 25px; font-weight: bold;">상품보러가기</a>
@@ -142,6 +143,7 @@
               <a href="/member/noticeList" style="margin-right: 30px; font-size: 25px; font-weight: bold;">공지사항</a>
             </li>
             <li>
+
               <a href="/member/qna/qnaList" style="margin-right: 30px; font-size: 25px; font-weight: bold;">질문과답변</a>
             </li>
             
