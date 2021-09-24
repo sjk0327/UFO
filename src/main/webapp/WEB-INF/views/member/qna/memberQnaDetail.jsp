@@ -194,7 +194,7 @@
 </style>
 </head>
 <body>
-	
+	<div class="site-wrap">
 	<div style="text-align: center;">
 		<br><br>
 		<h2 style="color: #666666; font-weight: bold;">Q &#38; A</h2>
@@ -368,7 +368,7 @@
 	</section>
 	<!-- alert 모달을 쓸 페이지에 추가 end-->
         
-	<%@ include file="/WEB-INF/views/customerFooter.jsp"%>
+	<%@ include file="/WEB-INF/views/customerFooter.jsp"%></div>
 
 	<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
 	<script src="/resources/common/js/jquery-ui.js"></script>

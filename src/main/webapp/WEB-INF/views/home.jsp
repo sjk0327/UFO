@@ -88,6 +88,7 @@ ul {
 	z-index: 9999;
 }
 
+
 #Proname {
 	width: 400px;
 }
@@ -594,7 +595,6 @@ ul {
 	function AddComma(num) {
 		var regexp = /\B(?=(\d{3})+(?!\d))/g;
 		return num.toString().replace(regexp, ',');
-
 	}
 	window.kakaoAsyncInit = function() {
 		Kakao.Channel.createChatButton({

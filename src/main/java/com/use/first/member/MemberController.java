@@ -115,7 +115,7 @@ public class MemberController {
 		
 		String referer =request.getHeader("referer");
 		System.out.println("referer::"+referer);
-		String s1 = referer.substring(21); 
+		String s1 = referer;
 		System.out.println("beforeUrl::"+s1);
 		
 		//병찬추가 여기까지 밑에도 있음
@@ -169,6 +169,7 @@ public class MemberController {
 				}
 				//여기까지 병찬추가
 				else {
+					
 					return "redirect:/";
 				}
 				
@@ -1513,7 +1514,7 @@ public class MemberController {
 		//병찬추가  (위에 주석된게 원래 있던것임)
 		String referer =request.getHeader("referer");
 		if(referer!=null) {
-		String s1 = referer.substring(21); 
+		String s1 = referer; 
 		model.addAttribute("beforeUrl", s1);}	
 		//병찬 여기까지
 		return "/member/mem/memJoin";		

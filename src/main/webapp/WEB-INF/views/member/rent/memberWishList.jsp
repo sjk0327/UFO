@@ -9,7 +9,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>위시리스트 - UF&#38;O</title>
-<div class="site-wrap">
+
 <%@ include file="/WEB-INF/views/customerHeader.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="/resources/common/css/style.css">
@@ -634,6 +634,19 @@ body, html {height: 100%;}
 
     </div>    
 <%@ include file="/WEB-INF/views/customerFooter.jsp" %></div>
+<script src="/resources/common/js/jquery-3.3.1.min.js"></script>
+	<script src="/resources/common/js/jquery-ui.js"></script>
+	<script src="/resources/common/js/popper.min.js"></script>
+	<script src="/resources/common/js/bootstrap.min.js"></script>
+	<script src="/resources/common/js/owl.carousel.min.js"></script>
+	<script src="/resources/common/js/jquery.magnific-popup.min.js"></script>
+	<script src="/resources/common/js/aos.js"></script>
+
+	<script src="/resources/common/js/main.js"></script>
+
+
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
 
