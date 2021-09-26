@@ -182,6 +182,29 @@ a.button{display:inline-block; padding: 10px 20px; text-decoration:none; color:#
   color:#000; font-size:20px; font-weight: bold;
   right:10px; top:10px;
 }
+
+#rentb{
+padding-left: 0px;
+padding-right: 0px;
+}
+
+#buyb{
+padding-left: 0px;
+padding-right: 0px;
+}
+
+#cartb{
+padding-left: 1px;
+padding-right: 0px;
+}
+
+@media only screen and (min-width:1519px) {
+#itemBox{
+margin-left: 0px; 
+margin-right: 0px; 
+
+}
+}
 @media only screen and (max-width:600px) {
 
 .img-fluid{
@@ -206,21 +229,32 @@ bottom: 30px;
 
 #rentp{
 width: 160px;
+padding-left: 50px;
 }
 #buyp{
 width: 160px;
+padding-left: 50px;
 }
 
 #rentb{
-width: 105px;
+width: 50px;
+padding-left: 20px;
 }
 
 #buyb{
-width: 105px;
+width: 50px;
+padding-left: 30px;
 }
 
 #cartb{
-width: 105px;
+width: 50px;
+padding-left: 40px;
+}
+
+.btn.btn-sm {
+    font-size: 14px !important;
+    padding: 10px !important;
+    
 }
 
 #space{
@@ -517,17 +551,17 @@ body, html {height: 100%;}
 
                     	 
                        
-                        <div id="rentb" class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnrent" value="대여">대여</button></div>
+                        <div id="rentb" class="col-md-4"><button id="button2" class="btn btn-outline-primary btn-sm btnrent" value="대여">대여</button></div>
                     
                         
                          <c:if test="${wishInfo.p_canbuy eq 0}">
-                        <div id="buyb" class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;" disabled="disabled">구매</button></div>
+                        <div id="buyb" class="col-md-4"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;" disabled="disabled">구매</button></div>
                         </c:if>
                         <c:if test="${wishInfo.p_canbuy ne 0}">
-                        <div id="buyb" class="col-md-4" style="padding-left: 0; padding-right: 0;"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;">구매</button></div>
+                        <div id="buyb" class="col-md-4"><button id="button2" class="btn btn-outline-primary btn-sm btnbuy" value="구매" style="margin-left: 2pt;">구매</button></div>
                         </c:if>
                
-                       <div id="cartb" class="col-md-4" style="padding-left: 1px; padding-right: 0;"><button id="button" class="btn btn-outline-primary btn-sm btncart" style="margin-left: 2pt; height: 43px;"><span class="fas fa-shopping-cart" style="font-size: 15pt;"></span></button>
+                       <div id="cartb" class="col-md-4"><button id="button" class="btn btn-outline-primary btn-sm btncart" style="margin-left: 2pt; height: 43px;"><span class="fas fa-shopping-cart" style="font-size: 15pt;"></span></button>
                         </div>
                         </div>
                         

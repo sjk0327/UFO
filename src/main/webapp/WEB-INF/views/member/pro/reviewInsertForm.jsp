@@ -75,7 +75,8 @@ body, html {height: 100%;}
 .menu_msg{font-size: 21px;font-weight: 500;}
 .enroll_box p{padding-bottom: 56px;}
 .gray_btn {width: 90px;background: #ffffff;color: #999999;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;}
-.pink_btn {width: 90px;background: #ed197a;color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
+.pink_btn {width: 90px;background: #7971ea;
+	color: #fff;height: 36px;line-height: 36px;transition: 0.5s;font-size: 17px;border: none;}
 </style>
   </head>
   <body>

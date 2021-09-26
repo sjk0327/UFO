@@ -640,7 +640,7 @@ select::-ms-expand {
 																											integerOnly="true" />
 
 																										<c:if
-																											test="${sdate+3>=today and sdate<=today}">
+																											test="${sdate+3>=today and sdate+1<=today}">
 																											<td style="width: 100px;"><label
 																												class="btn btn-primary">대 여 중</label><span
 																												id="state"></span></td>
@@ -650,7 +650,7 @@ select::-ms-expand {
 																												class="btn btn-danger">연 체 중</label><span
 																												id="state"></span></td>
 																										</c:if>
-																										<c:if test="${sdate>today}">
+																										<c:if test="${sdate+1>today}">
 																											<td style="width: 100px;"><label
 																												class="btn"
 																												style="background-color: #e8c3b9;">대여

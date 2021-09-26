@@ -231,7 +231,7 @@ body, html {
 
 .pink_btn {
 	width: 90px;
-	background: #ed197a;
+	background: #7971ea;
 	color: #fff;
 	height: 36px;
 	transition: 0.5s;

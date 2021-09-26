@@ -244,8 +244,23 @@ text-decoration: underline;
   						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
    						<c:set var="now" value="<%=new java.util.Date()%>" />
     					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
-						<c:if test="${sdate+3>=today}"><label class="btn btn-primary">대 여  중</label></c:if>
-						<c:if test="${sdate+3<today}"><label class="btn btn-danger">연 체  중</label></c:if>
+						<c:if
+																											test="${sdate+3>=today and sdate+1<=today}">
+																											<label
+																												class="btn btn-primary">대 여 중</label><span
+																												id="state"></span>
+																										</c:if>
+																										<c:if test="${sdate+3<today}">
+																											<td style="width: 100px;"><label
+																												class="btn btn-danger">연 체 중</label><span
+																												id="state"></span>
+																										</c:if>
+																										<c:if test="${sdate+1>today}">
+																											<td style="width: 100px;"><label
+																												class="btn"
+																												style="background-color: #e8c3b9;">대여
+																													예약</label><span id="state"></span>
+																										</c:if>
 						</c:if>
 			
 						<c:if test="${rentInfo.r_state eq '즉시 구매'}"><label class="btn btn-info">즉시 구매</label></c:if>

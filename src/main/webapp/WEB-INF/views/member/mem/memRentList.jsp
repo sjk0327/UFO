@@ -307,7 +307,7 @@ body, html {
 																											integerOnly="true" />
 
 																										<c:if
-																											test="${sdate+3>=today and sdate<=today}">
+																											test="${sdate+3>=today and sdate+1<=today}">
 																											<td style="width: 100px;"><label
 																												class="label label-primary">대 여 중</label><span
 																												id="state"></span></td>
@@ -317,7 +317,7 @@ body, html {
 																												class="label label-danger">연 체 중</label><span
 																												id="state"></span></td>
 																										</c:if>
-																										<c:if test="${sdate>today}">
+																										<c:if test="${sdate+1>today}">
 																											<td style="width: 100px;"><label
 																												class="label"
 																												style="background-color: #e8c3b9;">대여

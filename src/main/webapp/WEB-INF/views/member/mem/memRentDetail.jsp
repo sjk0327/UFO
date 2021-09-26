@@ -209,7 +209,7 @@ body, html {
 
 .pink_btn {
 	width: 90px;
-	background: #ed197a;
+	background: #7971ea;
 	color: #fff;
 	height: 36px;
 	transition: 0.5s;
@@ -466,7 +466,7 @@ width: 100px;
 										<c:out  value="<script type='text/javascript'>alert(${sdate } + ':' +${today });</script>" escapeXml="fasle"/>
 										-->
 																										<c:if
-																											test="${sdate+3>=today and sdate<=today}">
+																											test="${sdate+3>=today and sdate+1<=today}">
 																											<label
 																												class="btn btn-primary rent-state-btn-label">대
 																												여 중</label>
@@ -476,7 +476,7 @@ width: 100px;
 																												class="btn btn-danger late-state-btn-label">연
 																												체 중</label>
 																										</c:if>
-																										<c:if test="${sdate>today}">
+																										<c:if test="${sdate+1>today}">
 																											<label
 																												class="btn btn-primary rent-state-btn-label"
 																												style="background-color: #e8c3b9; border-color: #e8c3b9">대여
