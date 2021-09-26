@@ -104,13 +104,8 @@
 		<![CDATA[
 		select  r_id, r_mid, r_pid, product.p_name, r_sdate, r_rent, r_state, r_pdate from rental,product where (r_state='대여중' and r_sdate+3<now()) and r_pid=p_id;
 		]]>
-	</select>
+	</select> 
 	
-	<select id="findMessage">
-		<![CDATA[
-		select a_id, a_rid, a_mid, a_title, a_content, a_date from alert where a_date+3<=now()
-		]]>
-	</select>
 	
 	<insert id="sendMessage">
 		<![CDATA[

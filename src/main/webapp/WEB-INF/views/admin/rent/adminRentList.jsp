@@ -105,8 +105,23 @@ color: white;
 															  						<fmt:parseNumber var="sdate" value="${tempToday.time / (1000*60*60*24)}" integerOnly="true"/>
 															   						<c:set var="now" value="<%=new java.util.Date()%>" />
 															    					<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
-																					<c:if test="${sdate+3<today}"><td style="width:100px;"><label class="label label-danger" style="font-size: 10pt;">연체중</label></td></c:if>
-																					<c:if test="${sdate+3>=today}"><td style="width:100px;"><label class="label label-primary" style="font-size: 10pt;">대여중</label></td></c:if>
+																					<c:if
+																											test="${sdate+3>=today and sdate<=today}">
+																											<td style="width: 100px;"><label
+																												class="label label-primary">대 여 중</label><span
+																												id="state"></span></td>
+																										</c:if>
+																										<c:if test="${sdate+3<today}">
+																											<td style="width: 100px;"><label
+																												class="label label-danger">연 체 중</label><span
+																												id="state"></span></td>
+																										</c:if>
+																										<c:if test="${sdate>today}">
+																											<td style="width: 100px;"><label
+																												class="label"
+																												style="background-color: #e8c3b9;">대여
+																													예약</label><span id="state"></span></td>
+																										</c:if>
 																					</c:if>
 																			
 																				<c:if test="${list.r_state eq '즉시 구매'}"><td style="width:100px;"><label class="label label-info" style="font-size: 10pt;">즉시 구매</label></td></c:if>

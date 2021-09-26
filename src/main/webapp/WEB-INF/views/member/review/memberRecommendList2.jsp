@@ -30,7 +30,9 @@ body, html {height: 100%;}
 	
 }
 
-
+ body[themebg-pattern="theme1"] {
+    background-color: white;
+}
 </style>
 </head>
 

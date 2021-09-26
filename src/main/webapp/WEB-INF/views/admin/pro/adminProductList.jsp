@@ -58,6 +58,8 @@ body, html {height: 100%;}
 						<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="전체보기" onClick="location.href='/admin/pro/productList';"> 
 						 &nbsp; 
    						<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="상품등록" onclick="location.href='/admin/pro/productInsertForm'" /> 
+   						 &nbsp;
+   						<input type="button" id="button" class="btn waves-effect waves-light btn-primary btn-outline-primary" value="고객상품목록" onclick="location.href='/member/pro/productList'" /> 
       					 &nbsp;
       					 &nbsp;
       			    </form>    

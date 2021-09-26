@@ -324,7 +324,7 @@
         <div class="card-block">
         <c:forEach var="list" items="${buyList}" begin="0" end="5" step="1" varStatus="status">   
             <div class="align-middle m-b-30">
-            	<div class="col-md-6">
+            	<div class="col-md-12">
                 <img src="/resources/Images/member/${list.m_img }" alt="user image" class="img-radius img-40 align-top m-r-15">
                 <div class="d-inline-block">
                   <h6>${list.b_mid}${list.b_mname }</h6><h6><fmt:formatNumber value="${list.b_purchase}" pattern="###,###,###" /></h6>
@@ -337,9 +337,7 @@
 
         </div> 
 
-            <div class="text-center">
-                <a href="#!" class="b-b-primary text-primary">View all Projects</a>
-            </div>
+
         </div>
     </div>
 

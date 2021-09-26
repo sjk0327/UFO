@@ -105,7 +105,7 @@
            	<div class="col-md-3"></div>
           		<div class="col-md-2" style="margin-top: 50px;">
           		
-              		<a href="/"><img class="picture" src="/resources/Images/UFO_purple.png"
+              		<a href="/adminLogout2"><img class="picture" src="/resources/Images/UFO_purple.png"
 										alt="로고" style="width: 150px; height:75px;"></a>
               	</div>
               	<div class="col-md-3">
@@ -117,7 +117,7 @@
               	<ul class="list-unstyled">
                 <li class="address">서울시 금천구 가산동 월드메르디앙 2차 413호 KOSMO</li>
                 <li class="email">usefirstown@gmail.com</li>
-                <li class="phone"><a href="/" id="goadmin"><span class="footer-heading mb-4" style="font-weight: bold; font-size: 15pt;">toIndex</span></a></li>
+                <li class="phone"><a href="/adminLogout2" id="goadmin"><span class="footer-heading mb-4" style="font-weight: bold; font-size: 15pt;">toIndex</span></a></li>
               </ul>
          			</div>
     	     	</div>
@@ -128,7 +128,7 @@
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
             <script>document.write(new Date().getFullYear());</script>
-            All rights reserved | ThisWebSite is made by <a href="https://colorlib.com" target="_blank" class="text-primary" style="font-weight: bold;">
+            All rights reserved | ThisWebSite is made by <a href="/admin" class="text-primary" style="font-weight: bold;">
             Team UFO (김수정, 지승빈, 공병찬, 김성훈, 김신영, 이정노)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </p>
           </div>

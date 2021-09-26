@@ -116,7 +116,7 @@ public class RecController {
 			  @RequestMapping(value = "/member/rec/UpdateForm/{v_id}", method = RequestMethod.GET)
 				public String memberRecEdit(@PathVariable int v_id,HttpServletRequest request, Model model) {	
 				    String referer =request.getHeader("referer");
-					String s1 = referer.substring(21); 
+					String s1 = referer; 
 				  	RecDAO recDAO = sqlSessionTemplate.getMapper(RecDAO.class);
 				  	RecVO oneRecommend = recDAO.memberOneRecommend(v_id);
 				  	

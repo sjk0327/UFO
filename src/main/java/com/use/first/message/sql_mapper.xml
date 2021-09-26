@@ -7,7 +7,7 @@
 
 	<select id="findMessage" resultType="Integer">
 		<![CDATA[
-		select count(*) from alertmessage where a_date+3<=now()
+		select count(*) from alertmessage where a_rid=#{r_id} and a_date+3<=now()
 		]]>
 	</select>
 

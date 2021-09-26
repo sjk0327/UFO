@@ -167,7 +167,9 @@ body, html {
     }
     
 }
-  
+  body[themebg-pattern="theme1"] {
+    background-color: white;
+} 
 
 </style>
 <script

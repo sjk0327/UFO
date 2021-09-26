@@ -720,7 +720,7 @@ width: 100px;
 																							style="margin-left: 15px; float: right;">연체료
 																							납부 후 반납</button>
 																					</c:if>
-																					<c:if test="${sdate>=today}">
+																					<c:if test="${sdate>=today-1}">
 																						<button
 																							class="btn waves-effect waves-light btn-primary btn-outline-primary"
 																							id="refundButton"

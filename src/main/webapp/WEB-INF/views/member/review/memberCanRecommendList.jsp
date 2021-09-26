@@ -206,7 +206,9 @@ body, html {
 	}
     
 }
- 	
+ body[themebg-pattern="theme1"] {
+    background-color: white;
+}	
 
 </style>
 
@@ -252,7 +254,7 @@ body, html {
 																		href="/member/mem/memBuyList" role="tab">구매 내역</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link"
-																		href="#MessageBox" role="tab">메시지 함</a>
+																		href="/member/mem/messageList" role="tab">메시지 함</a>
 																		<div class="slide"></div></li>
 																	<li class="nav-item"><a class="nav-link active" 
 																		href="/member/rec/recommendList" role="tab">내 리뷰</a>

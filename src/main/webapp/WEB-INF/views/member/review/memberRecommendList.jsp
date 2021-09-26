@@ -201,7 +201,9 @@ body, html {
     
 }
  	
-
+ body[themebg-pattern="theme1"] {
+    background-color: white;
+}
 </style>
 <script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 <script

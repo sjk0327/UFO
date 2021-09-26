@@ -86,7 +86,7 @@
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
             <script>document.write(new Date().getFullYear());</script>
-            All rights reserved | ThisWebSite is made by <a href="https://colorlib.com" target="_blank" class="text-primary" style="font-weight: bold;">
+            All rights reserved | ThisWebSite is made by <a href="/" class="text-primary" style="font-weight: bold;">
             Team UFO (김수정, 지승빈, 공병찬, 김성훈, 김신영, 이정노)</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </p>
           </div>

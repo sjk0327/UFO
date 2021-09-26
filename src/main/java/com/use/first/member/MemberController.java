@@ -1081,6 +1081,15 @@ public class MemberController {
 		return "redirect:/adminLogin";
 	}
 	
+	
+	@RequestMapping(value = "/adminLogout2", method = RequestMethod.GET)
+	public String adminLoginout2(HttpSession session) {
+		session.invalidate();
+
+		return "redirect:/";
+	}
+	
+	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(UserVO vo, Model model, Criteria cri,HttpSession session) {
 
