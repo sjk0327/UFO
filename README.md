@@ -7,7 +7,9 @@ Team UFO(Use First and Own)
 전자기기 렌탈&구매 사이트
 
 도메인 주소 : http://www.ufo2021.link
+
 YOUTUBE : https://www.youtube.com/watch?v=AS6BMEW28T8
+
 PPT :https://docs.google.com/presentation/d/1ccaLioCFDLZz_svoUVOCYXkbsDtAbECJ/edit?usp=sharing&ouid=107215658630790919191&rtpof=true&sd=true
 
 
