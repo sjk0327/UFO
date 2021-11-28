@@ -6,6 +6,11 @@ Team UFO(Use First and Own)
 
 전자기기 렌탈&구매 사이트
 
+도메인 주소 : http://www.ufo2021.link
+YOUTUBE : https://www.youtube.com/watch?v=AS6BMEW28T8
+PPT :https://docs.google.com/presentation/d/1ccaLioCFDLZz_svoUVOCYXkbsDtAbECJ/edit?usp=sharing&ouid=107215658630790919191&rtpof=true&sd=true
+
+
 전자기기는 우리의 생활 속에 깊숙하게 자리하고 있지만,
 높은 가격과 각 제조사마다의 경쟁으로 인한 넘치는 재화 및 정보로 인해 소비자들은 선택에 어려움을 겪는다.
 
@@ -15,3 +20,6 @@ Team UFO(Use First and Own)
 그 상품을 구매할 수 있도록 설계하여 소비자의 정보의 획득과 구매가 이어질 수 있도록 하였다.
 
 이러한 구조를 통해 정보 불평등 완화, 소비자의 구매 촉진, 생산자의 좀 더 나은 상품 개발 동기 부여를 촉진하고자 하였다.
+
+![image](https://user-images.githubusercontent.com/82355307/143771746-e25336b6-8c6f-4ed3-9860-30010502f466.png)
+
